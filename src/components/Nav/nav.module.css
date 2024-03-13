@@ -1,0 +1,35 @@
+.header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  min-width: 350px;
+  background: transparent;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.listNav {
+  list-style: none;
+  display: flex;
+  padding: 20px 0px;
+}
+
+.li {
+  display: block;
+  padding: 5px 15px;
+  font-size: 1.2em;
+  transition: background 200ms ease;
+}
+
+.li:hover {
+  border-radius: 0.5em;
+  border: solid 1 px white;
+  background: rgba(255, 255, 255, 0.073);
+}

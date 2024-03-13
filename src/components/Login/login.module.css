@@ -1,0 +1,14 @@
+.loginButton {
+  display: flex;
+  font-size: 1.3em;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.205);
+  border-radius: 0.5em;
+  padding: 10px 25px;
+  margin: 0px 0px 0px 30px;
+}
+
+.loginButton span {
+  padding: 0px 0px 0px 5px;
+}
