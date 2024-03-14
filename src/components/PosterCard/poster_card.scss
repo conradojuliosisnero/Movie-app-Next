@@ -1,0 +1,141 @@
+.contenedor {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 40px;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0px auto 100px auto;
+  padding: 150px 0px 0px 0px;
+  background-color: transparent;
+  &.movie__view {
+    display: flex;
+  }
+}
+
+.contenedor .pelicula {
+  text-align: center;
+  z-index: 10;
+  display: block;
+  transition: display 300ms ease;
+  &.oculta {
+    display: none;
+    transition: display 300ms ease;
+  }
+  &.movie__view {
+    margin: 0px 0px 0px 0px;
+    width: 100%;
+    padding: 30px 0px 0px 0px;
+    display: flex;
+    position: relative;
+    .regresar__overview {
+      font-size: 2.5em;
+      position: absolute;
+      right: -30px;
+      top: -50px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .contend__poster {
+      flex-grow: 6;
+      display: flex;
+      width: 380px;
+      height: 450px;
+      margin-left: 20px;
+      cursor: auto;
+      .poster {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        object-fit: cover;
+      }
+      .contend__hover {
+        display: none;
+      }
+    }
+    .titulo {
+      font-size: 2.4em;
+      position: absolute;
+      top: -65px;
+      left: 20px;
+    }
+    .contend__overview {
+      display: flex;
+      flex-shrink: 6;
+      flex-direction: column;
+      padding: 20px 0px 0px 30px;
+      .sinopsis {
+        display: flex;
+        text-align: start;
+        line-height: 25px;
+        font-size: 1.5em;
+        margin-bottom: 20px;
+      }
+      .popularity {
+        font-size: 1.5em;
+        display: flex;
+        justify-content: flex-start;
+        margin-bottom: 20px;
+      }
+      .publicacion {
+        font-size: 1.5em;
+        display: flex;
+        justify-content: flex-start;
+      }
+    }
+  }
+}
+
+.contend__overview {
+  display: none;
+}
+
+.contenedor .contend__poster {
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  border-radius: 0.7em;
+  .contend__hover {
+    background-color: #ffffff28;
+    backdrop-filter: blur(7px);
+    width: 100%;
+    height: 100%;
+    top: -550px;
+    left: 0;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: top 200ms ease;
+    a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1.5em;
+      transition: color 200ms ease;
+      cursor: pointer;
+      &:hover {
+        color: #000000;
+      }
+    }
+  }
+  &:hover .contend__hover {
+    top: 0;
+  }
+}
+
+.contenedor .poster {
+  object-fit: cover;
+}
+
+.contenedor .pelicula .titulo {
+  font-size: 1.1em;
+  font-weight: 500;
+  margin: 10px 0px 0px 0px;
+}
+
+.contenedor .pelicula .poster {
+  width: 100%;
+  min-height: 200px;
+  border-radius: 15px;
+  border-radius: 0.7em;
+}
