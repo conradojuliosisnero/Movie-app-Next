@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🎬 MoviesCon 🍿
 
-## Getting Started
+¡Bienvenido a MoviesCon! Este es un proyecto desarrollado con Next.js que te permite explorar una amplia colección de películas de una manera divertida y sencilla.
 
-First, run the development server:
+## Características Principales 🌟
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- 📽️ **Gran selección de películas:** Desde clásicos atemporales hasta los últimos estrenos.
+- 🎥 **Exploración intuitiva:** Interfaz de usuario fácil de navegar.
+- 🍿 **Listas de reproducción personalizadas:** Crea tu propia lista de películas favoritas.
+- 📺 **Compatibilidad multiplataforma:** Disfruta de MoviesCon en cualquier dispositivo.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Cómo Usar
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+1. 🖥️ **Visita nuestro sitio web:** [por definir]().
+2. 🔍 **Explora nuestras películas:** Utiliza la barra de búsqueda o navega por categorías.
+3. 🍿 **¡Disfruta de la película!** Haz clic en una película para obtener más información y verla.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Contribuciones y Feedback
 
-## Learn More
+¡Nos encanta recibir comentarios! Si tienes alguna sugerencia o te gustaría contribuir, contáctanos.
 
-To learn more about Next.js, take a look at the following resources:
+## Sobre el Equipo
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+MoviesCon fue creado por un [julio Conrado](https://github.com/conradojuliosisnero) apasionado de desarrolladores y amantes del cine.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+¡Gracias por unirte a nosotros en esta emocionante aventura cinéfila! 🎉
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+**¡Que disfrutes de la película! 🍿**
