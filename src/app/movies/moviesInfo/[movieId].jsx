@@ -1,4 +1,14 @@
-export default function MovieInfo(props) {
+import { useRouter } from "next/router";
+import GetMovies from "../../../services/TMDB/GetMovies";
+
+const MovieInfo = async () => {
+  const router = useRouter();
+  console.log(router);
+  // Obtiene el ID de la URL
+  // const { id } = router.query;
+
+  const dataMovies = await GetMovies();
+
   return (
     <main className="contendDetails">
       <div className="movieInfo">
@@ -10,4 +20,6 @@ export default function MovieInfo(props) {
       </div>
     </main>
   );
-}
+};
+
+export default MovieInfo;

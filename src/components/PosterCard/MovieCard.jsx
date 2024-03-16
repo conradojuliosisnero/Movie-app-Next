@@ -4,6 +4,7 @@ import "./postercard.scss";
 import getMovies from "../../services/TMDB/GetMovies";
 import Loading from "../Loader/Loading";
 import Button from "../Buttons/Button";
+import Link from "next/link";
 import next from "next";
 
 const MovieCard = () => {
@@ -52,19 +53,23 @@ const MovieCard = () => {
         ) : (
           movieData.results?.map((movie) => (
             <div className="pelicula" key={movie.id}>
+              {/* img  */}
               <div className="contend__poster">
                 <img
                   className="poster"
                   src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                   alt={movie.title}
                 />
+                {/* card hover  */}
                 <div className="contend__hover">
-                  <a href={movie.id} className="movie_link">
+                  <Link href="/moviesInfo/" className="movie_link">
                     More Info
-                  </a>
+                  </Link>
                 </div>
               </div>
-              <h3 className="titulo">{movie.title}</h3>
+              <h3 className="titulo">
+                <span>{movie.title}</span>
+              </h3>
               <div className="contend__overview" id="contend__overview">
                 <div className="regresar__overview">
                   <i className="fa-solid fa-x"></i>
@@ -76,8 +81,14 @@ const MovieCard = () => {
         )}
       </div>
       <div className="Contend-Buttons">
-        <Button name={Prev} funtionPage={handlerPrevMovie} />
-        <Button name={Next} funtionPage={handlerNextMovie} />
+        {nextPage == 1 ? (
+          <Button name={Next} funtionPage={handlerNextMovie} />
+        ) : (
+          <div className="Contend-Buttons">
+            <Button name={Prev} funtionPage={handlerPrevMovie} />
+            <Button name={Next} funtionPage={handlerNextMovie} />
+          </div>
+        )}
       </div>
     </div>
   );
