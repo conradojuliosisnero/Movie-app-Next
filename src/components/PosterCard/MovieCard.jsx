@@ -59,7 +59,7 @@ const MovieCard = () => {
                   alt={movie.title}
                 />
                 <div className="contend__hover">
-                  <a href="#" className="movie_link">
+                  <a href={movie.id} className="movie_link">
                     More Info
                   </a>
                 </div>
