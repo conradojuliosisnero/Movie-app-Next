@@ -5,11 +5,11 @@
   width: 100%;
   max-width: 1000px;
   margin: 0px auto 100px auto;
-  padding: 150px 0px 0px 0px;
+  padding: 35px 0px 0px 0px;
   background-color: transparent;
-  // &.movie__view{
-  // 	display: flex;
-  // }
+  &.movie__view {
+    display: flex;
+  }
 }
 
 .contenedor .pelicula {
@@ -188,4 +188,17 @@
 
 ::-webkit-scrollbar-thumb {
   background-color: #212121;
+}
+
+.Contend-Buttons {
+  display: flex;
+  min-width: 350px;
+  align-items: center;
+  justify-content: center;
+}
+
+.contend-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
