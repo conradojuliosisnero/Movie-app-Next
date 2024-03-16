@@ -11,13 +11,13 @@ export default function Nav() {
       <nav className={styles.nav}>
         <ul className={styles.listNav}>
           {/* input seach */}
-          <Search />
+          {/* <Search /> */}
           {optionMenu.map(({ index, name, path }) => (
             <li className={styles.li} key={index}>
               <Link href={path}>{name}</Link>
             </li>
           ))}
-          <Login />
+          {/* <Login /> */}
         </ul>
       </nav>
     </header>

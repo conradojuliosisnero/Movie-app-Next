@@ -3,8 +3,9 @@ import { useState, useEffect } from "react";
 import "./postercard.scss";
 import getMovies from "../../services/TMDB/GetMovies";
 import Loading from "../Loader/Loading";
-import Button from "../Buttons/Button";
-import next from "next";
+import Link from "next/link";
+import { GrNext } from "react-icons/gr";
+import { GrPrevious } from "react-icons/gr";
 
 const MovieCard = () => {
   const [movieData, setMovieData] = useState({});
@@ -52,19 +53,23 @@ const MovieCard = () => {
         ) : (
           movieData.results?.map((movie) => (
             <div className="pelicula" key={movie.id}>
+              {/* img  */}
               <div className="contend__poster">
                 <img
                   className="poster"
                   src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                   alt={movie.title}
                 />
+                {/* card hover  */}
                 <div className="contend__hover">
-                  <a href="#" className="movie_link">
+                  <Link href="/moviesInfo/" className="movie_link">
                     More Info
-                  </a>
+                  </Link>
                 </div>
               </div>
-              <h3 className="titulo">{movie.title}</h3>
+              <h3 className="titulo">
+                <span>{movie.title}</span>
+              </h3>
               <div className="contend__overview" id="contend__overview">
                 <div className="regresar__overview">
                   <i className="fa-solid fa-x"></i>
@@ -75,9 +80,19 @@ const MovieCard = () => {
           ))
         )}
       </div>
-      <div className="Contend-Buttons">
-        <Button name={Prev} funtionPage={handlerPrevMovie} />
-        <Button name={Next} funtionPage={handlerNextMovie} />
+      <div className="ButtonPrev">
+        {nextPage == 1 ? (
+          <></>
+        ) : (
+          <button onClick={handlerPrevMovie}>
+            <GrPrevious />
+          </button>
+        )}
+      </div>
+      <div className="ButtonNext">
+        <button className="" onClick={handlerNextMovie}>
+          <GrNext />
+        </button>
       </div>
     </div>
   );
