@@ -3,9 +3,9 @@ import { useState, useEffect } from "react";
 import "./postercard.scss";
 import getMovies from "../../services/TMDB/GetMovies";
 import Loading from "../Loader/Loading";
-import Button from "../Buttons/Button";
 import Link from "next/link";
-import next from "next";
+import { GrNext } from "react-icons/gr";
+import { GrPrevious } from "react-icons/gr";
 
 const MovieCard = () => {
   const [movieData, setMovieData] = useState({});
@@ -80,15 +80,19 @@ const MovieCard = () => {
           ))
         )}
       </div>
-      <div className="Contend-Buttons">
+      <div className="ButtonPrev">
         {nextPage == 1 ? (
-          <Button name={Next} funtionPage={handlerNextMovie} />
+          <></>
         ) : (
-          <div className="Contend-Buttons">
-            <Button name={Prev} funtionPage={handlerPrevMovie} />
-            <Button name={Next} funtionPage={handlerNextMovie} />
-          </div>
+          <button onClick={handlerPrevMovie}>
+            <GrPrevious />
+          </button>
         )}
+      </div>
+      <div className="ButtonNext">
+        <button className="" onClick={handlerNextMovie}>
+          <GrNext />
+        </button>
       </div>
     </div>
   );
