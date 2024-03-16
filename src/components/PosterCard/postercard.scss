@@ -7,9 +7,9 @@
   margin: 0px auto 100px auto;
   padding: 150px 0px 0px 0px;
   background-color: transparent;
-  &.movie__view {
-    display: flex;
-  }
+  // &.movie__view{
+  // 	display: flex;
+  // }
 }
 
 .contenedor .pelicula {
@@ -138,4 +138,54 @@
   min-height: 200px;
   border-radius: 15px;
   border-radius: 0.7em;
+}
+
+.paginacion {
+  position: fixed;
+  bottom: 0;
+  background: #100a1f;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px;
+}
+
+.paginacion button {
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 50px;
+  width: 200px;
+  background: #241744;
+  color: #fff;
+  border-radius: 100px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  transition: 0.3s ease all;
+}
+
+.paginacion button:hover {
+  background: #137c32;
+}
+
+/* Personalizar el scrollbar en navegadores WebKit */
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+}
+
+/* Personalizar el scrollbar en navegadores Gecko */
+::-webkit-scrollbar {
+  width: 9px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #212121;
 }
