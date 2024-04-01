@@ -62,7 +62,7 @@ const MovieCard = () => {
                 />
                 {/* card hover  */}
                 <div className="contend__hover">
-                  <Link href="/moviesInfo/" className="movie_link">
+                  <Link href={`/movieInfo/${movie.id}`} className="movie_link">
                     More Info
                   </Link>
                 </div>
@@ -74,7 +74,6 @@ const MovieCard = () => {
                 <div className="regresar__overview">
                   <i className="fa-solid fa-x"></i>
                 </div>
-                {/* Aquí puedes incluir más elementos HTML según necesites */}
               </div>
             </div>
           ))

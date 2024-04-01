@@ -1,0 +1,22 @@
+.title {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* padding: 30px 0px; */
+}
+
+.contendCarrussel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 20px;
+}
+
+.posterImg {
+  display: flex;
+  object-fit: cover;
+  width: 300px;
+  margin: 0px 20px;
+  border-radius: 0.5em;
+}

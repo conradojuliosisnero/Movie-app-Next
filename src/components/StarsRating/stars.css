@@ -1,0 +1,16 @@
+.star-rating {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+}
+
+.star {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url("../../../public/star-vacia.svg"); /* Reemplaza 'star.png' con la imagen de una estrella */
+  background-size: cover;
+}
+
+.star.filled {
+  background-image: url("../../../public/star-svgrepo-com.svg"); /* Reemplaza 'filled_star.png' con la imagen de una estrella llena */
+}

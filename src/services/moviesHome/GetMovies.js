@@ -1,14 +1,12 @@
-const getMovies = async (setMovieData, nextPage) => {
-
+const getMoviesHome = async (setDataMoviesHome) => {
   const apikey = process.env.NEXT_PUBLIC_MOVIES_API_KEY;
-
   try {
     const response = await fetch(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${apikey}&language=es-MX&page=${nextPage}`
+      `https://api.themoviedb.org/3/movie/popular?api_key=${apikey}&language=es-MX&page=1`
     );
     if (response.status === 200) {
-      const data = await response.json();
-      setMovieData(data);
+      const results = await response.json();
+      setDataMoviesHome(results);
     } else {
       console.error("algo salio mal");
     }
@@ -17,4 +15,4 @@ const getMovies = async (setMovieData, nextPage) => {
   }
 };
 
-export default getMovies;
+export default getMoviesHome;
