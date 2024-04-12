@@ -1,4 +1,6 @@
 import MovieDetails from "../../components/movieDetails/MovieDetails";
+import Details from "../../services/MovieDetails/Details";
+import SimilarMovies from "../../components/similarMovies/SimilaarMovies";
 export default function DataMovie({ movie }) {
   return (
     <>
@@ -8,18 +10,20 @@ export default function DataMovie({ movie }) {
 }
 
 export async function getServerSideProps({ query: { id } }) {
-  const bearer = `${process.env.BEARER_TOKEN}`;
-  const url_api = `https://api.themoviedb.org/3/movie/${id}}?language=es-MX`;
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${bearer}`,
-    },
-  };
-  const response = await fetch(url_api, options);
-  const movie = await response.json();
-  return {
-    props: { movie },
-  };
+  try {
+    // Detalles de Peliculas
+    const DetailsResponse = await Details(id);
+    if (DetailsResponse.status === 200) {
+      const movie = await DetailsResponse.json();
+      return { props: { movie } };
+    }
+    // Peliculas Similares
+    const SimilarMovie = await SimilarMovies(id);
+    const similar = await SimilarMovie.json();
+    return {
+      props: { similar },
+    };
+  } catch (error) {
+    console.error("algo salio mal", error);
+  }
 }

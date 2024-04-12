@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./stars.css";
 
-const StarRating = ({ rating }) => {
+const StarRating = ({ rating}) => {
   const [filledStars, setFilledStars] = useState(0);
 
   useEffect(() => {
