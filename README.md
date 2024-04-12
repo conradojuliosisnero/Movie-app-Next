@@ -21,7 +21,7 @@
 
 ## Sobre el Equipo
 
-MoviesCon fue creado por un [julio Conrado](https://github.com/conradojuliosisnero) apasionado de desarrolladores y amantes del cine.
+MoviesCon fue creado por un [julio Conrado](https://github.com/conradojuliosisnero) apasionado de desarrollar y amante del cine.
 
 ¡Gracias por unirte a nosotros en esta emocionante aventura cinéfila! 🎉
 
