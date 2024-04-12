@@ -6,9 +6,11 @@ import Loading from "../Loader/Loading";
 import Link from "next/link";
 import { GrNext } from "react-icons/gr";
 import { GrPrevious } from "react-icons/gr";
+import Stars from "../StarsRating/Stars";
 
 const MovieCard = () => {
   const [movieData, setMovieData] = useState({});
+  console.log(movieData);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [nextPage, setNext] = useState(1);

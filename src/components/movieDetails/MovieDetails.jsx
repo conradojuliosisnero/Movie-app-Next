@@ -37,6 +37,7 @@ const MovieDetails = ({ details }) => {
             </span>
           </div>
         </div>
+        
       </div>
     </section>
   );
