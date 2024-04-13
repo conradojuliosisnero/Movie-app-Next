@@ -10,7 +10,6 @@ const Details = async (id) => {
       },
     };
     const response = await fetch(url_api, options);
-    console.log(response);
     if (response.status === 200) {
       return response
     }

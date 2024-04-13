@@ -1,11 +1,18 @@
 import "./button.scss";
-import { GrNext } from "react-icons/gr";
-import { GrPrevious } from "react-icons/gr";
+import { GrNext, GrPrevious } from "react-icons/gr";
 
-export default function Button({ name, funtionPage }) {
+export default function Button({ funtionPage, isNext }) {
   return (
-    <button class="button" onClick={funtionPage}>
-      <span>{name}</span>
-    </button>
+    <div className={`button ${isNext ? "ButtonNext" : "ButtonPrev"}`}>
+      {isNext ? (
+        <button onClick={funtionPage}>
+          <GrNext />
+        </button>
+      ) : (
+        <button onClick={funtionPage}>
+          <GrPrevious />
+        </button>
+      )}
+    </div>
   );
 }

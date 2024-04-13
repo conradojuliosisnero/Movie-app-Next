@@ -1,64 +1,39 @@
-.button {
-  all: unset;
+.ButtonPrev {
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   align-items: center;
-  position: relative;
-  padding: 0.6em 2em;
-  margin: 0px 0px 35px 25px;
-  border: mediumspringgreen solid 0.15em;
-  border-radius: 0.25em;
-  color: mediumspringgreen;
-  font-size: 1.5em;
-  font-weight: 600;
-  cursor: pointer;
-  overflow: hidden;
-  transition: border 300ms, color 300ms;
-  user-select: none;
+  justify-content: center;
+  height: 100vh;
+  width: 70px;
+  & button {
+    color: white;
+    background-color: transparent;
+    border: none;
+    font-size: 3.5em;
+    height: 250px;
+    cursor: pointer;
+    width: 100%;
+  }
 }
 
-.button span {
-  z-index: 1;
-}
-
-.button:hover {
-  color: #212121;
-}
-
-.button:active {
-  border-color: teal;
-}
-
-.button::after,
-.button::before {
-  content: "";
+.ButtonNext {
   position: absolute;
-  width: 9em;
-  aspect-ratio: 1;
-  background: mediumspringgreen;
-  opacity: 50%;
-  border-radius: 50%;
-  transition: transform 500ms, background 300ms;
-}
-
-.button::before {
-  left: 0;
-  transform: translateX(-8em);
-}
-
-.button::after {
   right: 0;
-  transform: translateX(8em);
-}
-
-.button:hover:before {
-  transform: translateX(-1em);
-}
-
-.button:hover:after {
-  transform: translateX(1em);
-}
-
-.button:active:before,
-.button:active:after {
-  background: teal;
+  top: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 70px;
+  & button {
+    color: white;
+    border: none;
+    background-color: transparent;
+    font-size: 3.5em;
+    height: 250px;
+    cursor: pointer;
+    width: 100%;
+  }
 }

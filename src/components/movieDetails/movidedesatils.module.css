@@ -105,6 +105,9 @@
 
 .overview p {
   display: flex;
+  background-color: #ffffff1e;
+  backdrop-filter: blur(5px);
+  border-radius: .7em;
   align-items: center;
   justify-content: center;
   font-size: 1.2em;
@@ -119,11 +122,27 @@
   padding: 15px 20px;
 }
 
-.stars {
+.starsGood{
   display: flex;
+  background-color: rgba(86, 225, 116,  0.489);
+  border-radius: .5em;
+  padding: 10px 5px;
 }
 
-.stars .votes {
+.starsBad{
+  display: flex;
+  background-color: rgba(225, 100, 86, 0.489);
+  border-radius: .5em;
+  padding: 10px 5px;
+}
+
+.starsGood .votes {
+  margin: 0px 10px;
+  font-weight: 500;
+  font-size: 1.3em;
+}
+
+.starsBad .votes {
   margin: 0px 10px;
   font-weight: 500;
   font-size: 1.3em;
