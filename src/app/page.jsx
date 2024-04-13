@@ -25,6 +25,7 @@ const Home = () => {
         <span className={styles.name}></span>
       </div>
       <AutoPlaySlaider dataMovies={results} />
+      
     </main>
   );
 };

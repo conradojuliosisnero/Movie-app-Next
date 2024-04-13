@@ -28,16 +28,19 @@ const MovieDetails = ({ details }) => {
         <div className={styles.overview}>
           <p>{details.overview}</p>
         </div>
-        {/* stats movie  */}
+        {/* stars movie  */}
         <div className={styles.stats}>
-          <div className={styles.stars}>
+          <div
+            className={`${
+              details.vote_average >= 7 ? styles.starsGood : styles.starsBad
+            }`}
+          >
             <StarRating rating={details.vote_average} />
             <span className={styles.votes}>
               {Math.floor(details.vote_average)} /10
             </span>
           </div>
         </div>
-        
       </div>
     </section>
   );

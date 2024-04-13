@@ -1,9 +1,12 @@
-.Loading-contend {
+.box_wrapper{
   display: flex;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
   align-items: center;
   justify-content: center;
-  max-width: 100%;
-  min-width: 350px;
+  width: 100%;
 }
 
 .wrapper {
