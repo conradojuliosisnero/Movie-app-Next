@@ -1,6 +1,6 @@
 export const optionMenu = [
-  { name: "Home", path: "/" },
-  { name: "Movies", path: "/movies-section" },
-  { name: "Series", path: "/series" },
-  { name: "Help", path: "/about" },
+  { id: 1,name: "Home", path: "/" },
+  { id: 2,name: "Movies", path: "/movies-section" },
+  { id: 3,name: "Series", path: "/series-section" },
+  // { id: 4,name: "Help", path: "/about" },
 ];

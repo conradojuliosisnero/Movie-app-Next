@@ -2,7 +2,8 @@
 import styles from "./page.module.css";
 import getMoviesHome from "../services/moviesHome/GetMovies";
 import { useState, useEffect } from "react";
-import AutoPlaySlaider from "../components/home/home";
+import AutoPlaySlaider from "../components/AutoPlaySlaider/Slaider";
+import Welcome from '../components/WelcomeHome/Welcome'
 
 const Home = () => {
   const [dataMoviesHome, setDataMoviesHome] = useState({});
@@ -21,11 +22,8 @@ const Home = () => {
 
   return (
     <main className={styles.name}>
-      <div className={styles.name}>
-        <span className={styles.name}></span>
-      </div>
+      <Welcome movieHome={results} />
       <AutoPlaySlaider dataMovies={results} />
-      
     </main>
   );
 };
