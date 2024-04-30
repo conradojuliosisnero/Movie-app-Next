@@ -8,13 +8,17 @@
   height: 100vh;
   width: 70px;
   & button {
-    color: white;
+    transition: background-color 300ms ease-in-out;
+    color: rgb(255, 255, 255);
     background-color: transparent;
     border: none;
     font-size: 3.5em;
     height: 250px;
     cursor: pointer;
     width: 100%;
+    &:hover {
+      background-color: #ffffff34;
+    }
   }
 }
 
@@ -27,13 +31,17 @@
   justify-content: center;
   height: 100vh;
   width: 70px;
-  & button {
-    color: white;
+  & .icon__button {
+    color: rgb(255, 255, 255);
     border: none;
     background-color: transparent;
+    transition: background-color 300ms ease-in-out;
     font-size: 3.5em;
     height: 250px;
     cursor: pointer;
     width: 100%;
+    &:hover {
+      background-color: #ffffff34;
+    }
   }
 }

@@ -42,14 +42,16 @@ export default function Movies() {
   };
 
   return (
-    <main className="contenedor">
-      {loading ? (
-        <Loading />
-      ) : (
-        movieData.results?.map((movie) => <MovieCard datamovie={movie} />)
-      )}
-      {nextPage == 1 ? <></> : <Button funtionPage={handlerPrevMovie} />}
-      <Button isNext funtionPage={handlerNextMovie} />
-    </main>
+      <main className="contenedor">
+        {loading ? (
+          <Loading />
+        ) : (
+          movieData.results?.map((movie) => (
+            <MovieCard datamovie={movie} key={movie.id} />
+          ))
+        )}
+        {nextPage == 1 ? <></> : <Button funtionPage={handlerPrevMovie} />}
+        <Button isNext funtionPage={handlerNextMovie} />
+      </main>
   );
 }
