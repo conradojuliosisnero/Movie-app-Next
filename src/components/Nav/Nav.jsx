@@ -43,7 +43,7 @@ const Nav = () => {
         <ul className="listNav">
           {/* nav options  */}
           {optionMenu?.map(({ id, name, path }) => (
-            <li className="link-dark-mode" key={id}>
+            <li className=  "link-dark-mode" key={id}>
               <Link href={path} key={id}>
                 {name}
               </Link>

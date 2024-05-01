@@ -16,8 +16,10 @@
     height: 250px;
     cursor: pointer;
     width: 100%;
+    border-radius: .2em;
     &:hover {
       background-color: #ffffff34;
+            border-radius: .2em;
     }
   }
 }
@@ -40,8 +42,10 @@
     height: 250px;
     cursor: pointer;
     width: 100%;
+    border-radius: .2em;
     &:hover {
       background-color: #ffffff34;
+      border-radius: .2em;
     }
   }
 }

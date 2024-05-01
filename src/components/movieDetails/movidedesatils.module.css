@@ -46,7 +46,7 @@
   top: 0;
   width: 100%;
   height: 100%;
-  background: rgb(0, 0, 0);
+  background: rgba(57, 57, 57, 0.635);
   background: linear-gradient(
     0deg,
     rgba(0, 0, 0, 1) 6%,
@@ -60,14 +60,13 @@
 /* contend  */
 .container {
   display: grid;
-  background-color: aqua;
   padding: 70px 25px;
   position: relative;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: auto auto auto;
   grid-template-areas:
     "nameMovie nameMovie nameMovie"
-    "imgmovie overview overview"
+    "overview overview overview"
     "stats stats stats";
 }
 
@@ -76,13 +75,17 @@
   display: flex;
   z-index: 200;
   justify-content: flex-start;
-  padding: 25px 20px;
+  padding: 25px 0px;
+}
+
+.year span{
+  color: #727272;
 }
 
 .nameMovie span {
-  font-size: 2em;
+  font-size: 5em;
   color: #ffffff;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .imgmovie {
@@ -112,15 +115,16 @@
 }
 .year_generes {
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
 }
 
 .genere {
   padding: 0px 4px;
-  background: #ffffff45;
   border-radius: 0.3em;
+  color: #727272;
   margin: 10px;
 }
 
@@ -133,7 +137,7 @@
   font-size: 1.2em;
   padding: 30px 20px;
   margin: 0px 15px 0px 0px;
-  background: #ffffff45;
+  color: #cacaca;
 }
 
 .stats {
@@ -141,7 +145,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 15px 20px;
+  padding: 15px 0px;
 }
 
 .starsGood {

@@ -25,28 +25,28 @@
 .contenedor .contend__poster {
   overflow: hidden;
   position: relative;
-  // display: flex;
-  // align-items: flex-start;
+  display: flex;
+  align-items: flex-start;
   border-radius: 0.7em;
   width: 100%;
   min-height: 250px;
+  transition: transform 200ms ease;
   .img_poster {
     border-radius: 0.5em;
   }
   .contend__hover {
-    background-color: rgba(255, 255, 255, 0.1568627451);
-    backdrop-filter: blur(7px);
     width: 100%;
     height: 100%;
-    top: -550px;
+    top: -500px;
     left: 0;
     position: absolute;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
-    transition: top 200ms ease;
     .button-preview {
-      background-color: #3fcc7c;
+      background-color: #3fcc7c00;
+      width: 100%;
+      height: 100%;
       outline: none;
       font-weight: 600;
       border-radius: 0.5em;
@@ -67,8 +67,20 @@
     }
   }
   &:hover .contend__hover {
-    top: 0px;
+    background-color: #00000062;
+    top: 0;
   }
+
+  &:hover{
+    transform: scale(1.1);
+  }
+}
+
+.movie_link{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
 }
 
 .contenedor .poster {
