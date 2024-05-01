@@ -5,8 +5,8 @@
   justify-content: space-evenly;
   max-width: 100%;
   min-width: 350px;
-  background: #000000;
-
+  background: transparent;
+  z-index: 500;
 }
 .logo-website{
   display: flex;

@@ -27,7 +27,7 @@ const MovieDetails = ({ details }) => {
           ></Image>
         </div>
         {/* img movie  */}
-        <div className={styles.imgmovie}>
+        {/* <div className={styles.imgmovie}>
           <Image
             quality={80}
             src={`https://image.tmdb.org/t/p/w500/${details.poster_path}`}
@@ -36,7 +36,7 @@ const MovieDetails = ({ details }) => {
             height={350}
             priority={true}
           ></Image>
-        </div>
+        </div> */}
         {/* overview movie  */}
         <div className={styles.overview}>
           {/* name movie  */}

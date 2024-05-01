@@ -1,22 +1,8 @@
 import styles from "./welcome.module.css";
 import Image from "next/image";
-import { useState,useEffect } from "react";
 
 export default function Welcome({ movieHome }) {
-  const [contador, setContador] = useState(0);
-
-  useEffect(() => {
-    const intervalo = setInterval(() => {
-      if (contador < 15) {
-        setContador((prevContador) => prevContador + 1);
-      } else {
-        clearInterval(intervalo);
-      }
-    }, 12000); 
-
-    return () => clearInterval(intervalo);
-  }, [contador]);
-  const movieinfo = movieHome && movieHome.length > 0 ? movieHome[contador] : null;
+  const movieinfo = movieHome && movieHome.length > 0 ? movieHome[0] : null;
   return (
     <div className={styles.contendBox}>
       <section className={styles.MovieRelevant}>

@@ -22,20 +22,20 @@ const MovieCard = ({ datamovie }) => {
           {/* card hover  */}
           <div className="contend__hover">
             <Link href={`/movie/${datamovie.id}`} className="movie_link">
-              <button className="button-preview">Details</button>
+              <button className="button-preview"><p>{datamovie.title}</p></button>
             </Link>
           </div>
         </div>
         {/* title  */}
-        <h3 className="titulo">
+        {/* <h3 className="titulo">
           <span>{datamovie.title}</span>
-        </h3>
+        </h3> */}
         {/* hover effect  */}
-        <div className="contend__overview" id="contend__overview">
+        {/* <div className="contend__overview" id="contend__overview">
           <div className="regresar__overview">
             <i className="fa-solid fa-x"></i>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

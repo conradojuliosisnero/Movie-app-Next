@@ -1,0 +1,17 @@
+.buttonKeyword{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    margin: 5px 10px;
+    transition: background-color 200ms ease-in;
+    color: #ffffff;
+    background-color: #ffffff4e;
+    border-radius: .5em;
+    cursor: pointer;
+}
+
+.buttonKeyword:hover{
+    background-color: #ffffff;
+    color: #363636;
+}
