@@ -1,11 +1,12 @@
 "use client";
 import React from "react";
-import MovieCard from "../../components/PosterCard/MovieCard";
+import MovieCard from "../../../components/PosterCard/MovieCard";
 import { useState, useEffect } from "react";
-import "../../components/PosterCard/postercard.scss";
-import getMovies from "../../services/TMDB/GetMovies";
-import Loading from "../../components/Loader/Loading";
-import Button from "../../components/Buttons/Button";
+import "../../../components/PosterCard/postercard.scss";
+import getMovies from "../../../services/TMDB/GetMovies";
+import Loading from "../../../components/Loader/Loading";
+import Button from "../../../components/Buttons/Button";
+import FilterNav from "../../../components/Filter/FilterNav";
 
 export default function Movies() {
   const [movieData, setMovieData] = useState({});
@@ -46,7 +47,9 @@ export default function Movies() {
       {loading ? (
         <Loading />
       ) : (
-        movieData.results?.map((movie) => <MovieCard datamovie={movie} />)
+        movieData.results?.map((movie) => (
+          <MovieCard datamovie={movie} key={movie.id} />
+        ))
       )}
       {nextPage == 1 ? <></> : <Button funtionPage={handlerPrevMovie} />}
       <Button isNext funtionPage={handlerNextMovie} />

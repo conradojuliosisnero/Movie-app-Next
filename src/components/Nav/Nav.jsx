@@ -1,41 +1,60 @@
-// "use client";
+"use client";
 import React from "react";
 import Link from "next/link";
-import styles from "./nav.module.css";
-import Search from "../SearchInput/Search";
+import "./nav.css";
 import { optionMenu } from "./data";
-import Login from "../Login/Login";
-import DarkSwich from "../swichDark/DarkSwich";
-// import { useState } from "react";
+// import DarkSwich from "../swichDark/DarkSwich";
+import { useState, useEffect } from "react";
+import logoWebsite from "../../../public/logo-website.svg";
+import Image from "next/image";
 
-export default function Nav() {
-  // const [darkMode, setDarkMode] = useState(true);
+const Nav = () => {
+  // const [darkmode, setDarkMode] = useState(false);
 
-  // if (!darkMode) {
-  //   document.body.style.backgroundColor = "white";
-  // } else {
-  //   document.body.style.backgroundColor = "black";
-  // }
+  // const handlerDarkMode = (e) => {
+  //   setDarkMode(!darkmode);
+  // };
 
-  const handlerDarkMode = (e) => {
-    setDarkMode(!darkMode);
-  };
+  // useEffect(() => {
+  //   if (darkmode) {
+  //     document.body.classList.add("dark-mode-theme");
+  //     const span = document.querySelectorAll("span");
+  //     span.forEach((span) => (span.style.color = "#ffffff"));
+  //   } else {
+  //     document.body.classList.remove("dark-mode-theme");
+  //     const span = document.querySelectorAll("span");
+  //     span.forEach((span) => (span.style.color = ""));
+  //   }
+  // }, [darkmode]);
+
   return (
-    <header className={styles.header}>
-      <nav className={styles.nav}>
-        <ul className={styles.listNav}>
-          {/* input seach */}
-          {/* <Search /> */}
-          {optionMenu.map(({ index, name, path }) => (
-            <li className={styles.li} key={index}>
-              <Link href={path}>{name}</Link>
+    <header className="header">
+      {/* nav  */}
+      <div className="logo-website">
+        <Image
+          src={logoWebsite}
+          width={50}
+          height={50}
+          priority={true}
+          alt="logo-movie-website"
+        ></Image>
+      </div>
+      <nav className="nav">
+        <ul className="listNav">
+          {/* nav options  */}
+          {optionMenu?.map(({ id, name, path }) => (
+            <li className=  "link-dark-mode" key={id}>
+              <Link href={path} key={id}>
+                {name}
+              </Link>
             </li>
           ))}
-          {/* <Login /> */}
-          {/* <DarkSwich darkmode={handlerDarkMode} /> */}
+          {/* swich darkmode */}
+          {/* <DarkSwich whitemode={handlerDarkMode} /> */}
         </ul>
       </nav>
-      {/* swich  */}
     </header>
   );
-}
+};
+
+export default Nav;

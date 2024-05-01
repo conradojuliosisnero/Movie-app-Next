@@ -1,151 +1,105 @@
 .contenedor {
-	display: grid;
-	grid-template-columns: repeat(5, 1fr);
-	gap: 40px;
-	width: 100%;
-	max-width: 1000px;
-	margin: 0px auto 100px auto;
-	padding: 50px 0px 0px 0px;
-	background-color: transparent;
-	&.movie__view{
-		display: flex;
-	}
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 40px;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0px auto 100px auto;
+  padding: 50px 0px 0px 0px;
+  background-color: transparent;
+  &.movie__view {
+    display: flex;
+  }
 }
 
 .contenedor .pelicula {
-	text-align: center;
-	z-index: 10;
-	display: block;
-	transition: display 300ms ease;
-	&.oculta{
-		display: none;
-		transition: display 300ms ease;
-	}
-	&.movie__view{
-		margin: 0px 0px 0px 0px;
-		width: 100%;
-		padding: 30px 0px 0px 0px;
-		display: flex;
-		position: relative;
-		.regresar__overview{
-			font-size: 2.5em;
-			position: absolute;
-			right: -30px;
-			top: -50px;
-			border-radius: 50%;
-			cursor: pointer;
-		}
-		.contend__poster{
-			flex-grow: 6;
-			display: flex;
-			width: 380px;
-			height: 450px;
-			margin-left: 20px;
-			cursor:auto;
-			.poster{
-				width: 100%;
-				height: 100%;
-				display: flex;
-				object-fit: cover;
-			}
-			.contend__hover{
-				display: none;
-			}
-		}
-		.titulo{
-			font-size: 2.4em;
-			position: absolute;
-			top: -65px;
-			left: 20px;
-		}
-		.contend__overview{
-			display: flex;
-			flex-shrink:6;
-			flex-direction: column;
-			padding: 20px 0px 0px 30px;
-			.sinopsis{
-				display: flex;
-				text-align: start;
-				line-height: 25px;
-				font-size: 1.5em;
-				margin-bottom: 20px;
-			}
-			.popularity{
-				font-size: 1.5em;
-				display: flex;
-				justify-content: flex-start;
-				margin-bottom: 20px;
-				
-			}
-			.publicacion{
-				font-size: 1.5em;
-				display: flex;
-				justify-content: flex-start;
-
-			}
-		}
-	}
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 10;
+  margin: 0px 0px 25px 0px;
+  transition: display 300ms ease;
 }
 
-.contenedor .contend__poster{
-	cursor: pointer;
-	overflow: hidden;
-	position: relative;
-	width: 100%;
-	border-radius: .7em;
-	.contend__hover{
-		background-color: #ffffff28;
-		backdrop-filter: blur(7px);
-		width: 100%;
-		height: 100%;
-		top: -550px;
-		left: 0;
-		position: absolute;
-		display: flex;
-		align-items: flex-start;
-		justify-content: center;
-		transition: top 200ms ease-in-out;
-    .button-preview{
-      background-color: #3fcc7c;
+.contenedor .contend__poster {
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  border-radius: 0.7em;
+  width: 100%;
+  min-height: 250px;
+  transition: transform 200ms ease;
+  .img_poster {
+    border-radius: 0.5em;
+  }
+  .contend__hover {
+    width: 100%;
+    height: 100%;
+    top: -500px;
+    left: 0;
+    position: absolute;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    .button-preview {
+      background-color: #3fcc7c00;
+      width: 100%;
+      height: 100%;
       outline: none;
-      border-radius: .5em;
+      font-weight: 600;
+      border-radius: 0.5em;
       border: none;
       padding: 10px;
       cursor: pointer;
     }
-		a{
-			color: #ffffff;
-			text-decoration: none;
-			font-size: 1.5em;
+    a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1.5em;
       padding: 15px 0px 0px 0px;
-			transition: color 200ms ease;
-			cursor: pointer;
-			&:hover{
-				color: #000000;
-			}
-		}
-	}
-	&:hover .contend__hover{
-		top: 150px;
-	}
+      transition: color 200ms ease;
+      cursor: pointer;
+      &:hover {
+        color: #000000;
+      }
+    }
+  }
+  &:hover .contend__hover {
+    background-color: #00000062;
+    top: 0;
+  }
+
+  &:hover{
+    transform: scale(1.1);
+  }
+}
+
+.movie_link{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
 }
 
 .contenedor .poster {
-	object-fit: cover;
+  object-fit: cover;
 }
 
 .contenedor .pelicula .titulo {
-	font-size: 1.1em;
-	font-weight: 500;
-	margin:10px 0px 0px 0px ;
+  font-size: 1.1em;
+  font-weight: 500;
+  margin: 10px 0px 0px 0px;
+  color: #ffffff;
+  display: flex;
 }
 
 .contenedor .pelicula .poster {
-	width: 100%;
-	min-height: 200px;
-	border-radius: 15px;
-	border-radius: .7em;
-
+  width: 100%;
+  min-height: 200px;
+  border-radius: 15px;
+  border-radius: 0.7em;
 }
 
 // .paginacion {
@@ -180,170 +134,151 @@
 // 	background: #137c32;
 // }
 
-/* Personalizar el scrollbar en navegadores WebKit */
-::-webkit-scrollbar {
-	width: 0px;
-}
-
-::-webkit-scrollbar-thumb {
-	background-color: #888;
-}
-
-/* Personalizar el scrollbar en navegadores Gecko */
-::-webkit-scrollbar {
-	width: 9px;
-}
-
-::-webkit-scrollbar-thumb {
-	background-color: #212121;
-}
-
 footer {
-	position: fixed;
-	bottom: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 100%;
-	height: 50px;
-	background: transparent;
-	z-index: 30;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50px;
+  background: transparent;
+  z-index: 30;
 }
 
 .name__beta {
-	position: absolute;
-	right: 50px;
-	color: #474747;
-	font-weight: 600;
+  position: absolute;
+  right: 50px;
+  color: #474747;
+  font-weight: 600;
 }
 
 footer .leyenda {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: rgb(0, 0, 0, 0.1);
-	backdrop-filter: blur(5px);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
 }
 
 footer .leyenda p a {
-	text-decoration: none;
-	color: #9f9f9f;
-	font-size: 0.7em;
-	padding: 20px 25px;
-	border-radius: 0.7em;
-	&.leyenddark{
-		color: #ffffff
-	}
+  text-decoration: none;
+  color: #9f9f9f;
+  font-size: 0.7em;
+  padding: 20px 25px;
+  border-radius: 0.7em;
+  &.leyenddark {
+    color: #ffffff;
+  }
 }
 
 @media screen and (max-width: 769px) {
-	header {
-		position: fixed;
-		nav {
-			position: relative;
-			padding:35px 0px;
-			display: flex;
-			justify-content: flex-end;
-			.menu__responsive {
-				display: flex;
-				position: absolute;
-				color: #ffffff;
-				font-size: 2em;
-				right: 50px;
-				top: 50%;
-				transform: translate(-0%, -50%);
-				&.active{
-					display: none;
-				}
-			}
+  header {
+    position: fixed;
+    nav {
+      position: relative;
+      padding: 35px 0px;
+      display: flex;
+      justify-content: flex-end;
+      .menu__responsive {
+        display: flex;
+        position: absolute;
+        color: #ffffff;
+        font-size: 2em;
+        right: 50px;
+        top: 50%;
+        transform: translate(-0%, -50%);
+        &.active {
+          display: none;
+        }
+      }
 
-			.nav__list {
-				display: none;
-				transition: display 200ms ease;
-				background-color: #000000;
-				width: 100%;
-				padding: 0;
-				padding:35px 0px;
-				.switch {
-					top: 50px;
-					left: 50px;
-				}
-				#Home {
-					font-size: 1.6em;
-				}
-				&.active{
-					display: flex;
-					height: 100vh;
-					padding: 150px 0px;
-					position: relative;			
-					align-items:center;		
-					flex-direction: column;
-					background-color: #00000011;
-				}
+      .nav__list {
+        display: none;
+        transition: display 200ms ease;
+        background-color: #000000;
+        width: 100%;
+        padding: 0;
+        padding: 35px 0px;
+        .switch {
+          top: 50px;
+          left: 50px;
+        }
+        #Home {
+          font-size: 1.6em;
+        }
+        &.active {
+          display: flex;
+          height: 100vh;
+          padding: 150px 0px;
+          position: relative;
+          align-items: center;
+          flex-direction: column;
+          background-color: #00000011;
+        }
 
-				.menu__responsive-quitar{
-					display: none;
-					position: absolute;
-					color: #ffffff;
-					font-size: 2em;
-					right: 50px;
-					top: 25px;
-					&.active{
-						display: flex;
-					}
-				}
-				.list__li {
-					font-size: 1.2em;
-					width: 150px;
-					display: flex;
-					justify-content: center;
-					padding: 25px 0px;
-					position: relative;
-					a {
-						text-decoration: none;
-						color: #ffffff;
-					}
-				}
-			}
-		}
-	}
-	.contenedor {
-		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-		margin: 0px 0px 100px 0px;
-		padding: 70px 20px 0px 20px;
-	}
-	.contenedor .pelicula {
-		width: 350px;
-		height: 550px;
-		padding: 25px;
-		margin: 15px 0px;
-	}
+        .menu__responsive-quitar {
+          display: none;
+          position: absolute;
+          color: #ffffff;
+          font-size: 2em;
+          right: 50px;
+          top: 25px;
+          &.active {
+            display: flex;
+          }
+        }
+        .list__li {
+          font-size: 1.2em;
+          width: 150px;
+          display: flex;
+          justify-content: center;
+          padding: 25px 0px;
+          position: relative;
+          a {
+            text-decoration: none;
+            color: #ffffff;
+          }
+        }
+      }
+    }
+  }
+  .contenedor {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    margin: 0px 0px 100px 0px;
+    padding: 70px 20px 0px 20px;
+  }
+  .contenedor .pelicula {
+    width: 350px;
+    height: 550px;
+    padding: 25px;
+    margin: 15px 0px;
+  }
 
-	form{
-		width: 350px;
-		
-	}
+  form {
+    width: 350px;
+  }
 }
 
 @media screen and (max-width: 425px) {
-	.contenedor {
-		grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-		margin: 0px 0px 0px 0px;
-		padding: 100px 0px 0px 0px;
-		justify-items: center;
-	}
-	.contenedor .pelicula {
-		width: 250px;
-		height: 450px;
-		padding: 0px 0px;
-		margin: 15px 0px;
-	}
-	footer{
-		.name__beta{
-			right: 10px;
-		}
-	}
+  .contenedor {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    margin: 0px 0px 0px 0px;
+    padding: 100px 0px 0px 0px;
+    justify-items: center;
+  }
+  .contenedor .pelicula {
+    width: 250px;
+    height: 450px;
+    padding: 0px 0px;
+    margin: 15px 0px;
+  }
+  footer {
+    .name__beta {
+      right: 10px;
+    }
+  }
 }
