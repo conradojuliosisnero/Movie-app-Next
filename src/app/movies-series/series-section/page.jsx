@@ -1,7 +1,10 @@
-import React from 'react'
+import React from "react";
+import LayoutMovieSection from "../Layout";
 
 export default function Series() {
   return (
-    <div>page</div>
-  )
+    <LayoutMovieSection>
+      <div>page</div>
+    </LayoutMovieSection>
+  );
 }

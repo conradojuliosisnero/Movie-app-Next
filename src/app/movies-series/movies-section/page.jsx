@@ -6,7 +6,7 @@ import "../../../components/PosterCard/postercard.scss";
 import getMovies from "../../../services/TMDB/GetMovies";
 import Loading from "../../../components/Loader/Loading";
 import Button from "../../../components/Buttons/Button";
-import LayoutMovieSection from "./Layout";
+import LayoutMovieSection from "../Layout";
 
 export default function Movies() {
   const [movieData, setMovieData] = useState({});
