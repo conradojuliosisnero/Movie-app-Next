@@ -3,9 +3,9 @@ import React from "react";
 import Link from "next/link";
 import "./nav.css";
 import { optionMenu } from "./data";
-// import DarkSwich from "../swichDark/DarkSwich";
 import { useState, useEffect } from "react";
 import logoWebsite from "../../../public/logo-website.svg";
+import Search from "../SearchInput/Search";
 import Image from "next/image";
 
 const Nav = () => {
@@ -43,7 +43,7 @@ const Nav = () => {
         <ul className="listNav">
           {/* nav options  */}
           {optionMenu?.map(({ id, name, path }) => (
-            <li className=  "link-dark-mode" key={id}>
+            <li className="link-dark-mode" key={id}>
               <Link href={path} key={id}>
                 {name}
               </Link>
@@ -53,6 +53,7 @@ const Nav = () => {
           {/* <DarkSwich whitemode={handlerDarkMode} /> */}
         </ul>
       </nav>
+      {/* <Search /> */}
     </header>
   );
 };

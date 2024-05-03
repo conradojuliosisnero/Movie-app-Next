@@ -6,7 +6,7 @@ import "../../../components/PosterCard/postercard.scss";
 import getMovies from "../../../services/TMDB/GetMovies";
 import Loading from "../../../components/Loader/Loading";
 import Button from "../../../components/Buttons/Button";
-import FilterNav from "../../../components/Filter/FilterNav";
+import LayoutMovieSection from "../Layout";
 
 export default function Movies() {
   const [movieData, setMovieData] = useState({});
@@ -43,16 +43,18 @@ export default function Movies() {
   };
 
   return (
-    <main className="contenedor">
-      {loading ? (
-        <Loading />
-      ) : (
-        movieData.results?.map((movie) => (
-          <MovieCard datamovie={movie} key={movie.id} />
-        ))
-      )}
-      {nextPage == 1 ? <></> : <Button funtionPage={handlerPrevMovie} />}
-      <Button isNext funtionPage={handlerNextMovie} />
-    </main>
+    <LayoutMovieSection>
+      <div className="contenedor">
+        {loading ? (
+          <Loading />
+        ) : (
+          movieData.results?.map((movie) => (
+            <MovieCard datamovie={movie} key={movie.id} />
+          ))
+        )}
+        {nextPage == 1 ? <></> : <Button funtionPage={handlerPrevMovie} />}
+        <Button isNext funtionPage={handlerNextMovie} />
+      </div>
+    </LayoutMovieSection>
   );
 }
