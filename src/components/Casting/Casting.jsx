@@ -9,7 +9,6 @@ import { useState, useEffect } from "react";
 
 export default function Casting({ idMovie }) {
   const [casting, setCasting] = useState({});
-  console.log(casting);
   useEffect(() => {
     const fetchCastingMovie = async () => {
       const result = await CastingMovie(idMovie);

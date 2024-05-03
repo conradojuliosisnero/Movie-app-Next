@@ -1,0 +1,50 @@
+.BoxWatch {
+  display: flex;
+  width: 100%;
+  position: relative;
+  flex-direction: column;
+  position: relative;
+}
+
+.cardWatch {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 30px;
+}
+
+.cards {
+  display: flex;
+  overflow: hidden;
+  overflow-x: scroll;
+}
+
+.cardWatchTitle {
+  font-weight: 600;
+  padding: 15px 0px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.iconWatch {
+  border-radius: 0.4em;
+}
+
+.WatchTitle {
+  display: flex;
+  width: 100%;
+  text-align: center;
+  padding: 20px 20px;
+  font-weight: 600;
+  font-size: 3.5em;
+  align-items: center;
+}
+
+.nullWatch {
+  font-weight: 600;
+  font-size: 3.5em;
+}

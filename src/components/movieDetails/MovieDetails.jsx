@@ -3,6 +3,8 @@ import "../../app/globals.css";
 import StarRating from "../StarsRating/Stars";
 import Image from "next/image";
 import Casting from "../Casting/Casting";
+import Modal from "../Modal/Modal";
+import Watch from "../WatchMovie/Watch";
 
 const MovieDetails = ({ details }) => {
   const dateConvert = () => {
@@ -10,6 +12,7 @@ const MovieDetails = ({ details }) => {
     const year = date.getFullYear();
     return year;
   };
+
   return (
     <section className={styles.sectionMovie}>
       {/* wrap movie  */}
@@ -26,23 +29,13 @@ const MovieDetails = ({ details }) => {
             priority={true}
           ></Image>
         </div>
-        {/* img movie  */}
-        {/* <div className={styles.imgmovie}>
-          <Image
-            quality={80}
-            src={`https://image.tmdb.org/t/p/w500/${details.poster_path}`}
-            alt={details.title}
-            width={250}
-            height={350}
-            priority={true}
-          ></Image>
-        </div> */}
         {/* overview movie  */}
         <div className={styles.overview}>
           {/* name movie  */}
           <div className={styles.nameMovie}>
             <span>{details.title}</span>
           </div>
+          {/* details generes  */}
           <div className={styles.year_generes}>
             <span className={styles.nameMovie}>Estreno: {dateConvert()}</span>
             <div>
@@ -64,9 +57,15 @@ const MovieDetails = ({ details }) => {
                 </span>
               </div>
             </div>
+            <div className={styles.BoxModal}>
+              <Modal id={details.id} />
+            </div>
           </div>
           <p>{details.overview}</p>
         </div>
+      </div>
+      <div className={styles.Watch}>
+        <Watch id={details.id} />
       </div>
       <div className={styles.CastingBox}>
         <Casting idMovie={details.id} />
