@@ -1,24 +1,28 @@
 .header {
-  position: relative;
+  position: fixed;
   display: flex;
+  left: 0;
+  top: 0;
+  width: 100%;
   align-items: center;
   justify-content: space-evenly;
   max-width: 100%;
   min-width: 350px;
-  background: transparent;
+  background: #ffffff05;
+  backdrop-filter: blur(3.5px);
   z-index: 500;
 }
-.logo-website{
+.logo-website {
   display: flex;
-  flex-shrink: 5;
   align-items: center;
   justify-content: center;
   width: 100%;
 }
 
 .nav {
+  position: relative;
   display: flex;
-  flex-shrink: 1;
+  flex-shrink: 3;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -43,6 +47,15 @@
 .li:hover {
   border-radius: 0.5em;
   background: rgba(54, 54, 54, 0.26);
+}
+
+.search__contend {
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 5;
+  width: 100%;
+  position: relative;
+  margin: 0px 25px 0px 20px;
 }
 
 .link-dark-mode {

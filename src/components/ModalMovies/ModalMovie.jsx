@@ -3,7 +3,7 @@ import styles from "./modal.module.css";
 import { useState } from "react";
 import GetVideosMovies from "../../services/MovieVideos/MovieVideos";
 
-export default function Modal({ id }) {
+export default function ModalMovie({ id }) {
   const [popUp, setPopUp] = useState(false);
   const [keyVideo, setKeyVideo] = useState({});
 

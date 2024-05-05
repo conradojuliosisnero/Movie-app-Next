@@ -1,22 +1,22 @@
 import React from "react";
-import styles from "./watch.module.css";
+import styles from "../WatchMovie/watch.module.css";
 import Image from "next/image";
-import GetWatch from "../../services/Watch/GetWatch";
+import GetWatchSerie from "../../services/WatchSerie/WatchSerie";
 import { useState, useEffect } from "react";
 
-export default function Watch({ id }) {
+export default function WatchSerie({ id }) {
   const [watch, setWatch] = useState([]);
 
   useEffect(() => {
     const getWatch = async () => {
-      const response = await GetWatch(id, setWatch);
+      const response = await GetWatchSerie(id, setWatch);
     };
     getWatch();
   }, []);
 
   if (!watch || watch.length === 0) {
     return (
-      <span className={styles.nullWatch}>Sin Plataforma de Streaming  :/</span>
+      <span className={styles.nullWatch}>No hay Plataformas de renta</span>
     ); // No renderizar nada si no hay datos en watch.results
   }
 

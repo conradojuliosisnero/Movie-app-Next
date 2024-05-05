@@ -14,9 +14,9 @@ const MovieCard = ({ datamovie }) => {
             src={`https://image.tmdb.org/t/p/w500/${datamovie.poster_path}`}
             width={100}
             height={100}
-            priority={true}
+            loading="lazy"
             style={{ width: "100%", height: "auto" }}
-            quality={100}
+            quality={60}
             alt={datamovie.title}
           ></Image>
           {/* card hover  */}

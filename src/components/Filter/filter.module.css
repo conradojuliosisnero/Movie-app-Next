@@ -1,14 +1,38 @@
 .BoxFilter{
-    /* background-color: aqua; */
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
+    position: relative;
     flex-wrap: wrap;
 }
 
+.icon-click{
+    cursor: pointer;
+}
+
 .tagFilter{
-    font-size: 1.4em;
-    font-weight: 600;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    cursor: pointer;
     color: #ffffff;
+}
+.keyWordsContainer{
+    position: relative;
+}
+
+.keyWords{
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    background-color: rgba(65, 65, 65, 0.311);
+    backdrop-filter: blur(5px);
+    position: absolute;
+    border-radius: .5em;
+    left:0;
+    top: -10px;
+    z-index: 300;
 }
