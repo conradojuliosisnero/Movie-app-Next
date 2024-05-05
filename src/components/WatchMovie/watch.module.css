@@ -49,3 +49,15 @@
   font-weight: 600;
   font-size: 3.5em;
 }
+
+@media screen and (max-width: 768px) {
+ .nullWatch{
+  font-size: 2.5em;
+} 
+}
+
+@media screen and (max-width: 350px) {
+ .nullWatch{
+  font-size: 1.5em;
+} 
+}

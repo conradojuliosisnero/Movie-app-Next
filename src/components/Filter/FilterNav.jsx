@@ -1,26 +1,25 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./filter.module.css";
 import ButtonFilter from "../FilterButton/ButtonFilter";
 import filter from "../../../public/filter-2.svg";
 import Image from "next/image";
-import Search from "../SearchInput/Search";
+import GetGender from "../../services/Genero/Gender";
+import GetGenderFiltered from "../../services/FilterGender/FilterGender";
 
-export default function FilterNav() {
-  const [keyWord, setKeyWord] = useState("");
+export default function FilterNav({ funtion }) {
+  const [gender, setGender] = useState({});
   const [showFilter, setShowFilter] = useState(false);
-  const handleKeywordClick = (keyword) => {
-    setKeyWord(keyword);
-  };
-  const filterKeyWords = [
-    { id: 1, name: "accion" },
-    { id: 2, name: "terror" },
-    { id: 3, name: "comedia" },
-    { id: 4, name: "drama" },
-    { id: 5, name: "animacion" },
-    { id: 6, name: "anime" },
-  ];
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await GetGender(setGender);
+    };
+
+    fetchData();
+  }, []);
+
+  // mostrar o ocultar filtros
   const handlerFilter = () => {
     setShowFilter(!showFilter);
   };
@@ -37,19 +36,20 @@ export default function FilterNav() {
         ></Image>
       </span>
       <div className={styles.keyWordsContainer}>
-      {showFilter ? (
-        <div className={styles.keyWords}>
-          {filterKeyWords.map((keyWord) => (
-            <ButtonFilter
-              keyword={keyWord.name}
-              key={keyWord.id}
-              onClick={handleKeywordClick}
-            ></ButtonFilter>
-          ))}
-        </div>
-      ) : (
-        <></>
-      )}
+        {showFilter ? (
+          <div className={styles.keyWords}>
+            {gender?.genres?.map(({ id, name }) => (
+              <ButtonFilter
+                keyword={name}
+                key={id}
+                id={id}
+                funtionClick={funtion}
+              ></ButtonFilter>
+            ))}
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

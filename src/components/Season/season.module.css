@@ -1,5 +1,6 @@
 .seasonContainer{
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     padding: 30px 45px;
     position: relative;

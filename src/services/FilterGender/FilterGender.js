@@ -1,4 +1,5 @@
-const CastingMovie = async (idMovie) => {
+const GetGenderFiltered = async (setGenderFiltered, valueGender) => {
+  console.log(valueGender);
   const options = {
     method: "GET",
     headers: {
@@ -10,19 +11,18 @@ const CastingMovie = async (idMovie) => {
 
   try {
     const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${idMovie}/credits?language=es-ES`,
+      `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=es-MX&page=1&sort_by=popularity.desc&with_genres=${valueGender}`,
       options
     );
-
     if (response.status === 200) {
       const data = await response.json();
-      return data
+      setGenderFiltered(data);
     } else {
-      console.error("algo salio mal");
+      console.log("algo salio mal al hacer fetch");
     }
   } catch (error) {
     console.error(error);
   }
 };
 
-export default CastingMovie;
+export default GetGenderFiltered;

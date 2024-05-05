@@ -14,12 +14,10 @@ const GetVideosMovies = async (movieID, setKeyVideo) => {
     );
     if (response.status === 200) {
       const data = await response.json();
+      console.log(data);
       let keyEncontrada = null;
       data.results.forEach((obj) => {
-        if (
-          obj.name === "Official Trailer" ||
-          obj.name === "Official Trailer [Subtitled]"
-        ) {
+        if (obj.official) {
           keyEncontrada = obj.key;
         }
         return null;

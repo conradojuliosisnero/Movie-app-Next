@@ -69,10 +69,14 @@ export default function Series() {
     );
   }
 
+    const handleButtonClick = (id, value) => {
+      setValueGender(id);
+    };
+
   return (
     <LayoutMovieSection>
       <div className="searcher">
-        <Search funtion={handlerSearch} />
+        <Search funtion={handlerSearch} filter={handleButtonClick} />
       </div>
       <div className="contenedor">
         {loading ? (
