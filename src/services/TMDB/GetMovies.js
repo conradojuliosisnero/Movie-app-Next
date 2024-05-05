@@ -1,5 +1,4 @@
 const getMovies = async (setMovieData, nextPage) => {
-
   const apikey = process.env.NEXT_PUBLIC_MOVIES_API_KEY;
 
   try {

@@ -1,4 +1,4 @@
-const getSeries = async (setSerieData, nextPage) => {
+const GetSearchSeries = async (setDataSearch, value) => {
   try {
     const options = {
       method: "GET",
@@ -9,18 +9,19 @@ const getSeries = async (setSerieData, nextPage) => {
       },
     };
     const response = await fetch(
-      `https://api.themoviedb.org/3/tv/popular?language=es-MX&page=${nextPage}`,
+      `https://api.themoviedb.org/3/search/tv?query=${value}&include_adult=false&language=es-MX`,
       options
     );
+
     if (response.status === 200) {
-      const { results } = await response.json();
-      setSerieData(results);
+      const data = await response.json();
+      setDataSearch(data);
     } else {
-      console.error("algo salio mal");
+      console.log("algo salio mal al buscar la pelicula");
     }
   } catch (error) {
     console.error(error);
   }
 };
 
-export default getSeries;
+export default GetSearchSeries;

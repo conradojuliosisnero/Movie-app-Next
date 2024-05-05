@@ -41,6 +41,7 @@
   padding: 20px 20px;
   font-weight: 600;
   font-size: 3.5em;
+  z-index: 200;
   align-items: center;
 }
 

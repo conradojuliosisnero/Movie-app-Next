@@ -1,18 +1,19 @@
-import styles from "./movidedesatils.module.css";
+import styles from "../movieDetails/movidedesatils.module.css";
 import "../../app/globals.css";
 import StarRating from "../StarsRating/Stars";
 import Image from "next/image";
-import Casting from "../Casting/Casting";
-import ModalMovie from "../ModalMovies/ModalMovie";
-import Watch from "../WatchMovie/Watch";
+import ModalSerie from "../ModalSeries/ModalSerie";
+import WatchSerie from "../WatchSeries/Watch";
+import CastingSerie from "../CastingSerie/Casting";
+import Season from "../Season/Season";
 
-const MovieDetails = ({ details }) => {
+const SerieDetails = ({ detailserie }) => {
+  // convierte la fecha de estreno
   const dateConvert = () => {
-    const date = new Date(details.release_date);
+    const date = new Date(detailserie.first_air_date);
     const year = date.getFullYear();
     return year;
   };
-
   return (
     <section className={styles.sectionMovie}>
       {/* wrap movie  */}
@@ -20,8 +21,8 @@ const MovieDetails = ({ details }) => {
         {/* background movie  */}
         <div className={styles.backgroundDetails}>
           <Image
-            src={`https://image.tmdb.org/t/p/original${details.backdrop_path}`}
-            alt={details.title}
+            src={`https://image.tmdb.org/t/p/original${detailserie.backdrop_path}`}
+            alt={detailserie.name}
             width={100}
             layout="responsive"
             height={100}
@@ -33,14 +34,14 @@ const MovieDetails = ({ details }) => {
         <div className={styles.overview}>
           {/* name movie  */}
           <div className={styles.nameMovie}>
-            <span>{details.title}</span>
+            <span>{detailserie.title}</span>
           </div>
           {/* details generes  */}
           <div className={styles.year_generes}>
             <span className={styles.nameMovie}>Estreno: {dateConvert()}</span>
             <div>
               Genero:
-              {details.genres.slice(0, 3).map((genres) => (
+              {detailserie.genres.slice(0, 3).map((genres) => (
                 <span className={styles.genere}>{genres.name}</span>
               ))}
             </div>
@@ -48,30 +49,35 @@ const MovieDetails = ({ details }) => {
             <div className={styles.stats}>
               <div
                 className={`${
-                  details.vote_average >= 7 ? styles.starsGood : styles.starsBad
+                  detailserie.vote_average >= 7
+                    ? styles.starsGood
+                    : styles.starsBad
                 }`}
               >
-                <StarRating rating={details.vote_average} />
+                <StarRating rating={detailserie.vote_average} />
                 <span className={styles.votes}>
-                  {Math.floor(details.vote_average)} / 10
+                  {Math.floor(detailserie.vote_average)} / 10
                 </span>
               </div>
             </div>
             <div className={styles.BoxModal}>
-              <ModalMovie id={details.id} />
+              <ModalSerie id={detailserie.id} />
             </div>
           </div>
-          <p>{details.overview}</p>
+          {detailserie.overview ? <p>{detailserie.overview}</p> : <></>}
         </div>
       </div>
       <div className={styles.Watch}>
-        <Watch id={details.id} />
+        <WatchSerie id={detailserie.id} />
+      </div>
+      <div className={styles.SeasonsContainer}>
+        <Season detailSeason={detailserie.seasons} />
       </div>
       <div className={styles.CastingBox}>
-        <Casting idMovie={details.id} />
+        <CastingSerie idSerie={detailserie.id} />
       </div>
     </section>
   );
 };
 
-export default MovieDetails;
+export default SerieDetails;
