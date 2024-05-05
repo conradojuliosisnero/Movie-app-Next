@@ -5,7 +5,9 @@
     padding: 5px 10px;
     margin: 5px 10px;
     color: #ffffff;
-    /* background-color: #ffffff4e; */
+    background-color: #36363685;
+    border: none;
+    outline: none;
     border-radius: .5em;
     cursor: pointer;
     transition: background-color 200ms ease-in;

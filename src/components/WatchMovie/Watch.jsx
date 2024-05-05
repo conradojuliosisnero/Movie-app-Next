@@ -45,14 +45,3 @@ export default function Watch({ id }) {
     </div>
   );
 }
-
-// <div key={icon.provider_id}>
-//   <span>{icon.provider_name}</span>
-//   <Image
-//     src={`https://image.tmdb.org/t/p/w500/${icon.logo_path}`}
-//     width={100}
-//     height={100}
-//     alt={""}
-//     priority={false}
-//   ></Image>
-// </div>

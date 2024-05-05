@@ -28,11 +28,14 @@ export default function CastingSerie({ idSerie }) {
     cssEase: "ease-in-out",
   };
 
+  const filteredCasting = casting.cast?.filter(
+    (actor) => actor.character !== "Self - Host"
+  );
   return (
     <div className="slider_container">
       <h2 className="title__casting">Cast</h2>
       <Slider {...settings}>
-        {casting?.cast?.map((actor) => (
+        {filteredCasting?.map((actor) => (
           <div className="card" key={actor.id}>
             <div className="img__casting">
               <Image

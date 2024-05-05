@@ -1,10 +1,14 @@
-import React from 'react'
-import './filter.css'
+import React from "react";
+import "./filter.css";
 
-export default function ButtonFilter({ keyword , onClick}) {
+export default function ButtonFilter({ keyword, funtionClick, id }) {
+  const handleClick = () => {
+    funtionClick(id,keyword);
+  };
+
   return (
-    <div className="buttonKeyword" onClick={() => onClick(keyword)}>
+    <button className="buttonKeyword" onClick={handleClick}>
       {keyword}
-    </div>
+    </button>
   );
 }

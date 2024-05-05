@@ -20,25 +20,27 @@ const MovieDetails = ({ details }) => {
         {/* background movie  */}
         <div className={styles.backgroundDetails}>
           <Image
+            className={styles.backgroundDetailsImg}
             src={`https://image.tmdb.org/t/p/original${details.backdrop_path}`}
             alt={details.title}
             width={100}
             layout="responsive"
+            loading="lazy"
             height={100}
-            quality={90}
-            priority={true}
+            decoding="async"
+            quality={100}
           ></Image>
         </div>
         {/* overview movie  */}
         <div className={styles.overview}>
           {/* name movie  */}
-          <div className={styles.nameMovie}>
+          <div className={styles.titleMovie}>
             <span>{details.title}</span>
           </div>
           {/* details generes  */}
           <div className={styles.year_generes}>
-            <span className={styles.nameMovie}>Estreno: {dateConvert()}</span>
-            <div>
+            <span className={styles.estreno}>Estreno: {dateConvert()}</span>
+            <div className={styles.genero}>
               Genero:
               {details.genres.slice(0, 3).map((genres) => (
                 <span className={styles.genere}>{genres.name}</span>

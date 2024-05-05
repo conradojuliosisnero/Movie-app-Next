@@ -5,7 +5,8 @@ import FilterNav from "../Filter/FilterNav";
 import Image from "next/image";
 import SearchIcon from "../../../public/search.svg";
 
-export default function Search({ funtion, value,filter }) {
+export default function Search({ funtion, value, filter }) {
+
   return (
     <div className="search">
       <input
@@ -19,7 +20,7 @@ export default function Search({ funtion, value,filter }) {
         <Image src={SearchIcon} width={21} height={21} alt={"search-icon"} />
       </button>
       <div className="filter__container">
-        <FilterNav />
+        <FilterNav funtion={filter}/>
       </div>
     </div>
   );

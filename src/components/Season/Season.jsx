@@ -1,9 +1,7 @@
 import styles from "./season.module.css";
-import Chapter from "../Chapter/Chapter";
 import Image from "next/image";
 
 export default function Season({ detailSeason }) {
-  console.log(detailSeason);
   return (
     <div className={styles.seasonContainer}>
       {detailSeason.map((season) => (

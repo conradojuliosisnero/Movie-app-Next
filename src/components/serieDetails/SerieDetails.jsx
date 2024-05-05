@@ -33,13 +33,21 @@ const SerieDetails = ({ detailserie }) => {
         {/* overview movie  */}
         <div className={styles.overview}>
           {/* name movie  */}
-          <div className={styles.nameMovie}>
-            <span>{detailserie.title}</span>
+          <div className={styles.titleMovie}>
+            <span>{detailserie.name}</span>
           </div>
           {/* details generes  */}
           <div className={styles.year_generes}>
-            <span className={styles.nameMovie}>Estreno: {dateConvert()}</span>
-            <div>
+            <span className={styles.estreno}>Estreno: {dateConvert()}</span>
+            <span
+              className={`${
+                detailserie.status === "Ended" ? styles.status2 : styles.status
+              }`}
+            >
+              Estado:{" "}
+              {detailserie.status === "Ended" ? "Finalizado" : "Al aire"}
+            </span>
+            <div className={styles.genero}>
               Genero:
               {detailserie.genres.slice(0, 3).map((genres) => (
                 <span className={styles.genere}>{genres.name}</span>
@@ -67,12 +75,15 @@ const SerieDetails = ({ detailserie }) => {
           {detailserie.overview ? <p>{detailserie.overview}</p> : <></>}
         </div>
       </div>
+      {/* donde ver  */}
       <div className={styles.Watch}>
         <WatchSerie id={detailserie.id} />
       </div>
+      {/* temperadas de la serie  */}
       <div className={styles.SeasonsContainer}>
         <Season detailSeason={detailserie.seasons} />
       </div>
+      {/* casting de la serie  */}
       <div className={styles.CastingBox}>
         <CastingSerie idSerie={detailserie.id} />
       </div>
