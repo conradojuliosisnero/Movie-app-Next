@@ -1,22 +1,21 @@
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import AutoPlaySlaider from "../AutoPlaySlaider/Slaider";
-import CastingMovie from "../../services/CastingMovies/CastingMovie";
+import SerieCasting from "../../services/CastingSerie/CastingSerie";
 import Image from "next/image";
-import './casting.css'
+import "../Casting/casting.css";
 import { useState, useEffect } from "react";
 
-export default function Casting({ idMovie }) {
+export default function CastingSerie({ idSerie }) {
   const [casting, setCasting] = useState({});
   useEffect(() => {
     const fetchCastingMovie = async () => {
-      const result = await CastingMovie(idMovie);
+      const result = await SerieCasting(idSerie);
       setCasting(result);
     };
 
     fetchCastingMovie();
-  }, [idMovie]);
+  }, [idSerie]);
 
   const settings = {
     dots: false,
@@ -33,7 +32,7 @@ export default function Casting({ idMovie }) {
     <div className="slider_container">
       <h2 className="title__casting">Cast</h2>
       <Slider {...settings}>
-        {casting.cast?.map((actor) => (
+        {casting?.cast?.map((actor) => (
           <div className="card" key={actor.id}>
             <div className="img__casting">
               <Image

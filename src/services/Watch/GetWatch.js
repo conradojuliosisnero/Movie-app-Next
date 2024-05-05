@@ -1,4 +1,4 @@
-const getSeries = async (setSerieData, nextPage) => {
+const GetWatch = async (ID, setWatch) => {
   try {
     const options = {
       method: "GET",
@@ -9,18 +9,22 @@ const getSeries = async (setSerieData, nextPage) => {
       },
     };
     const response = await fetch(
-      `https://api.themoviedb.org/3/tv/popular?language=es-MX&page=${nextPage}`,
+      `https://api.themoviedb.org/3/movie/${ID}/watch/providers`,
       options
     );
     if (response.status === 200) {
-      const { results } = await response.json();
-      setSerieData(results);
+      const {
+        results: {
+          CO: { rent },
+        },
+      } = await response.json();
+      setWatch(rent);
     } else {
-      console.error("algo salio mal");
+      console.log("algo salio mal");
     }
   } catch (error) {
     console.error(error);
   }
 };
 
-export default getSeries;
+export default GetWatch;

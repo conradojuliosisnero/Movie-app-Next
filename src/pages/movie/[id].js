@@ -7,7 +7,7 @@ export default function DataMovie({ movie, loading }) {
   return (
     <>
       <MovieLayout>
-        {loading ? <Loading /> :  <MovieDetails details={movie} /> }
+        {loading ? <Loading /> : <MovieDetails details={movie} />}
       </MovieLayout>
     </>
   );
