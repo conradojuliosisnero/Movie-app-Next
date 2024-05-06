@@ -1,11 +1,28 @@
-import React, { useEffect } from "react";
 import styles from "./modal.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GetVideosMovies from "../../services/MovieVideos/MovieVideos";
 
 export default function ModalMovie({ id }) {
   const [popUp, setPopUp] = useState(false);
   const [keyVideo, setKeyVideo] = useState({});
+  const [windowWidth, setWindowWidth] = useState(undefined);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    // Llamamos handleResize al principio para establecer el ancho inicial.
+    handleResize();
+
+    // Agregamos un event listener para escuchar cambios en el tamaño de la ventana.
+    window.addEventListener("resize", handleResize);
+
+    // Eliminamos el event listener cuando el componente se desmonta.
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     const getVideos = async () => {
@@ -30,8 +47,9 @@ export default function ModalMovie({ id }) {
         <div className={styles.Modal}>
           <span className={styles.ModalVideo}>
             <iframe
-              width="660"
-              height="415"
+              className="modal__responsive"
+              width={windowWidth}
+              height="350"
               src={`https://www.youtube.com/embed/${keyVideo}?si=PHP-j5Bd74KhaLF-`}
               title="YouTube video player"
               frameborder="0"
@@ -40,6 +58,7 @@ export default function ModalMovie({ id }) {
               allowfullscreen
             ></iframe>
           </span>
+          {/* button close  */}
           <button className={styles.ClosePopUp} onClick={closePopUp}>
             Close
           </button>

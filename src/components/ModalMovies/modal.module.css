@@ -16,6 +16,7 @@
   font-weight: 700;
   cursor: pointer;
 }
+
 .Modal {
   display: flex;
   flex-direction: column;
@@ -28,6 +29,9 @@
   position: absolute;
   background-color: rgba(0, 0, 0, 0.858);
   z-index: 900;
+}
+.modal__responsive{
+  margin: 0px 20px;
 }
 
 .ModalVideo {

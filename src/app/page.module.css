@@ -207,6 +207,8 @@
   }
 }
 
+
+
 /* Tablet and Smaller Desktop */
 @media (min-width: 701px) and (max-width: 1120px) {
   .grid {
@@ -231,4 +233,11 @@
   to {
     transform: rotate(0deg);
   }
+}
+
+@media screen and (max-width: 768px) {
+  .topMoviesContainer{
+    margin: 0px 0px 0px 0px;
+  }
+  
 }
