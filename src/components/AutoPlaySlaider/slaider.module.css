@@ -55,6 +55,10 @@
 
 @media screen and (max-width: 768px) {
 
+  .popularyTitle{
+    font-size: 3em;
+  }
+
   .posterImg {
     width: auto;
     height: auto;
