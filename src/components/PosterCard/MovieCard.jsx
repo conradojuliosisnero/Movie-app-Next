@@ -15,7 +15,7 @@ const MovieCard = ({ datamovie }) => {
             width={100}
             height={100}
             loading="lazy"
-            layoud="responsive"
+            styles={{width:"100%",heith:"auto"}}
             quality={90}
             alt={datamovie.title}
           ></Image>
