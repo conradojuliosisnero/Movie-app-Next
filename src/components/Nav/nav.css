@@ -95,7 +95,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: rgb(62, 62, 62);
+    background-color: rgb(27, 27, 27);
     transition: right 300ms ease;
   }
 

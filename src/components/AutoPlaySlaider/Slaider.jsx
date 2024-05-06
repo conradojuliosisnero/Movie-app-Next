@@ -12,9 +12,9 @@ function AutoPlaySlaider({ dataMovies }) {
     slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: false,
-    speed: 1000,
-    autoplaySpeed: 2000,
-    cssEase: "ease-in",
+    speed: 2000,
+    autoplaySpeed: 1000,
+    cssEase: "ease-in-out",
   };
 
   console.log();
@@ -25,16 +25,20 @@ function AutoPlaySlaider({ dataMovies }) {
         {dataMovies?.slice(0, 15).map((movie, index) => (
           <div key={movie.id} className={styles.contendCarrussel}>
             <div className={styles.poster}>
+              {/* number  */}
               <div className={styles.boxNumberMovie}>
-                <span className={styles.numberMovie} key={movie.id}>{index + 1}</span>
+                <span className={styles.numberMovie} key={movie.id}>
+                  {index + 1}
+                </span>
               </div>
               <Image
                 className={styles.posterImg}
                 src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                 alt={dataMovies.title}
-                width={250}
-                priority={true}
-                height={350}
+                width={350}
+                height={250}
+                loading="lazy"
+                layout="responsive"
               />
             </div>
           </div>
