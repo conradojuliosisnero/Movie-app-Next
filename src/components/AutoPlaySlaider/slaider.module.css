@@ -48,6 +48,30 @@
 .posterImg {
   display: flex;
   object-fit: cover;
-  width: 250px;
+  width: auto;
+  height: auto;
   border-radius: 0.5em;
+}
+
+@media screen and (max-width: 768px) {
+
+  .posterImg {
+    width: auto;
+    height: auto;
+  }
+
+  .numberMovie {
+    font-size: 5em;
+  }
+}
+
+@media screen and (max-width: 426px) {
+  .posterImg {
+    width: auto;
+    height: auto;
+  }
+
+  .numberMovie {
+    font-size: 3em;
+  }
 }
