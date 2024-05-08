@@ -16,7 +16,7 @@ export default function Watch({ id }) {
 
   if (!watch || watch.length === 0) {
     return (
-      <span className={styles.nullWatch}>Sin Plataforma de Streaming  :/</span>
+      <span className={styles.nullWatch}> No sabemos donde se pueda ver :/</span>
     ); // No renderizar nada si no hay datos en watch.results
   }
 
@@ -45,14 +45,3 @@ export default function Watch({ id }) {
     </div>
   );
 }
-
-// <div key={icon.provider_id}>
-//   <span>{icon.provider_name}</span>
-//   <Image
-//     src={`https://image.tmdb.org/t/p/w500/${icon.logo_path}`}
-//     width={100}
-//     height={100}
-//     alt={""}
-//     priority={false}
-//   ></Image>
-// </div>

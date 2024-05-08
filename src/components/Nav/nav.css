@@ -8,15 +8,32 @@
   justify-content: space-evenly;
   max-width: 100%;
   min-width: 350px;
-  background: #ffffff05;
-  backdrop-filter: blur(3.5px);
   z-index: 500;
+  transition: background 200ms ease;
 }
+
+.logo{
+  opacity:0;
+  transition: opacity 300ms ease-in;
+}
+
+.logo__scroll{
+  opacity: 1;
+}
+
+.scroll_nav {
+
+  background: #00000088;
+  backdrop-filter: blur(5px);
+}
+
 .logo-website {
   display: flex;
+  position: absolute;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  left: 40px;
+  top: 10px;
 }
 
 .nav {
@@ -31,7 +48,9 @@
 .listNav {
   list-style: none;
   display: flex;
+  right: -550px;
   padding: 20px 0px;
+  transition: right 300s ease-in-out;
 }
 
 .li {
@@ -70,4 +89,43 @@
 .link-dark-mode:hover {
   border-radius: 0.5em;
   background: rgba(255, 255, 255, 0.26);
+}
+
+.listNavResponsive {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .nav {
+    margin: 50px 0px 0px 0px;
+  }
+
+  .listNav {
+    position: absolute;
+    right: -550px;
+    top: 0;
+    width: 550px;
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(27, 27, 27);
+    transition: right 300ms ease;
+  }
+
+  .menu__active {
+    right: 0;
+    top: -50px;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .listNavResponsive {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 40px;
+    top: 10px;
+  }
 }

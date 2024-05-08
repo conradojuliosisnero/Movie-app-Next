@@ -1,35 +1,54 @@
-import styles from "./welcome.module.css";
+import styles from "../DetailsCard/movidedesatils.module.css";
 import Image from "next/image";
+import ModalVideo from "../ModalVideo/ModalVideo";
 
-export default function Welcome({ movieHome }) {
-  const movieinfo = movieHome && movieHome.length > 0 ? movieHome[0] : null;
+export default function Welcome({ dataMovieHome }) {
+  const movieHome =
+    dataMovieHome && dataMovieHome.length > 0 ? dataMovieHome[0] : null;
+  const dateConvert = () => {
+    const date = new Date(movieHome ? movieHome.release_date : "");
+    const year = date.getFullYear();
+    return year;
+  };
+
   return (
-    <div className={styles.contendBox}>
-      <section className={styles.MovieRelevant}>
-        {/* title and overview */}
-        <div className={styles.overvierHomeBox}>
-          <h1 className={styles.overvierTitle}>
-            {movieinfo ? movieinfo.title : ""}
-          </h1>
-          <article className={styles.overview}>
-            <p className={styles.overvierText}>
-              {movieinfo ? movieinfo.overview : ""}
-            </p>
-          </article>
-        </div>
-        {/* img  */}
-        <div className={styles.MovieRelevantImg}>
+    <section className={styles.sectionMovie}>
+      {/* wrap movie  */}
+      <div className={styles.container}>
+        {/* background movie  */}
+        <div className={styles.backgroundDetails}>
           <Image
-            src={`https://image.tmdb.org/t/p/w500/${
-              movieinfo ? movieinfo.poster_path : ""
+            className={styles.backgroundDetailsImg}
+            src={`https://image.tmdb.org/t/p/original${
+              movieHome ? movieHome.backdrop_path : ""
             }`}
-            alt={movieinfo ? movieinfo.name : ""}
+            alt={movieHome ? movieHome.title : ""}
             width={100}
+            layout="responsive"
             height={100}
+            decoding="async"
             priority={true}
+            quality={70}
           ></Image>
         </div>
-      </section>
-    </div>
+        {/* overview movie  */}
+        <div className={styles.overview}>
+          {/* name movie  */}
+          <div className={styles.titleMovie}>
+            <span>{movieHome ? movieHome.title : ""}</span>
+          </div>
+          {/* movieHome generes  */}
+          <div className={styles.year_generes}>
+            <div className={styles.BoxModal}>
+              {movieHome && movieHome.id ? (
+                <ModalVideo id={movieHome.id} />
+              ) : (
+                ""
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

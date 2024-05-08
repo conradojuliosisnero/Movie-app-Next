@@ -1,13 +1,16 @@
 .ButtonPrev {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   display: flex;
+  z-index: 100;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 600px;
   width: 70px;
   & button {
+    background-color: #000000cb;
+    backdrop-filter: blur(4px);
     transition: background-color 300ms ease-in-out;
     color: rgb(255, 255, 255);
     background-color: transparent;
@@ -16,23 +19,28 @@
     height: 250px;
     cursor: pointer;
     width: 100%;
-    border-radius: .2em;
+    border-radius: 0.2em;
     &:hover {
       background-color: #ffffff34;
-            border-radius: .2em;
+      border-radius: 0.2em;
     }
   }
 }
 
 .ButtonNext {
-  position: absolute;
+  position: fixed;
   right: 0;
   top: 0px;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 600px;
   width: 70px;
+  & button {
+    background-color: #000000db;
+    backdrop-filter: blur(4px);
+  }
   & .icon__button {
     color: rgb(255, 255, 255);
     border: none;
@@ -42,10 +50,26 @@
     height: 250px;
     cursor: pointer;
     width: 100%;
-    border-radius: .2em;
+    border-radius: 0.2em;
     &:hover {
       background-color: #ffffff34;
-      border-radius: .2em;
+      border-radius: 0.2em;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .ButtonNext {
+    width: 50px;
+    & .icon__button {
+      font-size: 2.5em;
+    }
+  }
+
+  .ButtonPrev {
+    width: 50px;
+    & .icon__button {
+      font-size: 2.5em;
     }
   }
 }
