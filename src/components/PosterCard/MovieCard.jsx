@@ -26,16 +26,6 @@ const MovieCard = ({ datamovie }) => {
             </Link>
           </div>
         </div>
-        {/* title  */}
-        {/* <h3 className="titulo">
-          <span>{datamovie.title}</span>
-        </h3> */}
-        {/* hover effect  */}
-        {/* <div className="contend__overview" id="contend__overview">
-          <div className="regresar__overview">
-            <i className="fa-solid fa-x"></i>
-          </div>
-        </div> */}
       </div>
     </>
   );

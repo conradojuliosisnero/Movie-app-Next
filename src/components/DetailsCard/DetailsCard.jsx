@@ -6,6 +6,7 @@ import Casting from "../Casting/Casting";
 import ModalVideo from "../ModalVideo/ModalVideo";
 import Watch from "../WatchMovie/Watch";
 import Season from "../Season/Season";
+import Image404 from '../../../public/image-no-found.svg'
 import { useParams } from "next/navigation";
 
 const MovieDetails = ({ details }) => {
@@ -25,15 +26,14 @@ const MovieDetails = ({ details }) => {
         <div className={styles.backgroundDetails}>
           <Image
             className={styles.backgroundDetailsImg}
-            src={`https://image.tmdb.org/t/p/original${details.backdrop_path}`}
+            src={details.poster_path ? `https://image.tmdb.org/t/p/original${details.backdrop_path}` : Image404}
             alt={details.title}
             width={100}
             layout="responsive"
-            // loading="lazy"
             height={100}
             decoding="async"
             priority={true}
-            quality={100}
+            quality={80}
           ></Image>
         </div>
         {/* overview movie  */}
