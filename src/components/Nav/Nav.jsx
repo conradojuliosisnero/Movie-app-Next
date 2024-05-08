@@ -4,13 +4,13 @@ import Link from "next/link";
 import "./nav.css";
 import { optionMenu } from "./data";
 import logoWebsite from "../../../public/logo-website.svg";
-import Search from "../SearchInput/Search";
 import Image from "next/image";
 import MenuResponsive from "../../../public/menu-responsive.svg";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 const Nav = () => {
   const [popUpMenu, setPopUpMenu] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
 
   const handlerPopUp = () => {
     setPopUpMenu(!popUpMenu);
@@ -20,18 +20,37 @@ const Nav = () => {
     setPopUpMenu(false);
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 154) {
+        setScrollY(window.scrollY);
+      }
+    };
+
+    // Agregar un event listener para el evento de scroll
+    window.addEventListener("scroll", handleScroll);
+
+    // Eliminar el event listener cuando el componente se desmonte
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  
+
   return (
-    <header className="header">
+    <header className={`header ${scrollY > 160 ? "scroll_nav" : ""}`}>
       {/* nav  */}
       <div className="logo-website">
         <Image
+          className={`logo ${scrollY > 160 ? "logo__scroll":""}`}
           src={logoWebsite}
-          width={50}
-          height={50}
+          width={40}
+          height={40}
           priority={true}
           alt="logo-movie-website"
         ></Image>
       </div>
+      {/* navegador  */}
       <nav className="nav">
         <ul className={`listNav ${popUpMenu ? "menu__active" : ""}`}>
           {/* nav options  */}

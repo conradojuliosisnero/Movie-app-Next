@@ -1,11 +1,11 @@
-const GetVideosMovies = async (movieID, setKeyVideo) => {
+const bearer = `${process.env.NEXT_PUBLIC_BEARER_TOKEN}`;
+const GetVideosMovies = async (movieID, setKeyVideoMovie) => {
   try {
     const options = {
       method: "GET",
       headers: {
         accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2Njg0ZDExODUzOGVkMmZmM2MyODgyZmUyYjZlMmUyZSIsInN1YiI6IjY0YmQ0MGExYWM2Yzc5MDhkYjViZDU3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KD8jSPO7IrgEGDlz62ucK8LFBRyxziQEm87VQncvlwc",
+        Authorization: `Bearer ${bearer}`,
       },
     };
     const response = await fetch(
@@ -14,15 +14,14 @@ const GetVideosMovies = async (movieID, setKeyVideo) => {
     );
     if (response.status === 200) {
       const data = await response.json();
-      console.log(data);
       let keyEncontrada = null;
       data.results.forEach((obj) => {
-        if (obj.official) {
+        if (obj.name === "Official Trailer") {
           keyEncontrada = obj.key;
         }
         return null;
       });
-      setKeyVideo(keyEncontrada);
+      setKeyVideoMovie(keyEncontrada);
     } else {
       console.log("algo salio mal");
     }

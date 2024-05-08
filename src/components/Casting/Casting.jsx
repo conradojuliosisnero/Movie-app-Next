@@ -1,47 +1,58 @@
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import AutoPlaySlaider from "../AutoPlaySlaider/Slaider";
 import CastingMovie from "../../services/CastingMovies/CastingMovie";
+import SerieCasting from "../../services/CastingSerie/CastingSerie";
 import Image from "next/image";
-import './casting.css'
 import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
+import male from "../../../public/male.svg";
+import female from '../../../public/female.svg'
 
-export default function Casting({ idMovie }) {
-  const [casting, setCasting] = useState({});
+import "./casting.css";
+
+export default function Casting({ id }) {
+  const [castingMovie, setCasting] = useState({});
+  const [castingSerie, setCastingSerie] = useState({});
+  const [result, setResult] = useState([]);
+
+  const pathname = useParams();
+
   useEffect(() => {
-    const fetchCastingMovie = async () => {
-      const result = await CastingMovie(idMovie);
-      setCasting(result);
+    const fetchCasting = async () => {
+      let resultdata = [];
+      if (pathname.id == id) {
+        const resultMovie = await CastingMovie(id);
+        resultdata = resultMovie;
+        setCasting(resultdata);
+      } else {
+        const resultSerie = await SerieCasting(id);
+        resultdata = resultSerie;
+        setCastingSerie(resultdata);
+      }
+      setResult(resultdata);
     };
 
-    fetchCastingMovie();
-  }, [idMovie]);
-
-  const settings = {
-    dots: false,
-    infinite: true,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay: false,
-    speed: 1000,
-    autoplaySpeed: 2000,
-    cssEase: "ease-in-out",
-  };
+    fetchCasting();
+  }, [id]);
 
   return (
     <div className="slider_container">
       <h2 className="title__casting">Cast</h2>
-      <Slider {...settings}>
-        {casting.cast?.map((actor) => (
+      <div className="casting">
+        {result?.cast?.map((actor) => (
           <div className="card" key={actor.id}>
             <div className="img__casting">
               <Image
                 className="img"
-                src={`https://image.tmdb.org/t/p/original${actor.profile_path}`}
+                src={
+                  actor.profile_path
+                    ? `https://image.tmdb.org/t/p/original${actor.profile_path}`
+                    : actor.gender === 1
+                    ? female
+                    : male
+                }
                 alt={actor.name}
-                width={180}
-                height={250}
+                loading="lazy"
+                width={100}
+                height={100}
               ></Image>
             </div>
             <div className="name__casting">
@@ -50,7 +61,7 @@ export default function Casting({ idMovie }) {
             </div>
           </div>
         ))}
-      </Slider>
+      </div>
     </div>
   );
 }

@@ -8,9 +8,23 @@
   justify-content: space-evenly;
   max-width: 100%;
   min-width: 350px;
-  background: #ffffff05;
-  backdrop-filter: blur(3.5px);
   z-index: 500;
+  transition: background 200ms ease;
+}
+
+.logo{
+  opacity:0;
+  transition: opacity 300ms ease-in;
+}
+
+.logo__scroll{
+  opacity: 1;
+}
+
+.scroll_nav {
+
+  background: #00000088;
+  backdrop-filter: blur(5px);
 }
 
 .logo-website {

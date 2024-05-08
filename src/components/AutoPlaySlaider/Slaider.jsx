@@ -4,20 +4,49 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styles from "./slaider.module.css";
 import Image from "next/image";
+import { useState, useEffect } from "react";
+import imageNull from "../../../public/image-no-found.svg";
 
 function AutoPlaySlaider({ dataMovies }) {
-  const settings = {
+  const [settings, setSettings] = useState({
     dots: false,
     infinite: true,
     slidesToShow: 3,
     slidesToScroll: 1,
-    autoplay: false,
-    speed: 2000,
-    autoplaySpeed: 1000,
+    autoplay: true,
+    speed: 1000,
+    autoplaySpeed: 2000,
     cssEase: "ease-in-out",
-  };
+  });
 
-  console.log();
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setSettings({
+          ...settings,
+          slidesToShow: 2,
+        });
+      } else if (window.innerWidth <= 425) {
+        setSettings({
+          ...settings,
+          slidesToShow: 1,
+        });
+      } else {
+        setSettings({
+          ...settings,
+          slidesToShow: 3,
+        });
+      }
+    };
+
+    // Listener para cambiar las opciones del slider cuando cambia el tamaño de la pantalla
+    window.addEventListener("resize", handleResize);
+
+    // Limpia el listener cuando el componente se desmonta
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [settings]);
   return (
     <div className="slider-container">
       <span className={styles.popularyTitle}>Populary</span>
@@ -25,7 +54,6 @@ function AutoPlaySlaider({ dataMovies }) {
         {dataMovies?.slice(0, 15).map((movie, index) => (
           <div key={movie.id} className={styles.contendCarrussel}>
             <div className={styles.poster}>
-              {/* number  */}
               <div className={styles.boxNumberMovie}>
                 <span className={styles.numberMovie} key={movie.id}>
                   {index + 1}
@@ -33,12 +61,15 @@ function AutoPlaySlaider({ dataMovies }) {
               </div>
               <Image
                 className={styles.posterImg}
-                src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                src={`${
+                  movie.poster_path
+                    ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                    : imageNull
+                } `}
                 alt={dataMovies.title}
-                width={350}
-                height={250}
+                width={100}
                 loading="lazy"
-                layout="responsive"
+                height={100}
               />
             </div>
           </div>

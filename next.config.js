@@ -5,6 +5,7 @@ const nextConfig = {
     includePaths: [path.join(__dirname, "src/sass")],
   },
   images: {
+    unoptimized: true,
     domains: ["image.tmdb.org", "api.themoviedb.org"],
   },
 };

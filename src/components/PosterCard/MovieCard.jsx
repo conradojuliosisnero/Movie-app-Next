@@ -42,3 +42,4 @@ const MovieCard = ({ datamovie }) => {
 };
 
 export default MovieCard;
+

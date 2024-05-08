@@ -1,35 +1,47 @@
-import React, { useEffect } from "react";
+"use client";
 import styles from "./modal.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import GetVideosMovies from "../../services/MovieVideos/MovieVideos";
 import GetVideoSeries from "../../services/serieVideos/videoSerie";
+import { useParams } from "next/navigation";
 
-export default function ModalSerie({ id }) {
+export default function ModalVideo({ id }) {
   const [popUp, setPopUp] = useState(false);
-  const [keyVideoSerie, setKeyVideoSerie] = useState({});
+  const [keyVideoMovie, setKeyVideoMovie] = useState({});
   const [windowWidth, setWindowWidth] = useState(undefined);
+  const [videoSerie, setKeyVideoSerie] = useState({});
+  const [result, setResult] = useState({})
+
+  const pathname = useParams();
 
   useEffect(() => {
+    const getVideos = async () => {
+      let result = []
+      if (pathname.idserie == id) {
+        const data = await GetVideoSeries(id, setKeyVideoSerie);
+        result = data
+        setKeyVideoMovie(result)
+      } else {
+        const response = await GetVideosMovies(id, setKeyVideoMovie);
+        result = response
+        setKeyVideoSerie(result)
+      }
+      setResult(result)
+    };
+
+    // resize del modal de video
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
 
-    // Llamamos handleResize al principio para establecer el ancho inicial.
     handleResize();
-
-    // Agregamos un event listener para escuchar cambios en el tamaño de la ventana.
     window.addEventListener("resize", handleResize);
+    getVideos();
 
-    // Eliminamos el event listener cuando el componente se desmonta.
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
-  useEffect(() => {
-    const getSeries = async () => {
-      const response = await GetVideoSeries(setKeyVideoSerie,id);
-    };
-    getSeries();
-  }, []);
+  }, [id]);
 
   const handlerPopUp = () => {
     setPopUp(!false);
@@ -38,7 +50,6 @@ export default function ModalSerie({ id }) {
   const closePopUp = () => {
     setPopUp(false);
   };
-
   return (
     <div className={styles.BoxModal}>
       <button className={styles.ButtonPopUp} onClick={handlerPopUp}>
@@ -46,21 +57,25 @@ export default function ModalSerie({ id }) {
       </button>
       {popUp ? (
         <div className={styles.Modal}>
-          <span className={styles.ModalVideo}>
+          <div className={styles.ModalVideo}>
             <iframe
+              className="modal__responsive"
               width={windowWidth}
-              height="350"
-              src={`https://www.youtube.com/embed/${keyVideoSerie}?si=PHP-j5Bd74KhaLF-`}
+              height={windowWidth == "350" ? "350" : "500"}
+              src={`https://www.youtube.com/embed/${
+                keyVideoMovie || videoSerie
+              }?si=PHP-j5Bd74KhaLF-`}
               title="YouTube video player"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerpolicy="strict-origin-when-cross-origin"
               allowfullscreen
             ></iframe>
-          </span>
+          {/* button close  */}
           <button className={styles.ClosePopUp} onClick={closePopUp}>
             Close
           </button>
+          </div>
         </div>
       ) : (
         <></>

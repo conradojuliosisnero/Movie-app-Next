@@ -16,7 +16,7 @@ export default function Watch({ id }) {
 
   if (!watch || watch.length === 0) {
     return (
-      <span className={styles.nullWatch}>Sin Plataforma de Streaming  :/</span>
+      <span className={styles.nullWatch}> No sabemos donde se pueda ver :/</span>
     ); // No renderizar nada si no hay datos en watch.results
   }
 

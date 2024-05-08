@@ -1,4 +1,4 @@
-import SerieDetails from "../../components/serieDetails/SerieDetails";
+import DetailsCard from "../../components/DetailsCard/DetailsCard";
 import DetailSerie from "../../services/SerieDetails/DetailSerie";
 import Loading from "../../components/Loader/Loading";
 import MovieLayout from "../Layout";
@@ -6,7 +6,7 @@ import MovieLayout from "../Layout";
 export default function DataSerie({ serie, loading }) {
   return (
     <MovieLayout>
-      {loading ? <Loading /> : <SerieDetails detailserie={serie} />}
+      {loading ? <Loading /> : <DetailsCard details={serie} />}
     </MovieLayout>
   );
 }

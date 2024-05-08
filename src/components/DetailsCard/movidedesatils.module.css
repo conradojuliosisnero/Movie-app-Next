@@ -139,7 +139,9 @@
   justify-content: center;
   width: 100%;
 }
-
+.genero{
+  padding: 10px 0px;
+}
 .genere {
   padding: 0px 4px;
   border-radius: 0.3em;
@@ -229,6 +231,7 @@
 @media screen and (max-width: 350px) {
   .genero {
     display: flex;
+
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;

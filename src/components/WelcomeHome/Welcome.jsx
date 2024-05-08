@@ -1,6 +1,6 @@
-import styles from "../movieDetails/movidedesatils.module.css";
+import styles from "../DetailsCard/movidedesatils.module.css";
 import Image from "next/image";
-import ModalMovie from "../ModalMovies/ModalMovie";
+import ModalVideo from "../ModalVideo/ModalVideo";
 
 export default function Welcome({ dataMovieHome }) {
   const movieHome =
@@ -40,7 +40,11 @@ export default function Welcome({ dataMovieHome }) {
           {/* movieHome generes  */}
           <div className={styles.year_generes}>
             <div className={styles.BoxModal}>
-              {movieHome && movieHome.id ? <ModalMovie id={movieHome.id} /> : ""}
+              {movieHome && movieHome.id ? (
+                <ModalVideo id={movieHome.id} />
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>

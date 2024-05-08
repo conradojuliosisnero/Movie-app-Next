@@ -1,9 +1,14 @@
 .search {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   text-align: center;
   margin: 100px 0px 0px 0px;
+}
+
+.searcher{
+  display: flex;
+  justify-content: center;
+  
 }
 
 .search__input {
@@ -14,7 +19,7 @@
   color: #ffffff;
   padding: 0.7rem 1rem;
   border-radius: 1em;
-  width: 17em;
+  width: 230px;
   transition: background-color 300ms ease-in-out ;
   margin-right: -2rem;
 }
@@ -54,6 +59,31 @@
 }
 
 .filter__container{
+  position: relative;
   display: flex;
+  padding: 0px 0px 0px 30px;
+}
+
+@media screen and (max-width: 768px) {
+  .searcher{
   margin: 0px 0px 0px 20px;
+}
+
+.search__input {
+  width: 200px;
+
+}
+
+}
+
+@media screen and (max-width: 370px) {
+  .searcher{
+  margin: 0px 0px 0px -20px;
+}
+
+.search__input {
+  width: 150px;
+
+}
+
 }
