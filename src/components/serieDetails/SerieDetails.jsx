@@ -2,7 +2,7 @@ import styles from "../movieDetails/movidedesatils.module.css";
 import "../../app/globals.css";
 import StarRating from "../StarsRating/Stars";
 import Image from "next/image";
-import ModalSerie from "../ModalSeries/ModalSerie";
+import ModalVideo from "../ModalVideo/ModalVideo";
 import WatchSerie from "../WatchSeries/Watch";
 import CastingSerie from "../CastingSerie/Casting";
 import Season from "../Season/Season";
@@ -39,14 +39,6 @@ const SerieDetails = ({ detailserie }) => {
           {/* details generes  */}
           <div className={styles.year_generes}>
             <span className={styles.estreno}>Estreno: {dateConvert()}</span>
-            <span
-              className={`${
-                detailserie.status === "Ended" ? styles.status2 : styles.status
-              }`}
-            >
-              Estado:{" "}
-              {detailserie.status === "Ended" ? "Finalizado" : "Al aire"}
-            </span>
             <div className={styles.genero}>
               Genero:
               {detailserie.genres.slice(0, 3).map((genres) => (
@@ -69,7 +61,7 @@ const SerieDetails = ({ detailserie }) => {
               </div>
             </div>
             <div className={styles.BoxModal}>
-              <ModalSerie id={detailserie.id} />
+              <ModalVideo id={detailserie.id} />
             </div>
           </div>
           {detailserie.overview ? <p>{detailserie.overview}</p> : <></>}

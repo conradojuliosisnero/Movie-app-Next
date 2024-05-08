@@ -23,6 +23,7 @@
 
 .boxNumberMovie {
   display: flex;
+  position: relative;
   width: 100%;
   height: 100%;
   align-items: center;
@@ -30,7 +31,10 @@
 }
 
 .numberMovie {
-  color: #000000;
+  color: #00000096;
+  position: absolute;
+  right: -70px;
+  top: 0;
   font-size: 9em;
   font-weight: 900;
   -webkit-text-stroke-width: 2px; /* Ancho del borde */
@@ -48,34 +52,33 @@
 .posterImg {
   display: flex;
   object-fit: cover;
-  width: auto;
-  height: auto;
+  width: 200px;
+  height: 300px;
   border-radius: 0.5em;
 }
 
 @media screen and (max-width: 768px) {
-
-  .popularyTitle{
-    font-size: 3em;
-  }
-
-  .posterImg {
-    width: auto;
-    height: auto;
-  }
-
-  .numberMovie {
-    font-size: 5em;
+  .numberMovie{
+    font-size: 7em;
   }
 }
 
 @media screen and (max-width: 426px) {
-  .posterImg {
-    width: auto;
-    height: auto;
+.posterImg {
+  width: 150px;
+  height: 200px;
+}
+  .numberMovie{
+    font-size: 5em;
   }
+}
 
-  .numberMovie {
+@media screen and (max-width: 326px) {
+.posterImg {
+  width: 100px;
+  height: 150px;
+}
+  .numberMovie{
     font-size: 3em;
   }
 }

@@ -13,6 +13,7 @@
 
 .card{
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     border-radius: .5em;
@@ -29,10 +30,18 @@
 .img__casting{
     display: flex;
     justify-content: center;
-    width: 100%;
-    padding: 40px 0px;
 }
 
 .img{
     border-radius: .5em;
+    width: 170px;
+    height: 250px;
+    margin: 10px 30px;
+}
+
+.casting{
+    padding: 30px 0px;
+    display: flex;
+    overflow: hidden;
+    overflow-x: scroll;
 }

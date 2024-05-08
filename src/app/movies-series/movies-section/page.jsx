@@ -1,37 +1,43 @@
 "use client";
 import React from "react";
 import { useState, useEffect } from "react";
-import "../../../components/PosterCard/postercard.scss";
+import "../../../components/MediaCard/postercard.scss";
 import getMovies from "../../../services/TMDB/GetMovies";
 import Loading from "../../../components/Loader/Loading";
 import Button from "../../../components/Buttons/Button";
 import LayoutMovieSection from "../Layout";
-import MovieCard from "../../../components/PosterCard/MovieCard";
+import MediaCard from "../../../components/MediaCard/MediaCard";
 import Search from "../../../components/SearchInput/Search";
 import GetSearch from "../../../services/SearchMovie/Search";
-import GetGenderFiltered from "../../../services/FilterGender/FilterGender";
+import GetGenderFiltered from "../../../services/FilterMovie/FilterGender";
 
 export default function Movies() {
   // estados de data y busqueda
   const [movieData, setMovieData] = useState([]);
-  const [nextPage, setNext] = useState(1);
-  const [dataSearch, setSetDataSearch] = useState([]);
+  const [dataSearch, setDataSearch] = useState([]);
   const [search, setSearch] = useState("");
+  
+  // estados de filtros
   const [genderFiltered, setGenderFiltered] = useState([]);
   const [valueGender, setValueGender] = useState("");
-
+  
   // estados de UX
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [nextPage, setNext] = useState(1);
 
   // cada que el nextpage cambia busca una nueva pagina
   useEffect(() => {
     const getDataMovie = async () => {
       try {
+        // ranking popular de peliculas
         const data = await getMovies(setMovieData, nextPage);
-        const dataSearch = await GetSearch(setSetDataSearch, search);
+        // busqueda de peliculas
+        const dataSearch = await GetSearch(setDataSearch, search);
+        // filtro de peliculas
         const filteredData = await GetGenderFiltered(
           setGenderFiltered,
+          nextPage,
           valueGender
         );
         setLoading(false);
@@ -43,7 +49,6 @@ export default function Movies() {
 
     getDataMovie();
   }, [nextPage, search, valueGender]);
-
 
   // busqueda de paginas --> + 1
   const handlerNextMovie = () => {
@@ -63,9 +68,14 @@ export default function Movies() {
   const handlerSearch = (e) => {
     setSearch(e.target.value);
   };
+
   // atrapa el valor de uno de los filtros
   const handleButtonClick = (id, value) => {
     setValueGender(id);
+  };
+
+  const handlerCloseSearch = () => {
+    setSearch("");
   };
 
   // Función de búsqueda de películas
@@ -89,22 +99,27 @@ export default function Movies() {
       )
       .filter((movie) => movie.genre_ids.includes(valueGender));
   }
-  
 
   return (
-    <LayoutMovieSection loading={loading}>
+    <LayoutMovieSection>
       {/* buscador  */}
       <div className="searcher">
-        <Search funtion={handlerSearch} filter={handleButtonClick} />
+        <Search
+          funtion={handlerSearch}
+          filter={handleButtonClick}
+          value={search}
+          close={handlerCloseSearch}
+        />
       </div>
+
       {/* contedor de peliculas */}
       <div className="contenedor">
         {loading ? (
           <Loading />
         ) : (
-          result?.map((movie) => <MovieCard datamovie={movie} key={movie.id} />)
+          result?.map((movie) => <MediaCard data={movie} key={movie.id} />)
         )}
-        {nextPage == 1 ? <></> : <Button funtionPage={handlerPrevMovie} />}
+        {nextPage == 1 ? "" : <Button funtionPage={handlerPrevMovie} />}
         <Button isNext funtionPage={handlerNextMovie} />
       </div>
     </LayoutMovieSection>

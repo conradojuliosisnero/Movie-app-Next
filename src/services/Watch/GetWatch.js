@@ -1,11 +1,12 @@
+
 const GetWatch = async (ID, setWatch) => {
   try {
+    const bearer = `${process.env.NEXT_PUBLIC_BEARER_TOKEN}`;
     const options = {
       method: "GET",
       headers: {
         accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2Njg0ZDExODUzOGVkMmZmM2MyODgyZmUyYjZlMmUyZSIsInN1YiI6IjY0YmQ0MGExYWM2Yzc5MDhkYjViZDU3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KD8jSPO7IrgEGDlz62ucK8LFBRyxziQEm87VQncvlwc",
+        Authorization: `Bearer ${bearer}`,
       },
     };
     const response = await fetch(
@@ -19,8 +20,6 @@ const GetWatch = async (ID, setWatch) => {
         },
       } = await response.json();
       setWatch(rent);
-    } else {
-      console.log("algo salio mal");
     }
   } catch (error) {
     console.error(error);

@@ -1,6 +1,7 @@
+const bearer = `${process.env.NEXT_PUBLIC_BEARER_TOKEN}`;
+
 const DetailSerie = async (id) => {
   try {
-    const bearer = `${process.env.BEARER_TOKEN}`;
     const url_api = `https://api.themoviedb.org/3/tv/${id}?language=es-MX`;
     const options = {
       method: "GET",

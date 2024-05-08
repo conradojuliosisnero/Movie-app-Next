@@ -1,4 +1,3 @@
-"use client"
 import style from "./recommendation.module.css";
 import GetRecommendation from "../../services/Recommendation/MovieRC";
 import Image from "next/image";

@@ -3,12 +3,16 @@ import "../../app/globals.css";
 import StarRating from "../StarsRating/Stars";
 import Image from "next/image";
 import Casting from "../Casting/Casting";
-import ModalMovie from "../ModalMovies/ModalMovie";
+import ModalVideo from "../ModalVideo/ModalVideo";
 import Watch from "../WatchMovie/Watch";
+import Season from "../Season/Season";
+import { useParams } from "next/navigation";
 
 const MovieDetails = ({ details }) => {
+  const pathname = useParams();
+
   const dateConvert = () => {
-    const date = new Date(details.release_date);
+    const date = new Date(details.release_date || details.first_air_date);
     const year = date.getFullYear();
     return year;
   };
@@ -25,9 +29,10 @@ const MovieDetails = ({ details }) => {
             alt={details.title}
             width={100}
             layout="responsive"
-            loading="lazy"
+            // loading="lazy"
             height={100}
             decoding="async"
+            priority={true}
             quality={100}
           ></Image>
         </div>
@@ -35,11 +40,24 @@ const MovieDetails = ({ details }) => {
         <div className={styles.overview}>
           {/* name movie  */}
           <div className={styles.titleMovie}>
-            <span>{details.title}</span>
+            <span>{details.title || details.name}</span>
           </div>
           {/* details generes  */}
           <div className={styles.year_generes}>
             <span className={styles.estreno}>Estreno: {dateConvert()}</span>
+            {details.first_air_date ? (
+              <span
+                className={`${
+                  details.in_production ? styles.status : styles.status2
+                }`}
+              >
+                Estado:
+                {details.in_production ? " En Emision" : " Terminada"}
+              </span>
+            ) : (
+              ""
+            )}
+
             <div className={styles.genero}>
               Genero:
               {details.genres.slice(0, 3).map((genres) => (
@@ -60,7 +78,7 @@ const MovieDetails = ({ details }) => {
               </div>
             </div>
             <div className={styles.BoxModal}>
-              <ModalMovie id={details.id} />
+              <ModalVideo id={details.id} />
             </div>
           </div>
           <p>{details.overview}</p>
@@ -69,8 +87,13 @@ const MovieDetails = ({ details }) => {
       <div className={styles.Watch}>
         <Watch id={details.id} />
       </div>
+      {pathname.id === details.id ? (
+        <Season detailSeason={details.seasons} />
+      ) : (
+        ""
+      )}
       <div className={styles.CastingBox}>
-        <Casting idMovie={details.id} />
+        <Casting id={details.id} />
       </div>
     </section>
   );

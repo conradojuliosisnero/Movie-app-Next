@@ -1,4 +1,4 @@
-import MovieDetails from "../../components/movieDetails/MovieDetails";
+import DetailsCard from "../../components/DetailsCard/DetailsCard";
 import Details from "../../services/MovieDetails/Details";
 import Loading from "../../components/Loader/Loading";
 import MovieLayout from "../Layout";
@@ -7,7 +7,7 @@ export default function DataMovie({ movie, loading }) {
   return (
     <>
       <MovieLayout>
-        {loading ? <Loading /> : <MovieDetails details={movie} />}
+        {loading ? <Loading /> : <DetailsCard details={movie} />}
       </MovieLayout>
     </>
   );
