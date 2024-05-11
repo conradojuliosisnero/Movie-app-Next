@@ -60,9 +60,17 @@ const Nav = () => {
       <nav className="nav">
         <ul className={`listNav ${popUpMenu ? "menu__active" : ""}`}>
           {/* nav options  */}
-          {optionMenu?.map(({ id, name, path }) => (
-            <li className="link-dark-mode" key={id}>
-              <Link href={path} key={id} onClick={handleCloseMenu}>
+          {optionMenu?.map(({ id, name, path, icon }) => (
+            <li className="link" key={id}>
+              <div className="icon__responsive">
+                {popUpMenu ? (<Image src={icon} width={30} height={30} alt="icon" />): ''}
+              </div>
+              <Link
+                className="link__icon"
+                href={path}
+                key={id}
+                onClick={handleCloseMenu}
+              >
                 {name}
               </Link>
             </li>
