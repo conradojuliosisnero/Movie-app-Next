@@ -10,7 +10,6 @@ import Image404 from "../../../public/image-no-found.svg";
 import { useParams } from "next/navigation";
 
 const MovieDetails = ({ details }) => {
-  console.log(details);
   const pathname = useParams();
 
   const dateConvert = () => {
