@@ -10,6 +10,7 @@
   padding: 20px 20px;
   font-weight: 700;
   display: flex;
+  z-index: 300;
   justify-content: flex-start;
 }
 

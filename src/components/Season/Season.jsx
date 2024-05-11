@@ -1,7 +1,18 @@
+"use client"
 import styles from "./season.module.css";
 import Image from "next/image";
+import notFound from "../../../public/image-no-found.svg";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
-export default function Season({ detailSeason }) {
+export default function Season({ detailSeason ,idSeason}) {
+
+  const router = useRouter()
+
+  function handlerSeason(number,id) {
+    router.push(`/season/${idSeason}/${number}/${id}`);
+  }
+
   return (
     <div className={styles.seasonContainer}>
       {detailSeason.map((season) => (
@@ -12,13 +23,23 @@ export default function Season({ detailSeason }) {
           <div className={styles.seasonPoster}>
             <Image
               className={styles.imgTemp}
-              src={`https://image.tmdb.org/t/p/w500/${season.poster_path}`}
+              src={
+                season.poster_path
+                  ? `https://image.tmdb.org/t/p/w500/${season.poster_path}`
+                  : notFound
+              }
               alt={season.name}
-              priority={false}
               quality={30}
-              width={120}
+              width={100}
               height={100}
+              onClick={() => handlerSeason(season.season_number, season.id)}
             />
+            <div className="contend__season">
+              <Link
+                href={`/season/${idSeason}/${season.season_number}/${detailSeason.id}`}
+                className="season_link"
+              ></Link>
+            </div>
           </div>
         </div>
       ))}
