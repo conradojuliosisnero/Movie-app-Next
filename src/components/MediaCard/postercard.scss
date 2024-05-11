@@ -200,7 +200,7 @@ footer .leyenda p a {
   width: 100%; /* Ancho de la imagen */
   height: 100%; /* Altura inicial de la imagen */
   padding-top: 150%; /* Proporción de aspecto (por ejemplo, 16:9) */
-  background-color: #303030; /* Color de fondo del esqueleto */
+  background-color: #ddd; /* Color de fondo del esqueleto */
   border-radius: 8px; /* Bordes redondeados */
   animation: pulse 1.5s infinite alternate; /* Animación de pulso */
 }
