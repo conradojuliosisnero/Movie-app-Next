@@ -10,7 +10,6 @@ import Image404 from "../../../public/image-no-found.svg";
 import { useParams } from "next/navigation";
 
 const MovieDetails = ({ details }) => {
-
   const pathname = useParams();
 
   const dateConvert = () => {
@@ -76,34 +75,29 @@ const MovieDetails = ({ details }) => {
                   details.vote_average >= 7 ? styles.starsGood : styles.starsBad
                 }`}
               >
-                {/* STARS  */}
                 <StarRating rating={details.vote_average} />
                 <span className={styles.votes}>
                   {Math.floor(details.vote_average)} / 10
                 </span>
               </div>
             </div>
-            {/* VIEW TRAILER  */}
             <div className={styles.BoxModal}>
-              <ModalVideo id={details.id} />
+              <div className={styles.ModalEsqueletor} />
             </div>
           </div>
           <p>{details.overview}</p>
         </div>
       </div>
-      {/* WATHC  */}
       <div className={styles.Watch}>
-        <Watch id={details.id} />
+        <div className={styles.WatchEsqueletor} />
       </div>
-      {/* SEASONS  */}
-      {pathname.idserie == details.id ? (
-        <Season detailSeason={details.seasons} idSeason={details.id} />
+      {pathname.id === details.id ? (
+        <div className={styles.SeasonEsqueletor} />
       ) : (
         ""
       )}
-      {/* CASTING  */}
       <div className={styles.CastingBox}>
-        <Casting id={details.id} />
+        <div className={styles.CastingEsqueletor}></div>
       </div>
     </section>
   );

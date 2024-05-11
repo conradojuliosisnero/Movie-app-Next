@@ -1,20 +1,19 @@
-import styles from "./movidedesatils.module.css";
-import "../../app/globals.css";
+import styles from "../DetailsCard/movidedesatils.module.css";
+// import "../../app/globals.css";
 import StarRating from "../StarsRating/Stars";
 import Image from "next/image";
-import Casting from "../Casting/Casting";
-import ModalVideo from "../ModalVideo/ModalVideo";
-import Watch from "../WatchMovie/Watch";
-import Season from "../Season/Season";
+// import Casting from "../Casting/Casting";
+// import ModalVideo from "../ModalVideo/ModalVideo";
+// import Watch from "../WatchMovie/Watch";
+// import Season from "../Season/Season";
 import Image404 from "../../../public/image-no-found.svg";
 import { useParams } from "next/navigation";
 
 const MovieDetails = ({ details }) => {
-
   const pathname = useParams();
 
   const dateConvert = () => {
-    const date = new Date(details.release_date || details.first_air_date);
+    const date = new Date(details.air_date);
     const year = date.getFullYear();
     return year;
   };
@@ -29,7 +28,7 @@ const MovieDetails = ({ details }) => {
             className={styles.backgroundDetailsImg}
             src={
               details.poster_path
-                ? `https://image.tmdb.org/t/p/original${details.backdrop_path}`
+                ? `https://image.tmdb.org/t/p/original${details.poster_path}`
                 : Image404
             }
             alt={details.title}
@@ -50,7 +49,7 @@ const MovieDetails = ({ details }) => {
           {/* details generes  */}
           <div className={styles.year_generes}>
             <span className={styles.estreno}>Estreno: {dateConvert()}</span>
-            {details.first_air_date ? (
+            {details.air_date ? (
               <span
                 className={`${
                   details.in_production ? styles.status : styles.status2
@@ -63,12 +62,6 @@ const MovieDetails = ({ details }) => {
               ""
             )}
 
-            <div className={styles.genero}>
-              Genero:
-              {details.genres.slice(0, 3).map((genres) => (
-                <span className={styles.genere}>{genres.name}</span>
-              ))}
-            </div>
             {/* stars movie  */}
             <div className={styles.stats}>
               <div
@@ -83,27 +76,21 @@ const MovieDetails = ({ details }) => {
                 </span>
               </div>
             </div>
+
             {/* VIEW TRAILER  */}
             <div className={styles.BoxModal}>
-              <ModalVideo id={details.id} />
+              {/* <ModalVideo id={details.id} /> */}
             </div>
           </div>
-          <p>{details.overview}</p>
+          {!details.overview ? "" : ""}
         </div>
       </div>
       {/* WATHC  */}
-      <div className={styles.Watch}>
-        <Watch id={details.id} />
-      </div>
-      {/* SEASONS  */}
-      {pathname.idserie == details.id ? (
-        <Season detailSeason={details.seasons} idSeason={details.id} />
-      ) : (
-        ""
-      )}
+      <div className={styles.Watch}>{/* <Watch id={details.id} /> */}</div>
+
       {/* CASTING  */}
       <div className={styles.CastingBox}>
-        <Casting id={details.id} />
+        {/* <Casting id={details.id} /> */}
       </div>
     </section>
   );
