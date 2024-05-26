@@ -18,7 +18,7 @@ const MediaCard = ({ data }) => {
           <Image
             className="img_poster"
             key={id}
-            src={`${poster_path == null || undefined || "" ? img404 : `https://image.tmdb.org/t/p/w500/${poster_path}`}`}
+            src={poster_path == null || undefined || "" ? img404 : `https://image.tmdb.org/t/p/w500/${poster_path}`}
             width={100}
             height={100}
             loading="lazy"

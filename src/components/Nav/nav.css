@@ -15,6 +15,7 @@
 .logo{
   opacity:0;
   transition: opacity 300ms ease-in;
+  cursor: pointer;
 }
 
 .logo__scroll{
@@ -32,6 +33,8 @@
   position: absolute;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  z-index: 700;
   left: 40px;
   top: 10px;
 }
@@ -48,13 +51,13 @@
 .listNav {
   list-style: none;
   display: flex;
-  right: -550px;
+  /* left: -550px; */
   padding: 20px 0px;
-  transition: right 300s ease-in-out;
+  /* transition: left 300s ease-in-out; */
 }
 
 .li {
-  display: block;
+  display: flex;
   padding: 5px 15px;
   font-size: 1.2em;
   transition: background 200ms ease;
@@ -62,10 +65,32 @@
   border-radius: 0.5em;
   font-weight: 600;
 }
+.link__icon{
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  padding: 0px 5px;
+  text-align: center;
+}
 
-.li:hover {
-  border-radius: 0.5em;
-  background: rgba(54, 54, 54, 0.26);
+.icon__responsive{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.movie__options{
+  display: none;
+}
+
+.link:hover{
+  background-color: #dadada75;
+  border-radius: .5em;
+  
+}
+
+.link:hover .movie__options{
+  display: block;
 }
 
 .search__contend {
@@ -77,13 +102,15 @@
   margin: 0px 25px 0px 20px;
 }
 
-.link-dark-mode {
-  display: block;
+.link {
+  display: flex;
+  width: 100%;
   padding: 5px 15px;
+  border-radius: .5em;
   font-size: 1.2em;
-  transition: background 200ms ease;
   color: #ffffff;
   font-weight: 600;
+  transition: background 200ms ease;
 }
 
 .link-dark-mode:hover {
@@ -93,30 +120,47 @@
 
 .listNavResponsive {
   display: none;
+  z-index: 900;
 }
 
 @media screen and (max-width: 768px) {
   .nav {
     margin: 50px 0px 0px 0px;
   }
+  .link__icon{
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  padding: 0px 10px;
+  text-align: center;
+}
+
+.icon__responsive{
+  display: flex;
+  padding: 0px 15px;
+  margin-left:35px;
+  align-items: center;
+  justify-content: flex-start;
+}
 
   .listNav {
     position: absolute;
-    right: -550px;
-    top: 0;
-    width: 550px;
+    left: -550px;
+    top: -50px;
+    z-index: 700;
+    width: 300px;
     height: 100vh;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: rgb(27, 27, 27);
-    transition: right 300ms ease;
+    transition: left 200ms ease-in-out;
   }
 
   .menu__active {
-    right: 0;
+    left: -50px;
     top: -50px;
-    max-width: 300px;
+    width: 300px;
     display: flex;
     flex-direction: column;
   }

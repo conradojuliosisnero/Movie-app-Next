@@ -10,19 +10,20 @@ import MediaCard from "../../../components/MediaCard/MediaCard";
 import Search from "../../../components/SearchInput/Search";
 import GetSearchSeries from "../../../services/SearchSeries/Search";
 import GetGenderFilteredSerie from "../../../services/FilterSerie/FilterGenderSerie";
+import Container from "../../../components/LoadingContainer/Container";
 
 export default function Series() {
-  // estados de data series y busqueda 
+  // estados de data series y busqueda
   const [serieData, setSerieData] = useState([]);
   const [search, setSearch] = useState("");
   const [dataSearch, setDataSearch] = useState([]);
 
-  // estados de filtros 
+  // estados de filtros
   const [valueGender, setValueGender] = useState("");
-  
+
   const [genderFiltered, setGenderFiltered] = useState([]);
-  
-  // estados de UX 
+
+  // estados de UX
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [nextPage, setNext] = useState(1);
@@ -36,7 +37,8 @@ export default function Series() {
         const dataSearch = GetSearchSeries(setDataSearch, search);
         // filtro de series
         const filteredData = await GetGenderFilteredSerie(
-          setGenderFiltered,nextPage,
+          setGenderFiltered,
+          nextPage,
           valueGender
         );
         setLoading(false);
@@ -45,7 +47,6 @@ export default function Series() {
         setLoading(false);
       }
     };
-
     SearchSeries();
   }, [nextPage, search, valueGender]);
 
@@ -108,15 +109,17 @@ export default function Series() {
           close={handlerCloseSearch}
         />
       </div>
-      <div className="contenedor">
-        {loading ? (
-          <Loading />
-        ) : (
-          result?.map((serie) => <MediaCard data={serie} key={serie.id} />)
-        )}
-        {nextPage == 1 ? <></> : <Button funtionPage={handlerPrevMovie} />}
-        <Button isNext funtionPage={handlerNextMovie} />
-      </div>
+      {loading ? (
+        <Container />
+      ) : (
+        <div className="contenedor">
+          {result
+            ? result?.map((serie) => <MediaCard data={serie} key={serie.id} />)
+            : ""}
+          {nextPage == 1 ? <></> : <Button funtionPage={handlerPrevMovie} />}
+          <Button isNext funtionPage={handlerNextMovie} />
+        </div>
+      )}
     </LayoutMovieSection>
   );
 }

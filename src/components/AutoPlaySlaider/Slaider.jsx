@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -8,6 +9,7 @@ import { useState, useEffect } from "react";
 import imageNull from "../../../public/image-no-found.svg";
 
 function AutoPlaySlaider({ dataMovies }) {
+  
   const [settings, setSettings] = useState({
     dots: false,
     infinite: true,
@@ -47,11 +49,13 @@ function AutoPlaySlaider({ dataMovies }) {
       window.removeEventListener("resize", handleResize);
     };
   }, [settings]);
+
+  
   return (
     <div className="slider-container">
       <span className={styles.popularyTitle}>Populary</span>
       <Slider {...settings}>
-        {dataMovies?.slice(0, 15).map((movie, index) => (
+        {dataMovies && dataMovies?.slice(0, 15).map((movie, index) => (
           <div key={movie.id} className={styles.contendCarrussel}>
             <div className={styles.poster}>
               <div className={styles.boxNumberMovie}>
@@ -66,7 +70,7 @@ function AutoPlaySlaider({ dataMovies }) {
                     ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
                     : imageNull
                 } `}
-                alt={dataMovies.title}
+                alt={dataMovies.title || "image-movie"}
                 width={100}
                 loading="lazy"
                 height={100}
