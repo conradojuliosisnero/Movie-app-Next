@@ -1,4 +1,4 @@
-import getMoviesHome from "../services/moviesHome/GetMovies";
+import getMoviesHome from "../services/Movies/moviesHome/GetMovies";
 import AutoPlaySlaider from "../components/AutoPlaySlaider/Slaider";
 import Welcome from "../components/WelcomeHome/Welcome";
 import styles from "./page.module.css";

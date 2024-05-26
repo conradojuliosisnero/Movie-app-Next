@@ -72,8 +72,9 @@ function AutoPlaySlaider({ dataMovies }) {
                 } `}
                 alt={dataMovies.title || "image-movie"}
                 width={100}
-                loading="lazy"
                 height={100}
+                quality={40}
+                loading="lazy"
               />
             </div>
           </div>

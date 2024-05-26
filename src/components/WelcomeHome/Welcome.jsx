@@ -1,7 +1,7 @@
 import styles from "../DetailsCard/movidedesatils.module.css";
 import Image from "next/image";
 import ModalVideo from "../ModalVideo/ModalVideo";
-import errorImage from '../../../public/image-no-found.svg'
+import imageNull from "../../../public/image-no-found.svg";
 
 export default function Welcome({ dataMovieHome }) {
   const MOVIEHOME =
@@ -16,11 +16,12 @@ export default function Welcome({ dataMovieHome }) {
           <Image
             className={styles.backgroundDetailsImg}
             src={`https://image.tmdb.org/t/p/original${
-              MOVIEHOME ? MOVIEHOME.backdrop_path : errorImage
+              MOVIEHOME ? MOVIEHOME.backdrop_path : imageNull
             }`}
             alt={MOVIEHOME ? MOVIEHOME.title : "image-welcome"}
             width={100}
             height={100}
+            loading="lazy"
             quality={30}
           ></Image>
         </div>

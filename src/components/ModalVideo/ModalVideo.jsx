@@ -1,8 +1,8 @@
 "use client";
 import styles from "./modal.module.css";
 import { useState, useEffect } from "react";
-import GetVideosMovies from "../../services/MovieVideos/MovieVideos";
-import GetVideoSeries from "../../services/serieVideos/videoSerie";
+import GetVideosMovies from "../../services/Movies/MovieVideos/MovieVideos";
+import GetVideoSeries from "../../services/Series/serieVideos/videoSerie";
 import { useParams } from "next/navigation";
 
 export default function ModalVideo({ id }) {
@@ -10,23 +10,23 @@ export default function ModalVideo({ id }) {
   const [keyVideoMovie, setKeyVideoMovie] = useState({});
   const [windowWidth, setWindowWidth] = useState(undefined);
   const [videoSerie, setKeyVideoSerie] = useState({});
-  const [result, setResult] = useState({})
+  const [result, setResult] = useState({});
 
   const pathname = useParams();
 
   useEffect(() => {
     const getVideos = async () => {
-      let result = []
+      let result = [];
       if (pathname.idserie == id) {
         const data = await GetVideoSeries(id, setKeyVideoSerie);
-        result = data
-        setKeyVideoMovie(result)
+        result = data;
+        setKeyVideoMovie(result);
       } else {
         const response = await GetVideosMovies(id, setKeyVideoMovie);
-        result = response
-        setKeyVideoSerie(result)
+        result = response;
+        setKeyVideoSerie(result);
       }
-      setResult(result)
+      setResult(result);
     };
 
     // resize del modal de video
@@ -71,10 +71,10 @@ export default function ModalVideo({ id }) {
               referrerpolicy="strict-origin-when-cross-origin"
               allowfullscreen
             ></iframe>
-          {/* button close  */}
-          <button className={styles.ClosePopUp} onClick={closePopUp}>
-            Close
-          </button>
+            {/* button close  */}
+            <button className={styles.ClosePopUp} onClick={closePopUp}>
+              Close
+            </button>
           </div>
         </div>
       ) : (

@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import { useState, useEffect } from "react";
 import "../../../components/MediaCard/postercard.scss";
@@ -8,57 +7,66 @@ import Button from "../../../components/Buttons/Button";
 import LayoutMovieSection from "../Layout";
 import MediaCard from "../../../components/MediaCard/MediaCard";
 import Search from "../../../components/SearchInput/Search";
-import GetSearch from "../../../services/SearchMovie/Search";
-import GetGenderFiltered from "../../../services/FilterMovie/FilterGender";
+import GetSearch from "../../../services/Movies/SearchMovie/Search";
+import GetGenderFiltered from "../../../services/Movies/FilterMovie/FilterGender";
 import Container from "../../../components/LoadingContainer/Container";
 
-export default function Movies() {
-  // estados de data y busqueda
-  const [movieData, setMovieData] = useState([]);
-  const [dataSearch, setDataSearch] = useState([]);
-  const [search, setSearch] = useState("");
+export default async function Movies() {
+  // // estados de data y busqueda
 
-  // estados de filtros
-  const [genderFiltered, setGenderFiltered] = useState([]);
-  const [valueGender, setValueGender] = useState("");
+  // const [movieData, setMovieData] = useState([]);
+  // const [dataSearch, setDataSearch] = useState([]);
+  // const [search, setSearch] = useState("");
 
-  // estados de UX
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [nextPage, setNext] = useState(1);
+  // // estados de filtros
+  // const [genderFiltered, setGenderFiltered] = useState([]);
+  // const [valueGender, setValueGender] = useState("");
+
+  // // estados de UX
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(null);
+  // const [nextPage, setNext] = useState(1);
 
   // cada que el nextpage cambia busca una nueva pagina
-  useEffect(() => {
-    const getDataMovie = async () => {
-      try {
-        // ranking popular de peliculas
-        const data = await getMovies(setMovieData, nextPage);
-        // busqueda de peliculas
-        const dataSearch = await GetSearch(setDataSearch, search);
-        // filtro de peliculas
-        const filteredData = await GetGenderFiltered(
-          setGenderFiltered,
-          nextPage,
-          valueGender
-        );
-        setLoading(false);
-      } catch (error) {
-        setError(error);
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const getDataMovie = async () => {
+  //     try {
+  //       // ranking popular de peliculas
+  //       const data = await getMovies(setMovieData, nextPage);
+  //       // busqueda de peliculas
+  //       const dataSearch = await GetSearch(setDataSearch, search);
+  //       // filtro de peliculas
+  //       const filteredData = await GetGenderFiltered(
+  //         setGenderFiltered,
+  //         nextPage,
+  //         valueGender
+  //       );
+  //       setLoading(false);
+  //     } catch (error) {
+  //       setError(error);
+  //       setLoading(false);
+  //     }
+  //   };
 
-    getDataMovie();
-  }, [nextPage, search, valueGender]);
+  //   getDataMovie();
+  // }, [nextPage, search, valueGender]);
+
+  const data = await getMovies(setMovieData, nextPage);
+  const dataSearch = await GetSearch(setDataSearch, search);
+  const filteredData = await GetGenderFiltered(
+    setGenderFiltered,
+    nextPage,
+    valueGender
+  );
 
   // busqueda de paginas --> + 1
-  const handlerNextMovie = () => {
-    setNext(nextPage + 1);
-  };
+  // const handlerNextMovie = () => {
+  //   setNext(nextPage + 1);
+  // };
 
-  const handlerPrevMovie = () => {
-    setNext(nextPage - 1);
-  };
+  // const handlerPrevMovie = () => {
+  //   setNext(nextPage - 1);
+  // };
 
   // si hay un error renderiza --> error component
   if (error) {

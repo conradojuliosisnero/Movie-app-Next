@@ -1,12 +1,11 @@
-
+"use client";
 import "./search.css";
 import FilterNav from "../Filter/FilterNav";
 import Image from "next/image";
 import SearchIcon from "../../../public/search.svg";
-import closeSearch from '../../../public/close-search.svg'
+import closeSearch from "../../../public/close-search.svg";
 
 export default function Search({ funtion, value, filter, close }) {
-  
   return (
     <div className="search">
       <input

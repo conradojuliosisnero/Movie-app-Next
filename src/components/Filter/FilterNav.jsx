@@ -4,9 +4,9 @@ import styles from "./filter.module.css";
 import ButtonFilter from "../FilterButton/ButtonFilter";
 import filter from "../../../public/filter-2.svg";
 import Image from "next/image";
-import GetGender from "../../services/FilterMovie/GeneroMovie/Gender";
-import GetGenderSerie from "../../services/FilterSerie/GenderSerie/GenderSerie";
-import closeFilter from '../../../public/close-search.svg'
+import GetGender from "../../services/Movies/FilterMovie/GeneroMovie/Gender";
+import GetGenderSerie from "../../services/Series/FilterSerie/GenderSerie/GenderSerie";
+import closeFilter from "../../../public/close-search.svg";
 import { usePathname } from "next/navigation";
 
 export default function FilterNav({ funtion }) {

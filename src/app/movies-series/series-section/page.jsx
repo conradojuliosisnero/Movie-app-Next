@@ -8,8 +8,8 @@ import Button from "../../../components/Buttons/Button";
 import getSeries from "../../../services/Series/GetSeries";
 import MediaCard from "../../../components/MediaCard/MediaCard";
 import Search from "../../../components/SearchInput/Search";
-import GetSearchSeries from "../../../services/SearchSeries/Search";
-import GetGenderFilteredSerie from "../../../services/FilterSerie/FilterGenderSerie";
+import GetSearchSeries from "../../../services/Series/SearchSeries/Search";
+import GetGenderFilteredSerie from "../../../services/Series/FilterSerie/FilterGenderSerie";
 import Container from "../../../components/LoadingContainer/Container";
 
 export default function Series() {
