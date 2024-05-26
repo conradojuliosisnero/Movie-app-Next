@@ -1,26 +1,16 @@
-"use client";
-import styles from "./page.module.css";
 import getMoviesHome from "../services/moviesHome/GetMovies";
-import { useState, useEffect } from "react";
 import AutoPlaySlaider from "../components/AutoPlaySlaider/Slaider";
 import Welcome from "../components/WelcomeHome/Welcome";
+import styles from "./page.module.css";
 
-const Home = () => {
-  const [dataMoviesHome, setDataMoviesHome] = useState({});
-  const { results } = dataMoviesHome;
+export const metadata = {
+  title: "moviesCon 2.0 welcome site",
+  description:
+    "bienvenido MoviesCon 2.0 sitio para sumerguirte en el mundo del cine",
+};
 
-  useEffect(() => {
-    const dataMovies = async () => {
-      try {
-        const response = await getMoviesHome(setDataMoviesHome);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    dataMovies();
-  }, []);
-
-
+export default async function Home() {
+  const results = await getMoviesHome();
   return (
     <main className={styles.name}>
       <Welcome dataMovieHome={results} />
@@ -29,6 +19,4 @@ const Home = () => {
       </div>
     </main>
   );
-};
-
-export default Home;
+}
