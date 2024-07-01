@@ -10,17 +10,18 @@ import MediaCard from "../../../components/MediaCard/MediaCard";
 import Search from "../../../components/SearchInput/Search";
 import GetSearch from "../../../services/SearchMovie/Search";
 import GetGenderFiltered from "../../../services/FilterMovie/FilterGender";
+import Container from "../../../components/LoadingContainer/Container";
 
 export default function Movies() {
   // estados de data y busqueda
   const [movieData, setMovieData] = useState([]);
   const [dataSearch, setDataSearch] = useState([]);
   const [search, setSearch] = useState("");
-  
+
   // estados de filtros
   const [genderFiltered, setGenderFiltered] = useState([]);
   const [valueGender, setValueGender] = useState("");
-  
+
   // estados de UX
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -113,15 +114,19 @@ export default function Movies() {
       </div>
 
       {/* contedor de peliculas */}
-      <div className="contenedor">
-        {loading ? (
-          <Loading />
-        ) : (
-          result?.map((movie) => <MediaCard data={movie} key={movie.id} />)
-        )}
-        {nextPage == 1 ? "" : <Button funtionPage={handlerPrevMovie} />}
-        <Button isNext funtionPage={handlerNextMovie} />
-      </div>
+      {loading ? (
+        <Container />
+      ) : (
+        <div className="contenedor">
+          {loading ? (
+            <Container />
+          ) : (
+            result?.map((movie) => <MediaCard data={movie} key={movie.id} />)
+          )}
+          {nextPage == 1 ? "" : <Button funtionPage={handlerPrevMovie} />}
+          <Button isNext funtionPage={handlerNextMovie} />
+        </div>
+      )}
     </LayoutMovieSection>
   );
 }

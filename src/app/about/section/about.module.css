@@ -1,0 +1,35 @@
+/* styles.module.css */
+.container {
+  width: 100%;
+  position: relative;
+  padding: 170px 40px 0px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.pre {
+  background-color: #7b7b7b8f;
+  padding: 10px;
+  border-radius: 5px;
+  font-family: Consolas, monospace;
+}
+
+.title {
+  font-size: 2rem;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+  padding: 20px 0px 40px 0px;
+}
+
+.description {
+  font-size: 1.2rem;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  max-width: 700px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}

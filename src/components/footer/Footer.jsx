@@ -6,9 +6,9 @@ export default function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerLetters}>
-        <span className="leyend">
+        <span className={styles.leyend}>
           Desing and Programing By
-          <a href="https://github.com/conradojuliosisnero"> {PROGRAMER_NAME}</a>
+          <a href="https://github.com/conradojuliosisnero" className={styles.name}> @{PROGRAMER_NAME}</a>
         </span>
       </div>
     </footer>

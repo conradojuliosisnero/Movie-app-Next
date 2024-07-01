@@ -7,10 +7,9 @@
   margin: 0px auto 100px auto;
   padding: 50px 0px 0px 0px;
   background-color: transparent;
-
 }
 
-.searcher{
+.searcher {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -78,12 +77,12 @@
     top: 0;
   }
 
-  &:hover{
+  &:hover {
     transform: scale(1.1);
   }
 }
 
-.movie_link{
+.movie_link {
   width: 100%;
   height: 100%;
   display: flex;
@@ -182,30 +181,76 @@ footer .leyenda p a {
   }
 }
 
-@media screen and (max-width: 769px) {
-
+@media screen and (max-width: 768px) {
   .contenedor {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    margin: 0px 0px 100px 0px;
-    padding: 70px 20px 0px 20px;
-  }
-  .contenedor .pelicula {
-    width: 100%;
-    height: 100%;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
   }
 
+  .contenedor .contend__poster {
+    width: 90px;
+    min-height: 5px;
+    display: flex;
+  }
+}
+
+
+/* Estilos para el esqueleto de la imagen */
+.imagen__esqueletor {
+  width: 100%; /* Ancho de la imagen */
+  height: 100%; /* Altura inicial de la imagen */
+  padding-top: 150%; /* Proporción de aspecto (por ejemplo, 16:9) */
+  background-color: #ddd; /* Color de fondo del esqueleto */
+  border-radius: 8px; /* Bordes redondeados */
+  animation: pulse 1.5s infinite alternate; /* Animación de pulso */
+}
+
+/* Animación de pulso */
+@keyframes pulse {
+  0% {
+    opacity: 0.6; /* Opacidad inicial */
+  }
+  100% {
+    opacity: 1; /* Opacidad final */
+  }
+}
+
+
+@media screen and (max-width: 602px) {
+  .contenedor {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+  }
+
+  .contenedor .contend__poster {
+    width: 90px;
+    min-height: 5px;
+    display: flex;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .contenedor {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+  }
+
+  .contenedor .contend__poster {
+    width: 90px;
+    min-height: 5px;
+    display: flex;
+  }
 }
 
 @media screen and (max-width: 425px) {
   .contenedor {
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
     margin: 0px 0px 0px 0px;
     padding: 100px 0px 0px 0px;
     justify-items: center;
   }
   .contenedor .pelicula {
-    width: 250px;
-    height: 450px;
+    width: auto;
     padding: 0px 0px;
     margin: 15px 0px;
   }
