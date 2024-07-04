@@ -7,6 +7,7 @@ import styles from "./slaider.module.css";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import imageNull from "../../../public/image-no-found.svg";
+import { useRouter } from "next/navigation";
 
 function AutoPlaySlaider({ dataMovies }) {
   
@@ -50,34 +51,43 @@ function AutoPlaySlaider({ dataMovies }) {
     };
   }, [settings]);
 
+  // router
+  const router = useRouter();
+
+  const handleClick = (id) => { 
+    router.push(`/movie/${id}`);
+  }
+
   
   return (
     <div className="slider-container">
       <span className={styles.popularyTitle}>Populary</span>
       <Slider {...settings}>
-        {dataMovies && dataMovies?.slice(0, 15).map((movie, index) => (
-          <div key={movie.id} className={styles.contendCarrussel}>
-            <div className={styles.poster}>
-              <div className={styles.boxNumberMovie}>
-                <span className={styles.numberMovie} key={movie.id}>
-                  {index + 1}
-                </span>
+        {dataMovies &&
+          dataMovies?.slice(0, 15).map((movie, index) => (
+            <div key={movie.id} className={styles.contendCarrussel}>
+              <div className={styles.poster}>
+                <div className={styles.boxNumberMovie}>
+                  <span className={styles.numberMovie} key={movie.id}>
+                    {index + 1}
+                  </span>
+                </div>
+                <Image
+                  className={styles.posterImg}
+                  src={`${
+                    movie.poster_path
+                      ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                      : imageNull
+                  } `}
+                  alt={dataMovies.title || "image-movie"}
+                  width={100}
+                  loading="lazy"
+                  height={100}
+                  onClick={handleClick}
+                />
               </div>
-              <Image
-                className={styles.posterImg}
-                src={`${
-                  movie.poster_path
-                    ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
-                    : imageNull
-                } `}
-                alt={dataMovies.title || "image-movie"}
-                width={100}
-                loading="lazy"
-                height={100}
-              />
             </div>
-          </div>
-        ))}
+          ))}
       </Slider>
     </div>
   );
