@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -7,10 +7,11 @@ import styles from "./slaider.module.css";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import imageNull from "../../../public/image-no-found.svg";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 function AutoPlaySlaider({ dataMovies }) {
-  
+  console.log(dataMovies);
+
   const [settings, setSettings] = useState({
     dots: false,
     infinite: true,
@@ -51,14 +52,6 @@ function AutoPlaySlaider({ dataMovies }) {
     };
   }, [settings]);
 
-  // router
-  const router = useRouter();
-
-  const handleClick = (id) => { 
-    router.push(`/movie/${id}`);
-  }
-
-  
   return (
     <div className="slider-container">
       <span className={styles.popularyTitle}>Populary</span>
@@ -72,19 +65,20 @@ function AutoPlaySlaider({ dataMovies }) {
                     {index + 1}
                   </span>
                 </div>
-                <Image
-                  className={styles.posterImg}
-                  src={`${
-                    movie.poster_path
-                      ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
-                      : imageNull
-                  } `}
-                  alt={dataMovies.title || "image-movie"}
-                  width={100}
-                  loading="lazy"
-                  height={100}
-                  onClick={handleClick}
-                />
+                <Link href={`/movie/${movie.id}`}>
+                  <Image
+                    className={styles.posterImg}
+                    src={`${
+                      movie.poster_path
+                        ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                        : imageNull
+                    } `}
+                    alt={dataMovies.title || "image-movie"}
+                    width={100}
+                    loading="lazy"
+                    height={100}
+                  />
+                </Link>
               </div>
             </div>
           ))}
