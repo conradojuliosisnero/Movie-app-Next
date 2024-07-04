@@ -55,6 +55,7 @@
   object-fit: cover;
   width: 200px;
   height: 300px;
+  cursor: pointer;
   border-radius: 0.5em;
 }
 
