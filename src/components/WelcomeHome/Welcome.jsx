@@ -1,7 +1,9 @@
+"use client"
 import styles from "../DetailsCard/movidedesatils.module.css";
 import Image from "next/image";
 import ModalVideo from "../ModalVideo/ModalVideo";
-import errorImage from '../../../public/image-no-found.svg'
+import errorImage from "../../../public/image-no-found.svg";
+import { motion } from "framer-motion";
 
 export default function Welcome({ dataMovieHome }) {
   const MOVIEHOME =
@@ -28,7 +30,11 @@ export default function Welcome({ dataMovieHome }) {
         <div className={styles.overview}>
           {/* name movie  */}
           <div className={styles.titleMovie}>
-            <span>{MOVIEHOME ? MOVIEHOME.title : ""}</span>
+            <motion.span
+              initial={{ opacity: 0 ,y: 100}}
+              animate={{ opacity: 1 ,y: 0}}
+              transition={{ duration: 0.4 }}
+            >{MOVIEHOME ? MOVIEHOME.title : ""}</motion.span>
           </div>
           {/* movieHome generes  */}
           <div className={styles.year_generes}>

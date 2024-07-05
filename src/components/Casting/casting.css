@@ -45,3 +45,12 @@
     overflow: hidden;
     overflow-x: scroll;
 }
+
+.casting::-webkit-scrollbar{
+    height: 5px;
+}
+
+.casting::-webkit-scrollbar-thumb{
+    background-color: #ffffff;
+}
+
