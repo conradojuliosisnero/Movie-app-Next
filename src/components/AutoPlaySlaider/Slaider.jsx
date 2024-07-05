@@ -10,8 +10,6 @@ import imageNull from "../../../public/image-no-found.svg";
 import Link from "next/link";
 
 function AutoPlaySlaider({ dataMovies }) {
-  console.log(dataMovies);
-
   const [settings, setSettings] = useState({
     dots: false,
     infinite: true,
