@@ -11,6 +11,7 @@ import Search from "../../../components/SearchInput/Search";
 import GetSearch from "../../../services/SearchMovie/Search";
 import GetGenderFiltered from "../../../services/FilterMovie/FilterGender";
 import Container from "../../../components/LoadingContainer/Container";
+import Error from "../../../components/Error/Error";
 
 export default function Movies() {
   // estados de data y busqueda
@@ -62,7 +63,7 @@ export default function Movies() {
 
   // si hay un error renderiza --> error component
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <Error message={'ocurrio un error de parte de nosotros :('} />;
   }
 
   // atrapa el valor de search y lo setea en el estado
