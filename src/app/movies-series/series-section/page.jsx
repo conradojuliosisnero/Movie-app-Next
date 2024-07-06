@@ -3,7 +3,6 @@ import React from "react";
 import LayoutMovieSection from "../Layout";
 import "../../../components/MediaCard/postercard.scss";
 import { useState, useEffect } from "react";
-import Loading from "../../../components/Loader/Loading";
 import Button from "../../../components/Buttons/Button";
 import getSeries from "../../../services/Series/GetSeries";
 import MediaCard from "../../../components/MediaCard/MediaCard";
@@ -11,6 +10,8 @@ import Search from "../../../components/SearchInput/Search";
 import GetSearchSeries from "../../../services/SearchSeries/Search";
 import GetGenderFilteredSerie from "../../../services/FilterSerie/FilterGenderSerie";
 import Container from "../../../components/LoadingContainer/Container";
+import Error from "../../../components/Error/Error";
+import { motion } from "framer-motion";
 
 export default function Series() {
   // estados de data series y busqueda
@@ -51,7 +52,7 @@ export default function Series() {
   }, [nextPage, search, valueGender]);
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <Error message={"ocurrio un error de parte de nosotros :("} />;
   }
 
   // busqueda de paginas --> + 1
@@ -99,8 +100,22 @@ export default function Series() {
     setSearch("");
   };
 
+  //variables de animacion
+  const container = {
+    hidden: { opacity: 1, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.2,
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
   return (
     <LayoutMovieSection>
+      {/* buscador  */}
       <div className="searcher">
         <Search
           funtion={handlerSearch}
@@ -112,13 +127,18 @@ export default function Series() {
       {loading ? (
         <Container />
       ) : (
-        <div className="contenedor">
+        <motion.div
+          className="contenedor"
+          variants={container}
+          initial="hidden"
+          animate="visible"
+        >
           {result
             ? result?.map((serie) => <MediaCard data={serie} key={serie.id} />)
             : ""}
           {nextPage == 1 ? <></> : <Button funtionPage={handlerPrevMovie} />}
           <Button isNext funtionPage={handlerNextMovie} />
-        </div>
+        </motion.div>
       )}
     </LayoutMovieSection>
   );
