@@ -11,6 +11,7 @@ import Search from "../../../components/SearchInput/Search";
 import GetSearchSeries from "../../../services/SearchSeries/Search";
 import GetGenderFilteredSerie from "../../../services/FilterSerie/FilterGenderSerie";
 import Container from "../../../components/LoadingContainer/Container";
+import Error from "../../../components/Error/Error";
 
 export default function Series() {
   // estados de data series y busqueda
@@ -51,7 +52,7 @@ export default function Series() {
   }, [nextPage, search, valueGender]);
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <Error message={"ocurrio un error de parte de nosotros :("} />;
   }
 
   // busqueda de paginas --> + 1
