@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -6,6 +7,7 @@ import styles from "./slaider.module.css";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import imageNull from "../../../public/image-no-found.svg";
+import Link from "next/link";
 
 function AutoPlaySlaider({ dataMovies }) {
   const [settings, setSettings] = useState({
@@ -47,33 +49,37 @@ function AutoPlaySlaider({ dataMovies }) {
       window.removeEventListener("resize", handleResize);
     };
   }, [settings]);
+
   return (
     <div className="slider-container">
       <span className={styles.popularyTitle}>Populary</span>
       <Slider {...settings}>
-        {dataMovies?.slice(0, 15).map((movie, index) => (
-          <div key={movie.id} className={styles.contendCarrussel}>
-            <div className={styles.poster}>
-              <div className={styles.boxNumberMovie}>
-                <span className={styles.numberMovie} key={movie.id}>
-                  {index + 1}
-                </span>
+        {dataMovies &&
+          dataMovies?.slice(0, 15).map((movie, index) => (
+            <div key={movie.id} className={styles.contendCarrussel}>
+              <div className={styles.poster}>
+                <div className={styles.boxNumberMovie}>
+                  <span className={styles.numberMovie} key={movie.id}>
+                    {index + 1}
+                  </span>
+                </div>
+                <Link href={`/movie/${movie.id}`}>
+                  <Image
+                    className={styles.posterImg}
+                    src={`${
+                      movie.poster_path
+                        ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                        : imageNull
+                    } `}
+                    alt={dataMovies.title || "image-movie"}
+                    width={100}
+                    loading="lazy"
+                    height={100}
+                  />
+                </Link>
               </div>
-              <Image
-                className={styles.posterImg}
-                src={`${
-                  movie.poster_path
-                    ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
-                    : imageNull
-                } `}
-                alt={dataMovies.title}
-                width={100}
-                loading="lazy"
-                height={100}
-              />
             </div>
-          </div>
-        ))}
+          ))}
       </Slider>
     </div>
   );

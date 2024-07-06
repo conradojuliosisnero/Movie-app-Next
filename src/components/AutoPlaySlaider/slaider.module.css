@@ -48,15 +48,23 @@
   height: 100%;
   align-items: center;
   justify-content: center;
+  transition: transform 200ms ease-in-out;
 }
+
+.poster:hover {
+  transform: scale(1.1);
+}
+
 
 .posterImg {
   display: flex;
   object-fit: cover;
   width: 200px;
   height: 300px;
+  cursor: pointer;
   border-radius: 0.5em;
 }
+
 
 @media screen and (max-width: 768px) {
   .numberMovie{
