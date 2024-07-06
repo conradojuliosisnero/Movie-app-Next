@@ -3,7 +3,6 @@ import React from "react";
 import { useState, useEffect } from "react";
 import "../../../components/MediaCard/postercard.scss";
 import getMovies from "../../../services/TMDB/GetMovies";
-import Loading from "../../../components/Loader/Loading";
 import Button from "../../../components/Buttons/Button";
 import LayoutMovieSection from "../Layout";
 import MediaCard from "../../../components/MediaCard/MediaCard";
@@ -12,6 +11,7 @@ import GetSearch from "../../../services/SearchMovie/Search";
 import GetGenderFiltered from "../../../services/FilterMovie/FilterGender";
 import Container from "../../../components/LoadingContainer/Container";
 import Error from "../../../components/Error/Error";
+import { motion } from "framer-motion";
 
 export default function Movies() {
   // estados de data y busqueda
@@ -102,6 +102,19 @@ export default function Movies() {
       .filter((movie) => movie.genre_ids.includes(valueGender));
   }
 
+  //variables de animacion
+  const container = {
+    hidden: { opacity: 1, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
   return (
     <LayoutMovieSection>
       {/* buscador  */}
@@ -118,7 +131,12 @@ export default function Movies() {
       {loading ? (
         <Container />
       ) : (
-        <div className="contenedor">
+        <motion.div
+          className="contenedor"
+          variants={container}
+          initial="hidden"
+          animate="visible"
+        >
           {loading ? (
             <Container />
           ) : (
@@ -126,7 +144,7 @@ export default function Movies() {
           )}
           {nextPage == 1 ? "" : <Button funtionPage={handlerPrevMovie} />}
           <Button isNext funtionPage={handlerNextMovie} />
-        </div>
+        </motion.div>
       )}
     </LayoutMovieSection>
   );
