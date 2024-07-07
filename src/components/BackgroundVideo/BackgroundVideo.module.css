@@ -19,3 +19,10 @@
   height: 100%;
   background-color: #000000d6;
 }
+
+@media screen and (max-width: 600px){
+  .videoContainer {
+   margin-top: -160px;
+   height: 90vh;
+  }
+}

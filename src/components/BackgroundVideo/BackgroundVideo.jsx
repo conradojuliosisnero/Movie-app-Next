@@ -24,9 +24,7 @@ const BackgroundVideo = ({ id, videoView, setVideoView }) => {
       setStartVideo(false);
       return;
     }
-
     // Obtener video de la película despues de 5 segundos
-    setTimeout(() => {
       const getVideos = async () => {
         let result = [];
         switch (pathname) {
@@ -39,8 +37,6 @@ const BackgroundVideo = ({ id, videoView, setVideoView }) => {
       };
       getVideos();
       setVideoView(true);
-    }, 5000);
-
     // resize del modal de video
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
