@@ -95,6 +95,7 @@
   z-index: 200;
   justify-content: flex-start;
   padding: 25px 0px;
+  cursor: pointer;
 }
 
 .year span {

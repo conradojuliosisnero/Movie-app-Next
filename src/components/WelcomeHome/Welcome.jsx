@@ -1,13 +1,25 @@
-"use client"
+"use client";
 import styles from "../DetailsCard/movidedesatils.module.css";
 import Image from "next/image";
-import ModalVideo from "../ModalVideo/ModalVideo";
 import errorImage from "../../../public/image-no-found.svg";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import BackgroundVideo from "../BackgroundVideo/BackgroundVideo";
+import {useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Welcome({ dataMovieHome }) {
-  const MOVIEHOME =
-    dataMovieHome && dataMovieHome.length > 0 ? dataMovieHome[0] : null;
+  // state video view
+  const [videoView, setVideoView] = useState(false);
+
+  // data movie home
+  const MOVIEHOME = dataMovieHome && dataMovieHome.length > 0 ? dataMovieHome[0] : null;
+  
+
+  const router = useRouter();
+  // handler video view
+  const handlerVideoView = (event) => {
+    router.push(`/movie/${MOVIEHOME.id}`);
+  };
 
   return (
     <section className={styles.sectionMovie}>
@@ -15,36 +27,50 @@ export default function Welcome({ dataMovieHome }) {
       <div className={styles.container}>
         {/* background movie  */}
         <div className={styles.backgroundDetails}>
-          <Image
-            className={styles.backgroundDetailsImg}
-            src={`https://image.tmdb.org/t/p/original${
-              MOVIEHOME ? MOVIEHOME.backdrop_path : errorImage
-            }`}
-            alt={MOVIEHOME ? MOVIEHOME.title : "image-welcome"}
-            width={100}
-            height={100}
-            quality={30}
-          ></Image>
+          <AnimatePresence>
+            {videoView == false && (
+              <motion.div
+                initial={{ opacity: 0, y: 0 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Image
+                  className={styles.backgroundDetailsImg}
+                  src={`https://image.tmdb.org/t/p/original${
+                    MOVIEHOME ? MOVIEHOME.backdrop_path : errorImage
+                  }`}
+                  alt={MOVIEHOME ? MOVIEHOME.title : "image-welcome"}
+                  width={100}
+                  height={100}
+                  quality={30}
+                ></Image>
+              </motion.div>
+            )}
+            <BackgroundVideo
+              id={MOVIEHOME.id}
+              videoView={videoView}
+              setVideoView={setVideoView}
+            />
+          </AnimatePresence>
         </div>
         {/* overview movie  */}
         <div className={styles.overview}>
           {/* name movie  */}
           <div className={styles.titleMovie}>
-            <motion.span
-              initial={{ opacity: 0 ,y: 100}}
-              animate={{ opacity: 1 ,y: 0}}
-              transition={{ duration: 0.4 }}
-            >{MOVIEHOME ? MOVIEHOME.title : ""}</motion.span>
-          </div>
-          {/* movieHome generes  */}
-          <div className={styles.year_generes}>
-            <div className={styles.BoxModal}>
-              {MOVIEHOME && MOVIEHOME.id ? (
-                <ModalVideo id={MOVIEHOME.id} />
-              ) : (
-                ""
+            <AnimatePresence>
+              {!videoView && (
+                <motion.span
+                  initial={{ opacity: 0, y: 100 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 100 }}
+                  transition={{ duration: 0.4 }}
+                  onClick={handlerVideoView}
+                >
+                  {MOVIEHOME ? MOVIEHOME.title : ""}
+                </motion.span>
               )}
-            </div>
+            </AnimatePresence>
           </div>
         </div>
       </div>
