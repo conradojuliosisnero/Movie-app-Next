@@ -44,18 +44,31 @@ export default function ModalVideo({ id }) {
   }, [id]);
 
   const handlerPopUp = () => {
-    setPopUp(!false);
+    setPopUp(true);
   };
 
   const closePopUp = () => {
     setPopUp(false);
   };
+
+  if (keyVideoMovie == null && pathname.id == id) {
+    return (
+      <div className={styles.trailer_not_found}>trailer no disponible</div>
+    );
+  }
+
+  if (videoSerie == null && pathname.idserie == id) {
+    return (
+      <div className={styles.trailer_not_found}>trailer no disponible</div>
+    );
+  }
+
   return (
     <div className={styles.BoxModal}>
       <button className={styles.ButtonPopUp} onClick={handlerPopUp}>
         Ver Trailer
       </button>
-      {popUp ? (
+      {popUp && (
         <div className={styles.Modal}>
           <div className={styles.ModalVideo}>
             <iframe
@@ -73,12 +86,10 @@ export default function ModalVideo({ id }) {
             ></iframe>
             {/* button close  */}
             <button className={styles.ClosePopUp} onClick={closePopUp}>
-              Close
+              volver
             </button>
           </div>
         </div>
-      ) : (
-        <></>
       )}
     </div>
   );

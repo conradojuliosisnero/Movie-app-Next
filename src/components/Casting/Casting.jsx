@@ -35,7 +35,7 @@ export default function Casting({ id }) {
 
   return (
     <div className="slider_container">
-      <h2 className="title__casting">Cast</h2>
+      <h2 className="title__casting">Elenco</h2>
       <div className="casting">
         {result?.cast?.map((actor) => (
           <div className="card" key={actor.id}>
