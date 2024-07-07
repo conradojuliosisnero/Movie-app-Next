@@ -52,7 +52,7 @@ function AutoPlaySlaider({ dataMovies }) {
 
   return (
     <div className="slider-container">
-      <span className={styles.popularyTitle}>Populary</span>
+      <span className={styles.popularyTitle}>Popular</span>
       <Slider {...settings}>
         {dataMovies &&
           dataMovies?.slice(0, 15).map((movie, index) => (

@@ -9,14 +9,14 @@ const GetVideosMovies = async (movieID, setKeyVideoMovie) => {
       },
     };
     const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${movieID}/videos?language=en-US`,
+      `https://api.themoviedb.org/3/movie/${movieID}/videos?language=es-MX`,
       options
     );
     if (response.status === 200) {
       const data = await response.json();
       let keyEncontrada = null;
       data.results.forEach((obj) => {
-        if (obj.name === "Official Trailer") {
+        if (obj.name == "Official Trailer" || "Official Trailer [doblado]" || "Official Trailer [Subtitulado]") {
           keyEncontrada = obj.key;
         }
         return null;
