@@ -1,39 +1,44 @@
 import "./button.scss";
 import { useState, useEffect } from "react";
 import { GrNext, GrPrevious } from "react-icons/gr";
+import { motion,AnimatePresence } from "framer-motion";
 
 export default function Button({ funtionPage, isNext }) {
   const [showButton, setShowButton] = useState(true); // Inicialmente mostramos el botón
 
   useEffect(() => {
-    let isScrolling;
-
-    function handleScroll() {
-      // Mostrar el botón
-      setShowButton(true);
-
-      // Limpiar el temporizador si existe
-      clearTimeout(isScrolling);
-
-      // Establecer un temporizador para ocultar el botón después de 1 segundo de inactividad de scroll
-      isScrolling = setTimeout(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
         setShowButton(false);
-      }, 1000); // Puedes ajustar el tiempo según tus necesidades
-    }
+      } else {
+        setShowButton(true);
+      }
+    };
 
-    // Agregar event listener para detectar el scroll
     window.addEventListener("scroll", handleScroll);
 
-    // Al desmontar el componente, remover el event listener
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
+  //variants animations
+  const variants = {
+    hidden: { opacity: 0},
+    visible: { opacity: 1},
+    exit: { opacity: 0},
+  };
+
   return (
-    <>
-      {!showButton ? (
-        <div className="contend__buttons">
+    <AnimatePresence>
+      {!showButton && (
+        <motion.div className="contend__buttons"
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          variants={variants}
+          transition={{ duration: 0.4 }}
+        >
           <div className={`button ${isNext ? "ButtonNext" : "ButtonPrev"}`}>
             {isNext ? (
               <button className="icon__button" onClick={funtionPage}>
@@ -45,10 +50,8 @@ export default function Button({ funtionPage, isNext }) {
               </button>
             )}
           </div>
-        </div>
-      ) : (
-        ""
+        </motion.div>
       )}
-    </>
+    </AnimatePresence>
   );
 }
