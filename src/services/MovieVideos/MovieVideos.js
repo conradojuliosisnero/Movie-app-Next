@@ -23,7 +23,7 @@ const GetVideosMovies = async (movieID, setKeyVideoMovie) => {
       });
       setKeyVideoMovie(keyEncontrada);
     } else {
-      console.log("algo salio mal");
+      throw new Error("Error en la llamada a la API");
     }
   } catch (error) {
     console.error(error);

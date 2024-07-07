@@ -1,11 +1,11 @@
 .contendBox {
   position: relative;
-  /* background-color: aqua; */
   display: flex;
   width: 100%;
   justify-content: center;
   padding: 30px 20px;
   flex-wrap: wrap;
+  margin-bottom: 12rem;
 }
 
 .MovieRelevant {
