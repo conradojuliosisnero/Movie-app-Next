@@ -167,6 +167,10 @@
     text-align: center;
   }
 
+  .topMoviesContainer{
+    margin: 100px 0px 0px 0px;
+  }
+
   .card {
     padding: 1rem 2.5rem;
   }
