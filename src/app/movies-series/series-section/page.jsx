@@ -31,7 +31,6 @@ export default function Series() {
     const savedPage = sessionStorage.getItem("currentPageSerie");
     return savedPage ? Number(savedPage) : 1;
   });
-  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const SearchSeries = async () => {
@@ -57,13 +56,6 @@ export default function Series() {
 
   useEffect(() => {
     sessionStorage.setItem("currentPageSerie", nextPageSerie.toString());
-  }, [nextPageSerie]);
-
-  useEffect(() => {
-    // Ocultar y mostrar el contador para activar la animación
-    setIsVisible(false);
-    const timeoutId = setTimeout(() => setIsVisible(true), 100); // Pequeña pausa para permitir la animación
-    return () => clearTimeout(timeoutId);
   }, [nextPageSerie]);
 
   if (error) {
@@ -128,24 +120,6 @@ export default function Series() {
     },
   };
 
-  //counter variants for animation
-  const counter = {
-    hidden: { opacity: 0, y: -30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: 0.5,
-      },
-    },
-    exit: {
-      opacity: 0,
-      y: 30,
-      transition: {
-        delay: 0.5,
-      },
-    },
-  };
 
   return (
     <LayoutMovieSection>
@@ -161,22 +135,6 @@ export default function Series() {
       {loading ? (
         <Container />
       ) : (
-        <div>
-          {/* <div className="number_pages">
-            <AnimatePresence>
-              {isVisible && (
-                <motion.p
-                  initial="hidden"
-                  animate="visible"
-                  exit="hidden"
-                  variants={counter}
-                  transition={{ duration: 0.2 }}
-                >
-                  pagina {nextPageSerie}
-                </motion.p>
-              )}
-            </AnimatePresence>
-          </div> */}
           <motion.div
             className="contenedor"
             variants={container}
@@ -195,7 +153,6 @@ export default function Series() {
             )}
             <Button isNext funtionPage={handlerNextMovie} />
           </motion.div>
-        </div>
       )}
     </LayoutMovieSection>
   );
