@@ -113,6 +113,14 @@ export default function Series() {
     },
   };
 
+    const item = {
+      hidden: { y: 20, opacity: 0 },
+      visible: {
+        y: 0,
+        opacity: 1,
+      },
+    };
+
   return (
     <LayoutMovieSection>
       {/* buscador  */}
@@ -134,7 +142,13 @@ export default function Series() {
           animate="visible"
         >
           {result
-            ? result?.map((serie) => <MediaCard data={serie} key={serie.id} />)
+            ? result?.map((serie) => (
+              <motion.div
+              variants={item}
+              >
+                  <MediaCard data={serie} key={serie.id} />
+                </motion.div>
+              ))
             : ""}
           {nextPage == 1 ? <></> : <Button funtionPage={handlerPrevMovie} />}
           <Button isNext funtionPage={handlerNextMovie} />

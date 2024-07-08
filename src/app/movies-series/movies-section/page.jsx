@@ -115,6 +115,14 @@ export default function Movies() {
     },
   };
 
+  const item = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+    },
+  };
+
   return (
     <LayoutMovieSection>
       {/* buscador  */}
@@ -140,7 +148,13 @@ export default function Movies() {
           {loading ? (
             <Container />
           ) : (
-            result?.map((movie) => <MediaCard data={movie} key={movie.id} />)
+            result?.map((movie) => (
+              <motion.div
+              variants={item}
+              >
+                <MediaCard data={movie} key={movie.id} />
+              </motion.div>
+            ))
           )}
           {nextPage == 1 ? "" : <Button funtionPage={handlerPrevMovie} />}
           <Button isNext funtionPage={handlerNextMovie} />
