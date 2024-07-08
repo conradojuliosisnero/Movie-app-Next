@@ -26,7 +26,10 @@ export default function Movies() {
   // estados de UX
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [nextPage, setNext] = useState(1);
+  const [nextPage, setNext] = useState(() => {
+    const savedPage = sessionStorage.getItem("currentPage");
+    return savedPage ? Number(savedPage) : 1;
+  });
 
   // cada que el nextpage cambia busca una nueva pagina
   useEffect(() => {
@@ -52,18 +55,23 @@ export default function Movies() {
     getDataMovie();
   }, [nextPage, search, valueGender]);
 
+  useEffect(() => {
+    sessionStorage.setItem("currentPage", nextPage.toString());
+  }, [nextPage]);
+
   // busqueda de paginas --> + 1
   const handlerNextMovie = () => {
     setNext(nextPage + 1);
   };
 
+  // busqueda de paginas --> - 1
   const handlerPrevMovie = () => {
     setNext(nextPage - 1);
   };
 
   // si hay un error renderiza --> error component
   if (error) {
-    return <Error message={'ocurrio un error de parte de nosotros :('} />;
+    return <Error message={"ocurrio un error de parte de nosotros :("} />;
   }
 
   // atrapa el valor de search y lo setea en el estado

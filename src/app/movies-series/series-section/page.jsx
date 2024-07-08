@@ -11,7 +11,7 @@ import GetSearchSeries from "../../../services/SearchSeries/Search";
 import GetGenderFilteredSerie from "../../../services/FilterSerie/FilterGenderSerie";
 import Container from "../../../components/LoadingContainer/Container";
 import Error from "../../../components/Error/Error";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function Series() {
   // estados de data series y busqueda
@@ -27,19 +27,22 @@ export default function Series() {
   // estados de UX
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [nextPage, setNext] = useState(1);
+  const [nextPageSerie, setNext] = useState(() => {
+    const savedPage = sessionStorage.getItem("currentPageSerie");
+    return savedPage ? Number(savedPage) : 1;
+  });
 
   useEffect(() => {
     const SearchSeries = async () => {
       try {
         // ranking popular de series
-        const dataSerie = getSeries(setSerieData, nextPage);
+        const dataSerie = getSeries(setSerieData, nextPageSerie);
         // busqueda de series
         const dataSearch = GetSearchSeries(setDataSearch, search);
         // filtro de series
         const filteredData = await GetGenderFilteredSerie(
           setGenderFiltered,
-          nextPage,
+          nextPageSerie,
           valueGender
         );
         setLoading(false);
@@ -49,7 +52,11 @@ export default function Series() {
       }
     };
     SearchSeries();
-  }, [nextPage, search, valueGender]);
+  }, [nextPageSerie, search, valueGender]);
+
+  useEffect(() => {
+    sessionStorage.setItem("currentPageSerie", nextPageSerie.toString());
+  }, [nextPageSerie]);
 
   if (error) {
     return <Error message={"ocurrio un error de parte de nosotros :("} />;
@@ -57,11 +64,11 @@ export default function Series() {
 
   // busqueda de paginas --> + 1
   const handlerNextMovie = () => {
-    setNext(nextPage + 1);
+    setNext(nextPageSerie + 1);
   };
 
   const handlerPrevMovie = () => {
-    setNext(nextPage - 1);
+    setNext(nextPageSerie - 1);
   };
 
   // atrapa el valor de search y lo setea en el estado
@@ -150,7 +157,11 @@ export default function Series() {
                 </motion.div>
               ))
             : ""}
-          {nextPage == 1 ? <></> : <Button funtionPage={handlerPrevMovie} />}
+          {nextPageSerie == 1 ? (
+            <></>
+          ) : (
+            <Button funtionPage={handlerPrevMovie} />
+          )}
           <Button isNext funtionPage={handlerNextMovie} />
         </motion.div>
       )}
