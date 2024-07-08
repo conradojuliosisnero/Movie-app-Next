@@ -120,6 +120,13 @@ export default function Series() {
     },
   };
 
+  const item = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+    },
+  };
 
   return (
     <LayoutMovieSection>
@@ -135,24 +142,22 @@ export default function Series() {
       {loading ? (
         <Container />
       ) : (
-          <motion.div
-            className="contenedor"
-            variants={container}
-            initial="hidden"
-            animate="visible"
-          >
-            {result
-              ? result?.map((serie) => (
-                  <MediaCard data={serie} key={serie.id} />
-                ))
-              : ""}
-            {nextPageSerie == 1 ? (
-              <></>
-            ) : (
-              <Button funtionPage={handlerPrevMovie} />
-            )}
-            <Button isNext funtionPage={handlerNextMovie} />
-          </motion.div>
+        <motion.div
+          className="contenedor"
+          variants={container}
+          initial="hidden"
+          animate="visible"
+        >
+          {result
+              ? result?.map((serie) => <MediaCard data={serie} key={serie.id} variants={item} />)
+            : ""}
+          {nextPageSerie == 1 ? (
+            <></>
+          ) : (
+            <Button funtionPage={handlerPrevMovie} />
+          )}
+          <Button isNext funtionPage={handlerNextMovie} />
+        </motion.div>
       )}
     </LayoutMovieSection>
   );
