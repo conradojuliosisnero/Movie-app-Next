@@ -11,7 +11,7 @@ import GetSearchSeries from "../../../services/SearchSeries/Search";
 import GetGenderFilteredSerie from "../../../services/FilterSerie/FilterGenderSerie";
 import Container from "../../../components/LoadingContainer/Container";
 import Error from "../../../components/Error/Error";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function Series() {
   // estados de data series y busqueda
@@ -27,19 +27,23 @@ export default function Series() {
   // estados de UX
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [nextPage, setNext] = useState(1);
+  const [nextPageSerie, setNext] = useState(() => {
+    const savedPage = sessionStorage.getItem("currentPageSerie");
+    return savedPage ? Number(savedPage) : 1;
+  });
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const SearchSeries = async () => {
       try {
         // ranking popular de series
-        const dataSerie = getSeries(setSerieData, nextPage);
+        const dataSerie = getSeries(setSerieData, nextPageSerie);
         // busqueda de series
         const dataSearch = GetSearchSeries(setDataSearch, search);
         // filtro de series
         const filteredData = await GetGenderFilteredSerie(
           setGenderFiltered,
-          nextPage,
+          nextPageSerie,
           valueGender
         );
         setLoading(false);
@@ -49,7 +53,18 @@ export default function Series() {
       }
     };
     SearchSeries();
-  }, [nextPage, search, valueGender]);
+  }, [nextPageSerie, search, valueGender]);
+
+  useEffect(() => {
+    sessionStorage.setItem("currentPageSerie", nextPageSerie.toString());
+  }, [nextPageSerie]);
+
+  useEffect(() => {
+    // Ocultar y mostrar el contador para activar la animación
+    setIsVisible(false);
+    const timeoutId = setTimeout(() => setIsVisible(true), 100); // Pequeña pausa para permitir la animación
+    return () => clearTimeout(timeoutId);
+  }, [nextPageSerie]);
 
   if (error) {
     return <Error message={"ocurrio un error de parte de nosotros :("} />;
@@ -57,11 +72,11 @@ export default function Series() {
 
   // busqueda de paginas --> + 1
   const handlerNextMovie = () => {
-    setNext(nextPage + 1);
+    setNext(nextPageSerie + 1);
   };
 
   const handlerPrevMovie = () => {
-    setNext(nextPage - 1);
+    setNext(nextPageSerie - 1);
   };
 
   // atrapa el valor de search y lo setea en el estado
@@ -113,6 +128,25 @@ export default function Series() {
     },
   };
 
+  //counter variants for animation
+  const counter = {
+    hidden: { opacity: 0, y: -30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.5,
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: 30,
+      transition: {
+        delay: 0.5,
+      },
+    },
+  };
+
   return (
     <LayoutMovieSection>
       {/* buscador  */}
@@ -127,18 +161,41 @@ export default function Series() {
       {loading ? (
         <Container />
       ) : (
-        <motion.div
-          className="contenedor"
-          variants={container}
-          initial="hidden"
-          animate="visible"
-        >
-          {result
-            ? result?.map((serie) => <MediaCard data={serie} key={serie.id} />)
-            : ""}
-          {nextPage == 1 ? <></> : <Button funtionPage={handlerPrevMovie} />}
-          <Button isNext funtionPage={handlerNextMovie} />
-        </motion.div>
+        <div>
+          {/* <div className="number_pages">
+            <AnimatePresence>
+              {isVisible && (
+                <motion.p
+                  initial="hidden"
+                  animate="visible"
+                  exit="hidden"
+                  variants={counter}
+                  transition={{ duration: 0.2 }}
+                >
+                  pagina {nextPageSerie}
+                </motion.p>
+              )}
+            </AnimatePresence>
+          </div> */}
+          <motion.div
+            className="contenedor"
+            variants={container}
+            initial="hidden"
+            animate="visible"
+          >
+            {result
+              ? result?.map((serie) => (
+                  <MediaCard data={serie} key={serie.id} />
+                ))
+              : ""}
+            {nextPageSerie == 1 ? (
+              <></>
+            ) : (
+              <Button funtionPage={handlerPrevMovie} />
+            )}
+            <Button isNext funtionPage={handlerNextMovie} />
+          </motion.div>
+        </div>
       )}
     </LayoutMovieSection>
   );
