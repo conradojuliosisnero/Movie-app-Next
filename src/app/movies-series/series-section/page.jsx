@@ -150,7 +150,9 @@ export default function Series() {
         >
           {result
             ? result?.map((serie) => (
-                <motion.div variants={item}>
+              <motion.div
+              variants={item}
+              >
                   <MediaCard data={serie} key={serie.id} />
                 </motion.div>
               ))
