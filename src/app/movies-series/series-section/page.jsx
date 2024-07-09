@@ -21,14 +21,13 @@ export default function Series() {
 
   // estados de filtros
   const [valueGender, setValueGender] = useState("");
-
   const [genderFiltered, setGenderFiltered] = useState([]);
 
   // estados de UX
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [nextPageSerie, setNext] = useState(() => {
-    const savedPage = sessionStorage.getItem("currentPageSerie");
+    const savedPage = localStorage.getItem("currentPageSerie");
     return savedPage ? Number(savedPage) : 1;
   });
 
@@ -55,7 +54,7 @@ export default function Series() {
   }, [nextPageSerie, search, valueGender]);
 
   useEffect(() => {
-    sessionStorage.setItem("currentPageSerie", nextPageSerie.toString());
+    localStorage.setItem("currentPageSerie", nextPageSerie.toString());
   }, [nextPageSerie]);
 
   if (error) {
