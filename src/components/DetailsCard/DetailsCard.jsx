@@ -8,11 +8,12 @@ import Watch from "../WatchMovie/Watch";
 import Season from "../Season/Season";
 import Image404 from "../../../public/image-no-found.svg";
 import { useParams } from "next/navigation";
+import Recommendation from "../Recommendation/Recommendation";
 
 const MovieDetails = ({ details }) => {
-
+  // pathname
   const pathname = useParams();
-
+  // convert date
   const dateConvert = () => {
     const date = new Date(details.release_date || details.first_air_date);
     const year = date.getFullYear();
@@ -105,6 +106,8 @@ const MovieDetails = ({ details }) => {
       <div className={styles.CastingBox}>
         <Casting id={details.id} />
       </div>
+      {/* RECOMENDATIONS  */}
+      <Recommendation id={details.id} />
     </section>
   );
 };

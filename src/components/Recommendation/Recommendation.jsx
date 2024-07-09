@@ -1,53 +1,79 @@
-import style from "./recommendation.module.css";
-import GetRecommendation from "../../services/Recommendation/MovieRC";
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
+import "./recommendation.module.css";
+import GetRecommendation from "../../services/RecommendationMovie/MovieRC";
+import GetRecomendationSerie from "../../services/RecommendationSerie/SerieRC";
+import defaul from "../../../public/image-no-found.svg";
+import Link from "next/link";
 import Image from "next/image";
-import Slaider from "../AutoPlaySlaider/Slaider";
-import Slider from "react-slick";
-import { useEffect, useState } from "react";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import styles from "../AutoPlaySlaider/slaider.module.css";
 
-const Recommendation = ({ detailsRC }) => {
-  const [dataRC, setDataRC] = useState([]);
+export default function Recommendation({ id }) {
+  const [result, setResult] = useState([]);
+
+  // params
+  const params = useParams();
+
   useEffect(() => {
-    GetRecommendation(detailsRC.id, setDataRC);
-  }, []);
+    const fetchRecomendation = async () => {
+      let resultdata = [];
+      if (params.id == id) {
+        const data = await GetRecommendation(id);
+        resultdata = data;
+        setResult(resultdata);
+      } else {
+        const data = await GetRecomendationSerie(id);
+        resultdata = data;
+        setResult(resultdata);
+      }
+      setResult(resultdata);
+    };
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay: true,
-    speed: 1000,
-    autoplaySpeed: 2000,
-    cssEase: "ease-in-out",
-  };
+    fetchRecomendation();
+  }, [id]);
 
   return (
-    <section className={style.RecommendationBox}>
-      <div className={style.RecommendationTitle}>
-        <span>Movie recommendation</span>
-      </div>
-      ;
-      <div className={style.RecommendationSlaider}>
-        <Slider {...settings}>
-          {dataRC.results?.map((datarc) => (
-            <div key={datarc.id} className={styles.contendCarrussel}>
-              <div className={styles.poster}>
-                <img
-                  className={styles.posterImg}
-                  src={`https://image.tmdb.org/t/p/w500/${datarc.poster_path}`}
-                  alt={datarc.title}
-                />
+    <div className="slider_container">
+      <h2 className="title__casting">Recomendaciones</h2>
+      <div className="casting">
+        {result.results == undefined || null ? (
+          <div className="no-recomendations">
+            <h3>sin recomendaciones</h3>
+          </div>
+        ) : (
+          result.results.slice(0, 5).map((recomendation) => (
+            <div className="card" key={recomendation.id}>
+              <div className="img__casting">
+                <Link
+                  href={
+                    params.id == id
+                      ? `/movie/${recomendation.id}`
+                      : `/serie/${recomendation.id}`
+                  }
+                >
+                  <Image
+                    className="img"
+                    src={
+                      recomendation.poster_path
+                        ? `https://image.tmdb.org/t/p/original${recomendation.poster_path}`
+                        : defaul
+                    }
+                    alt={recomendation.title}
+                    loading="lazy"
+                    width={100}
+                    height={100}
+                  ></Image>
+                </Link>
+              </div>
+              <div className="name__casting">
+                <span className="name__actor">{recomendation.title}</span>
+                <span className="chararter__name">
+                  {recomendation.character}
+                </span>
               </div>
             </div>
-          ))}
-        </Slider>
+          ))
+        )}
       </div>
-    </section>
+    </div>
   );
-};
-
-export default Recommendation;
+}
