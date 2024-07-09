@@ -85,16 +85,14 @@ export default function Welcome({ dataMovieHome }) {
           {/* name movie  */}
           <div className={styles.titleMovie}>
             <AnimatePresence>
-              {!videoView && (
                 <motion.span
                   initial={{ opacity: 0, y: 100 }}
-                  animate={{ opacity: 1, y: 350 }}
+                  animate={{ opacity: 1, y: 100 }}
                   transition={{ duration: 0.4 }}
                   onClick={handlerVideoView}
                 >
                   {MOVIEHOME ? MOVIEHOME.title : ""}
                 </motion.span>
-              )}
             </AnimatePresence>
           </div>
         </div>
