@@ -11,7 +11,7 @@ import GetSearchSeries from "../../../services/SearchSeries/Search";
 import GetGenderFilteredSerie from "../../../services/FilterSerie/FilterGenderSerie";
 import Container from "../../../components/LoadingContainer/Container";
 import Error from "../../../components/Error/Error";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 export default function Series() {
   // estados de data series y busqueda
