@@ -27,7 +27,7 @@ export default function Movies() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [nextPage, setNext] = useState(() => {
-    const savedPage = sessionStorage.getItem("currentPage");
+    const savedPage = localStorage.getItem("currentPage");
     return savedPage ? Number(savedPage) : 1;
   });
 
@@ -56,7 +56,7 @@ export default function Movies() {
   }, [nextPage, search, valueGender]);
 
   useEffect(() => {
-    sessionStorage.setItem("currentPage", nextPage.toString());
+    localStorage.setItem("currentPage", nextPage.toString());
   }, [nextPage]);
 
   // busqueda de paginas --> + 1
