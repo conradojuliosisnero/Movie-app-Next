@@ -11,7 +11,7 @@ import GetSearchSeries from "../../../services/SearchSeries/Search";
 import GetGenderFilteredSerie from "../../../services/FilterSerie/FilterGenderSerie";
 import Container from "../../../components/LoadingContainer/Container";
 import Error from "../../../components/Error/Error";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 export default function Series() {
   // estados de data series y busqueda
@@ -21,15 +21,17 @@ export default function Series() {
 
   // estados de filtros
   const [valueGender, setValueGender] = useState("");
-
   const [genderFiltered, setGenderFiltered] = useState([]);
 
   // estados de UX
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [nextPageSerie, setNext] = useState(() => {
-    const savedPage = sessionStorage.getItem("currentPageSerie");
+  if (typeof window !== "undefined") {
+    const savedPage = sessionStorage.getItem("currentPage");
     return savedPage ? Number(savedPage) : 1;
+  }
+  return 1;
   });
 
   useEffect(() => {

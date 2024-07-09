@@ -27,8 +27,11 @@ export default function Movies() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [nextPage, setNext] = useState(() => {
+  if (typeof window !== "undefined") {
     const savedPage = sessionStorage.getItem("currentPage");
     return savedPage ? Number(savedPage) : 1;
+  }
+  return 1;
   });
 
   // cada que el nextpage cambia busca una nueva pagina
