@@ -39,7 +39,7 @@ const Nav = () => {
   }, []);
 
   const goHome = () => {
-    router.push("/");
+    router.back();
   };
 
   return (
