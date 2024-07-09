@@ -27,8 +27,11 @@ export default function Series() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [nextPageSerie, setNext] = useState(() => {
-    const savedPage = localStorage.getItem("currentPageSerie");
+  if (typeof window !== "undefined") {
+    const savedPage = sessionStorage.getItem("currentPage");
     return savedPage ? Number(savedPage) : 1;
+  }
+  return 1;
   });
 
   useEffect(() => {
@@ -54,7 +57,7 @@ export default function Series() {
   }, [nextPageSerie, search, valueGender]);
 
   useEffect(() => {
-    localStorage.setItem("currentPageSerie", nextPageSerie.toString());
+    sessionStorage.setItem("currentPageSerie", nextPageSerie.toString());
   }, [nextPageSerie]);
 
   if (error) {
