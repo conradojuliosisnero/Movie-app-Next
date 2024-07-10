@@ -1,5 +1,5 @@
 "use client";
-import styles from "../DetailsCard/movidedesatils.module.css";
+import styles from "./welcome.module.css";
 import Image from "next/image";
 import errorImage from "../../../public/image-no-found.svg";
 import { AnimatePresence, motion } from "framer-motion";
@@ -87,7 +87,7 @@ export default function Welcome({ dataMovieHome }) {
             <AnimatePresence>
                 <motion.span
                   initial={{ opacity: 0, y: 100 }}
-                  animate={{ opacity: 1, y: 100 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
                   onClick={handlerVideoView}
                 >
