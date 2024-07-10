@@ -1,58 +1,276 @@
-.contendBox {
+.sectionMovie {
   position: relative;
   display: flex;
-  width: 100%;
-  justify-content: center;
-  padding: 30px 20px;
-  flex-wrap: wrap;
-  margin-bottom: 12rem;
+  flex-direction: column;
 }
 
-.MovieRelevant {
+.backgroundDetails {
+  min-width: 100%;
+  position: absolute;
+}
+
+.backgroundDetails::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.8101365546218487) 0%,
+    rgba(255, 255, 255, 0) 100%,
+    rgba(91, 212, 190, 0) 100%
+  );
+}
+
+.backgroundDetails::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(57, 57, 57, 0.635);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 1) 6%,
+    rgba(0, 0, 0, 0.8493522408963585) 21%,
+    rgba(0, 0, 0, 0.5104166666666667) 44%,
+    rgba(91, 212, 190, 0) 58%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
+.backgroundDetailsImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* contend  */
+.container {
+  display: grid;
+  padding: 70px 25px;
   position: relative;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    "nameMovie nameMovie nameMovie"
+    "overview overview overview"
+    "stats stats stats";
+}
+
+.SeasonsContainer {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 30px 15px;
-  /* background-color: bisque; */
+  max-width: 100%;
+  min-width: 350px;
 }
 
-
-.overvierHomeBox {
-  /* background-color: blueviolet; */
-  flex-grow: 2;
-  padding: 30px 15px 10px 10px;
-}
-
-.overvierTitle {
-  /* background-color: aqua; */
-  padding: 20px 0px;
-  font-size: 3em;
-}
-
-.overvierText {
-  width: 670px;
-  position: relative;
-  padding: 15px 10px;
-  text-align: start;
-  /* background-color: cadetblue; */
-}
-
-
-.MovieRelevantImg {
-  position: relative;
-  width: 250px;
-  height: 100%;
-  padding: 20px 10px;
-  margin: 0px 0px 0px 20px;
-  flex-grow: 5;
-  /* background-color: blue; */
-}
-
-.MovieRelevantImg img {
-  display: flex;
-  object-fit: cover;
+.status {
+  background-color: #57db81;
+  padding: 10px 10px;
+  margin: 10px 0px;
   border-radius: 0.5em;
+  color: #ffffff;
+}
+
+.status2 {
+  background-color: #db5757;
+  padding: 10px 10px;
+  margin: 10px 0px;
+  border-radius: 0.5em;
+  color: #ffffff;
+}
+
+.titleMovie span{
+  grid-area: nameMovie;
+  font-size: 4em;
+  font-weight: 700;
+  display: flex;
+  z-index: 200;
+  justify-content: flex-start;
+  padding: 25px 0px;
+  cursor: pointer;
+}
+
+.year span {
+  color: #727272;
+}
+
+.estreno span {
+  font-size: 5em;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.imgmovie {
+  display: flex;
+  z-index: 100;
+  object-fit: cover;
+  width: auto;
+  min-height: 250px;
+  align-items: center;
+  justify-content: center;
+  grid-area: imgmovie;
+  border-radius: 0.5em;
+  margin-top: 40px;
+}
+
+.imgmovie img {
+  width: 250px;
+  border-radius: 0.5em;
+}
+
+.overview {
+  grid-area: overview;
+  display: flex;
+  z-index: 200;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+.year_generes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+.genero{
+  padding: 10px 0px;
+}
+.genere {
+  padding: 0px 4px;
+  border-radius: 0.3em;
+  color: #727272;
+  margin: 10px;
+}
+
+.overview p {
+  display: flex;
+  backdrop-filter: blur(5px);
+  border-radius: 0.7em;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  padding: 30px 20px;
+  margin: 0px 15px 0px 0px;
+  color: #cacaca;
+}
+
+.stats {
+  grid-area: stats;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 15px 0px;
+}
+
+.starsGood {
+  display: flex;
+  background-color: rgb(86, 225, 116);
+  border-radius: 0.5em;
+  padding: 10px 5px;
+}
+
+.starsBad {
+  display: flex;
+  background-color: rgb(230, 77, 60);
+  border-radius: 0.5em;
+  padding: 10px 5px;
+}
+
+.starsGood .votes {
+  margin: 0px 10px;
+  font-weight: 500;
+  font-size: 1.3em;
+}
+
+.starsBad .votes {
+  margin: 0px 10px;
+  font-weight: 500;
+  font-size: 1.3em;
+}
+
+.CastingBox {
+  position: relative;
+  padding: 40px 35px;
+  width: 100%;
+  background: #000000;
+}
+
+.Watch {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0px 20px;
+  align-items: flex-start;
   width: 100%;
   height: 100%;
+  height: 450px;
+}
+
+@media screen and (max-width: 768px) {
+  .titleMovie span{
+    font-size: 3em;
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .stats {
+    padding: 40px 0px;
+  }
+  .titleMovie {
+    margin: 120px 0px 0px 0px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .titleMovie span{
+    font-size: 2.5em;
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .stats {
+    padding: 30px 0px;
+  }
+  .titleMovie {
+    margin: 100px 0px 0px 0px;
+  }
+}
+
+@media screen and (max-width: 414px) {
+  .titleMovie span{
+    font-size: 2em;
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .stats {
+    padding: 20px 0px;
+  }
+  .titleMovie {
+    margin: 80px 0px 0px 0px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .titleMovie span{
+    font-size: 1.9em;
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .stats {
+    padding: 10px 0px;
+  }
+  .titleMovie {
+    margin: 60px 0px 0px 0px;
+  }
 }
