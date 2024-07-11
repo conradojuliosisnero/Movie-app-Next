@@ -1,21 +1,38 @@
 import getMoviesHome from "../services/moviesHome/GetMovies";
-import AutoPlaySlaider from "../components/AutoPlaySlaider/Slaider";
-import Welcome from "../components/WelcomeHome/Welcome";
+import Squeleton from "../components/WelcomeHome/Squeleton";
 import styles from "./page.module.css";
+import dynamic from "next/dynamic";
+import SqueletonSlaider from "../components/AutoPlaySlaider/SqueletonSlaider";
 
 export const metadata = {
   title: "moviesCon 2.0 welcome site",
   description:
-    "bienvenido MoviesCon 2.0 sitio para sumerguirte en el mundo del cine",
+    "Bienvenido MoviesCon 2.0 sitio para sumerguirte en el mundo del cine",
 };
+
+const AutoPlaySlaiderDynamic = dynamic(
+  () => import("../components/AutoPlaySlaider/Slaider"),
+  {
+    loading: () => <SqueletonSlaider />,
+    ssr: false,
+  }
+);
+
+const WelcomeDynamic = dynamic(
+  () => import("../components/WelcomeHome/Welcome"),
+  {
+    loading: () => <Squeleton />,
+    ssr: false,
+  }
+);
 
 export default async function Home() {
   const results = await getMoviesHome();
   return (
     <main className={styles.name}>
-      <Welcome dataMovieHome={results} />
+      <WelcomeDynamic dataMovieHome={results} />
       <div className={styles.topMoviesContainer}>
-        <AutoPlaySlaider dataMovies={results} />
+        <AutoPlaySlaiderDynamic dataMovies={results} />
       </div>
     </main>
   );

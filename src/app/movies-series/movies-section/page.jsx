@@ -5,13 +5,13 @@ import "../../../components/MediaCard/postercard.scss";
 import getMovies from "../../../services/TMDB/GetMovies";
 import Button from "../../../components/Buttons/Button";
 import LayoutMovieSection from "../Layout";
-import MediaCard from "../../../components/MediaCard/MediaCard";
-import Search from "../../../components/SearchInput/Search";
 import GetSearch from "../../../services/SearchMovie/Search";
 import GetGenderFiltered from "../../../services/FilterMovie/FilterGender";
 import Container from "../../../components/LoadingContainer/Container";
 import Error from "../../../components/Error/Error";
 import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
+import SqueletonSearch from "../../../components/SearchInput/SqueletonSeearch";
 
 export default function Movies() {
   // estados de data y busqueda
@@ -27,11 +27,11 @@ export default function Movies() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [nextPage, setNext] = useState(() => {
-  if (typeof window !== "undefined") {
-    const savedPage = sessionStorage.getItem("currentPage");
-    return savedPage ? Number(savedPage) : 1;
-  }
-  return 1;
+    if (typeof window !== "undefined") {
+      const savedPage = sessionStorage.getItem("currentPage");
+      return savedPage ? Number(savedPage) : 1;
+    }
+    return 1;
   });
 
   // cada que el nextpage cambia busca una nueva pagina
@@ -134,11 +134,26 @@ export default function Movies() {
     },
   };
 
+  const SearchDynamic = dynamic(
+    () => import("../../../components/SearchInput/Search"),
+    {
+      loading: () => <SqueletonSearch />,
+      ssr: false,
+    }
+  );
+
+  const MediaCardDynamic = dynamic(
+    () => import("../../../components/MediaCard/MediaCard"),
+    {
+      ssr: false,
+    }
+  );
+
   return (
     <LayoutMovieSection>
       {/* buscador  */}
       <div className="searcher">
-        <Search
+        <SearchDynamic
           funtion={handlerSearch}
           filter={handleButtonClick}
           value={search}
@@ -160,10 +175,8 @@ export default function Movies() {
             <Container />
           ) : (
             result?.map((movie) => (
-              <motion.div
-              variants={item}
-              >
-                <MediaCard data={movie} key={movie.id} />
+              <motion.div variants={item}>
+                <MediaCardDynamic data={movie} key={movie.id} />
               </motion.div>
             ))
           )}

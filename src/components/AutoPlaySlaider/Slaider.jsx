@@ -73,7 +73,7 @@ function AutoPlaySlaider({ dataMovies }) {
                     } `}
                     alt={dataMovies.title || "image-movie"}
                     width={100}
-                    loading="lazy"
+                    // loading="lazy"
                     height={100}
                   />
                 </Link>
