@@ -14,8 +14,8 @@
     transition: background-color 300ms ease-in-out;
     color: rgb(255, 255, 255);
     background-color: transparent;
-    border: none;
     font-size: 3.5em;
+    border: solid 1.5px #ffffffdb;
     height: 250px;
     cursor: pointer;
     width: 100%;
@@ -38,12 +38,24 @@
   height: 600px;
   width: 70px;
   & button {
-    background-color: #000000db;
+    background-color: #000000cb;
     backdrop-filter: blur(4px);
+    transition: background-color 300ms ease-in-out;
+    color: rgb(255, 255, 255);
+    background-color: transparent;
+    font-size: 3.5em;
+    border: solid 1.5px #ffffffdb;
+    height: 250px;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 0.2em;
+    &:hover {
+      background-color: #ffffff34;
+      border-radius: 0.2em;
+    }
   }
   & .icon__button {
     color: rgb(255, 255, 255);
-    border: none;
     background-color: transparent;
     transition: background-color 300ms ease-in-out;
     font-size: 3.5em;
