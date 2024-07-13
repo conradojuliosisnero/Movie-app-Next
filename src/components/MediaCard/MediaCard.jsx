@@ -33,9 +33,9 @@ const item = {
             }
             width={100}
             height={100}
-            loading="lazy"
             layout="responsive"
-            quality={70}
+            quality={30}
+            loading="lazy"
             alt={title}
           ></Image>
           {/* card hover  */}

@@ -87,3 +87,27 @@
 }
 
 }
+
+.search__skeleton {
+  width: 230px;
+  height: 40px;
+  background-color: #ffffff;
+  border-radius: 1em;
+  margin-right: -2rem;
+  animation: skeleton-loading 1s infinite linear;
+}
+
+.search__skeleton + .search__skeleton {
+  margin-top: 1rem;
+}
+
+
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: -230px 0;
+  }
+  100% {
+    background-position: 230px 0;
+  }
+}
