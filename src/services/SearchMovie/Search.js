@@ -1,24 +1,22 @@
-const bearer = `${process.env.NEXT_PUBLIC_BEARER_TOKEN}`;
-
-const GetSearch = async (setDataSearch, value) => {
+const GetSearch = async (value) => {
+  const bearer = `${process.env.BEARER_TOKEN}`;
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${bearer}`,
+    },
+  };
   try {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${bearer}`,
-      },
-    };
     const response = await fetch(
-      `https://api.themoviedb.org/3/search/movie?query=${value}&include_adult=false&language=es-MX`,
+      `https://api.themoviedb.org/3/search/movie?query=${value}&include_adult=false&language=es-MX&page=1`,
       options
     );
-
     if (response.status === 200) {
       const data = await response.json();
-      setDataSearch(data);
+      return data;
     } else {
-      console.log("algo salio mal al buscar la pelicula");
+      console.error(error);
     }
   } catch (error) {
     console.error(error);

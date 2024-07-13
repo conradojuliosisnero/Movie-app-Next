@@ -1,0 +1,21 @@
+
+
+/* Estilos para el esqueleto de la imagen */
+.imagen__esqueletor {
+  width: 100%; /* Ancho de la imagen */
+  height: 100%; /* Altura inicial de la imagen */
+  padding-top: 150%; /* Proporción de aspecto (por ejemplo, 16:9) */
+  background-color: #ddd; /* Color de fondo del esqueleto */
+  border-radius: 8px; /* Bordes redondeados */
+  animation: pulse 1.5s infinite alternate; /* Animación de pulso */
+}
+
+/* Animación de pulso */
+@keyframes pulse {
+  0% {
+    opacity: 0.6; /* Opacidad inicial */
+  }
+  100% {
+    opacity: 1; /* Opacidad final */
+  }
+}

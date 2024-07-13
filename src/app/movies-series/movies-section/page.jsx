@@ -2,19 +2,16 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import "../../../components/MediaCard/postercard.scss";
-import getMovies from "../../../services/TMDB/GetMovies";
 import Button from "../../../components/Buttons/Button";
 import LayoutMovieSection from "../Layout";
-import GetSearch from "../../../services/SearchMovie/Search";
-import GetGenderFiltered from "../../../services/FilterMovie/FilterGender";
 import Container from "../../../components/LoadingContainer/Container";
 import Error from "../../../components/Error/Error";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
-import SqueletonSearch from "../../../components/SearchInput/SqueletonSeearch";
+import Search from "../../../components/SearchInput/Search";
 
 export default function Movies() {
-  // estados de data y busqueda
+  // estados de movies y busqueda
   const [movieData, setMovieData] = useState([]);
   const [dataSearch, setDataSearch] = useState([]);
   const [search, setSearch] = useState("");
@@ -24,7 +21,6 @@ export default function Movies() {
   const [valueGender, setValueGender] = useState("");
 
   // estados de UX
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [nextPage, setNext] = useState(() => {
     if (typeof window !== "undefined") {
@@ -39,25 +35,57 @@ export default function Movies() {
     const getDataMovie = async () => {
       try {
         // ranking popular de peliculas
-        const data = await getMovies(setMovieData, nextPage);
-        // busqueda de peliculas
-        const dataSearch = await GetSearch(setDataSearch, search);
-        // filtro de peliculas
-        const filteredData = await GetGenderFiltered(
-          setGenderFiltered,
-          nextPage,
-          valueGender
-        );
-        setLoading(false);
+        const response = await fetch(`/api/movies?page=${nextPage}`);
+        const data = await response.json();
+        setMovieData(data);
       } catch (error) {
         setError(error);
-        setLoading(false);
       }
     };
 
     getDataMovie();
-  }, [nextPage, search, valueGender]);
+  }, [nextPage]);
 
+  // cada que el search cambia busca las peliculas
+  useEffect(() => {
+    const getSearch = async () => {
+      try {
+        const response = await fetch(`/api/movies/searcher?value=${search}`);
+        if (response.status === 200) {
+          const data = await response.json();
+          setDataSearch(data);
+        } else {
+          console.error(error);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    if (search !== "" && search !== null && search !== undefined) {
+      getSearch();
+    }
+  }, [search]);
+
+  // cada que el valueGender cambia busca los generos
+  useEffect(() => {
+    // busqueda de generos
+    const getGender = async () => {
+      try {
+        const response = await fetch(
+          `/api/movies/gender?page=${nextPage}&valueGender=${valueGender}`
+        );
+        const data = await response.json();
+        setGenderFiltered(data);
+      } catch (error) {
+        console.error(error);
+        setError(error);
+      }
+    };
+
+    getGender();
+  }, [valueGender, nextPage]);
+
+  // cada que el nextpage cambia guarda el valor en el session storage
   useEffect(() => {
     sessionStorage.setItem("currentPage", nextPage.toString());
   }, [nextPage]);
@@ -101,7 +129,7 @@ export default function Movies() {
     result = genderFiltered.results;
   } else if (search && !valueGender) {
     // Si hay un término de búsqueda pero no hay género seleccionado, mostrar resultados de búsqueda
-    result = dataSearch.results.filter((movie) =>
+    result = dataSearch?.results?.filter((movie) =>
       movie.title.toLowerCase().includes(search.toLowerCase())
     );
   } else {
@@ -134,17 +162,10 @@ export default function Movies() {
     },
   };
 
-  const SearchDynamic = dynamic(
-    () => import("../../../components/SearchInput/Search"),
-    {
-      loading: () => <SqueletonSearch />,
-      ssr: false,
-    }
-  );
-
   const MediaCardDynamic = dynamic(
     () => import("../../../components/MediaCard/MediaCard"),
     {
+      loading: () => <Container />,
       ssr: false,
     }
   );
@@ -153,7 +174,7 @@ export default function Movies() {
     <LayoutMovieSection>
       {/* buscador  */}
       <div className="searcher">
-        <SearchDynamic
+        <Search
           funtion={handlerSearch}
           filter={handleButtonClick}
           value={search}
@@ -162,28 +183,20 @@ export default function Movies() {
       </div>
 
       {/* contedor de peliculas */}
-      {loading ? (
-        <Container />
-      ) : (
-        <motion.div
-          className="contenedor"
-          variants={container}
-          initial="hidden"
-          animate="visible"
-        >
-          {loading ? (
-            <Container />
-          ) : (
-            result?.map((movie) => (
-              <motion.div variants={item}>
-                <MediaCardDynamic data={movie} key={movie.id} />
-              </motion.div>
-            ))
-          )}
-          {nextPage == 1 ? "" : <Button funtionPage={handlerPrevMovie} />}
-          <Button isNext funtionPage={handlerNextMovie} />
-        </motion.div>
-      )}
+      <motion.div
+        className="contenedor"
+        variants={container}
+        initial="hidden"
+        animate="visible"
+      >
+        {result?.map((movie) => (
+          <motion.div variants={item}>
+            <MediaCardDynamic data={movie} key={movie.id} />
+          </motion.div>
+        ))}
+        {nextPage == 1 ? "" : <Button funtionPage={handlerPrevMovie} />}
+        <Button isNext funtionPage={handlerNextMovie} />
+      </motion.div>
     </LayoutMovieSection>
   );
 }

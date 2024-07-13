@@ -1,13 +1,22 @@
-const getMovies = async (setMovieData, nextPage) => {
-  const apikey = process.env.NEXT_PUBLIC_MOVIES_API_KEY;
-  
+export default async function getMovies(page){
+  const bearer = `${process.env.BEARER_TOKEN}`;
+const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      `Bearer ${bearer}`,
+  },
+};
+
   try {
     const response = await fetch(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${apikey}&language=es-MX&page=${nextPage}`
+      `https://api.themoviedb.org/3/movie/popular?language=es-MX&page=${page}`,
+      options
     );
     if (response.status === 200) {
       const data = await response.json();
-      setMovieData(data);
+      return data;
     } else {
       console.error("algo salio mal");
     }
@@ -15,5 +24,3 @@ const getMovies = async (setMovieData, nextPage) => {
     console.error(error);
   }
 };
-
-export default getMovies;

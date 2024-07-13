@@ -1,5 +1,6 @@
-const GetGenderFiltered = async (setGenderFiltered, nextpage, valueGender) => {
-  const bearer = `${process.env.NEXT_PUBLIC_BEARER_TOKEN}`;
+const GetGenderFiltered = async (nextpage, valueGender) => {
+  console.log(nextpage);
+  const bearer = `${process.env.BEARER_TOKEN}`;
   const options = {
     method: "GET",
     headers: {
@@ -15,7 +16,8 @@ const GetGenderFiltered = async (setGenderFiltered, nextpage, valueGender) => {
     );
     if (response.status === 200) {
       const data = await response.json();
-      setGenderFiltered(data);
+      console.log(data);
+      return data;
     } else {
       console.log("algo salio mal al hacer fetch");
     }

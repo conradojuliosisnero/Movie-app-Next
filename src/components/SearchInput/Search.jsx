@@ -1,4 +1,3 @@
-
 import "./search.css";
 import FilterNav from "../Filter/FilterNav";
 import Image from "next/image";
@@ -12,10 +11,11 @@ export default function Search({ funtion, value, filter, close }) {
       <input
         type="text"
         className="search__input"
-        placeholder="Buscar..."
+        placeholder="Buscar"
         value={value}
         onChange={funtion}
       />
+      {/* boton de busqueda */}
       <div className="search__button">
         {value == "" ? (
           <Image src={SearchIcon} width={21} height={21} alt={"search-icon"} />
@@ -29,6 +29,7 @@ export default function Search({ funtion, value, filter, close }) {
           />
         )}
       </div>
+      {/* filtro */}
       <div className="filter__container">
         <FilterNav funtion={filter} />
       </div>
