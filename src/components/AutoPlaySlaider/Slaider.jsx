@@ -55,7 +55,7 @@ function AutoPlaySlaider({ dataMovies }) {
       <span className={styles.popularyTitle}>Popular</span>
       <Slider {...settings}>
         {dataMovies &&
-          dataMovies?.slice(0, 15).map((movie, index) => (
+          dataMovies.slice(0, 15).map((movie, index) => (
             <div key={movie.id} className={styles.contendCarrussel}>
               <div className={styles.poster}>
                 <div className={styles.boxNumberMovie}>
