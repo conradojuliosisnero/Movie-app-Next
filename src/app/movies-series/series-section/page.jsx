@@ -12,6 +12,8 @@ import GetGenderFilteredSerie from "../../../services/FilterSerie/FilterGenderSe
 import Container from "../../../components/LoadingContainer/Container";
 import Error from "../../../components/Error/Error";
 import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
+import Temporal from "src/components/mantenimiento/Temporal";
 
 export default function Series() {
   // estados de data series y busqueda
@@ -33,6 +35,13 @@ export default function Series() {
   }
   return 1;
   });
+
+  const path = usePathname();
+
+  if (path === "/movies-series/series-section") {
+    return <Temporal />;
+  }
+
 
   useEffect(() => {
     const SearchSeries = async () => {
