@@ -19,6 +19,9 @@
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
-    "sass": "^1.72.0"
+    "@types/node": "20.11.27",
+    "@types/react": "18.2.65",
+    "sass": "^1.72.0",
+    "typescript": "5.4.2"
   }
 }

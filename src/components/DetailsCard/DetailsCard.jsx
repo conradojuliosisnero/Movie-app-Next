@@ -7,12 +7,20 @@ import ModalVideo from "../ModalVideo/ModalVideo";
 import Watch from "../WatchMovie/Watch";
 import Season from "../Season/Season";
 import Image404 from "../../../public/image-no-found.svg";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import Recommendation from "../Recommendation/Recommendation";
+import Temporal from "../mantenimiento/Temporal";
+
 
 const MovieDetails = ({ details }) => {
   // pathname
   const pathname = useParams();
+  const path = usePathname();
+
+  if (path == `/movie/${details.id}` || path == `/serie${details.id}`) {
+    return <Temporal />;
+  }
+  
   // convert date
   const dateConvert = () => {
     const date = new Date(details.release_date || details.first_air_date);
