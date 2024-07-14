@@ -1,4 +1,4 @@
-const bearer = `${process.env.NEXT_PUBLIC_BEARER_TOKEN}`;
+const bearer = `${process.env.BEARER_TOKEN}`;
 const GetVideosMovies = async (movieID, setKeyVideoMovie) => {
   try {
     const options = {

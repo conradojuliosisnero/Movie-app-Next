@@ -4,7 +4,7 @@ const GetRecomendationSerie = async (id) => {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
+      Authorization: `Bearer ${process.env.BEARER_TOKEN}`,
     },
   };
   try {

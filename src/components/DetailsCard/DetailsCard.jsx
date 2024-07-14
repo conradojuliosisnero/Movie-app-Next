@@ -39,7 +39,7 @@ const MovieDetails = ({ details }) => {
             height={100}
             decoding="async"
             priority={true}
-            quality={80}
+            quality={30}
           ></Image>
         </div>
         {/* overview movie  */}

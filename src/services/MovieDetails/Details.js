@@ -1,6 +1,6 @@
-const Details = async (id) => {
+export default async function Details(id) {
   try {
-    const bearer = `${process.env.NEXT_PUBLIC_BEARER_TOKEN}`;
+    const bearer = `${process.env.BEARER_TOKEN}`;
     const url_api = `https://api.themoviedb.org/3/movie/${id}}?language=es-MX`;
     const options = {
       method: "GET",
@@ -11,11 +11,11 @@ const Details = async (id) => {
     };
     const response = await fetch(url_api, options);
     if (response.status === 200) {
-      return response;
+      const data = await response.json();
+      console.log(data);
+      return data;
     }
   } catch (error) {
     throw new Error("Error fetching movie data");
   }
-};
-
-export default Details;
+}
