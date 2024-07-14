@@ -64,7 +64,7 @@ export default function Welcome({ dataMovieHome }) {
             )}
             {videoView && (
               <BackgroundVideo
-                id={MOVIEHOME.id}
+                id={MOVIEHOME?.id}
                 videoView={videoView}
                 setVideoView={setVideoView}
               />

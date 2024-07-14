@@ -1,4 +1,4 @@
-export default async function getMovies(page){
+export default async function getMovies(page) {
   const bearer = `${process.env.BEARER_TOKEN}`;
 const options = {
   method: "GET",
