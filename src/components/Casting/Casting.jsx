@@ -51,6 +51,8 @@ export default function Casting({ id }) {
                 }
                 alt={actor.name}
                 loading="lazy"
+                quality={30}
+                decoding="async"
                 width={100}
                 height={100}
               ></Image>

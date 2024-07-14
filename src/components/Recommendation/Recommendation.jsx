@@ -59,6 +59,7 @@ export default function Recommendation({ id }) {
                     }
                     alt={recomendation.title}
                     loading="lazy"
+                    quality={30}
                     width={100}
                     height={100}
                   ></Image>
