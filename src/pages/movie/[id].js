@@ -13,15 +13,28 @@ export default function DataMovie({ movie, loading }) {
   );
 }
 
-export async function getServerSideProps({ query: { id } }) {
+export async function getServerSideProps({ query: { id }, req }) {
+  // Construye la URL base dependiendo del entorno (desarrollo o producción)
+  const protocol = req.headers["x-forwarded-proto"] || "http";
+  const host = req.headers.host; // Obtiene el host desde los headers de la solicitud
+  const baseUrl = `${protocol}://${host}`;
+
   try {
-    // Detalles de Peliculas
-    const DetailsResponse = await Details(id);
-    if (DetailsResponse.status === 200) {
-      const movie = await DetailsResponse.json();
-      return { props: { movie } };
-    }
+    // Usa la URL base para hacer el fetch a la ruta API
+    const response = await fetch(`${baseUrl}/api/movies/details?id=${id}`);
+    const movie = await response.json();
+    return {
+      props: {
+        movie,
+        loading: false,
+      },
+    };
   } catch (error) {
-    console.error("algo salio mal", error);
+    // Maneja el error como consideres necesario
+    return {
+      props: {
+        error: "Error al cargar los detalles de la película.",
+      },
+    };
   }
 }
