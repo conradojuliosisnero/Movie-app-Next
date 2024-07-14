@@ -191,7 +191,8 @@ export default function Movies() {
       >
         {result?.map((movie) => (
           <motion.div variants={item}>
-            <MediaCardDynamic data={movie} key={movie.id} />
+            {/* <MediaCardDynamic data={movie} key={movie.id} /> */}
+            <Container />
           </motion.div>
         ))}
         {nextPage == 1 ? "" : <Button funtionPage={handlerPrevMovie} />}
