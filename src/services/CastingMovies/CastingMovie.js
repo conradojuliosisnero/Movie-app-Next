@@ -1,4 +1,4 @@
-const bearer = `${process.env.NEXT_PUBLIC_BEARER_TOKEN}`;
+const bearer = `${process.env.BEARER_TOKEN}`;
 const CastingMovie = async (idMovie) => {
   const options = {
     method: "GET",
