@@ -36,13 +36,6 @@ export default function Series() {
   return 1;
   });
 
-  const path = usePathname();
-
-  if (path === "/movies-series/series-section") {
-    return <Temporal />;
-  }
-
-
   useEffect(() => {
     const SearchSeries = async () => {
       try {

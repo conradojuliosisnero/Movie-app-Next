@@ -15,12 +15,7 @@ import Temporal from "../mantenimiento/Temporal";
 const MovieDetails = ({ details }) => {
   // pathname
   const pathname = useParams();
-  const path = usePathname();
 
-  if (path == `/movie/${details.id}` || path == `/serie${details.id}`) {
-    return <Temporal />;
-  }
-  
   // convert date
   const dateConvert = () => {
     const date = new Date(details.release_date || details.first_air_date);
