@@ -1,19 +1,19 @@
 "use client";
 import React from "react";
-import LayoutMovieSection from "../Layout";
-import "../../../components/MediaCard/postercard.scss";
+import LayoutMovieSection from "@/layouts/Layout";
+import "@/components/MediaCard/postercard.scss";
 import { useState, useEffect } from "react";
-import Button from "../../../components/Buttons/Button";
-import getSeries from "../../../services/Series/GetSeries";
-import MediaCard from "../../../components/MediaCard/MediaCard";
-import Search from "../../../components/SearchInput/Search";
-import GetSearchSeries from "../../../services/SearchSeries/Search";
-import GetGenderFilteredSerie from "../../../services/FilterSerie/FilterGenderSerie";
-import Container from "../../../components/LoadingContainer/Container";
-import Error from "../../../components/Error/Error";
+import Button from "@/components/Buttons/Button";
+import getSeries from "@/services/Series/GetSeries";
+import MediaCard from "@/components/MediaCard/MediaCard";
+import Search from "@/components/SearchInput/Search";
+import GetSearchSeries from "@/services/SearchSeries/Search";
+import GetGenderFilteredSerie from "@/services/FilterSerie/FilterGenderSerie";
+import Container from "@/components/LoadingContainer/Container";
+import Error from "@/components/Error/Error";
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
-import Temporal from "src/components/mantenimiento/Temporal";
+import Temporal from "@/components/mantenimiento/Temporal";
 
 export default function Series() {
   // estados de data series y busqueda
@@ -38,7 +38,7 @@ export default function Series() {
 
   const path = usePathname();
 
-  if (path === "/movies-series/series-section") {
+  if (path === "/series") {
     return <Temporal />;
   }
 
