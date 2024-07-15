@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import male from "../../../public/male.svg";
-import female from '../../../public/female.svg'
+import female from "../../../public/female.svg";
 
 import "./casting.css";
 
@@ -19,9 +19,14 @@ export default function Casting({ id }) {
     const fetchCasting = async () => {
       let resultdata = [];
       if (pathname.id == id) {
-        const resultMovie = await CastingMovie(id);
-        resultdata = resultMovie;
-        setCasting(resultdata);
+        try {
+          const response = await fetch(`/api/movies/elenco?id=${id}`);
+          const data = await response.json();
+          resultdata = data;
+          setCasting(resultdata);
+        } catch (error) {
+          console.error(error);
+        }
       } else {
         const resultSerie = await SerieCasting(id);
         resultdata = resultSerie;

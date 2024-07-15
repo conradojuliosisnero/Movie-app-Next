@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import styles from "./recommendation.module.css";
-import GetRecommendation from "../../services/RecommendationMovie/MovieRC";
 import GetRecomendationSerie from "../../services/RecommendationSerie/SerieRC";
 import defaul from "../../../public/image-no-found.svg";
 import Link from "next/link";
@@ -17,9 +16,13 @@ export default function Recommendation({ id }) {
     const fetchRecomendation = async () => {
       let resultdata = [];
       if (params.id == id) {
-        const data = await GetRecommendation(id);
-        resultdata = data;
-        setResult(resultdata);
+        try {
+          const response = await fetch(`/api/movies/recomendation?id=${id}`);
+          const data = await response.json();
+          resultdata = data;
+        } catch (error) {
+          console.error(error);
+        }
       } else {
         const data = await GetRecomendationSerie(id);
         resultdata = data;
