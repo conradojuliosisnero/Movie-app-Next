@@ -19,7 +19,13 @@ export default function FilterNav({ funtion }) {
   useEffect(() => {
     const fetchData = async () => {
       if (pathname === "/movies-series/movies-section") {
-        const data = await GetGender(setGender);
+        try {
+          const response = await fetch("/api/movies/gender");
+          const data = await response.json();
+          setGender(data);
+        } catch (error) {
+          console.error(error);
+        }
       } else {
         const dataserie = await GetGenderSerie(setGender);
       }
