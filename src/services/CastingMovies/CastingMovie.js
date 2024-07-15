@@ -1,5 +1,5 @@
-const bearer = `${process.env.BEARER_TOKEN}`;
-const CastingMovie = async (idMovie) => {
+export default async function CastingMovie (idMovie) {
+  const bearer = `${process.env.BEARER_TOKEN}`;
   const options = {
     method: "GET",
     headers: {
@@ -10,7 +10,7 @@ const CastingMovie = async (idMovie) => {
 
   try {
     const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${idMovie}/credits?language=es-ES`,
+      `https://api.themoviedb.org/3/movie/${idMovie}/credits?language=es-MX`,
       options
     );
 
@@ -25,4 +25,4 @@ const CastingMovie = async (idMovie) => {
   }
 };
 
-export default CastingMovie;
+

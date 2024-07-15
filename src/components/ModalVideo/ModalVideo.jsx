@@ -22,9 +22,13 @@ export default function ModalVideo({ id }) {
         result = data;
         setKeyVideoMovie(result);
       } else {
-        const response = await GetVideosMovies(id, setKeyVideoMovie);
-        result = response;
-        setKeyVideoSerie(result);
+        try {
+          const response = await fetch(`/api/movies/trailer?id=${id}`);
+          const data = await response.json();
+          setKeyVideoMovie(data);
+        } catch (error) {
+          console.error(error);
+        }
       }
       setResult(result);
     };
