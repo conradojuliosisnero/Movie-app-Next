@@ -72,7 +72,7 @@ export default function Movies() {
     const getGender = async () => {
       try {
         const response = await fetch(
-          `/api/movies/gender?page=${nextPage}&valueGender=${valueGender}`
+          `/api/movies/filtergender?page=${nextPage}&valueGender=${valueGender}`
         );
         const data = await response.json();
         setGenderFiltered(data);

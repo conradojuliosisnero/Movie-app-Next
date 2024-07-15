@@ -1,5 +1,6 @@
-const GetGender = async (setGender) => {
-  const bearer = `${process.env.NEXT_PUBLIC_BEARER_TOKEN}`;
+const GetGender = async () => {
+  const URL = "https://api.themoviedb.org/3/genre/movie/list?language=es-MX";
+  const bearer = `${process.env.BEARER_TOKEN}`;
   const options = {
     method: "GET",
     headers: {
@@ -8,15 +9,12 @@ const GetGender = async (setGender) => {
     },
   };
   try {
-    const response = await fetch(
-      "https://api.themoviedb.org/3/genre/movie/list?language=es-MX",
-      options
-    );
+    const response = await fetch(URL, options);
     if (response.status === 200) {
       const data = await response.json();
-      setGender(data);
+      return data
     } else {
-      console.log("algo salio mal al hacer fetch");
+      console.log("ups! something went wrong");
     }
   } catch (error) {
     console.error(error);
