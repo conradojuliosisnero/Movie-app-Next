@@ -26,10 +26,15 @@ const BackgroundVideo = ({ id, videoView, setVideoView }) => {
     }
     // Obtener video de la película despues de 5 segundos
       const getVideos = async () => {
-        let result = [];
         switch (pathname) {
           case "/":
-            result = await GetVideosMovies(id, setKeyVideoMovie);
+            try {
+              const response = await fetch(`/api/movies/trailer?id=${id}`);
+              const data = await response.json();
+              setKeyVideoMovie(data);
+            } catch (error) {
+              console.error(error);
+            }
             break;
           default:
             break;
