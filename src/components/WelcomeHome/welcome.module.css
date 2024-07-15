@@ -82,6 +82,11 @@
   background-color: #db5757;
 }
 
+.text{
+  display: flex;
+  width: 100%;
+}
+
 .titleMovie span {
   grid-area: nameMovie;
   font-size: 4em;
