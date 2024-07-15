@@ -1,5 +1,4 @@
 const GetGenderFiltered = async (nextpage, valueGender) => {
-  console.log(nextpage);
   const bearer = `${process.env.BEARER_TOKEN}`;
   const options = {
     method: "GET",
