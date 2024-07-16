@@ -7,9 +7,8 @@ import ModalVideo from "../ModalVideo/ModalVideo";
 import Watch from "../WatchMovie/Watch";
 import Season from "../Season/Season";
 import Image404 from "../../../public/image-no-found.svg";
-import { useParams, usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 import Recommendation from "../Recommendation/Recommendation";
-import Temporal from "../mantenimiento/Temporal";
 
 
 const MovieDetails = ({ details }) => {

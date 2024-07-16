@@ -18,7 +18,7 @@ export default function FilterNav({ funtion }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (pathname === "/movies-series/movies-section") {
+      if (pathname === "/movies") {
         try {
           const response = await fetch("/api/movies/gender");
           const data = await response.json();
@@ -27,7 +27,15 @@ export default function FilterNav({ funtion }) {
           console.error(error);
         }
       } else {
-        const dataserie = await GetGenderSerie(setGender);
+        try {
+          const response = await fetch("/api/series/gender");
+          const data = await response.json();
+          setGender(data);
+        } catch (error) {
+          console.error(
+            "ups algo salio mal al obtener los generos de las series"
+          );
+        }
       }
     };
 
