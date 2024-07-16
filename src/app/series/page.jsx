@@ -4,11 +4,11 @@ import LayoutMovieSection from "@/layouts/Layout";
 import "@/components/MediaCard/postercard.scss";
 import { useState, useEffect } from "react";
 import Button from "@/components/Buttons/Button";
-import MediaCard from "@/components/MediaCard/MediaCard";
 import Search from "@/components/SearchInput/Search";
 import Container from "@/components/LoadingContainer/Container";
 import Error from "@/components/Error/Error";
 import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
 
 export default function Series() {
   // estados de data series y busqueda
@@ -155,6 +155,15 @@ export default function Series() {
     },
   };
 
+  // media card dynamic
+    const MediaCardDynamic = dynamic(
+      () => import("@/components/MediaCard/MediaCard"),
+      {
+        loading: () => <Container />,
+        ssr: false,
+      }
+    );
+
   return (
     <LayoutMovieSection>
       {/* buscador  */}
@@ -166,30 +175,22 @@ export default function Series() {
           close={handlerCloseSearch}
         />
       </div>
-      {loading ? (
-        <Container />
-      ) : (
-        <motion.div
-          className="contenedor"
-          variants={container}
-          initial="hidden"
-          animate="visible"
-        >
-          {result
-            ? result?.map((serie) => (
-                <motion.div variants={item}>
-                  <MediaCard data={serie} key={serie.id} />
-                </motion.div>
-              ))
-            : ""}
-          {nextPageSerie == 1 ? (
-            <></>
-          ) : (
-            <Button funtionPage={handlerPrevMovie} />
-          )}
-          <Button isNext funtionPage={handlerNextMovie} />
-        </motion.div>
-      )}
+
+      {/* contedor de peliculas */}
+      <motion.div
+        className="contenedor"
+        variants={container}
+        initial="hidden"
+        animate="visible"
+      >
+        {result?.map((serie) => (
+          <motion.div variants={item}>
+            <MediaCardDynamic data={serie} key={serie.id} />
+          </motion.div>
+        ))}
+        {nextPageSerie == 1 ? "" : <Button funtionPage={handlerPrevMovie} />}
+        <Button isNext funtionPage={handlerNextMovie} />
+      </motion.div>
     </LayoutMovieSection>
   );
 }
