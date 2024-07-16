@@ -1,6 +1,6 @@
-const bearer = `${process.env.BEARER_TOKEN}`;
-
-const GetVideoSeries = async (serieID, setKeyVideoSerie) => {
+export default async function GetVideoSeries(serieID) {
+  const URL = `https://api.themoviedb.org/3/tv/${serieID}/videos?language=es-MX`;
+  const bearer = `${process.env.BEARER_TOKEN}`;
   const options = {
     method: "GET",
     headers: {
@@ -9,11 +9,7 @@ const GetVideoSeries = async (serieID, setKeyVideoSerie) => {
     },
   };
   try {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/tv/${serieID}/videos?language=es-MX`,
-      options
-    );
-
+    const response = await fetch(URL, options);
     if (response.status === 200) {
       const data = await response.json();
       let keyEncontrada = null;
@@ -27,13 +23,11 @@ const GetVideoSeries = async (serieID, setKeyVideoSerie) => {
         }
         return null;
       });
-      setKeyVideoSerie(keyEncontrada);
+      return keyEncontrada;
     } else {
       console.log("algo salio mal");
     }
   } catch (error) {
     console.error(error);
   }
-};
-
-export default GetVideoSeries;
+}

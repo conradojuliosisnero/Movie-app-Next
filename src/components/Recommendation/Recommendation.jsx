@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
 import styles from "./recommendation.module.css";
-import GetRecomendationSerie from "../../services/RecommendationSerie/SerieRC";
 import defaul from "../../../public/image-no-found.svg";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useState, useEffect } from "react";
 
 export default function Recommendation({ id }) {
   const [result, setResult] = useState([]);
@@ -18,15 +17,22 @@ export default function Recommendation({ id }) {
       if (params.id == id) {
         try {
           const response = await fetch(`/api/movies/recomendation?id=${id}`);
+          console.log(response);
           const data = await response.json();
+          console.log(data);
           resultdata = data;
         } catch (error) {
           console.error(error);
         }
       } else {
-        const data = await GetRecomendationSerie(id);
-        resultdata = data;
-        setResult(resultdata);
+        try {
+          const response = await fetch(`/api/series/recomendation?id=${id}`);
+          const data = await response.json();
+          console.log(data);
+          resultdata = data;
+        } catch (error) {
+          console.error(error);
+        }
       }
       setResult(resultdata);
     };
@@ -69,7 +75,9 @@ export default function Recommendation({ id }) {
                 </Link>
               </div>
               <div className={`${styles["name__casting"]}`}>
-                <span className={`${styles["name__actor"]}`}>{recomendation.title}</span>
+                <span className={`${styles["name__actor"]}`}>
+                  {recomendation.title}
+                </span>
                 <span className={`${styles["chararter__name"]}`}>
                   {recomendation.character}
                 </span>
