@@ -1,27 +1,22 @@
-const bearer = `${process.env.NEXT_PUBLIC_BEARER_TOKEN}`;
-
-const getSeries = async (setSerieData, nextPage) => {
+export default async function getSeries(nextPage) {
+  const bearer = `${process.env.BEARER_TOKEN}`;
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${bearer}`,
+    },
+  };
+  const URL = `https://api.themoviedb.org/3/tv/popular?language=es-MX&page=${nextPage}`;
   try {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${bearer}`,
-      },
-    };
-    const response = await fetch(
-      `https://api.themoviedb.org/3/tv/popular?language=es-MX&page=${nextPage}`,
-      options
-    );
+    const response = await fetch(URL, options);
     if (response.status === 200) {
       const { results } = await response.json();
-      setSerieData(results);
+      return results;
     } else {
-      console.error("algo salio mal");
+      console.error("ups! algo salio mal");
     }
   } catch (error) {
     console.error(error);
   }
-};
-
-export default getSeries;
+}
