@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./watch.module.css";
 import Image from "next/image";
 import GetWatch from "../../services/Watch/GetWatch";

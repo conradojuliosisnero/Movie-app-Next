@@ -1,8 +1,6 @@
 "use client";
 import styles from "./modal.module.css";
 import { useState, useEffect } from "react";
-import GetVideosMovies from "../../services/MovieVideos/MovieVideos";
-import GetVideoSeries from "../../services/serieVideos/videoSerie";
 import { useParams } from "next/navigation";
 
 export default function ModalVideo({ id }) {
@@ -18,9 +16,9 @@ export default function ModalVideo({ id }) {
     const getVideos = async () => {
       let result = [];
       if (pathname.idserie == id) {
-        const data = await GetVideoSeries(id, setKeyVideoSerie);
-        result = data;
-        setKeyVideoMovie(result);
+        const response = await fetch(`/api/series/trailer?id=${id}`);
+        const data = await response.json();
+        setKeyVideoMovie(data);
       } else {
         try {
           const response = await fetch(`/api/movies/trailer?id=${id}`);

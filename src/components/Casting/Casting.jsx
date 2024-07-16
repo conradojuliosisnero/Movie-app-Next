@@ -1,5 +1,3 @@
-import CastingMovie from "../../services/CastingMovies/CastingMovie";
-import SerieCasting from "../../services/CastingSerie/CastingSerie";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
@@ -28,9 +26,14 @@ export default function Casting({ id }) {
           console.error(error);
         }
       } else {
-        const resultSerie = await SerieCasting(id);
-        resultdata = resultSerie;
-        setCastingSerie(resultdata);
+        try {
+          const response = await fetch(`/api/series/elenco?id=${id}`);
+          const data = await response.json();
+          resultdata = data;
+          setCastingSerie(resultdata);
+        } catch (error) {
+          console.error(error);
+        }
       }
       setResult(resultdata);
     };
