@@ -1,13 +1,12 @@
 "use client";
-import React from "react";
-import LayoutMovieSection from "@/layouts/Layout";
 import "@/components/MediaCard/postercard.scss";
-import { useState, useEffect } from "react";
+import LayoutMovieSection from "@/layouts/Layout";
 import Button from "@/components/Buttons/Button";
 import Search from "@/components/SearchInput/Search";
 import Container from "@/components/LoadingContainer/Container";
 import Error from "@/components/Error/Error";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 
 export default function Series() {
@@ -25,7 +24,7 @@ export default function Series() {
   const [error, setError] = useState(null);
   const [nextPageSerie, setNext] = useState(() => {
     if (typeof window !== "undefined") {
-      const savedPage = sessionStorage.getItem("currentPage");
+      const savedPage = sessionStorage.getItem("currentPageSerie");
       return savedPage ? Number(savedPage) : 1;
     }
     return 1;
@@ -79,7 +78,7 @@ export default function Series() {
       }
     };
     getGenderFiltered();
-  }, [valueGender]);
+  }, [valueGender,nextPageSerie]);
 
   useEffect(() => {
     sessionStorage.setItem("currentPageSerie", nextPageSerie.toString());
