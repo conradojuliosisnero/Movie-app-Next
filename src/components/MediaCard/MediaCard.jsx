@@ -1,4 +1,4 @@
-"use client"
+// "use client"
 import "./postercard.scss";
 import Link from "next/link";
 import Image from "next/image";
@@ -40,7 +40,7 @@ const item = {
           ></Image>
           {/* card hover  */}
           <div className="contend__hover">
-            {pathname === "/movies-series/movies-section" ? (
+            {pathname === "/movies" ? (
               <Link href={`/movie/${id}`} className="movie_link">
                 <button className="button-preview">
                   <p>{title}</p>

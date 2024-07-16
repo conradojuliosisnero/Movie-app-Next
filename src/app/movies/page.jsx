@@ -1,14 +1,13 @@
 "use client";
-import React from "react";
 import { useState, useEffect } from "react";
-import "../../../components/MediaCard/postercard.scss";
-import Button from "../../../components/Buttons/Button";
-import LayoutMovieSection from "../Layout";
-import Container from "../../../components/LoadingContainer/Container";
-import Error from "../../../components/Error/Error";
+import "@/components/MediaCard/postercard.scss";
+import Button from "@/components/Buttons/Button";
+import LayoutMovieSection from "@/layouts/Layout";
+import Container from "@/components/LoadingContainer/Container";
+import Error from "@/components/Error/Error";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
-import Search from "../../../components/SearchInput/Search";
+import Search from "@/components/SearchInput/Search";
 
 export default function Movies() {
   // estados de movies y busqueda
@@ -163,7 +162,7 @@ export default function Movies() {
   };
 
   const MediaCardDynamic = dynamic(
-    () => import("../../../components/MediaCard/MediaCard"),
+    () => import("@/components/MediaCard/MediaCard"),
     {
       loading: () => <Container />,
       ssr: false,

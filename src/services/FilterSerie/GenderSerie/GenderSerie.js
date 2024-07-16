@@ -1,5 +1,6 @@
-const GetGenderSerie = async (setGender) => {
-  const bearer = `${process.env.NEXT_PUBLIC_BEARER_TOKEN}`;
+export default async function GetGenderSerie() {
+  const URL = "https://api.themoviedb.org/3/genre/tv/list?language=es-MX";
+  const bearer = `${process.env.BEARER_TOKEN}`;
   const options = {
     method: "GET",
     headers: {
@@ -7,20 +8,16 @@ const GetGenderSerie = async (setGender) => {
       Authorization: `Bearer ${bearer}`,
     },
   };
+
   try {
-    const response = await fetch(
-      "https://api.themoviedb.org/3/genre/tv/list?language=es-MX",
-      options
-    );
+    const response = await fetch(URL, options);
     if (response.status === 200) {
       const data = await response.json();
-      setGender(data);
+      return data;
     } else {
-      console.log("algo salio mal al hacer fetch");
+      console.log("ups algo salio mal al obtener los generos de las series");
     }
   } catch (error) {
     console.error(error);
   }
-};
-
-export default GetGenderSerie;
+}
