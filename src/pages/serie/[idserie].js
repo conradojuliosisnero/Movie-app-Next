@@ -1,6 +1,5 @@
-import DetailsCard from "../../components/DetailsCard/DetailsCard";
-import DetailSerie from "../../services/SerieDetails/DetailSerie";
-import Loading from "../../components/Loader/Loading";
+import DetailsCard from "@/components/DetailsCard/DetailsCard";
+import Loading from "@/components/Loader/Loading";
 import MovieLayout from "../Layout";
 
 export default function DataSerie({ serie, loading }) {
@@ -11,19 +10,28 @@ export default function DataSerie({ serie, loading }) {
   );
 }
 
-export async function getServerSideProps({ query: { idserie } }) {
-  try {
-    // Detalles de la Serie
-    const DetailsResponse = await DetailSerie(idserie);
-    if (DetailsResponse && DetailsResponse.status === 200) {
-      const serie = await DetailsResponse.json();
-      return { props: { serie } }; // Aquí se retorna un objeto con props
-    }
-  } catch (error) {
-    console.error("Algo salió mal", error);
-    return { props: { serie: null, loading: false } }; // También aquí se retorna un objeto con props
-  }
+export async function getServerSideProps({ query: { idserie }, req }) {
+  // Construye la URL base dependiendo del entorno (desarrollo o producción)
+  const protocol = req.headers["x-forwarded-proto"] || "http";
+  const host = req.headers.host; // Obtiene el host desde los headers de la solicitud
+  const baseUrl = `${protocol}://${host}`;
 
-  // Si ninguno de los casos anteriores se cumple, deberías agregar un retorno por defecto
-  return { props: {} }; // O un objeto vacío si no hay nada que pasar como props
+  try {
+    // Usa la URL base para hacer el fetch a la ruta API
+    const response = await fetch(`${baseUrl}/api/series/details?id=${idserie}`);
+    const serie = await response.json();
+    return {
+      props: {
+        serie,
+        loading: false,
+      },
+    };
+  } catch (error) {
+    // Maneja el error como consideres necesario
+    return {
+      props: {
+        error: "Error al cargar los detalles de la serie.",
+      },
+    };
+  }
 }

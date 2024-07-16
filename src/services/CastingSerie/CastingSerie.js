@@ -1,5 +1,6 @@
-const bearer = `${process.env.BEARER_TOKEN}`;
-const SerieCasting = async (idserie) => {
+export default async function SerieCasting(idserie) {
+  const URL = `https://api.themoviedb.org/3/tv/${idserie}/credits?language=es-ES`;
+  const bearer = `${process.env.BEARER_TOKEN}`;
   const options = {
     method: "GET",
     headers: {
@@ -7,22 +8,15 @@ const SerieCasting = async (idserie) => {
       Authorization: `Bearer ${bearer}`,
     },
   };
-
   try {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/tv/${idserie}/credits?language=es-ES`,
-      options
-    );
-
+    const response = await fetch(URL, options);
     if (response.status === 200) {
       const data = await response.json();
       return data;
     } else {
-      console.error("algo salio mal");
+      console.error("algo salio mal al cargar elenco de la serie");
     }
   } catch (error) {
     console.error(error);
   }
-};
-
-export default SerieCasting;
+}

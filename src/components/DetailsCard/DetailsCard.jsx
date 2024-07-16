@@ -2,14 +2,9 @@ import styles from "./movidedesatils.module.css";
 import "../../app/globals.css";
 import StarRating from "../StarsRating/Stars";
 import Image from "next/image";
-import Casting from "../Casting/Casting";
-import ModalVideo from "../ModalVideo/ModalVideo";
-import Watch from "../WatchMovie/Watch";
-import Season from "../Season/Season";
 import Image404 from "../../../public/image-no-found.svg";
 import { useParams } from "next/navigation";
-import Recommendation from "../Recommendation/Recommendation";
-
+import dynamic from "next/dynamic";
 
 const MovieDetails = ({ details }) => {
   // pathname
@@ -21,6 +16,23 @@ const MovieDetails = ({ details }) => {
     const year = date.getFullYear();
     return year;
   };
+
+  // dynamic import season
+  const Season = dynamic(() => import("../Season/Season"));
+
+  // dynamic import recommendation
+  const Recommendation = dynamic(() =>
+    import("../Recommendation/Recommendation")
+  );
+
+  // dynamic import casting
+  const Casting = dynamic(() => import("../Casting/Casting"));
+
+  // dynamic import modal video
+  const ModalVideo = dynamic(() => import("../ModalVideo/ModalVideo"));
+
+  // dynamic import watch
+  const Watch = dynamic(() => import("../WatchMovie/Watch"));
 
   return (
     <section className={styles.sectionMovie}>
