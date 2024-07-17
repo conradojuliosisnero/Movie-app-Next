@@ -4,12 +4,8 @@ import styles from "./page.module.css";
 import dynamic from "next/dynamic";
 import SqueletonSlaider from "../components/AutoPlaySlaider/SqueletonSlaider";
 import { useState, useEffect } from "react";
-
-// export const metadata = {
-//   title: "moviesCon 2.0 welcome site",
-//   description:
-//     "Bienvenido MoviesCon 2.0 sitio para sumerguirte en el mundo del cine",
-// };
+import { HOME } from "../data/data";
+import Head from "next/head";
 
 const AutoPlaySlaiderDynamic = dynamic(
   () => import("../components/AutoPlaySlaider/Slaider"),
@@ -40,11 +36,13 @@ export default function Home() {
   }, []);
 
   return (
-    <main className={styles.name}>
-      <WelcomeDynamic dataMovieHome={data} />
-      <div className={styles.topMoviesContainer}>
-        <AutoPlaySlaiderDynamic dataMovies={data} />
-      </div>
-    </main>
+    <>
+      <main className={styles.name}>
+        <WelcomeDynamic dataMovieHome={data} />
+        <div className={styles.topMoviesContainer}>
+          <AutoPlaySlaiderDynamic dataMovies={data} />
+        </div>
+      </main>
+    </>
   );
 }
