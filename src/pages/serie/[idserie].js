@@ -4,7 +4,7 @@ import MovieLayout from "../Layout";
 
 export default function DataSerie({ serie, loading }) {
   return (
-    <MovieLayout>
+    <MovieLayout type='series'>
       {loading ? <Loading /> : <DetailsCard details={serie} />}
     </MovieLayout>
   );
