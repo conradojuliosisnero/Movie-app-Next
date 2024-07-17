@@ -17,9 +17,7 @@ export default function Recommendation({ id }) {
       if (params.id == id) {
         try {
           const response = await fetch(`/api/movies/recomendation?id=${id}`);
-          console.log(response);
           const data = await response.json();
-          console.log(data);
           resultdata = data;
         } catch (error) {
           console.error(error);
@@ -28,7 +26,6 @@ export default function Recommendation({ id }) {
         try {
           const response = await fetch(`/api/series/recomendation?id=${id}`);
           const data = await response.json();
-          console.log(data);
           resultdata = data;
         } catch (error) {
           console.error(error);
@@ -49,7 +46,7 @@ export default function Recommendation({ id }) {
             <h3>sin recomendaciones</h3>
           </div>
         ) : (
-          result.results.slice(0, 5).map((recomendation) => (
+            result.results.slice(0, 5).map((recomendation) => (
             <div className={`${styles.card}`} key={recomendation.id}>
               <div className={`${styles["img__casting"]}`}>
                 <Link
@@ -66,7 +63,7 @@ export default function Recommendation({ id }) {
                         ? `https://image.tmdb.org/t/p/original${recomendation.poster_path}`
                         : defaul
                     }
-                    alt={recomendation.title}
+                    alt={recomendation.name ? recomendation.name : recomendation.title}
                     loading="lazy"
                     quality={30}
                     width={100}
