@@ -12,7 +12,6 @@ export default async function Details(id) {
     const response = await fetch(url_api, options);
     if (response.status === 200) {
       const data = await response.json();
-      console.log(data);
       return data;
     }
   } catch (error) {

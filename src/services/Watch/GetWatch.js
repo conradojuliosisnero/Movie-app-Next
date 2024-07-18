@@ -1,29 +1,27 @@
+export default async function GetWatchVideos (ID){
+  const URL = `https://api.themoviedb.org/3/movie/${ID}/watch/providers`;
+  const bearer = `${process.env.BEARER_TOKEN}`;
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${bearer}`,
+    },
+  };
 
-const GetWatch = async (ID, setWatch) => {
   try {
-    const bearer = `${process.env.NEXT_PUBLIC_BEARER_TOKEN}`;
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${bearer}`,
-      },
-    };
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${ID}/watch/providers`,
-      options
-    );
+    const response = await fetch(URL, options);
     if (response.status === 200) {
+      const data = await response.json();
       const {
         results: {
-          CO: { rent },
+          CO: { rent, buy },
         },
-      } = await response.json();
-      setWatch(rent);
+      } = data;
+      return { rent, buy };
     }
   } catch (error) {
     console.error(error);
   }
 };
 
-export default GetWatch;
