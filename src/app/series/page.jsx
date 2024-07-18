@@ -183,8 +183,8 @@ export default function Series() {
         animate="visible"
       >
         {result?.map((serie) => (
-          <motion.div variants={item}>
-            <MediaCardDynamic data={serie} key={serie.id} />
+          <motion.div variants={item} key={serie.id}>
+            <MediaCardDynamic data={serie} />
           </motion.div>
         ))}
         {nextPageSerie == 1 ? "" : <Button funtionPage={handlerPrevMovie} />}
