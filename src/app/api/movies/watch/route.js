@@ -1,16 +1,16 @@
-import CastingMovie from "../../../../services/CastingMovies/CastingMovie";
+import GetWatchVideos from "@/services/Watch/GetWatch";
 import { NextResponse } from "next/server";
 
 export async function GET(request) {
   const url = new URL(request.url);
-  const idMovie = url.searchParams.get("id");
+  const id = url.searchParams.get("id");
   try {
-    const data = await CastingMovie(idMovie);
+    const data = await GetWatchVideos(id);
     return NextResponse.json(data, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { message: "Error en la llamada a la API" },
+      { message: "Internal Server Error" },
       { status: 500 }
     );
   }

@@ -33,7 +33,6 @@ const MovieDetails = ({ details }) => {
 
   // dynamic import watch
   const Watch = dynamic(() => import("../WatchMovie/Watch"));
-
   return (
     <section className={styles.sectionMovie}>
       {/* wrap movie  */}
@@ -47,7 +46,7 @@ const MovieDetails = ({ details }) => {
                 ? `https://image.tmdb.org/t/p/original${details.backdrop_path}`
                 : Image404
             }
-            alt={details.title}
+            alt={details.title ? details.title : details.name}
             width={100}
             layout="responsive"
             height={100}
