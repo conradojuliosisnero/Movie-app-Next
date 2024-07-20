@@ -170,7 +170,7 @@ export default function Movies() {
   );
 
   return (
-    <LayoutMovieSection>
+    <>
       {/* buscador  */}
       <div className="searcher">
         <Search
@@ -196,6 +196,6 @@ export default function Movies() {
         {nextPage == 1 ? "" : <Button funtionPage={handlerPrevMovie} />}
         <Button isNext funtionPage={handlerNextMovie} />
       </motion.div>
-    </LayoutMovieSection>
+    </>
   );
 }
