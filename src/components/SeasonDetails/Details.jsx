@@ -1,16 +1,11 @@
 import styles from "../DetailsCard/movidedesatils.module.css";
-// import "../../app/globals.css";
 import StarRating from "../StarsRating/Stars";
 import Image from "next/image";
-// import Casting from "../Casting/Casting";
-// import ModalVideo from "../ModalVideo/ModalVideo";
-// import Watch from "../WatchMovie/Watch";
-// import Season from "../Season/Season";
 import Image404 from "../../../public/image-no-found.svg";
-import { useParams } from "next/navigation";
+// import { useParams } from "next/navigation";
 
 const MovieDetails = ({ details }) => {
-  const pathname = useParams();
+  // const pathname = useParams();
 
   const dateConvert = () => {
     const date = new Date(details.air_date);

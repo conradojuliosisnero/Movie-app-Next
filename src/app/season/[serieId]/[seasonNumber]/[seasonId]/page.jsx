@@ -1,20 +1,26 @@
 "use client";
-import React from "react";
-import SeasonDetails from "../../../../../components/SeasonDetails/Details";
+import SeasonDetails from "@/components/SeasonDetails/Details";
+import seasonDetails from "@/services/SeasonDetail/SeasonDetails";
 import { useParams } from "next/navigation";
-import seasonDetails from "../../../../../services/SeasonDetail/SeasonDetails";
 import { useState, useEffect } from "react";
 
 export default function page() {
-  const { serieId, seasonNumber } = useParams();
-
+  // states
   const [season, setSeason] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // hooks
+  const { serieId, seasonNumber } = useParams();
+
+  // effects to get the season details
   useEffect(() => {
     async function getSeason() {
       try {
-        const data = seasonDetails(serieId, seasonNumber, setSeason);
+        const respose = await fetch(
+          `/api/series/season?serieID=${serieId}&numberID=${seasonNumber}`
+        );
+        const data = await respose.json();
+        setSeason(data);
         setLoading(false);
       } catch (error) {
         console.error(error);

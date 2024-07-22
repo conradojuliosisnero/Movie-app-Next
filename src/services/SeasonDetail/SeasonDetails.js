@@ -1,5 +1,5 @@
-export default async function seasonDetails(serieID, numberID, setSeason) {
-  const Bearer = process.env.NEXT_PUBLIC_BEARER_TOKEN;
+export default async function seasonDetails(serieID, numberID) {
+  const Bearer = process.env.BEARER_TOKEN;
   const url = `https://api.themoviedb.org/3/tv/${serieID}/season/${numberID}}?language=es-MX`;
   const options = {
     method: "GET",
@@ -13,9 +13,9 @@ export default async function seasonDetails(serieID, numberID, setSeason) {
     const response = await fetch(url, options);
     if (response.ok) {
       const data = await response.json();
-      setSeason(data)
+      return data;
     } else {
-      console.log("error al hacer fetch");
+      console.log("error al optener los datos de la temporada");
     }
   } catch (error) {
     console.error(`ups.. algo salio mal: `, error);
