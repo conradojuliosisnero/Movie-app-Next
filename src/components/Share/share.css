@@ -1,0 +1,39 @@
+.share-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 20px 30px;
+  align-items: center;
+  margin: 20px;
+}
+
+.share-tittle {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  font-size: 20px;
+  font-weight: bold;
+  margin-right: 20px;
+}
+
+.share-tittle span {
+  font-size: 2rem;
+  color: #ffffff;
+}
+
+.share-contend-buttons {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.share-button {
+  margin: 0px 20px;
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
