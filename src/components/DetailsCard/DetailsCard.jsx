@@ -3,8 +3,9 @@ import "../../app/globals.css";
 import StarRating from "../StarsRating/Stars";
 import Image from "next/image";
 import Image404 from "../../../public/image-no-found.svg";
-import { useParams } from "next/navigation";
 import dynamic from "next/dynamic";
+import ButtonShare from "@/components/Share/ButtonShare";
+import { useParams} from "next/navigation";
 
 const MovieDetails = ({ details }) => {
   // pathname
@@ -108,6 +109,10 @@ const MovieDetails = ({ details }) => {
       {/* WATHC  */}
       <div className={styles.Watch}>
         <Watch id={details.id} />
+      </div>
+      {/* SHARE BUTTON */}
+      <div>
+        <ButtonShare />
       </div>
       {/* SEASONS  */}
       {pathname.idserie == details.id ? (
