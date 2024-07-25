@@ -4,7 +4,12 @@ import Nav from "../components/Nav/Nav";
 import Footer from "../components/footer/Footer";
 import Head from "next/head";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  style: "normal",
+  weight: ['200', '500', '600', '700'],
+});
 
 export const metadata = {
   title: "MoviesConv 2.0 | La mejor aplicación para ver películas y series",
