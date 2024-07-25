@@ -39,6 +39,7 @@
   transition: transform 200ms ease;
   .img_poster {
     border-radius: 0.5em;
+    border: solid 3px transparent;
   }
   .contend__hover {
     width: 100%;
@@ -68,7 +69,7 @@
       transition: color 200ms ease;
       cursor: pointer;
       &:hover {
-        color: #000000;
+        color: #000000; 
       }
     }
   }
@@ -79,6 +80,7 @@
 
   &:hover {
     transform: scale(1.1);
+        border: solid 3px #ffffff;
   }
 }
 
@@ -194,7 +196,6 @@ footer .leyenda p a {
   }
 }
 
-
 /* Estilos para el esqueleto de la imagen */
 .imagen__esqueletor {
   width: 100%; /* Ancho de la imagen */
@@ -214,7 +215,6 @@ footer .leyenda p a {
     opacity: 1; /* Opacidad final */
   }
 }
-
 
 @media screen and (max-width: 602px) {
   .contenedor {
