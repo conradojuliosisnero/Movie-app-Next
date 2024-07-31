@@ -87,7 +87,6 @@ body {
 
 body {
   color: rgb(var(--foreground-rgb));
-  background-color: #000000;
   transition: background-color 200ms ease-in-out;
 }
 
@@ -114,53 +113,9 @@ a {
   background-color: #ffffff;
 }
 
-/* @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
-} */
-
-/* Estilos por defecto (tema oscuro) */
-body {
-  color: rgb(var(--foreground-rgb));
-  background-color: #000000;
-  transition: background-color 200ms ease-in-out;
 }
 
-/* Estilos para el tema claro */
-html.light body {
-  color: rgb(255, 255, 255); /* Color de texto para tema claro */
-  background-color: rgb(255, 255, 255); /* Color de fondo para tema claro */
-}
-
-/* Personalizar el scrollbar en navegadores WebKit */
-::-webkit-scrollbar {
-  width: 0px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: #888;
-}
-
-/* Personalizar el scrollbar en navegadores Gecko */
-::-webkit-scrollbar {
-  width: 5px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: #ffffff;
-}
-
-/* Estilos para el tema claro en el scrollbar */
-html.light ::-webkit-scrollbar-thumb {
-  background-color: #888; /* Color del scrollbar para tema claro */
-}
-
-/* Estilos para el tema oscuro en el scrollbar */
-html:not(.light) ::-webkit-scrollbar-thumb {
-  background-color: #ffffff; /* Color del scrollbar para tema oscuro */
-}
-
-/* @media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-} */

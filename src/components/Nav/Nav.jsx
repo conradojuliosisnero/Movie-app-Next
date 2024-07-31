@@ -5,9 +5,10 @@ import { optionMenu } from "./data";
 import logoWebsite from "../../../public/logo-website.svg";
 import Image from "next/image";
 import MenuResponsive from "../../../public/menu-responsive.svg";
-import Toogle from "../ToogleSwitch/Toogle";
+// import Toogle from "../ToogleSwitch/Toogle";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { color } from "framer-motion";
 
 const Nav = () => {
   const [popUpMenu, setPopUpMenu] = useState(false);
@@ -60,12 +61,15 @@ const Nav = () => {
       {/* navegador  */}
       <nav className="nav">
         <ul className={`listNav ${popUpMenu ? "menu__active" : ""}`}>
-          <div className="toogle_box">
+          {/* <div className="toogle_box">
             <Toogle />
-          </div>
+          </div> */}
           {/* nav options  */}
           {optionMenu?.map(({ id, name, path, icon }) => (
-            <li className="link" key={id}>
+            <li
+              key={id}
+              className={`link ${scrollY > 160 ? "ligth" : ""}`}
+            >
               <div className="icon__responsive">
                 {popUpMenu ? (
                   <Image src={icon} width={30} height={30} alt="icon" />

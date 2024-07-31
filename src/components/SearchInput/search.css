@@ -14,7 +14,7 @@
 .search__input {
   font-family: inherit;
   font-size: inherit;
-  background-color: #2e2e2e;
+  /* background-color: #2e2e2e; */
   border: none;
   color: #ffffff;
   padding: 0.7rem 1rem;
@@ -22,11 +22,12 @@
   width: 230px;
   transition: background-color 300ms ease-in-out ;
   margin-right: -2rem;
+    box-shadow: 0 0 1em #00000013;
 }
 
-.search__input:hover, .search__input:focus {
+/* .search__input:hover, .search__input:focus {
   box-shadow: 0 0 1em #00000013;
-}
+} */
 
 .search__input:focus {
   outline: none;
@@ -55,7 +56,7 @@
 .search__icon {
   height: 1.3em;
   width: 1.3em;
-  fill: #ffffff;
+  /* fill: #ffffff; */
 }
 
 .filter__container{
