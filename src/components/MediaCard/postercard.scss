@@ -84,6 +84,18 @@
   }
 }
 
+.circle_progress_bar{
+  position: absolute;
+  top: 85%;
+  left: 20%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #ffffff1f;
+  backdrop-filter: blur(5px);
+}
+
 .movie_link {
   width: 100%;
   height: 100%;
@@ -188,6 +200,18 @@ footer .leyenda p a {
     grid-template-columns: repeat(6, 1fr);
     gap: 4px;
   }
+
+  .circle_progress_bar{
+  position: absolute;
+  top: 80%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffffff1f;
+  backdrop-filter: blur(5px);
+}
 
   .contenedor .contend__poster {
     width: 90px;

@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import img404 from '../../../public/image-no-found.svg'
+import { CircularProgressbar,buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 import { motion } from "framer-motion";
 
 const MediaCard = ({ data }) => {
@@ -16,7 +18,20 @@ const item = {
     y: 0,
     opacity: 1,
   },
-};
+  };
+  function percentage() {
+    const percentage = Math.round(data.vote_average * 10);
+    return percentage;
+  }
+  const percentag = percentage();
+
+  function colors() { 
+    if (percentag >= 67) { return "#33f04d" }
+    else if (percentag >= 54) { return "#f0d531" }
+    else { return "#f04d4d" }
+  }
+
+  const color = colors();
 
   return (
     <>
@@ -53,6 +68,21 @@ const item = {
                 </button>
               </Link>
             )}
+          </div>
+          <div className="circle_progress_bar">
+            <CircularProgressbar
+              styles={buildStyles({
+                rotation: 0.25,
+                strokeLinecap: "butt",
+                textSize: "16px",
+                pathTransitionDuration: 0.3,
+                pathColor: `${color}`,
+                textColor: "#fff",
+                trailColor: "#d6d6d6",
+              })}
+              value={percentag}
+              text={`${percentag}%`}
+            />
           </div>
         </div>
       </motion.div>

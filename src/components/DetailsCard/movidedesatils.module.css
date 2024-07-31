@@ -173,14 +173,6 @@
 
 .starsGood {
   display: flex;
-  background-color: rgb(86, 225, 116);
-  border-radius: 0.5em;
-  padding: 10px 5px;
-}
-
-.starsBad {
-  display: flex;
-  background-color: rgb(230, 77, 60);
   border-radius: 0.5em;
   padding: 10px 5px;
 }
