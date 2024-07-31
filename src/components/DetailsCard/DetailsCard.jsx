@@ -5,7 +5,7 @@ import Image from "next/image";
 import Image404 from "../../../public/image-no-found.svg";
 import dynamic from "next/dynamic";
 import ButtonShare from "@/components/Share/ButtonShare";
-import { useParams} from "next/navigation";
+import { useParams } from "next/navigation";
 
 const MovieDetails = ({ details }) => {
   // pathname
@@ -17,6 +17,16 @@ const MovieDetails = ({ details }) => {
     const year = date.getFullYear();
     return year;
   };
+
+  function colors(percentag) {
+    if (percentag >= 7) {
+      return "#33f04d";
+    } else if (percentag >= 5) {
+      return "#f0d531";
+    } else {
+      return "#f04d4d";
+    }
+  }
 
   // dynamic import season
   const Season = dynamic(() => import("../Season/Season"));
@@ -87,9 +97,12 @@ const MovieDetails = ({ details }) => {
             {/* stars movie  */}
             <div className={styles.stats}>
               <div
-                className={`${
-                  details.vote_average >= 7 ? styles.starsGood : styles.starsBad
-                }`}
+                style={{
+                  backgroundColor: `${colors(details.vote_average)}`,
+                  display: "flex",
+                  borderRadius: "0.5em",
+                  padding: "10px 5px",
+                }}
               >
                 {/* STARS  */}
                 <StarRating rating={details.vote_average} />

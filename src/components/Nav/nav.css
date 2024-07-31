@@ -61,7 +61,7 @@
   padding: 5px 15px;
   font-size: 1.2em;
   transition: background 200ms ease;
-  color: #ffffff;
+  /* color: #ffffff; */
   border-radius: 0.5em;
   font-weight: 600;
 }
@@ -108,9 +108,12 @@
   padding: 5px 15px;
   border-radius: .5em;
   font-size: 1.2em;
-  color: #ffffff;
   font-weight: 600;
   transition: background 200ms ease;
+}
+
+.ligth{
+  color: #ffffff;
 }
 
 .link-dark-mode:hover {
@@ -122,6 +125,11 @@
   display: none;
   z-index: 900;
 }
+
+/* html .litgh {
+  background: #000000;
+
+} */
 
 @media screen and (max-width: 768px) {
   .nav {

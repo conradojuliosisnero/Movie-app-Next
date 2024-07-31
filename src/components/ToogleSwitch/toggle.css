@@ -1,0 +1,116 @@
+.toogle_box {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 2rem;
+}
+
+.theme-checkbox {
+  --toggle-size: 12px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 6.25em;
+  height: 3.125em;
+  background: -webkit-gradient(
+      linear,
+      left top,
+      right top,
+      color-stop(50%, #efefef),
+      color-stop(50%, #2a2a2a)
+    )
+    no-repeat;
+  background: -o-linear-gradient(left, #2a2a2a 50%, #efefef 50%) no-repeat;
+  background: linear-gradient(to right, #2a2a2a 50%, #efefef 50%) no-repeat;
+  background-size: 205%;
+  background-position: 0;
+  -webkit-transition: 0.4s;
+  -o-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 99em;
+  position: relative;
+  cursor: pointer;
+  font-size: var(--toggle-size);
+}
+
+.theme-checkbox::before {
+  content: "";
+  width: 2.25em;
+  height: 2.25em;
+  position: absolute;
+  top: 0.438em;
+  left: 0.438em;
+  background: -webkit-gradient(
+      linear,
+      left top,
+      right top,
+      color-stop(50%, #efefef),
+      color-stop(50%, #2a2a2a)
+    )
+    no-repeat;
+  background: -o-linear-gradient(left, #2a2a2a 50%, #efefef 50%) no-repeat;
+  background: linear-gradient(to right, #2a2a2a 50%, #efefef 50%) no-repeat;
+  background-size: 205%;
+  background-position: 100%;
+  border-radius: 50%;
+  -webkit-transition: 0.4s;
+  -o-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.theme-checkbox:checked::before {
+  left: calc(100% - 2.25em - 0.438em);
+  background-position: 0;
+}
+
+.light-theme .theme-checkbox {
+  background: -webkit-gradient(
+      linear,
+      left top,
+      right top,
+      color-stop(50%, #efefef),
+      color-stop(50%, #2a2a2a)
+    )
+    no-repeat;
+  background: -o-linear-gradient(left, #2a2a2a 50%, #efefef 50%) no-repeat;
+  background: linear-gradient(to right, #2a2a2a 50%, #efefef 50%) no-repeat;
+}
+
+.light-theme .theme-checkbox::before {
+  background: -webkit-gradient(
+      linear,
+      left top,
+      right top,
+      color-stop(50%, #efefef),
+      color-stop(50%, #2a2a2a)
+    )
+    no-repeat;
+  background: -o-linear-gradient(left, #2a2a2a 50%, #efefef 50%) no-repeat;
+  background: linear-gradient(to right, #2a2a2a 50%, #efefef 50%) no-repeat;
+}
+
+.theme-checkbox:checked {
+  background-position: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .toogle_box {
+    right: 0.5rem;
+    top: 0.3rem;
+  }
+
+  .theme-checkbox {
+    right: 0.625rem;
+    top: 0.625rem;
+    width: 4.375em;
+    height: 2.188em;
+  }
+
+  .theme-checkbox::before {
+    width: 1.563em;
+    height: 1.563em;
+    top: 0.313em;
+    left: 0.313em;
+  }
+}

@@ -87,7 +87,6 @@ body {
 
 body {
   color: rgb(var(--foreground-rgb));
-  background-color: #000000;
   transition: background-color 200ms ease-in-out;
 }
 
@@ -119,3 +118,4 @@ a {
     color-scheme: dark;
   }
 }
+

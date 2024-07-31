@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import "@/components/MediaCard/postercard.scss";
 import Button from "@/components/Buttons/Button";
-import LayoutMovieSection from "@/layouts/Layout";
+// import LayoutMovieSection from "@/layouts/Layout";
 import Container from "@/components/LoadingContainer/Container";
 import Error from "@/components/Error/Error";
 import { motion } from "framer-motion";
