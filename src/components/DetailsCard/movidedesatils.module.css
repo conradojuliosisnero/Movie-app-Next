@@ -95,11 +95,19 @@
   z-index: 200;
   justify-content: flex-start;
   padding: 25px 0px;
+  color: #ffffff;
   cursor: pointer;
 }
 
 .year span {
   color: #727272;
+}
+.estreno{
+  color: #ffffff;
+}
+
+.genero{
+  color: #ffffff;
 }
 
 .estreno span {
@@ -193,7 +201,6 @@
   position: relative;
   padding: 40px 35px;
   width: 100%;
-  background: #000000;
 }
 
 .Watch {

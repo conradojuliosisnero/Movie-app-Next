@@ -4,8 +4,8 @@ import styles from "./page.module.css";
 import dynamic from "next/dynamic";
 import SqueletonSlaider from "../components/AutoPlaySlaider/SqueletonSlaider";
 import { useState, useEffect } from "react";
-import { HOME } from "../data/data";
-import Head from "next/head";
+// import { HOME } from "../data/data";
+// import Head from "next/head";
 
 const AutoPlaySlaiderDynamic = dynamic(
   () => import("../components/AutoPlaySlaider/Slaider"),
