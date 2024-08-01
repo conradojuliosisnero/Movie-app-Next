@@ -12,12 +12,14 @@
   justify-content: center;
   align-items: center;
   margin: 10px 30px;
+  
 }
 
 .cards {
   display: flex;
   overflow: hidden;
   overflow-x: scroll;
+  
 }
 
 .cardWatchTitle {
@@ -28,6 +30,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+  color: #ffffff;
 }
 
 .iconWatch {
@@ -43,6 +46,7 @@
   font-size: 3.5em;
   z-index: 200;
   align-items: center;
+  color: #ffffff;
 }
 
 .nullWatch {
