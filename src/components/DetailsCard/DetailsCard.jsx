@@ -102,10 +102,12 @@ const MovieDetails = ({ details }) => {
                   display: "flex",
                   borderRadius: "0.5em",
                   padding: "10px 5px",
+                  color: "white",
                 }}
               >
                 {/* STARS  */}
                 <StarRating rating={details.vote_average} />
+                <div style={{ marginLeft: "10px" }}></div>
                 <span className={styles.votes}>
                   {Math.floor(details.vote_average)} / 10
                 </span>
