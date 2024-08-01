@@ -14,7 +14,7 @@
 .search__input {
   font-family: inherit;
   font-size: inherit;
-  /* background-color: #2e2e2e; */
+  background-color: #2e2e2e;
   border: none;
   color: #ffffff;
   padding: 0.7rem 1rem;
@@ -56,7 +56,7 @@
 .search__icon {
   height: 1.3em;
   width: 1.3em;
-  /* fill: #ffffff; */
+  fill: #ffffff;
 }
 
 .filter__container{
