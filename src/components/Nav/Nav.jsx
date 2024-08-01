@@ -68,7 +68,7 @@ const Nav = () => {
           {optionMenu?.map(({ id, name, path, icon }) => (
             <li
               key={id}
-              className={`link ${scrollY > 160 ? "ligth" : ""}`}
+              className={`link`}
             >
               <div className="icon__responsive">
                 {popUpMenu ? (
