@@ -52,6 +52,7 @@
 .nullWatch {
   font-weight: 600;
   font-size: 3.5em;
+  color: #ffffff;
 }
 
 @media screen and (max-width: 768px) {

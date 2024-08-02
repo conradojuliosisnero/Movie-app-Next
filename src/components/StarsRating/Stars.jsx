@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./stars.css";
 
-const StarRating = ({ rating}) => {
+const StarRating = ({ rating }) => {
   const [filledStars, setFilledStars] = useState(0);
 
   useEffect(() => {
@@ -12,10 +12,7 @@ const StarRating = ({ rating}) => {
     const stars = [];
     for (let i = 0; i < 5; i++) {
       stars.push(
-        <span
-          key={i}
-          className={i < filledStars ? "star filled" : "star"}
-        ></span>
+        <div key={i} className={i < filledStars ? "star filled" : "star"}></div>
       );
     }
     return stars;

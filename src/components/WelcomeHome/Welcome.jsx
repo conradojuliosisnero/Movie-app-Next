@@ -33,7 +33,8 @@ export default function Welcome({ dataMovieHome }) {
 
   const MOVIEHOME = dataMovieHome && dataMovieHome.length > 0 ? dataMovieHome[0] : null;
   const router = useRouter();
-  const handlerVideoView = (event) => {
+
+  const handlerVideoView = () => {
     router.push(`/movie/${MOVIEHOME.id}`);
   };
 
