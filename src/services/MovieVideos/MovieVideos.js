@@ -6,7 +6,7 @@ const GetVideosMovies = async (movieID) => {
     headers: {
       accept: "application/json",
       Authorization: `Bearer ${bearer}`,
-    },
+    }
   };
   try {
     const response = await fetch(URL, options);

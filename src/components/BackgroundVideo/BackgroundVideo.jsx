@@ -2,7 +2,7 @@
 import styles from "./BackgroundVideo.module.css";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import GetVideosMovies from "../../services/MovieVideos/MovieVideos";
+// import GetVideosMovies from "../../services/MovieVideos/MovieVideos";
 import { AnimatePresence, motion } from "framer-motion";
 import ReactPlayer from "react-player/youtube";
 
@@ -117,14 +117,16 @@ const BackgroundVideo = ({ id, videoView, setVideoView }) => {
           >
             <ReactPlayer
               url={`https://www.youtube.com/watch?v=${keyVideoMovie}`}
-              controls={false}
+              controls={true}
               playing={startVideo}
               muted={true}
+              onStart={console.log("video iniciado")}
               width={opts.width}
               height={opts.height}
               onEnded={() => {
                 setVideoView(false);
                 sessionStorage.setItem("videoShown", "true");
+                console.log("video terminado");
               }}
             />
             <div className={styles.trasluced}></div>
