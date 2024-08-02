@@ -1,13 +1,13 @@
 export default async function getMovies(page) {
   const bearer = `${process.env.BEARER_TOKEN}`;
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization:
-      `Bearer ${bearer}`,
-  },
-};
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${bearer}`,
+    },
+    cache: "no-store",
+  };
 
   try {
     const response = await fetch(
@@ -23,4 +23,4 @@ const options = {
   } catch (error) {
     console.error(error);
   }
-};
+}
