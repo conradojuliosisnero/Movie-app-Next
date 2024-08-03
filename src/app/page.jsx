@@ -4,8 +4,7 @@ import styles from "./page.module.css";
 import dynamic from "next/dynamic";
 import SqueletonSlaider from "../components/AutoPlaySlaider/SqueletonSlaider";
 import { useState, useEffect } from "react";
-// import { HOME } from "../data/data";
-// import Head from "next/head";
+import providerRouter from './config/providerRouter'
 
 const AutoPlaySlaiderDynamic = dynamic(
   () => import("../components/AutoPlaySlaider/Slaider"),
@@ -36,13 +35,13 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <providerRouter>
       <main className={styles.name}>
         <WelcomeDynamic dataMovieHome={data} />
         <div className={styles.topMoviesContainer}>
           <AutoPlaySlaiderDynamic dataMovies={data} />
         </div>
       </main>
-    </>
+    </providerRouter>
   );
 }
