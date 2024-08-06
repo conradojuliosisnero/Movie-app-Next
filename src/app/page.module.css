@@ -35,6 +35,10 @@
   margin: 500px 0px 0px 0px;
 }
 
+.topSeriesContainer{
+  margin: 150px 0px 0px 0px;
+}
+
 .description {
   display: inherit;
   justify-content: inherit;
