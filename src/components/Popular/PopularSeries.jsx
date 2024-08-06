@@ -1,15 +1,14 @@
 "use client";
-import React from "react";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import styles from "./slaider.module.css";
+import Slider from "react-slick";
+import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import imageNull from "../../../public/image-no-found.svg";
-import Link from "next/link";
+import styles from "./styles.module.css";
 
-function AutoPlaySlaider({ dataMovies }) {
+export default function PopularSeries({ dataSeries }) {
   const [settings, setSettings] = useState({
     dots: false,
     infinite: true,
@@ -52,10 +51,10 @@ function AutoPlaySlaider({ dataMovies }) {
 
   return (
     <div className="slider-container">
-      <span className={styles.popularyTitle}>Popular en Peliculas</span>
+      <span className={styles.popularyTitle}>Lo mas Popular en Series</span>
       <Slider {...settings}>
-        {dataMovies &&
-          dataMovies.slice(0, 15).map((movie, index) => (
+        {dataSeries &&
+          dataSeries.slice(0, 15).map((movie, index) => (
             <div key={movie.id} className={styles.contendCarrussel}>
               <div className={styles.poster}>
                 <div className={styles.boxNumberMovie}>
@@ -71,9 +70,8 @@ function AutoPlaySlaider({ dataMovies }) {
                         ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
                         : imageNull
                     } `}
-                    alt={dataMovies.title || "image-movie"}
+                    alt={dataSeries.title || "image-movie"}
                     width={100}
-                    // loading="lazy"
                     height={100}
                   />
                 </Link>
@@ -84,5 +82,3 @@ function AutoPlaySlaider({ dataMovies }) {
     </div>
   );
 }
-
-export default AutoPlaySlaider;
