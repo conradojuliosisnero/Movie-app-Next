@@ -11,7 +11,7 @@
 
 ## Cómo Usar
 
-1. 🖥️ **Visita nuestro sitio web:** [[👉](https://moviesconv2.netlify.app/)]().
+1. 🖥️ **Visita nuestro sitio web:** [(https://moviesconv2.netlify.app/)].
 2. 🔍 **Explora nuestras películas:** Utiliza la barra de búsqueda o navega por categorías.
 3. 🍿 **¡Disfruta de la película!** Haz clic en una película para obtener más información y verla.
 
