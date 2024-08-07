@@ -2,7 +2,6 @@ import styles from "@/app/page.module.css";
 import dynamic from "next/dynamic";
 import SqueletonSlaider from "../AutoPlaySlaider/SqueletonSlaider";
 import Squeleton from "../WelcomeHome/Squeleton";
-import HomeLayout from '@/layouts/HomeLayout'
 
 const AutoPlaySlaiderDynamic = dynamic(
   () => import("@/components/AutoPlaySlaider/Slaider"),
@@ -15,6 +14,7 @@ const WelcomeDynamic = dynamic(
   () => import("@/components/WelcomeHome/Welcome"),
   {
     loading: () => <Squeleton />,
+    ssr: false,
   }
 );
 

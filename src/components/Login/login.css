@@ -3,7 +3,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
 }
 
 .form {
@@ -11,6 +10,7 @@
   flex-direction: column;
   gap: 10px;
   background-color: #ffffff;
+  backdrop-filter: blur(5px);
   padding: 30px;
   width: 450px;
   border-radius: 20px;
@@ -47,6 +47,7 @@
   border-radius: 10px;
   border: none;
   width: 85%;
+  background-color: transparent;
   height: 100%;
 }
 
@@ -68,6 +69,7 @@
 
 .flex-row > div > label {
   font-size: 14px;
+  padding: 0px 10px;
   color: black;
   font-weight: 400;
 }
