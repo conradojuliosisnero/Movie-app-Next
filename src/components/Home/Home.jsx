@@ -1,28 +1,30 @@
+"use client";
 import styles from "@/app/page.module.css";
 import dynamic from "next/dynamic";
-import SqueletonSlaider from "../AutoPlaySlaider/SqueletonSlaider";
 import Squeleton from "../WelcomeHome/Squeleton";
+import { useState, useEffect } from "react";
 
-const AutoPlaySlaiderDynamic = dynamic(
-  () => import("@/components/AutoPlaySlaider/Slaider"),
-  {
-    loading: () => <SqueletonSlaider />,
-  }
-);
+export default function Home() {
+  const [data, setData] = useState([]);
+  const [seriesData, setDataSeries] = useState([]);
 
-const WelcomeDynamic = dynamic(
-  () => import("@/components/WelcomeHome/Welcome"),
-  {
-    loading: () => <Squeleton />,
-    ssr: false,
-  }
-);
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch("/api/home");
+      const data = await response.json();
+      setData(data);
+    }
 
-const PopularSeriesDynamic = dynamic(() =>
-  import("@/components/Popular/PopularSeries")
-);
+    async function fetchDataSeries() {
+      const response = await fetch("/api/series?page=1");
+      const dataSeries = await response.json();
+      setDataSeries(dataSeries);
+    }
 
-export default function Home({ data, seriesData }) {
+    fetchDataSeries();
+    fetchData();
+  }, []);
+
   return (
     <main className={styles.name}>
       {/* WELCOME HOME  */}
@@ -38,3 +40,25 @@ export default function Home({ data, seriesData }) {
     </main>
   );
 }
+
+const AutoPlaySlaiderDynamic = dynamic(
+  () => import("@/components/AutoPlaySlaider/Slaider"),
+  {
+    ssr: false,
+  }
+);
+
+const WelcomeDynamic = dynamic(
+  () => import("@/components/WelcomeHome/Welcome"),
+  {
+    loading: () => <Squeleton />,
+    ssr: false,
+  }
+);
+
+const PopularSeriesDynamic = dynamic(
+  () => import("@/components/Popular/PopularSeries"),
+  {
+    ssr: false,
+  }
+);

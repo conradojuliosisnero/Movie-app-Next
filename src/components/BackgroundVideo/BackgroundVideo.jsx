@@ -2,7 +2,6 @@
 import styles from "./BackgroundVideo.module.css";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-// import GetVideosMovies from "../../services/MovieVideos/MovieVideos";
 import { AnimatePresence, motion } from "framer-motion";
 import ReactPlayer from "react-player/youtube";
 
@@ -27,7 +26,7 @@ const BackgroundVideo = ({ id, videoView, setVideoView }) => {
     // Obtener video de la película despues de 5 segundos
       const getVideos = async () => {
         switch (pathname) {
-          case "/":
+          case "/home":
             try {
               const response = await fetch(`/api/movies/trailer?id=${id}`);
               const data = await response.json();
@@ -120,7 +119,6 @@ const BackgroundVideo = ({ id, videoView, setVideoView }) => {
               controls={true}
               playing={startVideo}
               muted={true}
-              onStart={console.log("video iniciado")}
               width={opts.width}
               height={opts.height}
               onEnded={() => {

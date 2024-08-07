@@ -31,7 +31,7 @@ export default function Welcome({ dataMovieHome }) {
     return () => window.removeEventListener("resize", updateWindowWidth);
   }, [windowWidth]);
 
-  const MOVIEHOME = dataMovieHome && dataMovieHome.length > 0 ? dataMovieHome[0] : null;
+  const MOVIEHOME = dataMovieHome.slice(0, 1)[0] ? dataMovieHome.slice(0, 1)[0] : null;
   const router = useRouter();
 
   const handlerVideoView = () => {
