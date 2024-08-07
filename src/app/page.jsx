@@ -1,31 +1,9 @@
 "use client";
-import Squeleton from "../components/WelcomeHome/Squeleton";
-import styles from "./page.module.css";
-import dynamic from "next/dynamic";
-import SqueletonSlaider from "../components/AutoPlaySlaider/SqueletonSlaider";
 import { useState, useEffect } from "react";
+import Home from "@/components/Home/Home";
+import Login from "@/components/Login/Login";
 
-const AutoPlaySlaiderDynamic = dynamic(
-  () => import("../components/AutoPlaySlaider/Slaider"),
-  {
-    loading: () => <SqueletonSlaider />,
-    ssr: false,
-  }
-);
-
-const WelcomeDynamic = dynamic(
-  () => import("../components/WelcomeHome/Welcome"),
-  {
-    loading: () => <Squeleton />,
-    ssr: false,
-  }
-);
-
-const PopularSeriesDynamic = dynamic(() =>
-  import("../components/Popular/PopularSeries")
-);
-
-export default function Home() {
+export default function HomePage() {
   const [data, setData] = useState([]);
   const [seriesData, setDataSeries] = useState([]);
 
@@ -46,18 +24,5 @@ export default function Home() {
     fetchData();
   }, []);
 
-  return (
-    <main className={styles.name}>
-      {/* WELCOME HOME  */}
-      <WelcomeDynamic dataMovieHome={data} />
-      {/* POPULAR MOVIES */}
-      <div className={styles.topMoviesContainer}>
-        <AutoPlaySlaiderDynamic dataMovies={data} />
-      </div>
-      {/*  POPULAR SERIES */}
-      <div className={styles.topSeriesContainer}>
-        <PopularSeriesDynamic dataSeries={seriesData} />
-      </div>
-    </main>
-  );
+  return <Login />;
 }
