@@ -2,12 +2,15 @@ import "./login.css";
 import { GoogleSvg, EyeSvg, LockSvg, EmailSvg } from "@/assets/svg";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import {
+  singInWithEmailAndPassword,
+  registerUserWithEmailAndPassword,
+} from "@/lib/servicesFirebase";
 
 export default function Login() {
   const [user, setUser] = useState({ email: "", password: "" });
   const [register, setRegister] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [remeber, setRemeber] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
   const [verifyEmail, setVerifyEmail] = useState(false);
@@ -40,14 +43,30 @@ export default function Login() {
     }
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const email = user.email;
+  const password = user.password;
+  
+const handleSubmit = async (event) => {
+  event.preventDefault();
+
+  const authenticate = async (email, password) => {
     try {
+      const response = await (register
+        ? registerUserWithEmailAndPassword(email, password)
+        : singInWithEmailAndPassword(email, password));
+      console.log(response);
     } catch (error) {
-      setErrors(true);
+      console.log(error);
       throw new Error(error);
     }
   };
+
+  if (!register) {
+    await authenticate(email, password);
+  } else {
+    await authenticate(email, password);
+  }
+};
 
   return (
     <div className="containerForm">
