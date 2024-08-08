@@ -1,4 +1,4 @@
-.containerForm{
+.containerForm {
   display: flex;
   height: 100vh;
   flex-direction: column;
@@ -125,4 +125,41 @@
 
 .btn:hover {
   border: 1px solid #2d79f3;
+}
+
+@media screen and (max-width: 426px) {
+  .containerForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .inputForm {
+    border: 1.5px solid #ecedec;
+  }
+
+  .form > div > label {
+    color: #ffffff;
+  }
+
+  .form {
+    width: 90%;
+    background-color: #ffffff15;
+    backdrop-filter: blur(5px);
+  }
+
+  .inputForm {
+    width: 100%;
+  }
+
+  .button-submit {
+    width: 100%;
+    background-color: #ffffff;
+    color: black;
+  }
+
+  .p {
+    color: #ffffff;
+  }
 }
