@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 import {
   singInWithEmailAndPassword,
   registerUserWithEmailAndPassword,
-} from "@/lib/servicesFirebase";
+} from "@/firebase/servicesFirebase";
+import { useRouter } from "next/navigation";
+import { FIREBASE_ERRORS } from "@/firebase/firebaseErrors";
 
 export default function Login() {
   const [user, setUser] = useState({ email: "", password: "" });
@@ -45,28 +47,32 @@ export default function Login() {
 
   const email = user.email;
   const password = user.password;
-  
-const handleSubmit = async (event) => {
-  event.preventDefault();
 
-  const authenticate = async (email, password) => {
-    try {
-      const response = await (register
-        ? registerUserWithEmailAndPassword(email, password)
-        : singInWithEmailAndPassword(email, password));
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-      throw new Error(error);
+  const router = useRouter();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const authenticate = async (email, password) => {
+      try {
+        const response = await (register
+          ? registerUserWithEmailAndPassword(email, password)
+          : singInWithEmailAndPassword(email, password));
+        if (response) {
+          setLoading(false);
+          router.push("/home");
+        }
+      } catch (error) {
+        setErrors(FIREBASE_ERRORS[error.code]);
+        setLoading(false);
+      }
+    };
+
+    if (!register) {
+      await authenticate(email, password);
+    } else {
+      await authenticate(email, password);
     }
   };
-
-  if (!register) {
-    await authenticate(email, password);
-  } else {
-    await authenticate(email, password);
-  }
-};
 
   return (
     <div className="containerForm">

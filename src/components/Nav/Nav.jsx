@@ -5,14 +5,19 @@ import { optionMenu } from "./data";
 import logoWebsite from "../../../public/logo-website.svg";
 import Image from "next/image";
 import MenuResponsive from "../../../public/menu-responsive.svg";
-// import Toogle from "../ToogleSwitch/Toogle";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 import { useRouter } from "next/navigation";
-import { color } from "framer-motion";
+import SessionButton from "./SessionButton";
+import AuthProvider from "@/context/AuthContext";
+import { useAuthUser } from "@/hooks/useAuthUser";
 
 const Nav = () => {
+  useAuthUser();
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+
+  const { isLoggedIn } = useContext(AuthProvider);
+  console.log(isLoggedIn);
 
   const handlerPopUp = () => {
     setPopUpMenu(!popUpMenu);
@@ -41,7 +46,7 @@ const Nav = () => {
   }, []);
 
   const goHome = () => {
-    router.push('/');
+    router.push("/");
   };
 
   return (
@@ -61,15 +66,13 @@ const Nav = () => {
       {/* navegador  */}
       <nav className="nav">
         <ul className={`listNav ${popUpMenu ? "menu__active" : ""}`}>
+          <SessionButton login={isLoggedIn} />
           {/* <div className="toogle_box">
             <Toogle />
           </div> */}
           {/* nav options  */}
           {optionMenu?.map(({ id, name, path, icon }) => (
-            <li
-              key={id}
-              className={`link`}
-            >
+            <li key={id} className={`link`}>
               <div className="icon__responsive">
                 {popUpMenu ? (
                   <Image src={icon} width={30} height={30} alt="icon" />
