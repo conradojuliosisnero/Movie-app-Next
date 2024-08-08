@@ -1,13 +1,8 @@
 import app from "./firebase";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
-import { FIREBASE_ERRORS } from "../lib/firebaseErrors";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import { FIREBASE_ERRORS } from "./firebaseErrors";
 
-const auth = getAuth(app);
+export const auth = getAuth(app);
 
 export async function singInWithEmailAndPassword(email, password) {
   try {
