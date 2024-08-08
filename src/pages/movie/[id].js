@@ -4,11 +4,9 @@ import MovieLayout from "../Layout";
 
 export default function DataMovie({ movie, loading }) {
   return (
-    <>
       <MovieLayout type='movie'>
         {loading ? <Loading /> : <DetailsCard details={movie} />}
       </MovieLayout>
-    </>
   );
 }
 
