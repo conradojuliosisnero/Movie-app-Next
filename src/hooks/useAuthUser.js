@@ -1,24 +1,23 @@
-import { usePathname, useRouter } from "next/navigation";
 import { auth } from "@/firebase/servicesFirebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useContext } from "react";
 import AuthContext from "@/context/AuthContext";
 
 export const useAuthUser = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const { setIsLoggedIn } = useContext(AuthContext);
+  console.log(pathname);
+  const { setIsLoggedIn, isLoggedIn } = useContext(AuthContext);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       const userLogged = user !== null ? true : false;
       setIsLoggedIn(userLogged);
-      // Redirige a los usuarios no autenticados a "/" excepto si ya están en "/"
       if (!userLogged && pathname !== "/") {
         router.push("/");
-      }
-      // Redirige a los usuarios autenticados a "/home" si intentan acceder a "/" o "/forgot-password"
-      else {
+      } else {
+        setIsLoggedIn(true);
         if (
           userLogged &&
           (pathname === "/" || pathname === "/forgot-password")
@@ -29,5 +28,5 @@ export const useAuthUser = () => {
     });
 
     return () => unsubscribe();
-  }, [pathname, router, setIsLoggedIn]);
+  }, [pathname, router, isLoggedIn,setIsLoggedIn]);
 };

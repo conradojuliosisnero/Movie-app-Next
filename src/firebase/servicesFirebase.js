@@ -7,14 +7,11 @@ export const auth = getAuth(app);
 export async function singInWithEmailAndPassword(email, password) {
   try {
     const response = await signInWithEmailAndPassword(auth, email, password);
-    if (response) {
-      console.log(response);
-      return response;
-    }
-  } catch (error) {
+      localStorage.setItem("isLoggedIn", "true");
+  } catch (error) {    
+    console.log(error);
     const errorMessage =
       FIREBASE_ERRORS[error.code] || FIREBASE_ERRORS["default"];
-    console.log(errorMessage);
     return errorMessage;
   }
 }
@@ -22,26 +19,18 @@ export async function singInWithEmailAndPassword(email, password) {
 export async function registerUserWithEmailAndPassword(email, password) {
   try {
     const response = await createUserWithEmailAndPassword(auth, email, password);
-    if (response) {
-      console.log(response);
-      return response;
-    }
+    return response
   } catch (error) {
-    const errorMessage =
-      FIREBASE_ERRORS[error.code] || FIREBASE_ERRORS["default"];
-    console.log(errorMessage);
-    return errorMessage;
+    const errorMessage = FIREBASE_ERRORS[error.code] || FIREBASE_ERRORS['default']
+    return errorMessage
   }
 }
 
 export async function logout() {
   try {
-    const response = await signOut(auth);
-    if (response) {
-      console.log(response);
-      return response;
-    }
+    await signOut(auth);
   } catch (error) {
-    console.log(error);
+    console.error("Logout failed");
   }
 }
+

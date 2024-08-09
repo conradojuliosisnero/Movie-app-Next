@@ -139,27 +139,12 @@
     border: 1.5px solid #ecedec;
   }
 
-  .form > div > label {
-    color: #ffffff;
-  }
-
   .form {
     width: 90%;
-    background-color: #ffffff15;
-    backdrop-filter: blur(5px);
   }
 
   .inputForm {
     width: 100%;
   }
 
-  .button-submit {
-    width: 100%;
-    background-color: #ffffff;
-    color: black;
-  }
-
-  .p {
-    color: #ffffff;
-  }
 }
