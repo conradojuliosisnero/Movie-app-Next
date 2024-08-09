@@ -71,19 +71,21 @@ export default function Login() {
       const response = await (register
         ? registerUserWithEmailAndPassword(email, password)
         : singInWithEmailAndPassword(email, password));
-
-      if (response) {
-        setErrors(response);
-      } else {
-        router.push("/home");
-      }
+    if (typeof response === "string") {
+      setErrors(response);
+    } else {
+      router.push("/home");
+    }
     } catch (error) {
-      console.error(error);
-      setErrors("Hubo un error al procesar su solicitud. Intente nuevamente.");
+      const errorMessage =
+        FIREBASE_ERRORS[error.code] || FIREBASE_ERRORS["default"];
+      setErrors(errorMessage);
     } finally {
       setLoading(false);
     }
   };
+
+  console.log(errors);
 
   return (
     <div className="containerForm">
