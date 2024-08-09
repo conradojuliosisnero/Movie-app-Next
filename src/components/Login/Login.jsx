@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import {
   singInWithEmailAndPassword,
   registerUserWithEmailAndPassword,
+  signInWithGoogle,
 } from "@/firebase/servicesFirebase";
 import { useRouter } from "next/navigation";
 import { FIREBASE_ERRORS } from "@/firebase/firebaseErrors";
@@ -71,11 +72,11 @@ export default function Login() {
       const response = await (register
         ? registerUserWithEmailAndPassword(email, password)
         : singInWithEmailAndPassword(email, password));
-    if (typeof response === "string") {
-      setErrors(response);
-    } else {
-      router.push("/home");
-    }
+      if (typeof response === "string") {
+        setErrors(response);
+      } else {
+        router.push("/home");
+      }
     } catch (error) {
       const errorMessage =
         FIREBASE_ERRORS[error.code] || FIREBASE_ERRORS["default"];
@@ -85,7 +86,25 @@ export default function Login() {
     }
   };
 
-  console.log(errors);
+const loginWithGoogle = async () => {
+  setLoading(true);
+  setErrors(null);
+  try {
+    const response = await signInWithGoogle();
+    if (response) {
+      router.push("/home");
+    } else if (typeof response === "string") {
+      setErrors(response);
+    }
+  } catch (error) {
+    const errorMessage =
+      FIREBASE_ERRORS[error.code] || FIREBASE_ERRORS["default"];
+    setErrors(errorMessage);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="containerForm">
@@ -159,14 +178,18 @@ export default function Login() {
             {register ? "Inicia sesión" : "Regístrate"}
           </span>
         </p>
-        {/* <p className="p line">O inicia sesión con</p>
+        <p className="p line">O inicia sesión con</p>
 
         <div className="flex-row">
-          <button type="button" className="btn google">
+          <button
+            type="button"
+            className="btn google"
+            onClick={loginWithGoogle}
+          >
             <GoogleSvg />
             Google
           </button>
-        </div> */}
+        </div>
       </form>
     </div>
   );
