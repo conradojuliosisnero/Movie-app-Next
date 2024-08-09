@@ -7,25 +7,25 @@ import AuthContext from "@/context/AuthContext";
 export const useAuthUser = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const { setIsLoggedIn, isLoggedIn } = useContext(AuthContext);
+  const { setIsLoggedIn } = useContext(AuthContext);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      const userLogged = user !== null ? true : false;
-      setIsLoggedIn(userLogged);
-      if (!userLogged && pathname !== "/") {
-        router.push("/");
-      } else {
+      const userLogged = user !== null;
+      console.log(userLogged);
+      if (userLogged) {
         setIsLoggedIn(true);
-        if (
-          userLogged &&
-          (pathname === "/" || pathname === "/forgot-password")
-        ) {
+        if (pathname === "/" || pathname === "/forgot-password") {
           router.push("/home");
+        }
+      } else {
+        setIsLoggedIn(false);
+        if (pathname !== "/") {
+          router.push("/");
         }
       }
     });
 
     return () => unsubscribe();
-  }, [pathname, router, isLoggedIn,setIsLoggedIn]);
+  }, [pathname, router, setIsLoggedIn]);
 };

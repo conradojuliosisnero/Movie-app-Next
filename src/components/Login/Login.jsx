@@ -6,10 +6,12 @@ import { useEffect, useState } from "react";
 import {
   singInWithEmailAndPassword,
   registerUserWithEmailAndPassword,
-  signInWithGoogle,
 } from "@/firebase/servicesFirebase";
 import { useRouter } from "next/navigation";
 import { FIREBASE_ERRORS } from "@/firebase/firebaseErrors";
+import { signInWithGoogle } from "@/firebase/servicesFirebase";
+import { useContext } from "react";
+import AuthContext from "@/context/AuthContext";
 
 export default function Login() {
   const [user, setUser] = useState({ email: "", password: "" });
@@ -17,7 +19,9 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
-  const [verifyEmail, setVerifyEmail] = useState(null); // Inicializa como null
+  const [verifyEmail, setVerifyEmail] = useState(null);
+
+  const { setIsLoggedIn } = useContext(AuthContext);
 
   // Regular expression
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -86,25 +90,27 @@ export default function Login() {
     }
   };
 
-const loginWithGoogle = async () => {
-  setLoading(true);
-  setErrors(null);
-  try {
-    const response = await signInWithGoogle();
-    if (response) {
-      router.push("/home");
-    } else if (typeof response === "string") {
-      setErrors(response);
+  const loginWithGoogle = async () => {
+    setLoading(true);
+    setErrors(null);
+    try {
+      const response = await signInWithGoogle();
+      if (response.user) {
+        setIsLoggedIn(true);
+        localStorage.setItem("isLoggedIn", "true");
+        router.push("/home");
+      } else if (typeof response === "string") {
+        setErrors(response);
+        setIsLoggedIn(false);
+      }
+    } catch (error) {
+      const errorMessage =
+        FIREBASE_ERRORS[error.code] || FIREBASE_ERRORS["default"];
+      setErrors(errorMessage);
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    const errorMessage =
-      FIREBASE_ERRORS[error.code] || FIREBASE_ERRORS["default"];
-    setErrors(errorMessage);
-  } finally {
-    setLoading(false);
-  }
-};
-
+  };
 
   return (
     <div className="containerForm">

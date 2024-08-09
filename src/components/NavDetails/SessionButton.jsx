@@ -5,8 +5,8 @@ export default function SessionButton() {
   const router = useRouter();
   const handlerLogout = async () => {
     try {
-      const response = await logout(); // Espera a que se complete el logout
-      console.log(response);
+      const response = await logout(); 
+      console.log(response, "logout response");
       localStorage.removeItem("isLoggedIn");
       router.push("/");
     } catch (error) {

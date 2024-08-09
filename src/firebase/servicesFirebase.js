@@ -44,27 +44,28 @@ export async function registerUserWithEmailAndPassword(email, password) {
   }
 }
 
-// logica de logout
-export async function logout() {
-  try {
-    const response = await signOut(auth);
-    console.log(response);
-    return response;
-  } catch (error) {
-    console.error("Logout failed");
-  }
-}
-
 // inicio de sesión con google
 export async function signInWithGoogle() {
   try {
     const response = await signInWithPopup(auth, googleAuthProvider);
-    console.log(response);
     return response;
   } catch (error) {
-    console.log(error);
     const errorMessage =
       FIREBASE_ERRORS[error.code] || FIREBASE_ERRORS["default"];
     return errorMessage;
+  }
+}
+
+// logica de logout
+export async function logout() {
+  try {
+    await signOut(auth);
+    localStorage.removeItem("isLoggedIn", "true");
+    return {
+      success: true,
+      message: "Logout successful",
+    };
+  } catch (error) {
+    console.error("Logout failed");
   }
 }
