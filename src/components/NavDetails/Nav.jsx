@@ -8,10 +8,8 @@ import MenuResponsive from "../../../public/menu-responsive.svg";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import SessionButton from "./SessionButton";
-import { useAuthUser } from "@/hooks/useAuthUser";
 
 const Nav = () => {
-  useAuthUser();
   const [popUpMenu, setPopUpMenu] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
