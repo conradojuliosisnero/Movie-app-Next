@@ -1,7 +1,5 @@
 "use client";
 import { createContext, useState } from "react";
-
-// Creación del contexto
 const AuthContext = createContext({});
 
 export function ContextAuthProvider({ children }) {

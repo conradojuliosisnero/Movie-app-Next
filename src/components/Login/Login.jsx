@@ -1,3 +1,4 @@
+"use client";
 import "./login.css";
 import { GoogleSvg, EyeSvg, LockSvg, EmailSvg } from "@/assets/svg";
 import Link from "next/link";
@@ -15,9 +16,9 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
-  const [verifyEmail, setVerifyEmail] = useState(false);
+  const [verifyEmail, setVerifyEmail] = useState(null); // Inicializa como null
 
-  // regular expression
+  // Regular expression
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const handlerOnchange = (event) => {
@@ -26,23 +27,31 @@ export default function Login() {
   };
 
   const validateEmail = (email) => {
-    if (user.email == "") {
-      setVerifyEmail({ email: "please enter your email" });
+    if (email === "") {
+      setVerifyEmail("Por favor, ingrese su correo electrónico.");
     } else if (!emailRegex.test(email)) {
-      setVerifyEmail(false);
+      setVerifyEmail("El correo electrónico no es válido.");
     } else {
-      setVerifyEmail(true);
+      setVerifyEmail(null); // No hay error
     }
   };
 
   useEffect(() => {
-    validateEmail(user.email);
+    if (user.email !== "") {
+      validateEmail(user.email);
+    }
   }, [user.email]);
 
   const validateEmailAndPassword = () => {
-    if (user.email === "" && user.password === "") {
-      setErrors(true);
+    if (user.email === "" || user.password === "") {
+      setErrors("Por favor, rellene todos los campos.");
+      return false;
     }
+    if (verifyEmail) {
+      setErrors(verifyEmail);
+      return false;
+    }
+    return true;
   };
 
   const email = user.email;
@@ -52,25 +61,27 @@ export default function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const authenticate = async (email, password) => {
-      try {
-        const response = await (register
-          ? registerUserWithEmailAndPassword(email, password)
-          : singInWithEmailAndPassword(email, password));
-        if (response) {
-          setLoading(false);
-          router.push("/home");
-        }
-      } catch (error) {
-        setErrors(FIREBASE_ERRORS[error.code]);
-        setLoading(false);
-      }
-    };
 
-    if (!register) {
-      await authenticate(email, password);
-    } else {
-      await authenticate(email, password);
+    if (!validateEmailAndPassword()) return;
+
+    setLoading(true);
+    setErrors(null);
+
+    try {
+      const response = await (register
+        ? registerUserWithEmailAndPassword(email, password)
+        : singInWithEmailAndPassword(email, password));
+
+      if (response) {
+        setErrors(response);
+      } else {
+        router.push("/home");
+      }
+    } catch (error) {
+      console.error(error);
+      setErrors("Hubo un error al procesar su solicitud. Intente nuevamente.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -89,19 +100,20 @@ export default function Login() {
             name="email"
             value={user.email}
             onChange={handlerOnchange}
+            onBlur={() => validateEmail(user.email)} // Valida al salir del campo
           />
         </div>
-        {!verifyEmail ? (
+        {verifyEmail && (
           <p
             className="error"
             style={{ color: "red", margin: 0, fontSize: "12px" }}
           >
-            {"is not a valid email"}
+            {verifyEmail}
           </p>
-        ) : null}
+        )}
 
         <div className="flex-column">
-          <label>Contraseña </label>
+          <label>Contraseña </label>
         </div>
         <div className="inputForm">
           <LockSvg />
@@ -119,36 +131,40 @@ export default function Login() {
           />
         </div>
         {errors && (
-          <p style={{ color: "red", margin: 0, fontSize: "12px" }}>
-            por favor rellene todos los campos
+          <p
+            className="error"
+            style={{ color: "red", margin: 0, fontSize: "12px" }}
+          >
+            {errors}
           </p>
         )}
         <div className="flex-row">
-          {/* <div>
-            <input type="checkbox" onClick={() => setRemeber(!remeber)} />
-            <label>Remember me </label>
-          </div> */}
-          <span className="span">
-            <Link href="/forgot-password">Olvide mi contraseña</Link>
-          </span>
+          {/* <span className="span">
+            <Link href="/forgot-password">Olvidé mi contraseña</Link>
+          </span> */}
         </div>
-        <button className="button-submit" onClick={validateEmailAndPassword}>
-          {register ? "Registrar" : "Iniciar sesión"}
+
+        <button className="button-submit" type="submit" disabled={loading}>
+          {loading
+            ? "Cargando..."
+            : register
+            ? "Registrarme"
+            : "Iniciar sesión"}
         </button>
         <p className="p">
-          {register ? "Ya tienes una cuenta?" : "Aun no tienes una cuenta?"}
+          {register ? "Ya tienes una cuenta?" : "Aún no tienes una cuenta?"}
           <span className="span" onClick={() => setRegister(!register)}>
-            {register ? "Inicia sesión" : "Registrarme"}
+            {register ? "Inicia sesión" : "Regístrate"}
           </span>
         </p>
-        <p className="p line">O inicia sesión con</p>
+        {/* <p className="p line">O inicia sesión con</p>
 
         <div className="flex-row">
-          <button className="btn google">
+          <button type="button" className="btn google">
             <GoogleSvg />
             Google
           </button>
-        </div>
+        </div> */}
       </form>
     </div>
   );
