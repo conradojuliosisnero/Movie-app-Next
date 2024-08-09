@@ -7,9 +7,9 @@ export const auth = getAuth(app);
 export async function singInWithEmailAndPassword(email, password) {
   try {
     const response = await signInWithEmailAndPassword(auth, email, password);
-      localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("isLoggedIn", "true");
+    return response
   } catch (error) {    
-    console.log(error);
     const errorMessage =
       FIREBASE_ERRORS[error.code] || FIREBASE_ERRORS["default"];
     return errorMessage;
@@ -28,7 +28,8 @@ export async function registerUserWithEmailAndPassword(email, password) {
 
 export async function logout() {
   try {
-    await signOut(auth);
+   const response = await signOut(auth);
+   return response
   } catch (error) {
     console.error("Logout failed");
   }
