@@ -7,7 +7,6 @@ import AuthContext from "@/context/AuthContext";
 export const useAuthUser = () => {
   const router = useRouter();
   const pathname = usePathname();
-  console.log(pathname);
   const { setIsLoggedIn, isLoggedIn } = useContext(AuthContext);
 
   useEffect(() => {
