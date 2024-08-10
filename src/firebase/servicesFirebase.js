@@ -67,6 +67,9 @@ export async function logout() {
       message: "Logout successful",
     };
   } catch (error) {
-    console.error("Logout failed");
+    return {
+      success: false,
+      message: "Logout failed",
+    }
   }
 }

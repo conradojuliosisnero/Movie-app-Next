@@ -6,9 +6,10 @@ export default function SessionButton() {
   const handlerLogout = async () => {
     try {
       await logout();
-      console.log("Logout successful");
     } catch (error) {
-      console.error("Logout failed:", error);
+      console.error(error);
+    } finally {
+      window.location.href = "/";
     }
   };
 
