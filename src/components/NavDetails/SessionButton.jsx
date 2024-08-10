@@ -3,10 +3,15 @@ import { useRouter } from "next/navigation";
 
 export default function SessionButton() {
   const router = useRouter();
-  const handlerLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    router.push("/");
-    logout();
+  const handlerLogout = async () => {
+    try {
+      const response = await logout(); 
+      console.log(response, "logout response");
+      localStorage.removeItem("isLoggedIn");
+      router.push("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (

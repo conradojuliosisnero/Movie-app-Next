@@ -1,17 +1,21 @@
+// "use client";
 import { logout } from "@/firebase/servicesFirebase";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function SessionButton() {
-  const router = useRouter();
-  const handlerLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    router.push("/");
-    logout();
+  const handlerLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      window.location.href = "/";
+    }
   };
 
   return (
-    <button className="button-logout" onClick={handlerLogout}>
+    <Link href={"/"} className="button-logout" onClick={handlerLogout}>
       Cerrar Sesion
-    </button>
+    </Link>
   );
 }
