@@ -3,8 +3,9 @@ import notFound from "../../public/not-found-error.svg";
 import Image from "next/image";
 import styles from "./page.module.css";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-export default function notfound() {
+export default function Notfound() {
   const router = useRouter();
 
   const goHome = () => {
@@ -13,10 +14,10 @@ export default function notfound() {
 
   return (
     <div className={styles.page_404}>
-      <Image src={notFound} alt="not-found" width={450} height={550} />
-      <button onClick={goHome} className={styles.buttonHome}>
+      <Image src={notFound} alt="not-found" width={350} height={350} />
+      <Link href="/" onClick={goHome} className={styles.buttonHome}>
         Volver al Home
-      </button>
+      </Link>
     </div>
   );
 }

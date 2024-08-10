@@ -3,10 +3,8 @@ import { useState, useEffect } from "react";
 import Login from "@/components/Login/Login";
 import Carrusel from "@/components/Carrusel/Carrusel";
 import homeStyles from '@/styles/home.module.css'
-import { useAuthUser } from "@/hooks/useAuthUser";
 
 export default function HomePage() {
-  useAuthUser();
   const [data, setData] = useState([]);
 
   useEffect(() => {

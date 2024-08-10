@@ -61,9 +61,6 @@ const Nav = () => {
       <nav className="nav">
         <ul className={`listNav ${popUpMenu ? "menu__active" : ""}`}>
           <SessionButton />
-          {/* <div className="toogle_box">
-            <Toogle />
-          </div> */}
           {/* nav options  */}
           {optionMenu?.map(({ id, name, path, icon }) => (
             <li key={id} className={`link`}>
