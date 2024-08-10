@@ -1,7 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ContextAuthProvider } from "@/context/AuthContext";
-import dynamic from "next/dynamic";
 
 export const metadata = {
   title: "MoviesCon 2.0 | The ultimate movie app",

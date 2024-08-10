@@ -92,13 +92,11 @@ export default function Login() {
 
   const loginWithGoogle = async () => {
     setLoading(true);
-    setErrors(null);
     try {
       const response = await signInWithGoogle();
-      if (response.user) {
+      if (response) {
         setIsLoggedIn(true);
         localStorage.setItem("isLoggedIn", "true");
-        router.push("/home");
       } else if (typeof response === "string") {
         setErrors(response);
         setIsLoggedIn(false);

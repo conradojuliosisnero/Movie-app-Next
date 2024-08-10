@@ -60,7 +60,8 @@ export async function signInWithGoogle() {
 export async function logout() {
   try {
     await signOut(auth);
-    localStorage.removeItem("isLoggedIn", "true");
+    localStorage.removeItem("isLoggedIn");
+    window.location.href = "/";
     return {
       success: true,
       message: "Logout successful",
