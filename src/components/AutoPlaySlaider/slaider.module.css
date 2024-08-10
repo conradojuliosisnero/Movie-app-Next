@@ -170,6 +170,11 @@
 }
 
 @media screen and (max-width: 426px) {
+
+  .popularyTitle {
+    font-size: 2rem;
+  }
+
   .skeleton-poster-img {
     width: 150px;
     height: 200px;
