@@ -12,6 +12,7 @@ function AutoPlaySlaider({ dataMovies }) {
   const [settings, setSettings] = useState({
     dots: false,
     infinite: true,
+    lazyLoad: true,
     slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: true,
