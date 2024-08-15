@@ -1,7 +1,6 @@
 "use client";
 import "./login.css";
 import { GoogleSvg, EyeSvg, LockSvg, EmailSvg } from "@/assets/svg";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
   singInWithEmailAndPassword,
