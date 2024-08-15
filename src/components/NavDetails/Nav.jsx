@@ -7,7 +7,6 @@ import Image from "next/image";
 import MenuResponsive from "../../../public/menu-responsive.svg";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import SessionButton from "./SessionButton";
 
 const Nav = () => {
   const [popUpMenu, setPopUpMenu] = useState(false);
@@ -60,7 +59,6 @@ const Nav = () => {
       {/* navegador  */}
       <nav className="nav">
         <ul className={`listNav ${popUpMenu ? "menu__active" : ""}`}>
-          <SessionButton />
           {/* nav options  */}
           {optionMenu?.map(({ id, name, path, icon }) => (
             <li key={id} className={`link`}>
@@ -81,6 +79,7 @@ const Nav = () => {
               </Link>
             </li>
           ))}
+
         </ul>
       </nav>
       <div className={`listNavResponsive`}>
