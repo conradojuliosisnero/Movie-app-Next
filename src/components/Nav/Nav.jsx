@@ -5,9 +5,10 @@ import { optionMenu } from "./data";
 import logoWebsite from "../../../public/logo-website.svg";
 import Image from "next/image";
 import MenuResponsive from "../../../public/menu-responsive.svg";
+import CloseMenu from '../../../public/close-white.svg'
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import SessionButton from "./SessionButton";
+import IconLogin from "../IconLogin/IconLogin";
 
 const Nav = () => {
   const [popUpMenu, setPopUpMenu] = useState(false);
@@ -43,6 +44,7 @@ const Nav = () => {
     router.push("/");
   };
 
+
   return (
     <header className={`header ${scrollY > 160 ? "scroll_nav" : ""}`}>
       {/* logo  */}
@@ -60,7 +62,6 @@ const Nav = () => {
       {/* navegador  */}
       <nav className="nav">
         <ul className={`listNav ${popUpMenu ? "menu__active" : ""}`}>
-          <SessionButton />
           {/* nav options  */}
           {optionMenu?.map(({ id, name, path, icon }) => (
             <li key={id} className={`link`}>
@@ -81,12 +82,15 @@ const Nav = () => {
               </Link>
             </li>
           ))}
+        <div className="icon__login__user">
+          <IconLogin />
+        </div>
         </ul>
       </nav>
       <div className={`listNavResponsive`}>
         <Image
           onClick={handlerPopUp}
-          src={MenuResponsive}
+          src={popUpMenu ? CloseMenu : MenuResponsive}
           alt="menu-responsive"
           width={40}
           height={40}
