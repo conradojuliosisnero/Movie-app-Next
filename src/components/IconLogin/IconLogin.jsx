@@ -3,7 +3,6 @@ import icon from "./icon.module.css";
 import { useContext, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import { logout } from "@/firebase/servicesFirebase";
-import imgdefault from "../../../public/home.svg";
 
 export default function IconLogin() {
   const { userData } = useContext(AuthContext);
