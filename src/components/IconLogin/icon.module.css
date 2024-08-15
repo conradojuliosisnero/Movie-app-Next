@@ -1,0 +1,69 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative; /* Necesario para posicionar el menú emergente */
+  margin: 5px 0 0 0;
+}
+
+.iconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer; /* Cambia el cursor para indicar que es interactivo */
+}
+
+.logoName {
+  display: flex;
+  width: 2.7rem;
+  height: 2.7rem;
+  border-radius: 50%;
+  background-color: #515151;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  box-sizing: border-box;
+}
+
+.menu {
+  position: absolute;
+  width: 9rem;
+  top: 120%;
+  right: 0;
+  background-color: #dcdcdc63;
+  backdrop-filter: blur(10px);
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
+  z-index: 1000; /* Asegura que el menú esté sobre otros elementos */
+}
+
+.menuItem {
+  background: #ffffff;
+  border: none;
+  outline: none;
+  border-radius: 0.3rem;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  color: #333;
+}
+
+.menuItem:hover {
+  background-color: #f0f0f0;
+}
+
+.halo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #2d79f3;
+  border-radius: 50%;
+}
+
+@media screen and (max-width: 768px) {
+    .menu{
+        right: -90px;
+    }
+}
