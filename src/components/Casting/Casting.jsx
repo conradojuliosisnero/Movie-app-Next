@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import male from "../../../public/male.svg";
 import female from "../../../public/female.svg";
 
@@ -12,6 +12,7 @@ export default function Casting({ id }) {
   const [result, setResult] = useState([]);
 
   const pathname = useParams();
+  const route = useRouter();
 
   useEffect(() => {
     const fetchCasting = async () => {
@@ -63,7 +64,10 @@ export default function Casting({ id }) {
                 decoding="async"
                 width={100}
                 height={100}
-              ></Image>
+                onClick={() => {
+                  route.push(`/person/${actor.id}`);
+                }}
+              />
             </div>
             <div className="name__casting">
               <span className="name__actor">{actor.name}</span>
