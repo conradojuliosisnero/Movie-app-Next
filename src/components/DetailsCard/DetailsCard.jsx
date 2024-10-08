@@ -8,6 +8,7 @@ import ButtonShare from "@/components/Share/ButtonShare";
 import { useParams } from "next/navigation";
 
 const MovieDetails = ({ details }) => {
+  console.log(details);
   // pathname
   const pathname = useParams();
 
@@ -53,7 +54,7 @@ const MovieDetails = ({ details }) => {
           <Image
             className={styles.backgroundDetailsImg}
             src={
-              details.poster_path
+              details?.poster_path
                 ? `https://image.tmdb.org/t/p/original${details.backdrop_path}`
                 : Image404
             }

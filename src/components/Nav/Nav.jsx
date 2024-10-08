@@ -5,10 +5,11 @@ import { optionMenu } from "./data";
 import logoWebsite from "../../../public/logo-website.svg";
 import Image from "next/image";
 import MenuResponsive from "../../../public/menu-responsive.svg";
-import CloseMenu from '../../../public/close-white.svg'
+import CloseMenu from "../../../public/close-white.svg";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import IconLogin from "../IconLogin/IconLogin";
+import dynamic from "next/dynamic";
 
 const Nav = () => {
   const [popUpMenu, setPopUpMenu] = useState(false);
@@ -44,7 +45,6 @@ const Nav = () => {
     router.push("/");
   };
 
-
   return (
     <header className={`header ${scrollY > 160 ? "scroll_nav" : ""}`}>
       {/* logo  */}
@@ -63,28 +63,32 @@ const Nav = () => {
       <nav className="nav">
         <ul className={`listNav ${popUpMenu ? "menu__active" : ""}`}>
           {/* nav options  */}
-          {optionMenu?.map(({ id, name, path, icon }) => (
-            <li key={id} className={`link`}>
-              <div className="icon__responsive">
-                {popUpMenu ? (
-                  <Image src={icon} width={30} height={30} alt="icon" />
-                ) : (
-                  ""
-                )}
-              </div>
-              <Link
-                className="link__icon"
-                href={path}
-                key={id}
-                onClick={handleCloseMenu}
-              >
-                {name}
-              </Link>
-            </li>
-          ))}
-        <div className="icon__login__user">
-          <IconLogin />
-        </div>
+          {optionMenu?.map(
+            ({ id, name, path, icon, options }, index) => (
+              (
+                <li key={id} className={`link`}>
+                  <div className="icon__responsive">
+                    {popUpMenu ? (
+                      <Image src={icon} width={30} height={30} alt="icon" />
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  <Link
+                    className="link__icon"
+                    href={path}
+                    key={id}
+                    onClick={handleCloseMenu}
+                  >
+                    {name}
+                  </Link>
+                </li>
+              )
+            )
+          )}
+          <div className="icon__login__user">
+            <IconLogin />
+          </div>
         </ul>
       </nav>
       <div className={`listNavResponsive`}>
@@ -100,4 +104,4 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+export default dynamic(() => Promise.resolve(Nav), { ssr: false });

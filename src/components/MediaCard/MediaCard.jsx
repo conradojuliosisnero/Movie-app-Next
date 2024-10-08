@@ -61,6 +61,12 @@ const item = {
                   <p>{title}</p>
                 </button>
               </Link>
+            ) : pathname === "/en-cines" ? (
+              <Link href={`/movie/${id}`} className="movie_link">
+                <button className="button-preview">
+                  <p>{title || name}</p>
+                </button>
+              </Link>
             ) : (
               <Link href={`/serie/${id}`} className="movie_link">
                 <button className="button-preview">
