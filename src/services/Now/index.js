@@ -6,14 +6,17 @@ export default async function getNowMovies(page) {
       accept: "application/json",
       Authorization: `Bearer ${process.env.BEARER_TOKEN}`,
     },
+    next: {
+      revalidate: 60,
+    },
   };
   try {
     const response = await fetch(URL, OPTIONS);
     if (response.status !== 200) {
       throw new Error("Error al obtener los datos");
     }
-      const data = await response.json();
-      console.log(data);
+    const data = await response.json();
+    console.log(data);
     return data;
   } catch (error) {
     return error;

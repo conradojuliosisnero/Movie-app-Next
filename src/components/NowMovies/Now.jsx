@@ -20,6 +20,10 @@ export default function Now() {
   useEffect(() => {
     const getMovies = async () => {
       setLoading(true);
+      const OPTIONS = {
+        method: "GET",
+        next: { tags: ["now"] },
+      }
       try {
         const response = await fetch(`/api/movies/now?page=${nextPage}`);
         const data = await response.json();
@@ -80,6 +84,9 @@ export default function Now() {
 
   return (
     <>
+      <div className="Now_title">
+        <h3>En Cine</h3>
+      </div>
       {/* contedor de peliculas */}
       <motion.div
         className="contenedor"

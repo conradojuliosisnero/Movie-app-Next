@@ -181,6 +181,10 @@ export default function Movies() {
         />
       </div>
 
+      <div className="movie_title">
+        <h3>Peliculas</h3>
+      </div>
+      
       {/* contedor de peliculas */}
       <motion.div
         className="contenedor"
