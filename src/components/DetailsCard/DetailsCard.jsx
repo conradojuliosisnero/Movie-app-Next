@@ -8,7 +8,6 @@ import ButtonShare from "@/components/Share/ButtonShare";
 import { useParams } from "next/navigation";
 
 const MovieDetails = ({ details }) => {
-  console.log(details);
   // pathname
   const pathname = useParams();
 
@@ -75,20 +74,20 @@ const MovieDetails = ({ details }) => {
           </div>
           {/* details generes  */}
           <div className={styles.year_generes}>
-            <span className={styles.estreno}>Estreno: {dateConvert()}</span>
             {details.first_air_date ? (
-              <span
-                className={`${
-                  details.in_production ? styles.status : styles.status2
-                }`}
-              >
-                Estado:
-                {details.in_production ? " En Emision" : " Terminada"}
-              </span>
+              <>
+                <span
+                  className={`${
+                    details.in_production ? styles.status : styles.status2
+                  }`}
+                >
+                  {details.in_production ? "" : " "}
+                </span>
+              </>
             ) : (
               ""
             )}
-
+            <span className={styles.estreno}>Estreno: {dateConvert()}</span>
             <div className={styles.genero}>
               Genero:
               {details.genres.slice(0, 3).map((genres) => (
