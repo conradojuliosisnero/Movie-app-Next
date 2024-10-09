@@ -175,6 +175,10 @@ export default function Series() {
         />
       </div>
 
+      <div className="series_title">
+        <h3>Series</h3>
+      </div>
+
       {/* contedor de peliculas */}
       <motion.div
         className="contenedor"

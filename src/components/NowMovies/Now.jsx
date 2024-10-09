@@ -84,6 +84,9 @@ export default function Now() {
 
   return (
     <>
+      <div className="Now_title">
+        <h3>En Cine</h3>
+      </div>
       {/* contedor de peliculas */}
       <motion.div
         className="contenedor"
