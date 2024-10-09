@@ -162,7 +162,7 @@ export default function Series() {
         ssr: false,
       }
     );
-
+  
   return (
     <LayoutMovieSection>
       {/* buscador  */}
