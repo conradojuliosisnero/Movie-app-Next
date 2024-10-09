@@ -20,6 +20,10 @@ export default function Now() {
   useEffect(() => {
     const getMovies = async () => {
       setLoading(true);
+      const OPTIONS = {
+        method: "GET",
+        next: { tags: ["now"] },
+      }
       try {
         const response = await fetch(`/api/movies/now?page=${nextPage}`);
         const data = await response.json();
