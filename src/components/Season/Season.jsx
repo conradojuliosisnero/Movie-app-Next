@@ -9,9 +9,9 @@ export default function Season({ detailSeason ,idSeason}) {
 
   const router = useRouter()
 
-  function handlerSeason(number,id) {
-    router.push(`/season/${idSeason}/${number}/${id}`);
-  }
+  // function handlerSeason(number,id) {
+  //   router.push(`/season/${idSeason}/${number}/${id}`);
+  // }
 
   return (
     <div className={styles.seasonContainer}>
@@ -32,7 +32,7 @@ export default function Season({ detailSeason ,idSeason}) {
               quality={30}
               width={100}
               height={100}
-              onClick={() => handlerSeason(season.season_number, season.id)}
+              // onClick={() => handlerSeason(season.season_number, season.id)}
             />
             <div className="contend__season">
               <Link
