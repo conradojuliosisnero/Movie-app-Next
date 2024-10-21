@@ -15,6 +15,7 @@ export function ContextAuthProvider({ children }) {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       const userLogged = user !== null ? true : false;
       if (userLogged) {
+        // foto de perfil
         if (user.photoURL) {
           const { photoURL, displayName, email } = user;
           setUserData({ photoURL, displayName, email });
@@ -23,7 +24,8 @@ export function ContextAuthProvider({ children }) {
           setUserData({ displayName, email });
         }
         setIsLoggedIn(userLogged);
-        if (pathname === "/" || pathname === "/forgot-password") {
+        // si esta logueado 
+        if (pathname === "/" || pathname === "/forgot-password" || pathname === "/api/movies") {
           window.location.href = "/home";
         }
       } else if (!userLogged) {
