@@ -36,7 +36,7 @@
   border-radius: 0.7em;
   width: 100%;
   min-height: 250px;
-  transition: transform 200ms ease;
+  transition: all 0.3s ease;
   .img_poster {
     border-radius: 0.5em;
     border: solid 3px transparent;
@@ -70,22 +70,30 @@
       transition: color 200ms ease;
       cursor: pointer;
       &:hover {
-        color: #000000; 
+        color: #000000;
       }
     }
   }
   &:hover .contend__hover {
     background-color: #00000062;
+    backdrop-filter: blur(2px);
+    transition-delay: 0.1s;
     top: 0;
   }
 
+  &:hover .img_poster {
+    transform: scale(1.3);
+    transition-delay: 0.2s;
+  }
+
   &:hover {
+    transition-delay: 0s;
     transform: scale(1.1);
-        border: solid 3px #ffffff;
+    border: solid 3px #ffffff;
   }
 }
 
-.circle_progress_bar{
+.circle_progress_bar {
   position: absolute;
   top: 85%;
   left: 20%;
@@ -202,17 +210,17 @@ footer .leyenda p a {
     gap: 4px;
   }
 
-  .circle_progress_bar{
-  position: absolute;
-  top: 80%;
-  left: 30%;
-  transform: translate(-50%, -50%);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #ffffff1f;
-  backdrop-filter: blur(5px);
-}
+  .circle_progress_bar {
+    position: absolute;
+    top: 80%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ffffff1f;
+    backdrop-filter: blur(5px);
+  }
 
   .contenedor .contend__poster {
     width: 90px;
