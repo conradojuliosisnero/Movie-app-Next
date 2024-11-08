@@ -19,6 +19,7 @@ const item = {
     opacity: 1,
   },
   };
+  // percentage
   function percentage() {
     const percentage = Math.round(data.vote_average * 10);
     return percentage;
@@ -52,8 +53,8 @@ const item = {
             quality={30}
             loading="lazy"
             alt={title}
-          ></Image>
-          {/* card hover  */}
+          />
+          {/* CARD HOVER  */}
           <div className="contend__hover">
             {pathname === "/movies" ? (
               <Link href={`/movie/${id}`} className="movie_link">
@@ -75,6 +76,8 @@ const item = {
               </Link>
             )}
           </div>
+
+          {/* PROGRESS BAR  */}
           <div className="circle_progress_bar">
             <CircularProgressbar
               styles={buildStyles({
