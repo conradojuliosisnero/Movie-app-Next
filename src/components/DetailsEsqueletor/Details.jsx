@@ -4,7 +4,7 @@ import StarRating from "../StarsRating/Stars";
 import Image from "next/image";
 import Casting from "../Casting/Casting";
 import ModalVideo from "../ModalVideo/ModalVideo";
-import Watch from "../WatchMovie/Watch";
+import Watch from "../MovieDetails/WatchMovie/Watch";
 import Season from "../Season/Season";
 import Image404 from "../../../public/image-no-found.svg";
 import { useParams } from "next/navigation";

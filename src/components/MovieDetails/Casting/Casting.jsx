@@ -2,8 +2,8 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import male from "../../../public/male.svg";
-import female from "../../../public/female.svg";
+import male from "../../../../public/male.svg";
+import female from "../../../../public/female.svg";
 
 import "./casting.css";
 

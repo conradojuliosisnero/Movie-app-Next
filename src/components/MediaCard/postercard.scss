@@ -77,17 +77,10 @@
   &:hover .contend__hover {
     background-color: #00000062;
     backdrop-filter: blur(2px);
-    transition-delay: 0.1s;
     top: 0;
   }
 
-  &:hover .img_poster {
-    transform: scale(1.3);
-    transition-delay: 0.2s;
-  }
-
   &:hover {
-    transition-delay: 0s;
     transform: scale(1.1);
     border: solid 3px #ffffff;
   }

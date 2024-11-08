@@ -74,13 +74,6 @@ export default function Now() {
     },
   };
 
-  const MediaCardDynamic = dynamic(
-    () => import("@/components/MediaCard/MediaCard"),
-    {
-      loading: () => <Container />,
-      ssr: false,
-    }
-  );
 
   return (
     <>
@@ -105,3 +98,11 @@ export default function Now() {
     </>
   );
 }
+
+  const MediaCardDynamic = dynamic(
+    () => import("@/components/MediaCard/MediaCard"),
+    {
+      loading: () => <Container />,
+      ssr: false,
+    }
+  );
