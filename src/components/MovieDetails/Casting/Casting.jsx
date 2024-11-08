@@ -1,53 +1,36 @@
 "use client";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import male from "../../../../public/male.svg";
 import female from "../../../../public/female.svg";
-
 import "./casting.css";
 
 export default function Casting({ id }) {
   const [castingMovie, setCasting] = useState({});
-  const [castingSerie, setCastingSerie] = useState({});
-  const [result, setResult] = useState([]);
+  const [error, setError] = useState(false);
 
-  const pathname = useParams();
   const route = useRouter();
 
   useEffect(() => {
-    const fetchCasting = async () => {
-      let resultdata = [];
-      if (pathname.id == id) {
-        try {
-          const response = await fetch(`/api/movies/elenco?id=${id}`);
-          const data = await response.json();
-          resultdata = data;
-          setCasting(resultdata);
-        } catch (error) {
-          console.error(error);
-        }
-      } else {
-        try {
-          const response = await fetch(`/api/series/elenco?id=${id}`);
-          const data = await response.json();
-          resultdata = data;
-          setCastingSerie(resultdata);
-        } catch (error) {
-          console.error(error);
-        }
+    const getMovieCasting = async () => {
+      try {
+        const response = await fetch(`/api/movies/elenco?id=${id}`);
+        const data = await response.json();
+        setCasting(data);
+      } catch (error) {
+        setError(error);
       }
-      setResult(resultdata);
     };
 
-    fetchCasting();
+    getMovieCasting();
   }, [id]);
 
   return (
     <div className="slider_container">
       <h2 className="title__casting">Elenco</h2>
       <div className="casting">
-        {result?.cast?.map((actor) => (
+        {castingMovie?.cast?.map((actor) => (
           <div className="card" key={actor.id}>
             <div className="img__casting">
               <Image
@@ -61,7 +44,7 @@ export default function Casting({ id }) {
                 }
                 alt={actor.name}
                 loading="lazy"
-                quality={30}
+                quality={50}
                 decoding="async"
                 width={100}
                 height={100}

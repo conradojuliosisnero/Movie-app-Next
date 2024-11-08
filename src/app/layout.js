@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ContextAuthProvider } from "@/context/AuthContext";
 import { Toaster } from "react-hot-toast";
+import ReduxProvider from "@/layouts/ReduxProvider";
 
 export const metadata = {
   title: "MoviesCon 2.0 | The ultimate movie app",
@@ -40,7 +41,7 @@ export default function RootLayout({ children }) {
               },
             }}
           />
-          {children}
+          <ReduxProvider>{children}</ReduxProvider>
         </body>
       </ContextAuthProvider>
     </html>

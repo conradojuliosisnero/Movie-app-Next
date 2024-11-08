@@ -6,6 +6,7 @@ import Image404 from "../../../public/image-no-found.svg";
 import { colors, formatDate } from "@/utils/utils";
 import dynamic from "next/dynamic";
 import LoadingSkeleton from "../Skeleton/Skeleton";
+import { Suspense } from "react";
 
 export default function MovieDetails({ id }) {
   // hook for get movie details
@@ -78,7 +79,7 @@ export default function MovieDetails({ id }) {
                 }}
               >
                 {/* STARS  */}
-                <StarRating rating={details.vote_average} />
+                  <StarRating rating={details.vote_average} />
                 <div style={{ marginLeft: "10px" }} />
                 <span>{Math.round(details.vote_average)}/10</span>
               </div>
