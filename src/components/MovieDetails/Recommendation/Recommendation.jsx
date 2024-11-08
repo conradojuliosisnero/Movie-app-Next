@@ -8,34 +8,24 @@ import { useState, useEffect } from "react";
 
 export default function Recommendation({ id }) {
   const [result, setResult] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // params
   const params = useParams();
 
   useEffect(() => {
-    const fetchRecomendation = async () => {
-      let resultdata = [];
-      if (params.id == id) {
-        try {
-          const response = await fetch(`/api/movies/recomendation?id=${id}`);
-          const data = await response.json();
-          resultdata = data;
-        } catch (error) {
-          console.error(error);
-        }
-      } else {
-        try {
-          const response = await fetch(`/api/series/recomendation?id=${id}`);
-          const data = await response.json();
-          resultdata = data;
-        } catch (error) {
-          console.error(error);
-        }
+    const getMovieRecomendation = async () => {
+      try {
+        const response = await fetch(`/api/movies/recomendation?id=${id}`);
+        const data = await response.json();
+        setResult(data);
+      } catch (error) {
+        setError("Error al obtener las recomendaciones");
       }
-      setResult(resultdata);
     };
 
-    fetchRecomendation();
+    getMovieRecomendation();
   }, [id]);
 
   return (
@@ -47,7 +37,7 @@ export default function Recommendation({ id }) {
             <h3>sin recomendaciones</h3>
           </div>
         ) : (
-            result.results.slice(0, 5).map((recomendation) => (
+          result.results.slice(0, 5).map((recomendation) => (
             <div className={`${styles.card}`} key={recomendation.id}>
               <div className={`${styles["img__casting"]}`}>
                 <Link
@@ -64,7 +54,11 @@ export default function Recommendation({ id }) {
                         ? `https://image.tmdb.org/t/p/original${recomendation.poster_path}`
                         : defaul
                     }
-                    alt={recomendation.name ? recomendation.name : recomendation.title}
+                    alt={
+                      recomendation.name
+                        ? recomendation.name
+                        : recomendation.title
+                    }
                     loading="lazy"
                     quality={30}
                     width={100}
