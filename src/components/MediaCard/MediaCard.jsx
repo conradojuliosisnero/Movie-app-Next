@@ -62,10 +62,12 @@ const MediaCard = ({ data }) => {
           <div className="contend__hover">
             {pathname === "/movies" ? (
               <Link href={`/movie-details/${id}`} className="movie_link">
-                <button className="button-preview">{title}</button>
+                <button className="button-preview">
+                  <p>{title}</p>
+                </button>
               </Link>
             ) : pathname === "/en-cines" ? (
-              <Link href={`/movie/${id}`} className="movie_link">
+              <Link href={`/movie-details/${id}`} className="movie_link">
                 <button className="button-preview">
                   <p>{title || name}</p>
                 </button>
