@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 export default function Watch({ id }) {
   const [watch, setWatch] = useState([]);
   const [watchSerie, setWatchSerie] = useState([]);
-
   const params = useParams();
 
   useEffect(() => {

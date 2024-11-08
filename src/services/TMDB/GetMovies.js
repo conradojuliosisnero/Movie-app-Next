@@ -17,10 +17,8 @@ export default async function getMovies(page) {
     if (response.status === 200) {
       const data = await response.json();
       return data;
-    } else {
-      console.error("algo salio mal");
     }
   } catch (error) {
-    console.error(error);
+    return error;
   }
 }

@@ -11,184 +11,143 @@ import { FIREBASE_ERRORS } from "@/firebase/firebaseErrors";
 import { signInWithGoogle } from "@/firebase/servicesFirebase";
 import { useContext } from "react";
 import AuthContext from "@/context/AuthContext";
+import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 
 export default function Login() {
-  const [user, setUser] = useState({ email: "", password: "" });
-  const [register, setRegister] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState(null);
-  const [verifyEmail, setVerifyEmail] = useState(null);
+  const [toggle, setToggle] = useState(true);
 
   const { setIsLoggedIn } = useContext(AuthContext);
 
-  // Regular expression
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  // react hook form
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const handlerOnchange = (event) => {
-    const { name, value } = event.target;
-    setUser({ ...user, [name]: value });
+  const objectEmail = {
+    name: "email",
+    placeholder: "Email",
+    required: {
+      value: true,
+      message: "Por favor, ingrese su correo electrónico.",
+    },
+    pattern: {
+      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+      message: "El correo electrónico no es válido.",
+    },
   };
 
-  const validateEmail = (email) => {
-    if (email === "") {
-      setVerifyEmail("Por favor, ingrese su correo electrónico.");
-    } else if (!emailRegex.test(email)) {
-      setVerifyEmail("El correo electrónico no es válido.");
-    } else {
-      setVerifyEmail(null); // No hay error
-    }
+  const objectPassword = {
+    name: "password",
+    placeholder: "Contraseña",
+    required: {
+      value: true,
+      message: "Por favor, ingrese su contraseña.",
+    },
   };
 
-  useEffect(() => {
-    if (user.email !== "") {
-      validateEmail(user.email);
-    }
-  }, [user.email]);
-
-  const validateEmailAndPassword = () => {
-    if (user.email === "" || user.password === "") {
-      setErrors("Por favor, rellene todos los campos.");
-      return false;
-    }
-    if (verifyEmail) {
-      setErrors(verifyEmail);
-      return false;
-    }
-    return true;
-  };
-
-  const email = user.email;
-  const password = user.password;
-
-  const router = useRouter();
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    if (!validateEmailAndPassword()) return;
-
-    setLoading(true);
-    setErrors(null);
-
+  const submitUserInfo = handleSubmit(async (data) => {
     try {
-      const response = await (register
-        ? registerUserWithEmailAndPassword(email, password)
-        : singInWithEmailAndPassword(email, password));
-      if (typeof response === "string") {
-        setErrors(response);
-      } else {
-        router.push("/home");
+      const response = await (toggle
+        ? singInWithEmailAndPassword(data.email, data.password)
+        : registerUserWithEmailAndPassword(data.email, data.password));
+
+      if (response) {
+        toast(response, {
+          icon: "🎬",
+        });
       }
     } catch (error) {
       const errorMessage =
         FIREBASE_ERRORS[error.code] || FIREBASE_ERRORS["default"];
-      setErrors(errorMessage);
-    } finally {
-      setLoading(false);
+      toast.error(errorMessage);
     }
-  };
+  });
 
+  // Login with Google
   const loginWithGoogle = async () => {
-    setLoading(true);
+    toast.loading("Iniciando sesión con Google...");
     try {
       const response = await signInWithGoogle();
       if (response) {
         setIsLoggedIn(true);
         localStorage.setItem("isLoggedIn", "true");
       } else if (typeof response === "string") {
-        setErrors(response);
+        toast.error("Error al iniciar sesión con Google");
         setIsLoggedIn(false);
       }
     } catch (error) {
       const errorMessage =
         FIREBASE_ERRORS[error.code] || FIREBASE_ERRORS["default"];
-      setErrors(errorMessage);
+      toast.error(errorMessage);
     } finally {
-      setLoading(false);
+      toast.dismiss();
     }
   };
 
   return (
     <div className="containerForm">
-      <form className="form" onSubmit={handleSubmit}>
-        <div className="flex-column">
-          <label>Correo </label>
-        </div>
-        <div className="inputForm">
-          <EmailSvg />
-          <input
-            type="text"
-            className="input"
-            placeholder="Enter your Email"
-            name="email"
-            value={user.email}
-            onChange={handlerOnchange}
-            onBlur={() => validateEmail(user.email)} // Valida al salir del campo
-          />
-        </div>
-        {verifyEmail && (
-          <p
-            className="error"
-            style={{ color: "red", margin: 0, fontSize: "12px" }}
-          >
-            {verifyEmail}
-          </p>
-        )}
-
-        <div className="flex-column">
-          <label>Contraseña </label>
-        </div>
-        <div className="inputForm">
-          <LockSvg />
-          <input
-            type={showPassword ? "text" : "password"}
-            className="input"
-            placeholder="Enter your Password"
-            name="password"
-            value={user.password}
-            onChange={handlerOnchange}
-          />
-          <EyeSvg
-            onClick={() => setShowPassword(!showPassword)}
-            style={{ cursor: "pointer" }}
-          />
-        </div>
-        {errors && (
-          <p
-            className="error"
-            style={{ color: "red", margin: 0, fontSize: "12px" }}
-          >
-            {errors}
-          </p>
-        )}
-        <div className="flex-row">
-          {/* <span className="span">
-            <Link href="/forgot-password">Olvidé mi contraseña</Link>
-          </span> */}
+      <form className="form" onSubmit={submitUserInfo}>
+        {/* EMAIL  */}
+        <div>
+          <div className="flex-column">
+            <label>Correo </label>
+          </div>
+          <div className="inputForm">
+            <EmailSvg />
+            <input
+              type="text"
+              className="input"
+              placeholder="Enter your Email"
+              name="email"
+              {...register("email", objectEmail)}
+            />
+          </div>
+          {errors.email && (
+            <p style={{ color: "red" }}>{errors.email.message}</p>
+          )}
         </div>
 
-        <button className="button-submit" type="submit" disabled={loading}>
-          {loading
-            ? "Cargando..."
-            : register
-            ? "Registrarme"
-            : "Iniciar sesión"}
+        {/* PASSWORD  */}
+        <div>
+          <div className="flex-column">
+            <label>Contraseña </label>
+          </div>
+          <div className="inputForm">
+            <LockSvg />
+            <input
+              type={showPassword ? "text" : "password"}
+              className="input"
+              placeholder="Enter your Password"
+              name="password"
+              {...register("password", objectPassword)}
+            />
+            <EyeSvg
+              onClick={() => setShowPassword(!showPassword)}
+              style={{ cursor: "pointer" }}
+            />
+          </div>
+        </div>
+
+        <button type="submit" className="button-submit">
+          {toggle ? "Iniciar sesión" : "Registrarse"}
         </button>
+
+        {/* <Toaster position="top-center" reverseOrder={false} /> */}
+        {/* TOGGLE SWITCH  */}
         <p className="p">
-          {register ? "Ya tienes una cuenta?" : "Aún no tienes una cuenta?"}
-          <span className="span" onClick={() => setRegister(!register)}>
-            {register ? "Inicia sesión" : "Regístrate"}
+          {toggle ? "Aún no tienes una cuenta?" : "Ya tienes una cuenta?"}
+          <span className="span" onClick={() => setToggle(!toggle)}>
+            {toggle ? "Regístrate" : "Iniciar sesión"}
           </span>
         </p>
+        {/* SESSION BY GOOGLE  */}
         <p className="p line">O inicia sesión con</p>
-
         <div className="flex-row">
-          <button
-            type="button"
-            className="btn google"
-            onClick={loginWithGoogle}
-          >
+          <button type="button" className="btn google" onClick={loginWithGoogle}>
             <GoogleSvg />
             Google
           </button>

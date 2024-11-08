@@ -6,7 +6,6 @@ export async function GET() {
     const { results } = await getMovies(1);
     return NextResponse.json(results, { status: 200 });
   } catch (error) {
-    console.error(error);
-    return NextResponse.error({ status: 500 });
+    return NextResponse.error(error, { status: 500 });
   }
 }
