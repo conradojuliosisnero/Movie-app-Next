@@ -14,9 +14,9 @@ export default function ButtonShare() {
 
   return (
     <div className="share-container">
-      <div className="share-tittle">
+      {/* <div className="share-tittle">
         <span>Compartir en</span>
-      </div>
+      </div> */}
       {/* FACEBOOK  */}
       <div className="share-contend-buttons">
         <FacebookShareButton
@@ -25,7 +25,7 @@ export default function ButtonShare() {
           hashtag="#moviesCon"
           className="share-button"
         >
-          <FacebookIcon size={52} round />
+          <FacebookIcon size={32} round />
         </FacebookShareButton>
 
         {/* TWITTER  */}
@@ -35,7 +35,7 @@ export default function ButtonShare() {
           hashtag="#moviesCon"
           className="share-button"
         >
-          <TwitterIcon size={52} round />
+          <TwitterIcon size={32} round />
         </TwitterShareButton>
 
         {/* WHATSAPP  */}
@@ -45,7 +45,7 @@ export default function ButtonShare() {
           className="share-button"
           separator=":"
         >
-          <WhatsappIcon size={52} round />
+          <WhatsappIcon size={32} round />
         </WhatsappShareButton>
       </div>
     </div>

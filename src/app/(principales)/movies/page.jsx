@@ -10,16 +10,11 @@ import dynamic from "next/dynamic";
 import Search from "@/components/SearchInput/Search";
 
 export default function Movies() {
-  // estados de movies y busqueda
   const [movieData, setMovieData] = useState([]);
   const [dataSearch, setDataSearch] = useState([]);
   const [search, setSearch] = useState("");
-
-  // estados de filtros
   const [genderFiltered, setGenderFiltered] = useState([]);
   const [valueGender, setValueGender] = useState("");
-
-  // estados de UX
   const [error, setError] = useState(null);
   const [nextPage, setNext] = useState(() => {
     if (typeof window !== "undefined") {
@@ -161,13 +156,6 @@ export default function Movies() {
     },
   };
 
-  const MediaCardDynamic = dynamic(
-    () => import("@/components/MediaCard/MediaCard"),
-    {
-      loading: () => <Container />,
-      ssr: false,
-    }
-  );
 
   return (
     <>
@@ -203,3 +191,11 @@ export default function Movies() {
     </>
   );
 }
+
+  const MediaCardDynamic = dynamic(
+    () => import("@/components/MediaCard/MediaCard"),
+    {
+      loading: () => <Container />,
+      ssr: false,
+    }
+  );

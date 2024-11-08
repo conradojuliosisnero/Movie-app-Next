@@ -1,0 +1,23 @@
+.shimmer {
+  background-color: #4d4d4d86;
+  background-image: linear-gradient(
+    to right,
+    #4d4d4d86 0%,
+    #4d4d4d86 20%,
+    #4d4d4d86 40%,
+    #4d4d4d86 100%
+  );
+  background-size: 200% 200%;
+  border-radius: 1rem;
+  margin: 0.5rem 0rem;
+  animation: shimmer 1.5s ease infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: -135% 0%;
+  }
+}
