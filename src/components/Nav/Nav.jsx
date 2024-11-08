@@ -8,7 +8,7 @@ import MenuResponsive from "../../../public/menu-responsive.svg";
 import CloseMenu from "../../../public/close-white.svg";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import IconLogin from "../IconLogin/IconLogin";
+import IconLogin, { AvatarMenu } from "../IconLogin/IconLogin";
 import dynamic from "next/dynamic";
 
 const Nav = () => {
@@ -87,7 +87,8 @@ const Nav = () => {
             )
           )}
           <div className="icon__login__user">
-            <IconLogin />
+            {/* <IconLogin /> */}
+            <AvatarMenu />
           </div>
         </ul>
       </nav>
