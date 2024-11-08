@@ -1,35 +1,25 @@
 "use client";
 import styles from "./modal.module.css";
 import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function ModalVideo({ id }) {
+  const [result, setResult] = useState({});
   const [popUp, setPopUp] = useState(false);
   const [keyVideoMovie, setKeyVideoMovie] = useState({});
   const [windowWidth, setWindowWidth] = useState(undefined);
-  const [videoSerie, setKeyVideoSerie] = useState({});
-  const [result, setResult] = useState({});
-
-  const pathname = useParams();
 
   useEffect(() => {
     const getVideos = async () => {
-      let result = [];
-      if (pathname.idserie == id) {
-        const response = await fetch(`/api/series/trailer?id=${id}`);
+      try {
+        const response = await fetch(`/api/movies/trailer?id=${id}`);
         const data = await response.json();
         setKeyVideoMovie(data);
-      } else {
-        try {
-          const response = await fetch(`/api/movies/trailer?id=${id}`);
-          const data = await response.json();
-          setKeyVideoMovie(data);
-        } catch (error) {
-          console.error(error);
-        }
+      } catch (error) {
+        toast.error("Error al obtener el trailer de la pelicula");
       }
-      setResult(result);
     };
+    setResult(result);
 
     // resize del modal de video
     const handleResize = () => {
@@ -45,29 +35,15 @@ export default function ModalVideo({ id }) {
     };
   }, [id]);
 
-  const handlerPopUp = () => {
-    setPopUp(true);
-  };
-
-  const closePopUp = () => {
-    setPopUp(false);
-  };
-
-  if (keyVideoMovie == null && pathname.id == id) {
+  if (keyVideoMovie == null) {
     return (
-      <div className={styles.trailer_not_found}>trailer no disponible</div>
-    );
-  }
-
-  if (videoSerie == null && pathname.idserie == id) {
-    return (
-      <div className={styles.trailer_not_found}>trailer no disponible</div>
+      <div className={styles.trailer_not_found}>Trailer no disponible</div>
     );
   }
 
   return (
     <div className={styles.BoxModal}>
-      <button className={styles.ButtonPopUp} onClick={handlerPopUp}>
+      <button className={styles.ButtonPopUp} onClick={() => setPopUp(!popUp)}>
         Ver Trailer
       </button>
       {popUp && (
@@ -77,9 +53,7 @@ export default function ModalVideo({ id }) {
               className="modal__responsive"
               width={windowWidth}
               height={windowWidth == "350" ? "350" : "500"}
-              src={`https://www.youtube.com/embed/${
-                keyVideoMovie || videoSerie
-              }?si=PHP-j5Bd74KhaLF-`}
+              src={`https://www.youtube.com/embed/${keyVideoMovie}?si=PHP-j5Bd74KhaLF-`}
               title="YouTube video player"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -87,7 +61,7 @@ export default function ModalVideo({ id }) {
               allowfullscreen
             ></iframe>
             {/* button close  */}
-            <button className={styles.ClosePopUp} onClick={closePopUp}>
+            <button className={styles.ClosePopUp} onClick={() => setPopUp(false)}>
               volver
             </button>
           </div>

@@ -1,6 +1,6 @@
 "use client";
 import styles from "./recommendation.module.css";
-import defaul from "../../../public/image-no-found.svg";
+import defaul from "../../../../public/image-no-found.svg";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";

@@ -7,10 +7,7 @@ import dynamic from "next/dynamic";
 import ButtonShare from "@/components/Share/ButtonShare";
 import { useParams } from "next/navigation";
 import { colors, dateConvert } from "@/utils/utils";
-
-const MovieDetails = ({ details }) => {
-  const pathname = useParams();
-
+export default function SerieDetails({ id }) {
   return (
     <section className={styles.sectionMovie}>
       {/* wrap movie  */}
@@ -113,7 +110,7 @@ const MovieDetails = ({ details }) => {
       <Recommendation id={details.id} />
     </section>
   );
-};
+}
 
 const Season = dynamic(() => import("../Season/Season"));
 const Recommendation = dynamic(() =>
@@ -122,5 +119,3 @@ const Recommendation = dynamic(() =>
 const Casting = dynamic(() => import("../Casting/Casting"));
 const ModalVideo = dynamic(() => import("../ModalVideo/ModalVideo"));
 const Watch = dynamic(() => import("../MovieDetails/WatchMovie/Watch"));
-
-export default MovieDetails;

@@ -1,3 +1,4 @@
+"use client";
 import styles from "./watch.module.css";
 import Image from "next/image";
 import { useParams } from "next/navigation";

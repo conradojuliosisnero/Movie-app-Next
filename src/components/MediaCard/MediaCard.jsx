@@ -3,21 +3,21 @@ import "./postercard.scss";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import img404 from '../../../public/image-no-found.svg'
-import { CircularProgressbar,buildStyles } from "react-circular-progressbar";
+import img404 from "../../../public/image-no-found.svg";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { motion } from "framer-motion";
 
 const MediaCard = ({ data }) => {
   const pathname = usePathname();
-  const { id, title, poster_path, name} = data;
+  const { id, title, poster_path, name } = data;
 
-const item = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-  },
+  const item = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+    },
   };
   // percentage
   function percentage() {
@@ -26,10 +26,14 @@ const item = {
   }
   const percentag = percentage();
 
-  function colors() { 
-    if (percentag >= 67) { return "#33f04d" }
-    else if (percentag >= 54) { return "#f0d531" }
-    else { return "#f04d4d" }
+  function colors() {
+    if (percentag >= 67) {
+      return "#33f04d";
+    } else if (percentag >= 54) {
+      return "#f0d531";
+    } else {
+      return "#f04d4d";
+    }
   }
 
   const color = colors();
@@ -57,10 +61,8 @@ const item = {
           {/* CARD HOVER  */}
           <div className="contend__hover">
             {pathname === "/movies" ? (
-              <Link href={`/movie/${id}`} className="movie_link">
-                <button className="button-preview">
-                  <p>{title}</p>
-                </button>
+              <Link href={`/movie-details/${id}`} className="movie_link">
+                <button className="button-preview">{title}</button>
               </Link>
             ) : pathname === "/en-cines" ? (
               <Link href={`/movie/${id}`} className="movie_link">
