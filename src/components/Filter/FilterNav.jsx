@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import styles from "./filter.module.css";
-import ButtonFilter from "../FilterButton/ButtonFilter";
+import ButtonFilter from "./FilterButton/ButtonFilter";
 import filter from "../../../public/filter-2.svg";
 import Image from "next/image";
 import GetGender from "../../services/FilterMovie/GeneroMovie/Gender";

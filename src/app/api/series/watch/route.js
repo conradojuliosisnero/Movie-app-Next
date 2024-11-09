@@ -8,7 +8,6 @@ export async function GET(request) {
     const watch = await GetWatchSerie(id);
     return NextResponse.json(watch, { status: 200 });
   } catch (error) {
-    console.error(error);
     return NextResponse.json(
       { message: "Error al obtener los datos" },
       { status: 500 }

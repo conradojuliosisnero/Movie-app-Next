@@ -1,7 +1,7 @@
 "use client"
 import styles from "./season.module.css";
 import Image from "next/image";
-import notFound from "../../../public/image-no-found.svg";
+import notFound from "../../../../public/image-no-found.svg";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 

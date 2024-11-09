@@ -1,0 +1,28 @@
+.star-rating {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+}
+
+.star {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url("../../../public/start.svg");
+  background-size: cover;
+}
+
+.star.filled {
+  background-image: url("../../../public/start-fill.svg"); 
+}
+
+@media screen and (max-width: 768px) {
+ .nullWatch{
+  font-size: 2.5em;
+} 
+}
+
+@media screen and (max-width: 350px) {
+ .nullWatch{
+  font-size: 1.5em;
+} 
+}

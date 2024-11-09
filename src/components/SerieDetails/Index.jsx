@@ -1,13 +1,29 @@
-import styles from "./movidedesatils.module.css";
+"use client";
+import styles from "./movidetails.module.css";
 import "../../app/globals.css";
 import StarRating from "../StarsRating/Stars";
 import Image from "next/image";
 import Image404 from "../../../public/image-no-found.svg";
 import dynamic from "next/dynamic";
 import ButtonShare from "@/components/Share/ButtonShare";
-import { useParams } from "next/navigation";
-import { colors, dateConvert } from "@/utils/utils";
+import { colors, formatDate } from "@/utils/utils";
+import { useSerieDetails } from "@/hooks/useSerieDetails";
+import LoadingSkeleton from "../Skeleton/Skeleton";
+
 export default function SerieDetails({ id }) {
+
+  // hook for get movie details
+  const { details, error, loading } = useSerieDetails(id);
+
+
+  if (loading) {
+    return <LoadingSkeleton />;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <section className={styles.sectionMovie}>
       {/* wrap movie  */}
@@ -52,12 +68,11 @@ export default function SerieDetails({ id }) {
               ""
             )}
             <span className={styles.estreno}>
-              Estreno:{" "}
-              {dateConvert(details.release_date || details.first_air_date)}
+              Estreno: {formatDate(details.first_air_date)}
             </span>
             <div className={styles.genero}>
               Genero:
-              {details.genres.slice(0, 3).map((genres) => (
+              {details.genres?.slice(0, 3).map((genres) => (
                 <span className={styles.genere}>{genres.name}</span>
               ))}
             </div>
@@ -82,7 +97,11 @@ export default function SerieDetails({ id }) {
             </div>
             {/* VIEW TRAILER  */}
             <div className={styles.BoxModal}>
-              <ModalVideo id={details.id} />
+              <ModalVideo id={id} />
+            </div>
+            {/* SHARE BUTTON */}
+            <div>
+              <ButtonShare />
             </div>
           </div>
           <p>{details.overview}</p>
@@ -90,32 +109,22 @@ export default function SerieDetails({ id }) {
       </div>
       {/* WATHC  */}
       <div className={styles.Watch}>
-        <Watch id={details.id} />
-      </div>
-      {/* SHARE BUTTON */}
-      <div>
-        <ButtonShare />
+        <Watch id={id} />
       </div>
       {/* SEASONS  */}
-      {pathname.idserie == details.id ? (
-        <Season detailSeason={details.seasons} idSeason={details.id} />
-      ) : (
-        ""
-      )}
+      <Season detailSeason={details.seasons} idSeason={id} />
       {/* CASTING  */}
       <div className={styles.CastingBox}>
-        <Casting id={details.id} />
+        <Casting id={id} />
       </div>
       {/* RECOMENDATIONS  */}
-      <Recommendation id={details.id} />
+      <Recommendation id={id} />
     </section>
   );
 }
 
-const Season = dynamic(() => import("../Season/Season"));
-const Recommendation = dynamic(() =>
-  import("../Recommendation/Recommendation")
-);
-const Casting = dynamic(() => import("../Casting/Casting"));
-const ModalVideo = dynamic(() => import("../ModalVideo/ModalVideo"));
-const Watch = dynamic(() => import("../MovieDetails/WatchMovie/Watch"));
+const Season = dynamic(() => import("./Season/Season"));
+const Recommendation = dynamic(() => import("./Recommendation/Recommendation"));
+const Casting = dynamic(() => import("./Casting/Casting"));
+const ModalVideo = dynamic(() => import("./ModalVideo/ModalVideo"));
+const Watch = dynamic(() => import("./WatchSeries/Watch"));

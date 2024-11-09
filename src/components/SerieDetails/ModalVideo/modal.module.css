@@ -1,0 +1,93 @@
+.BoxModal {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.ButtonPopUp {
+  background-color: transparent;
+  border-radius: 0.5em;
+  color: #ffffff;
+  border: solid 0.2rem;
+  outline: none;
+  padding: 15px 20px;
+  font-size: 1.2em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 300ms ease-in-out;
+}
+
+.ButtonPopUp:hover {
+  background-color: #ffffff;
+  color: #1b1b1b;
+}
+
+.Modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  position: absolute;
+  background-color: rgb(0, 0, 0);
+  z-index: 900;
+}
+.modal__responsive{
+  margin: 0px 0px;
+}
+
+.trailer_not_found{
+  color: #ffffff;
+  font-size: 1.2em;
+  font-weight: 500;
+  margin: 20px 0px;
+  background: #ffffff41;
+  backdrop-filter: blur(10px);
+  border-radius: 0.7em;
+  padding: 1rem;
+}
+
+.ModalVideo {
+  font-size: 1.2em;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgb(0, 0, 0);
+  margin: 90px 0px 0px 0px;
+  padding: 20px 30px;
+  border-radius: 0.5em;
+}
+
+.ClosePopUp {
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  width: 100px;
+  border-radius: 0.5em;
+  color: #1b1b1b;
+  border: none;
+  outline: none;
+  padding: 15px 20px;
+  font-size: 1.2em;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 20px 0px 0px 0px;
+  transition: background 300ms ease-in-out;
+}
+
+.ClosePopUp:hover{
+  background: #1b1b1b;
+  color: #ffffff;
+}
+
+@media screen and (max-width: 425px) {
+  .ButtonPopUp {
+    width: 100%;
+}
+
+}
