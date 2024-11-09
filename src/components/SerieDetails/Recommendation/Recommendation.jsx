@@ -3,15 +3,11 @@ import styles from "./recommendation.module.css";
 import defaul from "../../../../public/image-no-found.svg";
 import Image from "next/image";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function Recommendation({ id }) {
   const [result, setResult] = useState([]);
   const [error, setError] = useState(null);
-
-  // params
-  const params = useParams();
 
   useEffect(() => {
     const getSerieRecomendation = async () => {
@@ -23,7 +19,9 @@ export default function Recommendation({ id }) {
         setError("Error al obtener las recomendaciones");
       }
     };
-    getSerieRecomendation();
+    if (id) {
+      getSerieRecomendation();
+    }
   }, [id]);
 
   return (
