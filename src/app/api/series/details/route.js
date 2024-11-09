@@ -8,7 +8,7 @@ export async function GET(request) {
     const data = await DetailSerie(serieId);
     return NextResponse.json(data, { status: 200 });
   } catch (error) {
-    return NextResponse.error(
+    return NextResponse.json(
       { status: 500 },
       { error: "Error al cargar los detalles de la serie." }
     );

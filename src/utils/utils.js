@@ -16,7 +16,6 @@ export function colors(percentag) {
 
 // Función para formatear la fecha
 export function formatDate(inputDate) {
-  console.log(inputDate);
   // Validar que inputDate tenga un valor
   if (!inputDate) {
     console.error("inputDate is undefined or empty");

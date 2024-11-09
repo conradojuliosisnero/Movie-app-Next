@@ -18,10 +18,8 @@ export default async function GetWatchSerie(id) {
         },
       } = data;
       return flatrate;
-    } else {
-      console.log("Error no se encontraron datos de watch serie");
-    }
+    } 
   } catch (error) {
-    console.error(error);
+    return error;
   }
 }
