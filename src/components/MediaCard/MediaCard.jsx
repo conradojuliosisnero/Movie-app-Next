@@ -73,7 +73,7 @@ const MediaCard = ({ data }) => {
                 </button>
               </Link>
             ) : (
-              <Link href={`/serie/${id}`} className="movie_link">
+              <Link href={`/serie-details/${id}`} className="movie_link">
                 <button className="button-preview">
                   <p>{title || name}</p>
                 </button>

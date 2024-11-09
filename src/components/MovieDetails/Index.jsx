@@ -6,7 +6,6 @@ import Image404 from "../../../public/image-no-found.svg";
 import { colors, formatDate } from "@/utils/utils";
 import dynamic from "next/dynamic";
 import LoadingSkeleton from "../Skeleton/Skeleton";
-import { Suspense } from "react";
 
 export default function MovieDetails({ id }) {
   // hook for get movie details
