@@ -22,7 +22,7 @@ export function formatDate(inputDate) {
     return "";
   }
   // Separar el día, mes y año
-  const [year, day, month] = inputDate.split("-").map(Number);
+  const [year, month, day] = inputDate.split("-").map(Number);
 
   // Crear un objeto Date
   const date = new Date(year, month - 1, day); // Restar 1 al mes porque los meses en JS son base 0
