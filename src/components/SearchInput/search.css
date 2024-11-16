@@ -25,6 +25,24 @@
     box-shadow: 0 0 1em #00000013;
 }
 
+.search__click__input {
+  background-color: #ffffff;
+  color: #2e2e2e;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 300ms ease-in-out;
+}
+
+.search__click__input:hover {
+  background-color: #2e2e2e;
+  color: #ffffff;
+}
+
 /* .search__input:hover, .search__input:focus {
   box-shadow: 0 0 1em #00000013;
 } */

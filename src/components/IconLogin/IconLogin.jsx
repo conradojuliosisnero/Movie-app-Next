@@ -18,7 +18,7 @@ export const AvatarMenu = () => {
     if (!str) return "";
     return str.slice(0, 15);
   }
-
+  
   return (
     <div className="avatar-container">
       <button className="avatar-button" onClick={() => setIsOpen(!isOpen)}>

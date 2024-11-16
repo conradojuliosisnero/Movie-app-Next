@@ -9,8 +9,7 @@ import Search from "@/components/SearchInput/Search";
 import "./movies.scss";
 import { useSelector } from "react-redux";
 
-
-export default function Movies() {
+export default function SearchPage() {
   const [movieData, setMovieData] = useState([]);
   const [dataSearch, setDataSearch] = useState([]);
   const [genderFiltered, setGenderFiltered] = useState([]);
@@ -23,7 +22,6 @@ export default function Movies() {
     }
     return 1;
   });
-
 
   useEffect(() => {
     const getDataMovie = async () => {
@@ -84,7 +82,6 @@ export default function Movies() {
     setValueGender(id);
   };
 
-
   // redux
   const movieSearch = useSelector((state) => state.searchMovie.search);
 
@@ -100,9 +97,7 @@ export default function Movies() {
     result = genderFiltered.results;
   } else if (movieSearch && !valueGender) {
     // Si hay un término de búsqueda pero no hay género seleccionado, mostrar resultados de búsqueda
-    result = movieSearch?.results?.filter((movie) =>
-      movie.title.toLowerCase()
-    );
+    result = movieSearch?.results?.filter((movie) => movie.title.toLowerCase());
   } else {
     // Si hay término de búsqueda y también un género seleccionado, aplicar ambos filtros
     result = dataSearch.results
@@ -137,13 +132,11 @@ export default function Movies() {
     <>
       {/* buscador  */}
       <div className="searcherMovie">
-        <Search
-          filter={handleButtonClick}
-        />
+        <Search filter={handleButtonClick} />
       </div>
 
       <div className="movie_title">
-        <h3>Peliculas</h3>
+        <h3>Busqueda</h3>
       </div>
 
       {/* contedor de peliculas */}

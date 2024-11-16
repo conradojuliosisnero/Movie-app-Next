@@ -52,7 +52,7 @@ export default function PopularSeries({ dataSeries }) {
 
   return (
     <div className="slider-container">
-      <span className={styles.popularyTitle}>Lo mas Popular en Series</span>
+      <span className={styles.popularyTitle}>Top Popular en Series</span>
       <Slider {...settings}>
         {dataSeries &&
           dataSeries.slice(0, 15).map((movie, index) => (

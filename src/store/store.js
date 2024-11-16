@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterSlice from "@/slices/slice"
+import searchMovieSlice from "@/slices/searchMovieSlice";
 
 export const store = configureStore({
   reducer: {
-    counter: counterSlice
+    searchMovie: searchMovieSlice, 
   },
 });

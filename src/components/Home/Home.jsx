@@ -31,7 +31,13 @@ export default function Home() {
       <WelcomeDynamic dataMovieHome={data} />
       {/* POPULAR MOVIES */}
       <div className={styles.topMoviesContainer}>
+        <BentoMovies data={data} name="Peliculas" />
+      </div>
+      <div className={styles.topMoviesContainer}>
         <AutoPlaySlaiderDynamic dataMovies={data} />
+      </div>
+      <div className={styles.topMoviesContainer}>
+        <BentoSeries data={seriesData} name="Series" />
       </div>
       {/*  POPULAR SERIES */}
       <div className={styles.topSeriesContainer}>
@@ -55,6 +61,9 @@ const WelcomeDynamic = dynamic(
     ssr: false,
   }
 );
+
+const BentoMovies = dynamic(() => import("@/components/BentoMovies/Index"));
+const BentoSeries = dynamic(() => import("@/components/BentoSeries/Index"));
 
 const PopularSeriesDynamic = dynamic(
   () => import("@/components/Popular/PopularSeries"),

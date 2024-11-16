@@ -31,7 +31,7 @@ export default function Welcome({ dataMovieHome }) {
     return () => window.removeEventListener("resize", updateWindowWidth);
   }, [windowWidth]);
 
-  const MOVIEHOME = dataMovieHome.slice(0, 1)[0] ? dataMovieHome.slice(0, 1)[0] : null;
+  const MOVIEHOME = dataMovieHome.slice(0, 1)[0] || null;
   const router = useRouter();
 
   const handlerVideoView = () => {
@@ -65,7 +65,7 @@ export default function Welcome({ dataMovieHome }) {
             )}
             {videoView && (
               <BackgroundVideo
-                id={MOVIEHOME.id}
+                id={MOVIEHOME?.id}
                 videoView={videoView}
                 setVideoView={setVideoView}
               />

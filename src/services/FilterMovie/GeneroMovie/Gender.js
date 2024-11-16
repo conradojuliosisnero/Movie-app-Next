@@ -13,11 +13,10 @@ const GetGender = async () => {
     if (response.status === 200) {
       const data = await response.json();
       return data
-    } else {
-      console.log("ups! something went wrong");
-    }
+    } 
+    return []
   } catch (error) {
-    console.error(error);
+    return error
   }
 };
 

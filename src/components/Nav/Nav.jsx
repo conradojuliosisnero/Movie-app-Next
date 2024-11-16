@@ -8,7 +8,7 @@ import MenuResponsive from "../../../public/menu-responsive.svg";
 import CloseMenu from "../../../public/close-white.svg";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import IconLogin, { AvatarMenu } from "../IconLogin/IconLogin";
+import { AvatarMenu } from "../IconLogin/IconLogin";
 import dynamic from "next/dynamic";
 
 const Nav = () => {
