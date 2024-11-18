@@ -23,13 +23,6 @@ export default function SearchPage() {
   const [genderFiltered, setGenderFiltered] = useState([]);
   const [valueGender, setValueGender] = useState("");
   const [error, setError] = useState(null);
-  const [nextPage, setNext] = useState(() => {
-    if (typeof window !== "undefined") {
-      const savedPage = sessionStorage.getItem("currentPage");
-      return savedPage ? Number(savedPage) : 1;
-    }
-    return 1;
-  });
 
   useEffect(() => {
     const getTranfingAll = async () => {
@@ -46,13 +39,13 @@ export default function SearchPage() {
     };
 
     getTranfingAll();
-  }, [nextPage]);
+  }, []);
 
   useEffect(() => {
     const getGender = async () => {
       try {
         const response = await fetch(
-          `/api/movies/filtergender?page=${nextPage}&valueGender=${valueGender}`
+          `/api/movies/filtergender?page=1&valueGender=${valueGender}`
         );
         const data = await response.json();
         setGenderFiltered(data);
@@ -63,19 +56,7 @@ export default function SearchPage() {
     };
 
     getGender();
-  }, [valueGender, nextPage]);
-
-  useEffect(() => {
-    sessionStorage.setItem("currentPage", nextPage.toString());
-  }, [nextPage]);
-
-  const handlerNextMovie = () => {
-    setNext(nextPage + 1);
-  };
-
-  const handlerPrevMovie = () => {
-    setNext(nextPage - 1);
-  };
+  }, [valueGender]);
 
   const handleButtonClick = (id) => {
     setValueGender(id);
@@ -83,8 +64,6 @@ export default function SearchPage() {
 
   // redux
   const movieSearchSlice = useSelector((state) => state.searchMovie.search);
-  // console.log("movieSearchSlice", movieSearchSlice);
-  // console.log("resultSearch", resultSearch);
 
   // let result = [];
   // if (!movieSearchSlice && !valueGender) {
@@ -128,8 +107,6 @@ export default function SearchPage() {
             <MediaCardDynamic data={movie} />
           </motion.div>
         ))}
-        {nextPage == 1 ? "" : <Button funtionPage={handlerPrevMovie} />}
-        <Button isNext funtionPage={handlerNextMovie} />
       </motion.div>
     </>
   );
