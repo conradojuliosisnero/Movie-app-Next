@@ -9,7 +9,14 @@ import { container, item } from "./animation";
 import { motion } from "framer-motion";
 import "./movies.scss";
 
-export default function Movies() {
+const MediaCardDynamic = dynamic(
+  () => import("@/components/MediaCard/MediaCard"),
+  {
+    loading: () => <Container />,
+  }
+);
+
+const Movies = () => {
   const [movieData, setMovieData] = useState([]);
   const [error, setError] = useState(null);
   const [nextPage, setNext] = useState(() => {
@@ -69,11 +76,6 @@ export default function Movies() {
       </motion.div>
     </>
   );
-}
+};
 
-const MediaCardDynamic = dynamic(
-  () => import("@/components/MediaCard/MediaCard"),
-  {
-    loading: () => <Container />,
-  }
-);
+export default dynamic(() => Promise.resolve(Movies));

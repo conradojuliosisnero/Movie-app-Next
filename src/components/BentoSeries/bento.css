@@ -3,7 +3,8 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-    cursor: pointer;
+  cursor: pointer;
+  aspect-ratio: 16/9;
 }
 
 .bento-titulo {
@@ -110,12 +111,12 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 1.25rem;
   }
-  
+
   .grande {
     grid-column: span 2;
     grid-row: span 2;
   }
-  
+
   .horizontal {
     grid-column: span 2;
   }
@@ -127,16 +128,16 @@
     grid-auto-rows: 200px;
     gap: 1rem;
   }
-  
+
   .bento-titulo {
     font-size: 1.75rem;
   }
-  
+
   .grande {
     grid-column: span 2;
     grid-row: span 1;
   }
-  
+
   .mediano,
   .vertical {
     grid-column: span 1;
@@ -148,17 +149,17 @@
   .bento-container {
     padding: 1rem;
   }
-  
+
   .bento-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .bento-titulo {
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
   }
-  
+
   .grande,
   .mediano,
   .vertical,
@@ -167,11 +168,11 @@
     grid-column: span 1;
     grid-row: span 1;
   }
-  
+
   .serie-info {
     padding: 1rem;
   }
-  
+
   .serie-titulo {
     font-size: 1.1rem;
   }
