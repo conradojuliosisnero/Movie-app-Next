@@ -11,6 +11,8 @@ export default function MovieDetails({ id }) {
   // hook for get movie details
   const { details, error, loading } = useMovieDetails(id);
 
+  console.log("details", details);
+
   if (loading) {
     return <LoadingSkeleton />;
   }

@@ -8,7 +8,7 @@ import { container, item } from "./animation";
 import Error from "@/components/Error/Error";
 
 const MediaCardDynamic = dynamic(
-  () => import("@/components/MediaCard/MediaCard"),
+  () => import("./MediaCard/MediaCard"),
   {
     loading: () => <Container />,
   }
