@@ -19,7 +19,6 @@ const MediaCardDynamic = dynamic(
 
 export default function Series() {
   const [serieData, setSerieData] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [nextPageSerie, setNext] = useState(() => {
     if (typeof window !== "undefined") {
@@ -31,16 +30,13 @@ export default function Series() {
 
   useEffect(() => {
     const getSeries = async () => {
-      setLoading(true);
       try {
         const response = await fetch(`/api/series?page=${nextPageSerie}`);
         const data = await response.json();
         setSerieData(data);
       } catch (error) {
         setError(error);
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
     getSeries();
   }, [nextPageSerie]);
@@ -60,8 +56,6 @@ export default function Series() {
   if (error) {
     return <Error message={"ocurrio un error de parte de nosotros :("} />;
   }
-
-  console.log("SERIES", serieData);
 
   return (
     <LayoutMovieSection>
