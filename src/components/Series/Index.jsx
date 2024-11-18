@@ -2,7 +2,6 @@
 import "./series.scss";
 import LayoutMovieSection from "@/layouts/Layout";
 import Button from "@/components/Buttons/Button";
-// import Search from "@/components/SearchInput/Search";
 import Container from "@/components/LoadingContainer/Container";
 import Error from "@/components/Error/Error";
 import { motion } from "framer-motion";

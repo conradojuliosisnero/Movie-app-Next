@@ -4,9 +4,19 @@ import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import Button from "../Buttons/Button";
 import Container from "@/components/LoadingContainer/Container";
+import { container, item } from "./animation";
+import Error from "@/components/Error/Error";
+
+const MediaCardDynamic = dynamic(
+  () => import("@/components/MediaCard/MediaCard"),
+  {
+    loading: () => <Container />,
+  }
+);
 
 export default function Now() {
   const [nowMovies, setNowMovies] = useState([]);
+  const [error, setError] = useState(null);
   const [nextPage, setNext] = useState(() => {
     if (typeof window !== "undefined") {
       const savedPage = sessionStorage.getItem("currentPage");
@@ -14,25 +24,18 @@ export default function Now() {
     }
     return 1;
   });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const getMovies = async () => {
-      setLoading(true);
-      const OPTIONS = {
-        method: "GET",
-        next: { tags: ["now"] },
-      }
       try {
         const response = await fetch(`/api/movies/now?page=${nextPage}`);
         const data = await response.json();
+        if (response.status !== 200) {
+          throw new Error("Error al obtener los datos");
+        }
         setNowMovies(data);
-        setLoading(false);
       } catch (error) {
         setError(error);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -43,42 +46,22 @@ export default function Now() {
     sessionStorage.setItem("currentPage", nextPage.toString());
   }, [nextPage]);
 
-  // busqueda de paginas --> + 1
   const handlerNextMovie = () => {
     setNext(nextPage + 1);
   };
 
-  // busqueda de paginas --> - 1
   const handlerPrevMovie = () => {
     setNext(nextPage - 1);
   };
 
-  //variables de animacion
-  const container = {
-    hidden: { opacity: 1, scale: 0 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        delayChildren: 0.2,
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const item = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-    },
-  };
-
+  if (error) {
+    return <Error message={"ocurrio un error de parte de nosotros :("} />;
+  }
 
   return (
     <>
       <div className="Now_title">
-        <h3>En Cine</h3>
+        <h3>En Cines</h3>
       </div>
       {/* contedor de peliculas */}
       <motion.div
@@ -98,11 +81,3 @@ export default function Now() {
     </>
   );
 }
-
-  const MediaCardDynamic = dynamic(
-    () => import("@/components/MediaCard/MediaCard"),
-    {
-      loading: () => <Container />,
-      ssr: false,
-    }
-  );
