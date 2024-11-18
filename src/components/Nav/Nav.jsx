@@ -32,17 +32,14 @@ const Nav = () => {
       }
     };
 
-    // Agregar un event listener para el evento de scroll
     window.addEventListener("scroll", handleScroll);
-
-    // Eliminar el event listener cuando el componente se desmonte
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   const goHome = () => {
-    router.push("/");
+    router.push("/home");
   };
 
   return (
@@ -64,9 +61,9 @@ const Nav = () => {
         <ul className={`listNav ${popUpMenu ? "menu__active" : ""}`}>
           {/* nav options  */}
           {optionMenu?.map(
-            ({ id, name, path, icon, options }, index) => (
+            ({ id, name, path, icon }, index) => (
               (
-                <li key={id} className={`link`}>
+                <li key={index} className={`link`}>
                   <div className="icon__responsive">
                     {popUpMenu ? (
                       <Image src={icon} width={30} height={30} alt="icon" />
