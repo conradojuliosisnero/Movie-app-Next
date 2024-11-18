@@ -10,7 +10,7 @@ import dynamic from "next/dynamic";
 import { container, item } from "./animation";
 
 const MediaCardDynamic = dynamic(
-  () => import("@/components/MediaCard/MediaCard"),
+  () => import("./MediaCard/MediaCard"),
   {
     loading: () => <Container />,
   }

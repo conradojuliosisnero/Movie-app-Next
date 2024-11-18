@@ -11,14 +11,14 @@ import { useSelector } from "react-redux";
 import { container, item } from "./animation";
 
 const MediaCardDynamic = dynamic(
-  () => import("@/components/MediaCard/MediaCard"),
+  () => import("./MediaCard/MediaCard"),
   {
     loading: () => <Container />,
   }
 );
 
 export default function SearchPage() {
-  const [movieData, setMovieData] = useState([]);
+  const [resultSearch, setResultSearch] = useState([]);
   const [dataSearch, setDataSearch] = useState([]);
   const [genderFiltered, setGenderFiltered] = useState([]);
   const [valueGender, setValueGender] = useState("");
@@ -32,18 +32,20 @@ export default function SearchPage() {
   });
 
   useEffect(() => {
-    const getDataMovie = async () => {
+    const getTranfingAll = async () => {
       try {
-        // ranking popular de peliculas
-        const response = await fetch(`/api/movies?page=${nextPage}`);
-        const data = await response.json();
-        setMovieData(data);
+        const response = await fetch(`/api/tranding`);
+        if (response.status !== 200) {
+          throw new Error("Error al obtener los datos");
+        }
+        const { results } = await response.json();
+        setResultSearch(results);
       } catch (error) {
         setError(error);
       }
     };
 
-    getDataMovie();
+    getTranfingAll();
   }, [nextPage]);
 
   useEffect(() => {
@@ -75,36 +77,32 @@ export default function SearchPage() {
     setNext(nextPage - 1);
   };
 
-  if (error) {
-    return <Error message={"ocurrio un error de parte de nosotros :("} />;
-  }
-
   const handleButtonClick = (id) => {
     setValueGender(id);
   };
 
   // redux
-  const movieSearch = useSelector((state) => state.searchMovie.search);
-  // console.log("movieSearch", movieSearch);
-  // console.log("result", result);
+  const movieSearchSlice = useSelector((state) => state.searchMovie.search);
+  // console.log("movieSearchSlice", movieSearchSlice);
+  // console.log("resultSearch", resultSearch);
 
-  let result = [];
-  if (!movieSearch && !valueGender) {
-    // Si no hay término de búsqueda ni género seleccionado, mostrar todas las películas
-    result = movieData.results
-  } else if (!movieSearch && valueGender) {
-    // Si no hay término de búsqueda pero hay un género seleccionado, mostrar películas filtradas por género
-    result = genderFiltered.results;
-  } else if (movieSearch && !valueGender) {
-    // Si hay un término de búsqueda pero no hay género seleccionado, mostrar resultados de búsqueda
-    result = movieSearch?.results?.filter((movie) => movie.title.toLowerCase());
-  } else {
-    // Si hay término de búsqueda y también un género seleccionado, aplicar ambos filtros
-    result = dataSearch.results
-      .filter((movie) =>
-        movie.title.toLowerCase().includes(search.toLowerCase())
-      )
-      .filter((movie) => movie.genre_ids.includes(valueGender));
+  // let result = [];
+  // if (!movieSearchSlice && !valueGender) {
+  //   result = resultSearch;
+  // } else if (!movieSearchSlice && valueGender) {
+  //   result = genderFiltered.results;
+  // } else if (movieSearchSlice && !valueGender) {
+  //   result = movieSearchSlice?.results?.filter((movie) => movie.title.toLowerCase());
+  // } else {
+  //   result = dataSearch.results
+  //     .filter((movie) =>
+  //       movie.title.toLowerCase().includes(search.toLowerCase())
+  //     )
+  //     .filter((movie) => movie.genre_ids.includes(valueGender));
+  // }
+
+  if (error) {
+    return <Error message={"ocurrio un error de parte de nosotros :("} />;
   }
 
   return (
@@ -115,7 +113,7 @@ export default function SearchPage() {
       </div>
 
       <div className="movie_title">
-        <h5>Busqueda</h5>
+        <h5>En Tendencia</h5>
       </div>
 
       {/* contedor de peliculas */}
@@ -125,9 +123,9 @@ export default function SearchPage() {
         initial="hidden"
         animate="visible"
       >
-        {result?.map((movie) => (
-          <motion.div variants={item}>
-            <MediaCardDynamic data={movie} key={movie.id} />
+        {resultSearch?.map((movie) => (
+          <motion.div variants={item} key={movie.id}>
+            <MediaCardDynamic data={movie} />
           </motion.div>
         ))}
         {nextPage == 1 ? "" : <Button funtionPage={handlerPrevMovie} />}
@@ -136,5 +134,3 @@ export default function SearchPage() {
     </>
   );
 }
-
-

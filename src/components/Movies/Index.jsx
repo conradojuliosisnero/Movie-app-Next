@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 import "./movies.scss";
 
 const MediaCardDynamic = dynamic(
-  () => import("@/components/MediaCard/MediaCard"),
+  () => import("./MediaCard/MediaCard"),
   {
     loading: () => <Container />,
   }
