@@ -207,17 +207,17 @@
 
   .listNav {
     position: absolute;
-    left: -550px;
-    top: -50px;
+    right: 0px;
+    top: -550px;
     z-index: 700;
-    width: 300px;
+    width: 350px;
     height: 100vh;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #060606bf;
-    backdrop-filter: blur(5px);
-    transition: left 200ms ease;
+    background-color: #060606;
+    /* backdrop-filter: blur(5px); */
+    transition: top 200ms ease;
   }
 
   .icon__login__user{
