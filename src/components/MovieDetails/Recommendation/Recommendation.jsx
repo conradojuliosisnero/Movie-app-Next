@@ -5,8 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 
-export default function Recommendation({ id }) {
+const Recommendation = ({ id }) => {
   const [result, setResult] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -81,3 +82,5 @@ export default function Recommendation({ id }) {
     </div>
   );
 }
+
+export default dynamic(() => Promise.resolve(Recommendation));

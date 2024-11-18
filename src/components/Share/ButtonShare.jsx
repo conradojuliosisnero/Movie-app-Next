@@ -8,8 +8,9 @@ import {
   TwitterIcon,
 } from "react-share";
 import "./share.css";
+import dynamic from "next/dynamic";
 
-export default function ButtonShare() {
+const ButtonShare = () => {
   const url = typeof window !== "undefined" ? window.location.href : "";
 
   return (
@@ -50,4 +51,6 @@ export default function ButtonShare() {
       </div>
     </div>
   );
-}
+};
+
+export default dynamic(() => Promise.resolve(ButtonShare));

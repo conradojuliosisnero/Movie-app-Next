@@ -31,7 +31,7 @@ export default function MovieDetails({ id }) {
               `${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}${details.backdrop_path}` ||
               Image404
             }
-            alt={details.title || details.name || "Movie"}
+            alt={details.title}
             width={100}
             height={100}
             layout="responsive"
@@ -70,7 +70,7 @@ export default function MovieDetails({ id }) {
             <div className={styles.stats}>
               <div
                 style={{
-                  backgroundColor: `${colors(details.vote_average)}`,
+                  backgroundColor: `${colors(details?.vote_average)}`,
                   display: "flex",
                   borderRadius: "0.5em",
                   padding: "10px 5px",
@@ -78,7 +78,7 @@ export default function MovieDetails({ id }) {
                 }}
               >
                 {/* STARS  */}
-                  <StarRating rating={details.vote_average} />
+                <StarRating rating={details.vote_average} />
                 <div style={{ marginLeft: "10px" }} />
                 <span>{Math.round(details.vote_average)}/10</span>
               </div>
@@ -92,7 +92,7 @@ export default function MovieDetails({ id }) {
               <ButtonShare />
             </div>
           </div>
-          <p>{details.overview || "No overview available."}</p>
+          <p>{details.overview || "Descripcion no disponible"}</p>
         </div>
       </div>
       {/* WATHC  */}
@@ -110,7 +110,7 @@ export default function MovieDetails({ id }) {
 }
 
 const StarRating = dynamic(() => import("./StarsRating/Stars"));
-const ModalVideo = dynamic(() => import("@/components/ModalVideo/ModalVideo"));
+const ModalVideo = dynamic(() => import("./ModalVideo/ModalVideo"));
 const Watch = dynamic(() => import("./WatchMovie/Watch"));
 const Casting = dynamic(() => import("./Casting/Casting"));
 const Recommendation = dynamic(() => import("./Recommendation/Recommendation"));
