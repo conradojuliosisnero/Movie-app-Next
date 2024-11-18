@@ -85,8 +85,8 @@ export default function SearchPage() {
 
   // redux
   const movieSearch = useSelector((state) => state.searchMovie.search);
-  console.log("movieSearch", movieSearch);
-  console.log("result", result);
+  // console.log("movieSearch", movieSearch);
+  // console.log("result", result);
 
   let result = [];
   if (!movieSearch && !valueGender) {

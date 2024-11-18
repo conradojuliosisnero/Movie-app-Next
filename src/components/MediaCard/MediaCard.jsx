@@ -19,7 +19,7 @@ const MediaCard = ({ data }) => {
       opacity: 1,
     },
   };
-  // percentage
+
   function percentage() {
     const percentage = Math.round(data.vote_average * 10);
     return percentage;

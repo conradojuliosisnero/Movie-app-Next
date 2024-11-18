@@ -1,4 +1,4 @@
-import GetSearch from "../../../../services/search/search";
+import GetSearch from "../../../../services/SearchMovie/Search";
 import { NextResponse } from "next/server";
 
 export async function GET(request) {

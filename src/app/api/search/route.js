@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getSearch } from "@/services/search/search";
+import { getSearch } from "@/services/SearchMovie/Search";
 
 export async function GET(req) {
   const { search, adult } = req.query;
