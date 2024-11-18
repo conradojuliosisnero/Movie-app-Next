@@ -8,6 +8,14 @@ import dynamic from "next/dynamic";
 import Search from "@/components/SearchInput/Search";
 import "./movies.scss";
 import { useSelector } from "react-redux";
+import { container, item } from "./animation";
+
+const MediaCardDynamic = dynamic(
+  () => import("@/components/MediaCard/MediaCard"),
+  {
+    loading: () => <Container />,
+  }
+);
 
 export default function SearchPage() {
   const [movieData, setMovieData] = useState([]);
@@ -38,9 +46,7 @@ export default function SearchPage() {
     getDataMovie();
   }, [nextPage]);
 
-  // cada que el valueGender cambia busca los generos
   useEffect(() => {
-    // busqueda de generos
     const getGender = async () => {
       try {
         const response = await fetch(
@@ -57,41 +63,35 @@ export default function SearchPage() {
     getGender();
   }, [valueGender, nextPage]);
 
-  // cada que el nextpage cambia guarda el valor en el session storage
   useEffect(() => {
     sessionStorage.setItem("currentPage", nextPage.toString());
   }, [nextPage]);
 
-  // busqueda de paginas --> + 1
   const handlerNextMovie = () => {
     setNext(nextPage + 1);
   };
 
-  // busqueda de paginas --> - 1
   const handlerPrevMovie = () => {
     setNext(nextPage - 1);
   };
 
-  // si hay un error renderiza --> error component
   if (error) {
     return <Error message={"ocurrio un error de parte de nosotros :("} />;
   }
 
-  // atrapa el valor de uno de los filtros
-  const handleButtonClick = (id, value) => {
+  const handleButtonClick = (id) => {
     setValueGender(id);
   };
 
   // redux
   const movieSearch = useSelector((state) => state.searchMovie.search);
-
-  // Función de búsqueda de películas
-  let result = [];
   console.log("movieSearch", movieSearch);
   console.log("result", result);
+
+  let result = [];
   if (!movieSearch && !valueGender) {
     // Si no hay término de búsqueda ni género seleccionado, mostrar todas las películas
-    result = movieData.results;
+    result = movieData.results
   } else if (!movieSearch && valueGender) {
     // Si no hay término de búsqueda pero hay un género seleccionado, mostrar películas filtradas por género
     result = genderFiltered.results;
@@ -107,27 +107,6 @@ export default function SearchPage() {
       .filter((movie) => movie.genre_ids.includes(valueGender));
   }
 
-  //variables de animacion
-  const container = {
-    hidden: { opacity: 1, scale: 0 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        delayChildren: 0.2,
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const item = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-    },
-  };
-
   return (
     <>
       {/* buscador  */}
@@ -136,7 +115,7 @@ export default function SearchPage() {
       </div>
 
       <div className="movie_title">
-        <h3>Busqueda</h3>
+        <h5>Busqueda</h5>
       </div>
 
       {/* contedor de peliculas */}
@@ -158,10 +137,4 @@ export default function SearchPage() {
   );
 }
 
-const MediaCardDynamic = dynamic(
-  () => import("@/components/MediaCard/MediaCard"),
-  {
-    loading: () => <Container />,
-    ssr: false,
-  }
-);
+
