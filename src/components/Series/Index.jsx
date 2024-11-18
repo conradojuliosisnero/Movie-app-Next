@@ -8,6 +8,7 @@ import Error from "@/components/Error/Error";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
+import { container, item } from "./animation";
 
 export default function Series() {
   // estados de data series y busqueda
@@ -133,27 +134,6 @@ export default function Series() {
     setSearch("");
   };
 
-  //variables de animacion
-  const container = {
-    hidden: { opacity: 1, scale: 0 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        delayChildren: 0.2,
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const item = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-    },
-  };
-
   // media card dynamic
   const MediaCardDynamic = dynamic(
     () => import("@/components/MediaCard/MediaCard"),
@@ -166,18 +146,18 @@ export default function Series() {
   return (
     <LayoutMovieSection>
       {/* buscador  */}
-      <div className="searcherSerie">
+      {/* <div className="searcherSerie">
         <Search
           funtion={handlerSearch}
           filter={handleButtonClick}
           value={search}
           close={handlerCloseSearch}
         />
-      </div>
+      </div> */}
 
-      <div className="series_title">
+      {/* <div className="series_title">
         <h3>Series</h3>
-      </div>
+      </div> */}
 
       {/* contedor de peliculas */}
       <motion.div
