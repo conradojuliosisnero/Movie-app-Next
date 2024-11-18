@@ -35,7 +35,7 @@ export default function Welcome({ dataMovieHome }) {
   const router = useRouter();
 
   const handlerVideoView = () => {
-    router.push(`/movie/${MOVIEHOME.id}`);
+    router.push(`/movie-details/${MOVIEHOME.id}`);
   };
 
   return (

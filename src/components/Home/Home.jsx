@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import Squeleton from "../WelcomeHome/Squeleton";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import SkeletonHome from "./SkeletonHome";
 
 const AutoPlaySlaiderDynamic = dynamic(() =>
   import("@/components/AutoPlaySlaider/Slaider")
@@ -23,7 +24,7 @@ const PopularSeriesDynamic = dynamic(() =>
   import("@/components/Popular/PopularSeries")
 );
 
-export default function Home() {
+const Home = ()=> {
   const [data, setData] = useState([]);
   const [seriesData, setDataSeries] = useState([]);
 
@@ -71,3 +72,7 @@ export default function Home() {
     </main>
   );
 }
+
+export default dynamic(() => Promise.resolve(Home), {
+  loading: () => <SkeletonHome />,
+});

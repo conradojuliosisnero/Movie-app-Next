@@ -37,10 +37,9 @@
 }
 
 .topMoviesContainer, .topSeriesContainer {
-  margin-top: 100px; /* Ajustado para consistencia en pantallas pequeñas */
+  margin-top: 20px; 
 }
 
-/* Mejoras en la descripción */
 .description {
   display: flex;
   flex-direction: column;

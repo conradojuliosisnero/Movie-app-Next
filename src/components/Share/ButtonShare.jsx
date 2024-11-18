@@ -4,6 +4,10 @@ import {
   FacebookIcon,
   WhatsappShareButton,
   WhatsappIcon,
+  TelegramShareButton,
+  TelegramIcon,
+  FacebookMessengerShareButton,
+  FacebookMessengerIcon,
   TwitterShareButton,
   TwitterIcon,
 } from "react-share";
@@ -28,6 +32,24 @@ const ButtonShare = () => {
         >
           <FacebookIcon size={32} round />
         </FacebookShareButton>
+
+        {/* TELEGRAM  */}
+        <TelegramShareButton
+          url={url}
+          title="Mira esta página increíble, para ver películas!"
+          className="share-button"
+        >
+          <TelegramIcon size={32} round />
+        </TelegramShareButton>
+
+        {/* MESSENGER  */}
+        <FacebookMessengerShareButton
+          url={url}
+          appId="521270401588372"
+          className="share-button"
+        >
+          <FacebookMessengerIcon size={32} round />
+        </FacebookMessengerShareButton>
 
         {/* TWITTER  */}
         <TwitterShareButton

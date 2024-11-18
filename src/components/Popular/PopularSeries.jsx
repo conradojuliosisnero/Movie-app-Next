@@ -63,7 +63,7 @@ export default function PopularSeries({ dataSeries }) {
                     {index + 1}
                   </span>
                 </div>
-                <Link href={`/serie/${movie.id}`}>
+                <Link href={`/serie-details/${movie.id}`}>
                   <Image
                     className={styles.posterImg}
                     src={`${
