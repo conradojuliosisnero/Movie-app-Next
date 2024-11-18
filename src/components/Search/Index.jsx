@@ -1,14 +1,14 @@
 "use client";
 import { useState, useEffect } from "react";
-import Button from "@/components/Buttons/Button";
+// import Button from "@/components/Buttons/Button";
 import Container from "@/components/LoadingContainer/Container";
 import Error from "@/components/Error/Error";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import Search from "@/components/SearchInput/Search";
-import "./movies.scss";
 import { useSelector } from "react-redux";
 import { container, item } from "./animation";
+// import "./movies.scss";
 
 const MediaCardDynamic = dynamic(
   () => import("./MediaCard/MediaCard"),
@@ -87,9 +87,9 @@ export default function SearchPage() {
   return (
     <>
       {/* buscador  */}
-      <div className="searcherMovie">
+      {/* <div className="searcherMovie">
         <Search filter={handleButtonClick} />
-      </div>
+      </div> */}
 
       <div className="movie_title">
         <h5>En Tendencia</h5>

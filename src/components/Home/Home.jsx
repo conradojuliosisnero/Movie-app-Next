@@ -13,7 +13,7 @@ const AutoPlaySlaiderDynamic = dynamic(() =>
 const WelcomeDynamic = dynamic(
   () => import("@/components/WelcomeHome/Welcome"),
   {
-    loading: () => <Squeleton />,
+    loading: () => <SkeletonHome />,
   }
 );
 
@@ -73,6 +73,4 @@ const Home = ()=> {
   );
 }
 
-export default dynamic(() => Promise.resolve(Home), {
-  loading: () => <SkeletonHome />,
-});
+export default dynamic(() => Promise.resolve(Home));
