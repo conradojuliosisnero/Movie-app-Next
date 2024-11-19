@@ -8,21 +8,14 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { searchMovie } from "@/slices/searchMovieSlice";
 import toast from "react-hot-toast";
+import dynamic from "next/dynamic";
 
-export default function Search({ funtion, value, filter, close }) {
+const Search = () => {
   const [movieData, setMovieData] = useState([]);
   const [dataSearch, setDataSearch] = useState([]);
   const [search, setSearch] = useState("");
   const [genderFiltered, setGenderFiltered] = useState([]);
   const [valueGender, setValueGender] = useState("");
-  const [error, setError] = useState(null);
-  const [nextPage, setNext] = useState(() => {
-    if (typeof window !== "undefined") {
-      const savedPage = sessionStorage.getItem("currentPage");
-      return savedPage ? Number(savedPage) : 1;
-    }
-    return 1;
-  });
 
   // dispatch de redux
   const dispatch = useDispatch();
@@ -52,23 +45,26 @@ export default function Search({ funtion, value, filter, close }) {
     }
   };
 
-  // cada que el valueGender cambia busca los generos
-  useEffect(() => {
-    // busqueda de generos
-    const getGender = async () => {
-      try {
-        const response = await fetch(
-          `/api/movies/filtergender?page=${nextPage}&valueGender=${valueGender}`
-        );
-        const data = await response.json();
-        setGenderFiltered(data);
-      } catch (error) {
-        setError(error);
-      }
-    };
+  const clearInput = () => { 
+    setSearch("");
+    dispatch(searchMovie([]));
+  }
 
-    getGender();
-  }, [valueGender, nextPage]);
+  // useEffect(() => {
+  //   const getGender = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `/api/movies/filtergender?page=1&valueGender=${valueGender}`
+  //       );
+  //       const data = await response.json();
+  //       setGenderFiltered(data);
+  //     } catch (error) {
+  //       setError(error);
+  //     }
+  //   };
+
+  //   getGender();
+  // }, [valueGender]);
 
   return (
     <>
@@ -77,13 +73,14 @@ export default function Search({ funtion, value, filter, close }) {
           type="text"
           className="search__input"
           placeholder="Buscar"
+          value={search}
           onChange={(e) => {
             setSearch(e.target.value);
           }}
         />
         {/* boton de busqueda */}
         <div className="search__button">
-          {value == "" ? (
+          {search === "" ? (
             <Image
               src={SearchIcon}
               width={21}
@@ -96,20 +93,24 @@ export default function Search({ funtion, value, filter, close }) {
               width={21}
               height={21}
               alt={"close-search-icon"}
-              onClick={close}
+              onClick={clearInput}
             />
           )}
         </div>
         {/* filtro */}
         <div className="filter__container">
-          <FilterNav funtion={filter} />
+          <FilterNav />
         </div>
       </div>
-      <div style={{ display: "flex", color: "white" }}>
-        <button className="search__click__input" onClick={getSearch}>
+      <div className="search__click__input">
+        <button className="button__search" onClick={getSearch}>
           Buscar
         </button>
       </div>
     </>
   );
-}
+};
+
+export default dynamic(() => Promise.resolve(Search), {
+  ssr: false,
+});

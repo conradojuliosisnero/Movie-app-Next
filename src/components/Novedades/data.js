@@ -34,4 +34,11 @@ export const updates = [
       "Se ha separado la seccion de busquedas y se añadio una seccion de tendencias",
     type: "feature",
   },
+  {
+    id: 7,
+    date: "2024-11-18",
+    content:
+      "Se ah quitado el buscador por error se implementara en la siguiente actualizacion, lamentamos las molestias",
+    type: "fix",
+  },
 ];

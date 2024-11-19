@@ -8,7 +8,7 @@ import dynamic from "next/dynamic";
 import Search from "@/components/SearchInput/Search";
 import { useSelector } from "react-redux";
 import { container, item } from "./animation";
-// import "./movies.scss";
+import "./movies.scss";
 
 const MediaCardDynamic = dynamic(
   () => import("./MediaCard/MediaCard"),
@@ -19,9 +19,9 @@ const MediaCardDynamic = dynamic(
 
 export default function SearchPage() {
   const [resultSearch, setResultSearch] = useState([]);
-  const [dataSearch, setDataSearch] = useState([]);
-  const [genderFiltered, setGenderFiltered] = useState([]);
-  const [valueGender, setValueGender] = useState("");
+  // const [dataSearch, setDataSearch] = useState([]);
+  // const [genderFiltered, setGenderFiltered] = useState([]);
+  // const [valueGender, setValueGender] = useState("");
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -40,27 +40,6 @@ export default function SearchPage() {
 
     getTranfingAll();
   }, []);
-
-  useEffect(() => {
-    const getGender = async () => {
-      try {
-        const response = await fetch(
-          `/api/movies/filtergender?page=1&valueGender=${valueGender}`
-        );
-        const data = await response.json();
-        setGenderFiltered(data);
-      } catch (error) {
-        console.error(error);
-        setError(error);
-      }
-    };
-
-    getGender();
-  }, [valueGender]);
-
-  const handleButtonClick = (id) => {
-    setValueGender(id);
-  };
 
   // redux
   const movieSearchSlice = useSelector((state) => state.searchMovie.search);
@@ -87,12 +66,8 @@ export default function SearchPage() {
   return (
     <>
       {/* buscador  */}
-      {/* <div className="searcherMovie">
-        <Search filter={handleButtonClick} />
-      </div> */}
-
-      <div className="movie_title">
-        <h5>En Tendencia</h5>
+      <div className="searcherMovie">
+        <Search/>
       </div>
 
       {/* contedor de peliculas */}
