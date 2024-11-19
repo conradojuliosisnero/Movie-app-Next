@@ -1,0 +1,184 @@
+/* CajaBentoPeliculas.css */
+.bento-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  cursor: pointer;
+}
+
+.bento-titulo {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #ffffff;
+}
+
+.pelicula-titulo:hover {
+  text-decoration: underline;
+}
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 250px;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.pelicula-card {
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pelicula-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.pelicula-card:hover .pelicula-imagen {
+  filter: blur(5px);
+  transform: scale(1.05);
+}
+
+/* Tipos de tarjetas */
+.grande {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.mediano {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+.vertical {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+.horizontal {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+.pequeño {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+.pelicula-imagen {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.pelicula-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  background: linear-gradient(
+    transparent,
+    rgba(0, 0, 0, 0.7) 30%,
+    rgba(0, 0, 0, 0.9)
+  );
+  color: #ffffff;
+}
+
+.pelicula-titulo {
+  font-size: 1.27rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  /* line-height: 1.2; */
+}
+
+.pelicula-genero {
+  display: inline-block;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 1rem;
+  backdrop-filter: blur(4px);
+  color: #ffffff;
+}
+
+/* Media Queries */
+@media screen and (max-width: 1024px) {
+  .bento-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+  
+  .grande {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  
+  .horizontal {
+    grid-column: span 2;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 200px;
+    gap: 1rem;
+  }
+  
+  .bento-titulo {
+    font-size: 1.75rem;
+  }
+  
+  .grande {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+  
+  .mediano,
+  .vertical {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .bento-container {
+    padding: 1rem;
+  }
+  
+  .bento-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .bento-titulo {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .grande,
+  .mediano,
+  .vertical,
+  .horizontal,
+  .pequeño {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+  
+  .pelicula-info {
+    padding: 1rem;
+  }
+  
+  .pelicula-titulo {
+    font-size: 1.1rem;
+  }
+}

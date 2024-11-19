@@ -120,7 +120,7 @@ export default function FilterNav({ funtion }) {
                 alt="filter-icon"
                 width={30}
                 height={30}
-                onClick={handlerFilter}
+                onClick={()=> setShowFilter(!showFilter)}
               />
             </motion.div>
           ) : (
@@ -148,7 +148,7 @@ export default function FilterNav({ funtion }) {
               {gender?.genres?.map(({ id, name }) => (
                 <motion.div variants={item}>
                   <ButtonFilter
-                    filterDis={handlerDisFilter}
+                    filterDis={() => setShowFilter(!showFilter)}
                     keyword={name}
                     key={id}
                     id={id}

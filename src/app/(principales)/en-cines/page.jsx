@@ -1,4 +1,4 @@
-import Now from "@/components/NowMovies/Now";
+import Now from "@/components/EnCines/EnCines";
 
 export default function page() {
   return (

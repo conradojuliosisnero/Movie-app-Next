@@ -1,22 +1,28 @@
 "use client";
+import dynamic from "next/dynamic";
 import styles from "./modal.module.css";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import SkeletonLoading from "./SkeletonLoading";
 
-export default function ModalVideo({ id }) {
+const ModalVideo = ({ id }) => {
   const [result, setResult] = useState({});
+  const [loading, setLoading] = useState(true);
   const [popUp, setPopUp] = useState(false);
   const [keyVideoMovie, setKeyVideoMovie] = useState({});
   const [windowWidth, setWindowWidth] = useState(undefined);
 
   useEffect(() => {
     const getVideos = async () => {
+      setLoading(true);
       try {
         const response = await fetch(`/api/movies/trailer?id=${id}`);
         const data = await response.json();
         setKeyVideoMovie(data);
       } catch (error) {
         toast.error("Error al obtener el trailer de la pelicula");
+      } finally {
+        setLoading(false);
       }
     };
     setResult(result);
@@ -34,6 +40,14 @@ export default function ModalVideo({ id }) {
       window.removeEventListener("resize", handleResize);
     };
   }, [id]);
+
+  if (loading) {
+    return (
+      <div className={styles.trailer_not_found}>
+        <SkeletonLoading />
+      </div>
+    );
+  }
 
   if (keyVideoMovie == null) {
     return (
@@ -61,7 +75,10 @@ export default function ModalVideo({ id }) {
               allowfullscreen
             ></iframe>
             {/* button close  */}
-            <button className={styles.ClosePopUp} onClick={() => setPopUp(false)}>
+            <button
+              className={styles.ClosePopUp}
+              onClick={() => setPopUp(false)}
+            >
               volver
             </button>
           </div>
@@ -69,4 +86,6 @@ export default function ModalVideo({ id }) {
       )}
     </div>
   );
-}
+};
+
+export default dynamic(() => Promise.resolve(ModalVideo), { ssr: false });

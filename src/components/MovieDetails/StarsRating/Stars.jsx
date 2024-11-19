@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import "./stars.css";
+import dynamic from "next/dynamic";
 
 const StarRating = ({ rating }) => {
   const [filledStars, setFilledStars] = useState(0);
@@ -13,7 +14,7 @@ const StarRating = ({ rating }) => {
     const stars = [];
     for (let i = 0; i < 5; i++) {
       stars.push(
-        <div key={i} className={i < filledStars ? "star filled" : "star"}></div>
+        <span key={i} className={i < filledStars ? "star filled" : "star"}></span>
       );
     }
     return stars;
@@ -22,4 +23,4 @@ const StarRating = ({ rating }) => {
   return <div className="star-rating">{renderStars()}</div>;
 };
 
-export default StarRating;
+export default dynamic(() => Promise.resolve(StarRating));

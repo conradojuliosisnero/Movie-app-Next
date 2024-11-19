@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation";
 import male from "../../../../public/male.svg";
 import female from "../../../../public/female.svg";
 import "./casting.css";
+import dynamic from "next/dynamic";
 
-export default function Casting({ id }) {
+const Casting = ({ id }) => {
   const [castingMovie, setCasting] = useState({});
   const [error, setError] = useState(false);
 
@@ -63,3 +64,5 @@ export default function Casting({ id }) {
     </div>
   );
 }
+
+export default dynamic(() => Promise.resolve(Casting));

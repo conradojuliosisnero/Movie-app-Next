@@ -1,10 +1,11 @@
 "use client";
+import dynamic from "next/dynamic";
 import styles from "./watch.module.css";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 
-export default function Watch({ id }) {
+const Watch = ({ id }) => {
   const [watch, setWatch] = useState([]);
   const [watchSerie, setWatchSerie] = useState([]);
   const params = useParams();
@@ -31,7 +32,6 @@ export default function Watch({ id }) {
     };
     getWatch();
   }, [id]);
-
 
   return (
     <div className={styles.BoxWatch}>
@@ -79,4 +79,6 @@ export default function Watch({ id }) {
       </div>
     </div>
   );
-}
+};
+
+export default dynamic(() => Promise.resolve(Watch));

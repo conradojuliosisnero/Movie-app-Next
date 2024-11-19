@@ -4,6 +4,7 @@ import { useContext, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import { logout } from "@/firebase/servicesFirebase";
 import "./avatar.css";
+import userIconSvg from "@/assets/user.svg";
 
 export const AvatarMenu = () => {
   const { userData } = useContext(AuthContext);
@@ -24,8 +25,8 @@ export const AvatarMenu = () => {
       <button className="avatar-button" onClick={() => setIsOpen(!isOpen)}>
         {userData?.photoURL ? (
           <Image
-            src={userData.photoURL}
-            alt={userData.displayName || userData.email}
+            src={userData.photoURL ? userData.photoURL : userIconSvg}
+            alt={userData.displayName || "user-icon"}
             width={100}
             height={100}
             priority={true}
