@@ -1,0 +1,43 @@
+.container {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  margin-top: 120px;
+}
+
+.header {
+  background-color: #3e3e3e;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  border-radius: 5px 5px 0 0;
+}
+
+.title {
+  margin: 0;
+}
+
+.updateList {
+  list-style: none;
+  padding: 0;
+}
+
+.updateItem {
+  background-color: #1c1c1c;
+  color: #ffffff;
+  margin: 10px 0px;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.updateItem p{
+    margin-top: 20px;
+}
+
+.updateDate {
+  font-weight: bold;
+  color: #6a90ff;
+}
+

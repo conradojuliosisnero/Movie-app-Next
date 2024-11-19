@@ -6,13 +6,11 @@ import Button from "../Buttons/Button";
 import Container from "@/components/LoadingContainer/Container";
 import { container, item } from "./animation";
 import Error from "@/components/Error/Error";
+import "./encines.scss";
 
-const MediaCardDynamic = dynamic(
-  () => import("./MediaCard/MediaCard"),
-  {
-    loading: () => <Container />,
-  }
-);
+const MediaCardDynamic = dynamic(() => import("./MediaCard/MediaCard"), {
+  loading: () => <Container />,
+});
 
 export default function Now() {
   const [nowMovies, setNowMovies] = useState([]);
