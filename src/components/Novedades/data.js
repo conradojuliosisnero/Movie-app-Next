@@ -41,4 +41,11 @@ export const updates = [
       "Se ah quitado el buscador por error se implementara en la siguiente actualizacion, lamentamos las molestias",
     type: "fix",
   },
+  {
+    id: 8,
+    date: "2024-11-19",
+    content:
+      "Se ah restaurado el buscador, gracias por su paciencia, se añadiran los filtros en la siguiente actualizacion",
+    type: "fix",
+  }
 ];
