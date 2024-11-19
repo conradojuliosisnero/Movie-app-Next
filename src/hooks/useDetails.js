@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 
 export function useMovieDetails(id) {
   const [details, setDetails] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {

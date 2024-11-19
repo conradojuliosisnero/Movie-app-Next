@@ -8,7 +8,7 @@ import MenuResponsive from "../../../public/menu-responsive.svg";
 import CloseMenu from "../../../public/close-white.svg";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import IconLogin, { AvatarMenu } from "../IconLogin/IconLogin";
+import { AvatarMenu } from "../IconLogin/IconLogin";
 import dynamic from "next/dynamic";
 
 const Nav = () => {
@@ -32,17 +32,14 @@ const Nav = () => {
       }
     };
 
-    // Agregar un event listener para el evento de scroll
     window.addEventListener("scroll", handleScroll);
-
-    // Eliminar el event listener cuando el componente se desmonte
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   const goHome = () => {
-    router.push("/");
+    router.push("/home");
   };
 
   return (
@@ -64,9 +61,9 @@ const Nav = () => {
         <ul className={`listNav ${popUpMenu ? "menu__active" : ""}`}>
           {/* nav options  */}
           {optionMenu?.map(
-            ({ id, name, path, icon, options }, index) => (
+            ({ id, name, path, icon }, index) => (
               (
-                <li key={id} className={`link`}>
+                <li key={index} className={`link`}>
                   <div className="icon__responsive">
                     {popUpMenu ? (
                       <Image src={icon} width={30} height={30} alt="icon" />

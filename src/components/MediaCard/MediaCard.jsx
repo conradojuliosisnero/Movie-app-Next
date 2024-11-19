@@ -1,5 +1,3 @@
-// "use client"
-import "./postercard.scss";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -7,6 +5,8 @@ import img404 from "../../../public/image-no-found.svg";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
+import "./postercard.scss";
 
 const MediaCard = ({ data }) => {
   const pathname = usePathname();
@@ -19,7 +19,7 @@ const MediaCard = ({ data }) => {
       opacity: 1,
     },
   };
-  // percentage
+
   function percentage() {
     const percentage = Math.round(data.vote_average * 10);
     return percentage;
@@ -103,4 +103,4 @@ const MediaCard = ({ data }) => {
   );
 };
 
-export default MediaCard;
+export default dynamic(() => Promise.resolve(MediaCard));

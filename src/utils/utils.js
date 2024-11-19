@@ -16,13 +16,13 @@ export function colors(percentag) {
 
 // Función para formatear la fecha
 export function formatDate(inputDate) {
-  // Validar que inputDate tenga un valor
+  console.log("fecha para formatear:", inputDate);
   if (!inputDate) {
     console.error("inputDate is undefined or empty");
     return "";
   }
   // Separar el día, mes y año
-  const [year, day, month] = inputDate.split("-").map(Number);
+  const [year, month, day] = inputDate.split("-").map(Number);
 
   // Crear un objeto Date
   const date = new Date(year, month - 1, day); // Restar 1 al mes porque los meses en JS son base 0

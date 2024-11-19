@@ -15,10 +15,11 @@ function AutoPlaySlaider({ dataMovies }) {
     lazyLoad: true,
     slidesToShow: 3,
     slidesToScroll: 1,
-    autoplay: true,
-    speed: 1000,
-    autoplaySpeed: 2000,
-    cssEase: "ease-in-out",
+    swipeToSlide: true,
+    speed: 300,
+    cssEase: "ease",
+    // autoplay: true,
+    // autoplaySpeed: 2000,
   });
 
   useEffect(() => {
@@ -52,7 +53,7 @@ function AutoPlaySlaider({ dataMovies }) {
 
   return (
     <div className="slider-container">
-      <span className={styles.popularyTitle}>Popular en Peliculas</span>
+      <span className={styles.popularyTitle}>Top Popular en Peliculas</span>
       <Slider {...settings}>
         {dataMovies &&
           dataMovies.slice(0, 15).map((movie, index) => (
@@ -63,7 +64,7 @@ function AutoPlaySlaider({ dataMovies }) {
                     {index + 1}
                   </span>
                 </div>
-                <Link href={`/movie/${movie.id}`}>
+                <Link href={`/movie-details/${movie.id}`}>
                   <Image
                     className={styles.posterImg}
                     src={`${

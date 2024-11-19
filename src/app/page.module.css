@@ -7,7 +7,7 @@
   min-height: 100vh;
 }
 
-.page_404{
+.page_404 {
   margin-top: 70px;
   display: flex;
   flex-direction: column;
@@ -18,7 +18,7 @@
   height: 100vh;
 }
 
-.buttonHome{
+.buttonHome {
   background-color: #ffffff;
   padding: 20px 30px;
   color: #000000;
@@ -28,14 +28,13 @@
   font-size: 1.2em;
   border: none;
   outline: none;
-
 }
 
-.topMoviesContainer{
+.topMoviesContainer {
   margin: 500px 0px 0px 0px;
 }
 
-.topSeriesContainer{
+.topSeriesContainer {
   margin: 150px 0px 0px 0px;
 }
 
@@ -171,7 +170,7 @@
     text-align: center;
   }
 
-  .topMoviesContainer{
+  .topMoviesContainer {
     margin: 100px 0px 0px 0px;
   }
 
@@ -238,8 +237,6 @@
     z-index: 1;
   }
 }
-
-
 
 /* Tablet and Smaller Desktop */
 @media (min-width: 701px) and (max-width: 1120px) {
