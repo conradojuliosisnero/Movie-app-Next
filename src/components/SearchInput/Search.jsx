@@ -1,11 +1,11 @@
 "use client";
 import "./search.css";
-import FilterNav from "../Filter/FilterNav";
+// import FilterNav from "../Filter/FilterNav";
 import Image from "next/image";
 import SearchIcon from "../../../public/search.svg";
 import closeSearch from "../../../public/close-search.svg";
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { searchMovie } from "@/slices/searchMovieSlice";
 import toast from "react-hot-toast";
 import dynamic from "next/dynamic";
@@ -17,15 +17,13 @@ const Search = () => {
   const [genderFiltered, setGenderFiltered] = useState([]);
   const [valueGender, setValueGender] = useState("");
 
-  // dispatch de redux
   const dispatch = useDispatch();
 
-  // busqueda de peliculas
   const getSearch = async () => {
     if (search !== "" && search !== null && search !== undefined) {
       toast.loading("Buscando...", {
         id: "loading",
-        duration: 5000,
+        duration: 3000,
         position: "bottom-center",
       });
       try {
@@ -33,8 +31,8 @@ const Search = () => {
         if (response.status !== 200) {
           setError("Error al obtener las peliculas");
         }
-        const data = await response.json();
-        dispatch(searchMovie(data));
+        const { results } = await response.json();
+        dispatch(searchMovie(results));
       } catch (error) {
         setError("Error al obtener las peliculas");
         toast.error("Error al obtener las peliculas");
@@ -45,10 +43,10 @@ const Search = () => {
     }
   };
 
-  const clearInput = () => { 
+  const clearInput = () => {
     setSearch("");
     dispatch(searchMovie([]));
-  }
+  };
 
   // useEffect(() => {
   //   const getGender = async () => {
@@ -72,7 +70,7 @@ const Search = () => {
         <input
           type="text"
           className="search__input"
-          placeholder="Buscar"
+          placeholder="película, serie..."
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
@@ -98,9 +96,9 @@ const Search = () => {
           )}
         </div>
         {/* filtro */}
-        <div className="filter__container">
+        {/* <div className="filter__container">
           <FilterNav />
-        </div>
+        </div> */}
       </div>
       <div className="search__click__input">
         <button className="button__search" onClick={getSearch}>

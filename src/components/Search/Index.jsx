@@ -44,6 +44,8 @@ export default function SearchPage() {
   // redux
   const movieSearchSlice = useSelector((state) => state.searchMovie.search);
 
+  console.log("moviesearchSlice",movieSearchSlice);
+
   // let result = [];
   // if (!movieSearchSlice && !valueGender) {
   //   result = resultSearch;
@@ -59,6 +61,14 @@ export default function SearchPage() {
   //     .filter((movie) => movie.genre_ids.includes(valueGender));
   // }
 
+  let result = [];
+
+  if (!movieSearchSlice.length > 0) {
+    result = resultSearch.slice(0, 10);
+  } else if (movieSearchSlice.length > 0) {
+    result = movieSearchSlice;  
+  }
+
   if (error) {
     return <Error message={"ocurrio un error de parte de nosotros :("} />;
   }
@@ -67,9 +77,11 @@ export default function SearchPage() {
     <>
       {/* buscador  */}
       <div className="searcherMovie">
-        <Search/>
+        <Search />
       </div>
-
+      <div className="contend__tittle">
+        <h5 className="titulo">Tendencia</h5>
+      </div>
       {/* contedor de peliculas */}
       <motion.div
         className="contenedor"
@@ -77,7 +89,7 @@ export default function SearchPage() {
         initial="hidden"
         animate="visible"
       >
-        {resultSearch?.map((movie) => (
+        {result?.map((movie) => (
           <motion.div variants={item} key={movie.id}>
             <MediaCardDynamic data={movie} />
           </motion.div>
