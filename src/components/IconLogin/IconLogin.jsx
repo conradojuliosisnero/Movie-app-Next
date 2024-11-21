@@ -1,13 +1,12 @@
 import Image from "next/image";
-import { useContext, useState } from "react";
-import AuthContext from "@/context/AuthContext";
+// import icon from "./icon.module.css";
+import { useState } from "react";
 import { logout } from "@/firebase/servicesFirebase";
 import "./avatar.css";
 import userIconSvg from "@/assets/user.svg";
 import { useRouter } from "next/navigation";
 
 export const AvatarMenu = () => {
-  const { userData } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
 
   const router = useRouter();
