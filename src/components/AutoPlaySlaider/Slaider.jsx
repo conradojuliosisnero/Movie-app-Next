@@ -7,8 +7,9 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import imageNull from "../../../public/image-no-found.svg";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 
-function AutoPlaySlaider({ dataMovies }) {
+function PopularMoviesSlider({ dataMovies }) {
   const [settings, setSettings] = useState({
     dots: false,
     infinite: true,
@@ -86,4 +87,4 @@ function AutoPlaySlaider({ dataMovies }) {
   );
 }
 
-export default AutoPlaySlaider;
+export default dynamic(() => Promise.resolve(PopularMoviesSlider));

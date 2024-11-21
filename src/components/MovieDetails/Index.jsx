@@ -7,11 +7,15 @@ import { colors, formatDate } from "@/utils/utils";
 import dynamic from "next/dynamic";
 import LoadingSkeleton from "../Skeleton/Skeleton";
 
-export default function MovieDetails({ id }) {
-  // hook for get movie details
-  const { details, error, loading } = useMovieDetails(id);
+const StarRating = dynamic(() => import("./StarsRating/Stars"));
+const ModalVideo = dynamic(() => import("./ModalVideo/ModalVideo"));
+const Watch = dynamic(() => import("./WatchMovie/Watch"));
+const Casting = dynamic(() => import("./Casting/Casting"));
+const Recommendation = dynamic(() => import("./Recommendation/Recommendation"));
+const ButtonShare = dynamic(() => import("@/components/Share/ButtonShare"));
 
-  console.log("details", details);
+export default function MovieDetails({ id }) {
+  const { details, error, loading } = useMovieDetails(id);
 
   if (loading) {
     return <LoadingSkeleton />;
@@ -111,9 +115,4 @@ export default function MovieDetails({ id }) {
   );
 }
 
-const StarRating = dynamic(() => import("./StarsRating/Stars"));
-const ModalVideo = dynamic(() => import("./ModalVideo/ModalVideo"));
-const Watch = dynamic(() => import("./WatchMovie/Watch"));
-const Casting = dynamic(() => import("./Casting/Casting"));
-const Recommendation = dynamic(() => import("./Recommendation/Recommendation"));
-const ButtonShare = dynamic(() => import("@/components/Share/ButtonShare"));
+

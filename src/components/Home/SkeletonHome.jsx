@@ -1,4 +1,3 @@
-
 import styles from "./skeleton.module.css";
 
 const SkeletonHome = () => {

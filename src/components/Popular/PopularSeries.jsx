@@ -15,10 +15,9 @@ export default function PopularSeries({ dataSeries }) {
     lazyLoad: true,
     slidesToShow: 3,
     slidesToScroll: 1,
-    autoplay: true,
-    speed: 1000,
-    autoplaySpeed: 2000,
-    cssEase: "ease-in-out",
+    swipeToSlide: true,
+    speed: 300,
+    cssEase: "ease",
   });
 
   useEffect(() => {
