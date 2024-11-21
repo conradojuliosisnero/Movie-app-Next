@@ -10,14 +10,12 @@ import { motion } from "framer-motion";
 import "./movies.scss";
 
 const MediaCardDynamic = dynamic(
-  () => import("./MediaCard/MediaCard"),
-  {
-    loading: () => <Container />,
-  }
+  () => import("./MediaCard/MediaCard")
 );
 
 const Movies = () => {
   const [movieData, setMovieData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [nextPage, setNext] = useState(() => {
     if (typeof window !== "undefined") {
@@ -29,12 +27,17 @@ const Movies = () => {
 
   useEffect(() => {
     const getDataMovie = async () => {
+      setLoading(true);
       try {
         const response = await fetch(`/api/movies?page=${nextPage}`);
         const { results } = await response.json();
         setMovieData(results);
+        setLoading(false);
       } catch (error) {
         setError(error);
+        setMovieData([]);
+      }finally{
+        setLoading(false);
       }
     };
 
@@ -52,6 +55,10 @@ const Movies = () => {
   const handlerPrevMovie = () => {
     setNext(nextPage - 1);
   };
+
+  if (loading) { 
+    return <Container />;
+  }
 
   if (error) {
     return <Error message={"ocurrio un error de parte de nosotros :("} />;
