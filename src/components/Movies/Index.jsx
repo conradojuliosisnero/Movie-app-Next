@@ -8,10 +8,9 @@ import dynamic from "next/dynamic";
 import { container, item } from "./animation";
 import { motion } from "framer-motion";
 import "./movies.scss";
+import AsideFilter from "../asideFilters/AsideFilter";
 
-const MediaCardDynamic = dynamic(
-  () => import("./MediaCard/MediaCard")
-);
+const MediaCardDynamic = dynamic(() => import("./MediaCard/MediaCard"));
 
 const Movies = () => {
   const [movieData, setMovieData] = useState([]);
@@ -25,6 +24,8 @@ const Movies = () => {
     return 1;
   });
 
+
+  
   useEffect(() => {
     const getDataMovie = async () => {
       setLoading(true);
@@ -36,7 +37,7 @@ const Movies = () => {
       } catch (error) {
         setError(error);
         setMovieData([]);
-      }finally{
+      } finally {
         setLoading(false);
       }
     };
@@ -56,7 +57,7 @@ const Movies = () => {
     setNext(nextPage - 1);
   };
 
-  if (loading) { 
+  if (loading) {
     return <Container />;
   }
 
@@ -66,6 +67,7 @@ const Movies = () => {
 
   return (
     <>
+      {/* <AsideFilter /> */}
       {/* contedor de peliculas */}
       <motion.div
         className="contenedor"
