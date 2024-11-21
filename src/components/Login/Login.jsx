@@ -1,24 +1,15 @@
 "use client";
-import "./login.css";
 import { GoogleSvg, EyeSvg, LockSvg, EmailSvg } from "@/assets/svg";
-import { useEffect, useState } from "react";
-import {
-  singInWithEmailAndPassword,
-  registerUserWithEmailAndPassword,
-} from "@/firebase/servicesFirebase";
-import { useRouter } from "next/navigation";
 import { FIREBASE_ERRORS } from "@/firebase/firebaseErrors";
 import { signInWithGoogle } from "@/firebase/servicesFirebase";
-import { useContext } from "react";
-import AuthContext from "@/context/AuthContext";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import "./login.css";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [toggle, setToggle] = useState(true);
 
-  const { setIsLoggedIn } = useContext(AuthContext);
 
   // react hook form
   const {
@@ -49,23 +40,38 @@ export default function Login() {
     },
   };
 
-  const submitUserInfo = handleSubmit(async (data) => {
+  const submitUserInfo = handleSubmit(async (data) => { 
     try {
-      const response = await (toggle
-        ? singInWithEmailAndPassword(data.email, data.password)
-        : registerUserWithEmailAndPassword(data.email, data.password));
-
-      if (response) {
-        toast(response, {
-          icon: "🎬",
-        });
+      const OPTIONS = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       }
+      const response = await fetch("/api/auth/login/login")
     } catch (error) {
-      const errorMessage =
-        FIREBASE_ERRORS[error.code] || FIREBASE_ERRORS["default"];
-      toast.error(errorMessage);
+      
     }
   });
+
+  // const submitUserInfo = handleSubmit(async (data) => {
+  //   try {
+  //     const response = await (toggle
+  //       ? singInWithEmailAndPassword(data.email, data.password)
+  //       : registerUserWithEmailAndPassword(data.email, data.password));
+
+  //     if (response) {
+  //       toast(response, {
+  //         icon: "🎬",
+  //       });
+  //     }
+  //   } catch (error) {
+  //     const errorMessage =
+  //       FIREBASE_ERRORS[error.code] || FIREBASE_ERRORS["default"];
+  //     toast.error(errorMessage);
+  //   }
+  // });
 
   // Login with Google
   const loginWithGoogle = async () => {

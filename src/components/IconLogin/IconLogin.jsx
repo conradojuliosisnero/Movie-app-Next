@@ -1,13 +1,11 @@
 import Image from "next/image";
 // import icon from "./icon.module.css";
-import { useContext, useState } from "react";
-import AuthContext from "@/context/AuthContext";
+import { useState } from "react";
 import { logout } from "@/firebase/servicesFirebase";
 import "./avatar.css";
 import userIconSvg from "@/assets/user.svg";
 
 export const AvatarMenu = () => {
-  const { userData } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = async () => {
