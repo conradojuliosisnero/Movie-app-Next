@@ -1,14 +1,16 @@
 import Image from "next/image";
-// import icon from "./icon.module.css";
 import { useContext, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import { logout } from "@/firebase/servicesFirebase";
 import "./avatar.css";
 import userIconSvg from "@/assets/user.svg";
+import { useRouter } from "next/navigation";
 
 export const AvatarMenu = () => {
   const { userData } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
+
+  const router = useRouter();
 
   const handleLogout = async () => {
     await logout();
@@ -46,7 +48,9 @@ export const AvatarMenu = () => {
           <div className="menu-header">Mi Cuenta</div>
           <div className="menu-item">
             <span className="user-icon">👤</span>
-            <span>{cutname(userData?.displayName || userData?.email)}</span>
+            <span onClick={() => router.push("/profile")}>
+              {cutname(userData?.displayName || userData?.email)}
+            </span>
           </div>
           <button
             className="logout-button"

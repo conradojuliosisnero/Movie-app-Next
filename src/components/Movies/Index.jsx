@@ -8,16 +8,13 @@ import dynamic from "next/dynamic";
 import { container, item } from "./animation";
 import { motion } from "framer-motion";
 import "./movies.scss";
+import AsideFilter from "../asideFilters/AsideFilter";
 
-const MediaCardDynamic = dynamic(
-  () => import("./MediaCard/MediaCard"),
-  {
-    loading: () => <Container />,
-  }
-);
+const MediaCardDynamic = dynamic(() => import("./MediaCard/MediaCard"));
 
 const Movies = () => {
   const [movieData, setMovieData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [nextPage, setNext] = useState(() => {
     if (typeof window !== "undefined") {
@@ -27,14 +24,21 @@ const Movies = () => {
     return 1;
   });
 
+
+  
   useEffect(() => {
     const getDataMovie = async () => {
+      setLoading(true);
       try {
         const response = await fetch(`/api/movies?page=${nextPage}`);
         const { results } = await response.json();
         setMovieData(results);
+        setLoading(false);
       } catch (error) {
         setError(error);
+        setMovieData([]);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -53,12 +57,17 @@ const Movies = () => {
     setNext(nextPage - 1);
   };
 
+  if (loading) {
+    return <Container />;
+  }
+
   if (error) {
     return <Error message={"ocurrio un error de parte de nosotros :("} />;
   }
 
   return (
     <>
+      {/* <AsideFilter /> */}
       {/* contedor de peliculas */}
       <motion.div
         className="contenedor"
