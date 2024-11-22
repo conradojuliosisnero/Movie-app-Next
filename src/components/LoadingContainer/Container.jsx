@@ -2,7 +2,7 @@ import "./container.css";
 
 export default function Container() {
   return (
-    <div className="esqueleton_contenedor">
+    <div className="container">
       {Array.from({ length: 10 }).map((index) => (
         <div className="pelicula" key={index}>
           <div className="contend__poster">

@@ -14,9 +14,17 @@ const ModalVideo = ({ id }) => {
 
   useEffect(() => {
     const getVideos = async () => {
+            const OPTIONS = {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+              credentials: "include",
+            };
       setLoading(true);
       try {
-        const response = await fetch(`/api/movies/trailer?id=${id}`);
+        const response = await fetch(`/api/movies/trailer?id=${id}`, OPTIONS);
         const data = await response.json();
         setKeyVideoMovie(data);
       } catch (error) {

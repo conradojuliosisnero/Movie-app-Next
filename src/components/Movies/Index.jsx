@@ -29,8 +29,16 @@ const Movies = () => {
   useEffect(() => {
     const getDataMovie = async () => {
       setLoading(true);
+      const OPTIONS = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        credentials: "include",
+      };
       try {
-        const response = await fetch(`/api/movies?page=${nextPage}`);
+        const response = await fetch(`/api/movies?page=${nextPage}`, OPTIONS);
         const { results } = await response.json();
         setMovieData(results);
         setLoading(false);

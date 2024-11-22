@@ -10,24 +10,26 @@ import { useSelector } from "react-redux";
 import { container, item } from "./animation";
 import "./movies.scss";
 
-const MediaCardDynamic = dynamic(
-  () => import("./MediaCard/MediaCard"),
-  {
-    loading: () => <Container />,
-  }
-);
+const MediaCardDynamic = dynamic(() => import("./MediaCard/MediaCard"), {
+  loading: () => <Container />,
+});
 
 export default function SearchPage() {
   const [resultSearch, setResultSearch] = useState([]);
-  // const [dataSearch, setDataSearch] = useState([]);
-  // const [genderFiltered, setGenderFiltered] = useState([]);
-  // const [valueGender, setValueGender] = useState("");
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const getTranfingAll = async () => {
+      const OPTIONS = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        credentials: "include",
+      };
       try {
-        const response = await fetch(`/api/tranding`);
+        const response = await fetch(`/api/tranding`, OPTIONS);
         if (response.status !== 200) {
           throw new Error("Error al obtener los datos");
         }
@@ -44,29 +46,11 @@ export default function SearchPage() {
   // redux
   const movieSearchSlice = useSelector((state) => state.searchMovie.search);
 
-  console.log("moviesearchSlice",movieSearchSlice);
-
-  // let result = [];
-  // if (!movieSearchSlice && !valueGender) {
-  //   result = resultSearch;
-  // } else if (!movieSearchSlice && valueGender) {
-  //   result = genderFiltered.results;
-  // } else if (movieSearchSlice && !valueGender) {
-  //   result = movieSearchSlice?.results?.filter((movie) => movie.title.toLowerCase());
-  // } else {
-  //   result = dataSearch.results
-  //     .filter((movie) =>
-  //       movie.title.toLowerCase().includes(search.toLowerCase())
-  //     )
-  //     .filter((movie) => movie.genre_ids.includes(valueGender));
-  // }
-
   let result = [];
-
   if (!movieSearchSlice.length > 0) {
     result = resultSearch.slice(0, 10);
   } else if (movieSearchSlice.length > 0) {
-    result = movieSearchSlice;  
+    result = movieSearchSlice;
   }
 
   if (error) {

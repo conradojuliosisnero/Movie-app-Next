@@ -9,7 +9,7 @@ export default function HomePage() {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch("/api/home");
+      const response = await fetch("/api/login");
       const data = await response.json();
       setData(data);
     }

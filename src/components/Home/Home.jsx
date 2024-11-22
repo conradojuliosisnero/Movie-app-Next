@@ -9,8 +9,9 @@ const PopularMoviesSlider = dynamic(() =>
   import("@/components/AutoPlaySlaider/Slaider")
 );
 
-const WelcomeDynamic = dynamic(
-  () => import("@/components/WelcomeHome/Welcome"));
+const WelcomeDynamic = dynamic(() =>
+  import("@/components/WelcomeHome/Welcome")
+);
 
 const BentoMovies = dynamic(() => import("@/components/BentoMovies/Index"));
 const BentoSeries = dynamic(() => import("@/components/BentoSeries/Index"));
@@ -19,7 +20,7 @@ const PopularSeriesDynamic = dynamic(() =>
   import("@/components/Popular/PopularSeries")
 );
 
-const Home = ()=> {
+const Home = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [seriesData, setDataSeries] = useState([]);
@@ -27,10 +28,18 @@ const Home = ()=> {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
+      const OPTIONS = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        credentials: "include",
+      };
       try {
         const [moviesHome, seriesHome] = await Promise.all([
-          fetch("/api/home"),
-          fetch("/api/series?page=1"),
+          fetch("/api/home",OPTIONS),
+          fetch("/api/series?page=1",OPTIONS),
         ]);
 
         if (!moviesHome.ok || !seriesHome.ok) {
@@ -43,7 +52,7 @@ const Home = ()=> {
         setLoading(false);
       } catch (error) {
         toast.error("Error al cargar los datos");
-      }finally{
+      } finally {
         setLoading(false);
       }
     };
@@ -51,8 +60,8 @@ const Home = ()=> {
     fetchData();
   }, []);
 
-  if (loading) { 
-    return <SkeletonHome/>;
+  if (loading) {
+    return <SkeletonHome />;
   }
 
   return (
@@ -75,6 +84,6 @@ const Home = ()=> {
       </div>
     </main>
   );
-}
+};
 
 export default dynamic(() => Promise.resolve(Home));

@@ -15,8 +15,16 @@ const Casting = ({ id }) => {
 
   useEffect(() => {
     const getMovieCasting = async () => {
+            const OPTIONS = {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+              credentials: "include",
+            };
       try {
-        const response = await fetch(`/api/movies/elenco?id=${id}`);
+        const response = await fetch(`/api/movies/elenco?id=${id}`, OPTIONS);
         const data = await response.json();
         setCasting(data);
       } catch (error) {

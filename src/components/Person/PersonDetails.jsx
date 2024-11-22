@@ -15,8 +15,16 @@ export default function PersonDetails({ id }) {
   useEffect(() => {
     const getPersonDetails = async () => {
       setIsLoading(true);
+      const OPTIONS = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        credentials: "include",
+      };
       try {
-        const response = await fetch(`/api/person/${id}`);
+        const response = await fetch(`/api/person/${id}`, OPTIONS);
         const data = await response.json();
         setDetails(data);
         setIsLoading(false);

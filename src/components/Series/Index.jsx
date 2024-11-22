@@ -26,8 +26,19 @@ export default function Series() {
   useEffect(() => {
     const getSeries = async () => {
       setLoading(true);
+      const OPTIONS = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        credentials: "include",
+      };
       try {
-        const response = await fetch(`/api/series?page=${nextPageSerie}`);
+        const response = await fetch(
+          `/api/series?page=${nextPageSerie}`,
+          OPTIONS
+        );
         const data = await response.json();
         setSerieData(data);
         setLoading(false);

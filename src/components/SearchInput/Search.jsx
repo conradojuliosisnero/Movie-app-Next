@@ -27,7 +27,18 @@ const Search = () => {
         position: "bottom-center",
       });
       try {
-        const response = await fetch(`/api/movies/searcher?value=${search}`);
+        const OPTIONS = {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          credentials: "include",
+        };
+        const response = await fetch(
+          `/api/movies/searcher?value=${search}`,
+          OPTIONS
+        );
         if (response.status !== 200) {
           setError("Error al obtener las peliculas");
         }

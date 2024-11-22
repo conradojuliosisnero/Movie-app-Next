@@ -9,8 +9,16 @@ export default function WatchSerie({ id }) {
 
   useEffect(() => {
     const getWatch = async () => {
+            const OPTIONS = {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+              credentials: "include",
+            };
       try {
-        const response = await fetch(`/api/series/watch?id=${id}`);
+        const response = await fetch(`/api/series/watch?id=${id}`,OPTIONS);
         const data = await response.json();
         setWatch(Array.isArray(data) ? data : data.results || []);
       } catch (error) {
