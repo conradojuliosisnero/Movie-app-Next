@@ -1,45 +1,19 @@
-"use client";
 import Image from "next/image";
+// import icon from "./icon.module.css";
+import { useState } from "react";
+import { logout } from "@/firebase/servicesFirebase";
 import "./avatar.css";
 import userIconSvg from "@/assets/user.svg";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
-import Cookies from "js-cookie";
 
 export const AvatarMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [userEmail, setUserEmail] = useState(null);
-  const [userImage, setUserImage] = useState(null);
 
   const router = useRouter();
 
-  useEffect(() => {
-    // Obtener el email de la cookie
-    const email = Cookies.get("userEmail");
-    if (email) {
-      setUserEmail(email);
-    }
-  }, []);
-
   const handleLogout = async () => {
-    const OPTIONS = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    };
-    try {
-      const res = await fetch("/api/auth/logout", OPTIONS);
-      if (res.ok) {
-        Cookies.remove("userEmail");
-        Cookies.remove("firebaseToken");
-        setUserEmail(null);
-        router.push("/");
-      }
-    } catch (error) {
-      console.error("Error during logout:", error);
-    }
+    await logout();
+    setIsMenuOpen(false);
   };
 
   function cutname(str) {
@@ -50,10 +24,10 @@ export const AvatarMenu = () => {
   return (
     <div className="avatar-container">
       <button className="avatar-button" onClick={() => setIsOpen(!isOpen)}>
-        {userImage ? (
+        {userData?.photoURL ? (
           <Image
-            src={userImage || userIconSvg}
-            alt={"user-icon"}
+            src={userData.photoURL ? userData.photoURL : userIconSvg}
+            alt={userData.displayName || "user-icon"}
             width={100}
             height={100}
             priority={true}
@@ -62,8 +36,8 @@ export const AvatarMenu = () => {
           />
         ) : (
           <div className="avatar-fallback">
-            {userEmail?.charAt(0).toUpperCase()}
-            {/* // userData?.email?.charAt(0).toUpperCase()} */}
+            {userData?.displayName?.charAt(0).toUpperCase() ||
+              userData?.email?.charAt(0).toUpperCase()}
           </div>
         )}
       </button>
@@ -74,7 +48,7 @@ export const AvatarMenu = () => {
           <div className="menu-item">
             <span className="user-icon">👤</span>
             <span onClick={() => router.push("/profile")}>
-              {cutname(userEmail)}
+              {cutname(userData?.displayName || userData?.email)}
             </span>
           </div>
           <button

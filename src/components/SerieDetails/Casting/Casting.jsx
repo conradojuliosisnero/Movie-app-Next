@@ -13,16 +13,8 @@ export default function Casting({ id }) {
 
   useEffect(() => {
     const fetchCasting = async () => {
-            const OPTIONS = {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-              },
-              credentials: "include",
-            };
       try {
-        const response = await fetch(`/api/series/elenco?id=${id}`,OPTIONS);
+        const response = await fetch(`/api/series/elenco?id=${id}`);
         const data = await response.json();
         setResult(data);
       } catch (error) {

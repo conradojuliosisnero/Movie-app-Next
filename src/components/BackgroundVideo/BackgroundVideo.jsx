@@ -24,34 +24,23 @@ const BackgroundVideo = ({ id, videoView, setVideoView }) => {
       return;
     }
     // Obtener video de la película despues de 5 segundos
-    const getVideos = async () => {
-      const OPTIONS = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        credentials: "include",
+      const getVideos = async () => {
+        switch (pathname) {
+          case "/home":
+            try {
+              const response = await fetch(`/api/movies/trailer?id=${id}`);
+              const data = await response.json();
+              setKeyVideoMovie(data);
+            } catch (error) {
+              console.error(error);
+            }
+            break;
+          default:
+            break;
+        }
       };
-      switch (pathname) {
-        case "/home":
-          try {
-            const response = await fetch(
-              `/api/movies/trailer?id=${id}`,
-              OPTIONS
-            );
-            const data = await response.json();
-            setKeyVideoMovie(data);
-          } catch (error) {
-            console.error(error);
-          }
-          break;
-        default:
-          break;
-      }
-    };
-    getVideos();
-    setVideoView(true);
+      getVideos();
+      setVideoView(true);
     // resize del modal de video
     const handleResize = () => {
       setWindowWidth(window.innerWidth);

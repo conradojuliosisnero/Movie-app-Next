@@ -9,16 +9,8 @@ export function useSerieDetails(id) {
   useEffect(() => {
     const fetchDetails = async () => {
       setLoading(true);
-      const OPTIONS = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        credentials: "include",
-      };
       try {
-        const response = await fetch(`/api/series/details?id=${id}`, OPTIONS);
+        const response = await fetch(`/api/series/details?id=${id}`);
         if (!response.ok) {
           throw new Error("Error al obtener los detalles");
         }

@@ -11,19 +11,8 @@ export default function Recommendation({ id }) {
 
   useEffect(() => {
     const getSerieRecomendation = async () => {
-      const OPTIONS = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        credentials: "include",
-      };
       try {
-        const response = await fetch(
-          `/api/series/recomendation?id=${id}`,
-          OPTIONS
-        );
+        const response = await fetch(`/api/series/recomendation?id=${id}`);
         const data = await response.json();
         setResult(data);
       } catch (error) {

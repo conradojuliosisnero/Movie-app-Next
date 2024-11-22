@@ -3,8 +3,13 @@ import styles from "./season.module.css";
 import Image from "next/image";
 import notFound from "../../../../public/image-no-found.svg";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Season({ detailSeason ,idSeason}) {
+
+  const router = useRouter()
+
+
   return (
     <div className={styles.seasonContainer}>
       {detailSeason?.map((season) => (
@@ -24,6 +29,7 @@ export default function Season({ detailSeason ,idSeason}) {
               quality={30}
               width={100}
               height={100}
+              // onClick={() => handlerSeason(season.season_number, season.id)}
             />
             <div className="contend__season">
               <Link

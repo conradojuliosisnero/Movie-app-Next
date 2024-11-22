@@ -12,16 +12,8 @@ export default function BentoMovies({ data, name }) {
 
   useEffect(() => {
     const getCategoria = async () => {
-      const OPTIONS = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        credentials: "include",
-      };
       try {
-        const res = await fetch("/api/movies/gender", OPTIONS);
+        const res = await fetch("/api/movies/gender");
         const { genres } = await res.json();
         setCategoria(genres);
       } catch (error) {
@@ -55,15 +47,8 @@ export default function BentoMovies({ data, name }) {
               onClick={() => router.push(`/movie-details/${pelicula.id}`)}
             />
             <div className="pelicula-info">
-              <a
-                className="pelicula-titulo"
-                href={`/movie-details/${pelicula.id}`}
-              >
-                {pelicula.original_title}
-              </a>
-              <p className="pelicula-genero">
-                {filterGenderMovie(pelicula.genre_ids)}
-              </p>
+              <a className="pelicula-titulo"  href={`/movie-details/${pelicula.id}`}>{pelicula.original_title}</a>
+              <p className="pelicula-genero">{filterGenderMovie(pelicula.genre_ids)}</p>
             </div>
           </div>
         ))}

@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-// import { ContextAuthProvider } from "@/context/AuthContext";
+import { ContextAuthProvider } from "@/context/AuthContext";
 import { Toaster } from "react-hot-toast";
 import ReduxProvider from "@/layouts/ReduxProvider";
 
@@ -14,6 +14,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
+      <ContextAuthProvider>
         <body className={inter.className}>
           <Toaster
             position="top-center"
@@ -42,6 +43,7 @@ export default function RootLayout({ children }) {
           />
           <ReduxProvider>{children}</ReduxProvider>
         </body>
+      </ContextAuthProvider>
     </html>
   );
 }

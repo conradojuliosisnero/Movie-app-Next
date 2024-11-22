@@ -10,16 +10,8 @@ export default function ModalVideo({ id }) {
 
   useEffect(() => {
     const getVideos = async () => {
-            const OPTIONS = {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-              },
-              credentials: "include",
-            };
       try {
-        const response = await fetch(`/api/series/trailer?id=${id}`, OPTIONS);
+        const response = await fetch(`/api/series/trailer?id=${id}`);
         const data = await response.json();
         setKeyVideoSerie(data);
       } catch (error) {

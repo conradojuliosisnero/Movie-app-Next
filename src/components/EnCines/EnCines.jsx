@@ -25,16 +25,8 @@ export default function Now() {
   useEffect(() => {
     const getMovies = async () => {
       setLoading(true);
-      const OPTIONS = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        credentials: "include",
-      };
       try {
-        const response = await fetch(`/api/movies/now?page=${nextPage}`, OPTIONS);
+        const response = await fetch(`/api/movies/now?page=${nextPage}`);
         const data = await response.json();
         if (response.status !== 200) {
           throw new Error("Error al obtener los datos");
@@ -64,7 +56,7 @@ export default function Now() {
     setNext(nextPage - 1);
   };
 
-  if (loading) {
+  if (loading) { 
     return <Container />;
   }
 
