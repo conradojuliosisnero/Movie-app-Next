@@ -1,7 +1,7 @@
 "use client";
 import styles from "./profile.module.css";
 import { useContext } from "react";
-import AuthContext from "@/context/AuthContext";
+// import AuthContext from "@/context/AuthContext";
 import Image from "next/image";
 
 const PerfilUsuario = () => {

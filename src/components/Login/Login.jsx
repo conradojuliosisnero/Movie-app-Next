@@ -6,11 +6,11 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { useState } from "react";
 import "./login.css";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [toggle, setToggle] = useState(true);
-
 
   // react hook form
   const {
@@ -18,6 +18,8 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const router = useRouter();
 
   const objectEmail = {
     name: "email",
@@ -41,38 +43,31 @@ export default function Login() {
     },
   };
 
-  const submitUserInfo = handleSubmit(async (data) => { 
+  const submitUserInfo = handleSubmit(async (data) => {
     try {
       const OPTIONS = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json",
         },
+        include: "credentials",
         body: JSON.stringify(data),
+      };
+      const response = await fetch("/api/auth/login", OPTIONS);
+      if (response.ok) {
+        const { message } = await response.json();
+        toast.success(message);
+        window.location.href = "/home";
+        // router.push("/home");
+      } else {
+        const { error } = await response.json();
+        toast.error(error);
       }
-      const response = await fetch("/api/auth/login/login")
     } catch (error) {
-      
+      toast.error("Error al iniciar sesión");
     }
   });
-
-  // const submitUserInfo = handleSubmit(async (data) => {
-  //   try {
-  //     const response = await (toggle
-  //       ? singInWithEmailAndPassword(data.email, data.password)
-  //       : registerUserWithEmailAndPassword(data.email, data.password));
-
-  //     if (response) {
-  //       toast(response, {
-  //         icon: "🎬",
-  //       });
-  //     }
-  //   } catch (error) {
-  //     const errorMessage =
-  //       FIREBASE_ERRORS[error.code] || FIREBASE_ERRORS["default"];
-  //     toast.error(errorMessage);
-  //   }
-  // });
 
   // Login with Google
   const loginWithGoogle = async () => {
@@ -154,7 +149,11 @@ export default function Login() {
         {/* SESSION BY GOOGLE  */}
         <p className="p line">O inicia sesión con</p>
         <div className="flex-row">
-          <button type="button" className="btn google" onClick={loginWithGoogle}>
+          <button
+            type="button"
+            className="btn google"
+            onClick={loginWithGoogle}
+          >
             <GoogleSvg />
             Google
           </button>

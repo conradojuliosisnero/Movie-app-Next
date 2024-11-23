@@ -1,7 +1,7 @@
 import app from "./firebase";
 import {
   getAuth,
-  signInWithEmailAndPassword,
+  signInWithEmailAndPassword as firebaseSignInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
   signInWithPopup,
@@ -17,15 +17,19 @@ const googleAuthProvider = new GoogleAuthProvider();
 
 // Funciones para el manejo de la autenticación
 // Logica de autenticación
-export async function singInWithEmailAndPassword(email, password) {
+export async function signInWithEmailAndPassword(email, password) {
   try {
-    const response = await signInWithEmailAndPassword(auth, email, password);
-    localStorage.setItem("isLoggedIn", "true");
+    const response = await firebaseSignInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    console.log("FIREBASE RESPONSE:", response);
     return response;
   } catch (error) {
     const errorMessage =
       FIREBASE_ERRORS[error.code] || FIREBASE_ERRORS["default"];
-    return errorMessage;
+    throw new Error(errorMessage);
   }
 }
 
@@ -63,8 +67,6 @@ export async function signInWithGoogle() {
 export async function logout() {
   try {
     await signOut(auth);
-    localStorage.removeItem("isLoggedIn");
-    window.location.href = "/";
     return {
       success: true,
       message: "Logout successful",
