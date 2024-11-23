@@ -12,8 +12,16 @@ export default function BentoMovies({ data, name }) {
 
   useEffect(() => {
     const getCategoria = async () => {
+      const OPTIONS = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        include: "credentials",
+      };
       try {
-        const res = await fetch("/api/movies/gender");
+        const res = await fetch("/api/movies/gender",OPTIONS);
         const { genres } = await res.json();
         setCategoria(genres);
       } catch (error) {

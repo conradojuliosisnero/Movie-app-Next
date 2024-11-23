@@ -10,6 +10,12 @@ import { colors, formatDate } from "@/utils/utils";
 import { useSerieDetails } from "@/hooks/useSerieDetails";
 import LoadingSkeleton from "../Skeleton/Skeleton";
 
+const Season = dynamic(() => import("./Season/Season"));
+const Recommendation = dynamic(() => import("./Recommendation/Recommendation"));
+const Casting = dynamic(() => import("./Casting/Casting"));
+const ModalVideo = dynamic(() => import("./ModalVideo/ModalVideo"));
+const Watch = dynamic(() => import("./WatchSeries/Watch"));
+
 export default function SerieDetails({ id }) {
 
   // hook for get movie details
@@ -123,8 +129,3 @@ export default function SerieDetails({ id }) {
   );
 }
 
-const Season = dynamic(() => import("./Season/Season"));
-const Recommendation = dynamic(() => import("./Recommendation/Recommendation"));
-const Casting = dynamic(() => import("./Casting/Casting"));
-const ModalVideo = dynamic(() => import("./ModalVideo/ModalVideo"));
-const Watch = dynamic(() => import("./WatchSeries/Watch"));

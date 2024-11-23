@@ -13,7 +13,7 @@ import {
 import { FIREBASE_ERRORS } from "./firebaseErrors";
 
 export const auth = getAuth(app);
-const googleAuthProvider = new GoogleAuthProvider();
+export const googleAuthProvider = new GoogleAuthProvider();
 
 // Funciones para el manejo de la autenticación
 // Logica de autenticación

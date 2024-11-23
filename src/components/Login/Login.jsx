@@ -58,8 +58,7 @@ export default function Login() {
       if (response.ok) {
         const { message } = await response.json();
         toast.success(message);
-        window.location.href = "/home";
-        // router.push("/home");
+        router.push("/home");
       } else {
         const { error } = await response.json();
         toast.error(error);
@@ -71,22 +70,31 @@ export default function Login() {
 
   // Login with Google
   const loginWithGoogle = async () => {
-    toast.loading("Iniciando sesión con Google...");
+    const googleLogin = await signInWithGoogle();
+    const token = await googleLogin.user.getIdToken();
+    const email = await googleLogin.user.email;
+    const name = await googleLogin.user.displayName;
+    const photo = await googleLogin.user.photoURL;
     try {
-      const response = await signInWithGoogle();
-      if (response) {
-        setIsLoggedIn(true);
-        localStorage.setItem("isLoggedIn", "true");
-      } else if (typeof response === "string") {
-        toast.error("Error al iniciar sesión con Google");
-        setIsLoggedIn(false);
+      const OPTIONS = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ email: email, token: token, name: name, photo: photo }),
+      }
+      const response = await fetch("/api/auth/google", OPTIONS)
+      if (response.ok) {
+        const { message } = await response.json();
+        toast.success(message);
+        router.push("/home");
+      } else {
+        const { error } = await response.json();
       }
     } catch (error) {
-      const errorMessage =
-        FIREBASE_ERRORS[error.code] || FIREBASE_ERRORS["default"];
-      toast.error(errorMessage);
-    } finally {
-      toast.dismiss();
+      toast.error("Error al iniciar sesión con Google");
     }
   };
 

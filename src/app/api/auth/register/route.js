@@ -1,13 +1,16 @@
-import { signInWithEmailAndPassword } from "@/firebase/servicesFirebase";
 import { NextResponse } from "next/server";
+import { registerUserWithEmailAndPassword } from "@/firebase/servicesFirebase";
+
 export async function POST(req) {
-  const { email, password } = await req.json();
+  const { email, password } = req.json();
   try {
-    const userCredential = await signInWithEmailAndPassword(email, password);
+    const userCredential = await registerUserWithEmailAndPassword(
+      email,
+      password
+    );
     const token = await userCredential.user.getIdToken();
-    // Crear respuesta
     const response = NextResponse.json(
-      { message: "Login successful" },
+      { message: "User registered successfully" },
       { status: 200 }
     );
 
@@ -34,6 +37,9 @@ export async function POST(req) {
     });
     return response;
   } catch (error) {
-    return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+    return NextResponse.json(
+      { error: "Error al registrarte" },
+      { status: 500 }
+    );
   }
 }

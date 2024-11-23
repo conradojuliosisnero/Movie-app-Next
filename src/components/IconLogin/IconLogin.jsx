@@ -10,14 +10,23 @@ export const AvatarMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [userEmail, setUserEmail] = useState(null);
   const [userImage, setUserImage] = useState(null);
+  const [userName, setUserName] = useState(null);
 
   const router = useRouter();
 
   useEffect(() => {
     // Obtener el email de la cookie
     const email = Cookies.get("userEmail");
-    if (email) {
+    const photo = Cookies.get("userPhoto");
+    const userName = Cookies.get("userName");
+    if (email && photo) {
       setUserEmail(email);
+      setUserImage(photo);
+      setUserName(null);
+    } else if (email && userName) {
+      setUserEmail(email);
+      setUserName(userName);
+      setUserImage(null);
     }
   }, []);
 
@@ -36,14 +45,11 @@ export const AvatarMenu = () => {
         // Eliminar cookies usando path y domain correctos
         Cookies.remove("userEmail", { path: "/" });
         Cookies.remove("firebaseToken", { path: "/" });
-        
         setUserEmail(null);
-        
         // Esperar un momento antes de redirigir
         await new Promise(resolve => setTimeout(resolve, 100));
-        
         // Redirigir
-        window.location.href = "/";
+        router.push("/");
       }
     } catch (error) {
       console.error("Error during logout:", error);
