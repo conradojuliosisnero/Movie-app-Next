@@ -17,7 +17,7 @@ export default function HomePage() {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        credentials: "include",
+        include: "credentials",
       };
       const response = await fetch("/api/login", OPTIONS);
       const data = await response.json();
