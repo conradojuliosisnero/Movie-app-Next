@@ -47,5 +47,12 @@ export const updates = [
     content:
       "Se ah restaurado el buscador, gracias por su paciencia, se añadiran los filtros en la siguiente actualizacion",
     type: "fix",
-  }
+  },
+  {
+    id: 9,
+    date: "2024-11-24",
+    content:
+      "Se añadio actualizo la proteccion de rutas, ahora se requiere autenticacion para acceder a las rutas protegidas corrigiendo un error del parpadeo",
+    type: "feature",
+  },
 ];
