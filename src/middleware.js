@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 // Rutas públicas que no requieren autenticación
 const publicRoutes = [
   "/",
+  "/api/login",
   "/verify-email",
   "/forgot-password",
   "/api/auth/login",
