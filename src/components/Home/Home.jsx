@@ -27,10 +27,18 @@ const Home = ()=> {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
+      const OPTIONS = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        credentials: "include",
+      };
       try {
         const [moviesHome, seriesHome] = await Promise.all([
-          fetch("/api/home"),
-          fetch("/api/series?page=1"),
+          fetch("/api/home",OPTIONS),
+          fetch("/api/series?page=1",OPTIONS),
         ]);
 
         if (!moviesHome.ok || !seriesHome.ok) {

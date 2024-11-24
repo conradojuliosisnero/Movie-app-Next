@@ -26,15 +26,22 @@ const Search = () => {
         duration: 3000,
         position: "bottom-center",
       });
+            const OPTIONS = {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+              include: "credentials",
+            };
       try {
-        const response = await fetch(`/api/movies/searcher?value=${search}`);
+        const response = await fetch(`/api/movies/searcher?value=${search}`, OPTIONS);
         if (response.status !== 200) {
-          setError("Error al obtener las peliculas");
+          throw new Error("Error al obtener los datos");
         }
         const { results } = await response.json();
         dispatch(searchMovie(results));
       } catch (error) {
-        setError("Error al obtener las peliculas");
         toast.error("Error al obtener las peliculas");
       }
     } else {

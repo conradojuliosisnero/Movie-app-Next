@@ -31,7 +31,7 @@ export default function Welcome({ dataMovieHome }) {
     return () => window.removeEventListener("resize", updateWindowWidth);
   }, [windowWidth]);
 
-  const MOVIEHOME = dataMovieHome.slice(0, 1)[0] || null;
+  const MOVIEHOME = dataMovieHome.slice(0, 1)[0] || [];
   const router = useRouter();
 
   const handlerVideoView = () => {
@@ -58,7 +58,7 @@ export default function Welcome({ dataMovieHome }) {
                   alt={MOVIEHOME ? MOVIEHOME.title : "image-welcome"}
                   width={1280}
                   height={720}
-                  priority={true}
+                  priority={false}
                   quality={30}
                 />
               </motion.div>

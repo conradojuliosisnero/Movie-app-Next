@@ -9,8 +9,16 @@ export default function WatchSerie({ id }) {
 
   useEffect(() => {
     const getWatch = async () => {
+      const OPTIONS = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        include: "credentials",
+      };
       try {
-        const response = await fetch(`/api/series/watch?id=${id}`);
+        const response = await fetch(`/api/series/watch?id=${id}`, OPTIONS);
         const data = await response.json();
         setWatch(Array.isArray(data) ? data : data.results || []);
       } catch (error) {
@@ -32,7 +40,7 @@ export default function WatchSerie({ id }) {
         <span>Ver en </span>
       </div>
       <div className={styles.cards}>
-        {watch?.map((icon,index) => (
+        {watch?.map((icon, index) => (
           <div key={index} className={styles.cardWatch}>
             <span key={icon.provider_id} className={styles.cardWatchTitle}>
               {icon.provider_name}
