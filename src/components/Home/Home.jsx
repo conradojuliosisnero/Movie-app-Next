@@ -1,21 +1,16 @@
 "use client";
 import styles from "@/app/page.module.css";
 import dynamic from "next/dynamic";
-import Squeleton from "../WelcomeHome/Squeleton";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import SkeletonHome from "./SkeletonHome";
 
-const AutoPlaySlaiderDynamic = dynamic(() =>
+const PopularMoviesSlider = dynamic(() =>
   import("@/components/AutoPlaySlaider/Slaider")
 );
 
 const WelcomeDynamic = dynamic(
-  () => import("@/components/WelcomeHome/Welcome"),
-  {
-    loading: () => <SkeletonHome />,
-  }
-);
+  () => import("@/components/WelcomeHome/Welcome"));
 
 const BentoMovies = dynamic(() => import("@/components/BentoMovies/Index"));
 const BentoSeries = dynamic(() => import("@/components/BentoSeries/Index"));
@@ -26,14 +21,24 @@ const PopularSeriesDynamic = dynamic(() =>
 
 const Home = ()=> {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [seriesData, setDataSeries] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
+      const OPTIONS = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        credentials: "include",
+      };
       try {
         const [moviesHome, seriesHome] = await Promise.all([
-          fetch("/api/home"),
-          fetch("/api/series?page=1"),
+          fetch("/api/home",OPTIONS),
+          fetch("/api/series?page=1",OPTIONS),
         ]);
 
         if (!moviesHome.ok || !seriesHome.ok) {
@@ -43,13 +48,20 @@ const Home = ()=> {
         const dataSeries = await seriesHome.json();
         setData(data);
         setDataSeries(dataSeries);
+        setLoading(false);
       } catch (error) {
         toast.error("Error al cargar los datos");
+      }finally{
+        setLoading(false);
       }
     };
 
     fetchData();
   }, []);
+
+  if (loading) { 
+    return <SkeletonHome/>;
+  }
 
   return (
     <main className={styles.name}>
@@ -60,7 +72,7 @@ const Home = ()=> {
         <BentoMovies data={data} name="Peliculas" />
       </div>
       <div className={styles.topMoviesContainer}>
-        <AutoPlaySlaiderDynamic dataMovies={data} />
+        <PopularMoviesSlider dataMovies={data} />
       </div>
       <div className={styles.topMoviesContainer}>
         <BentoSeries data={seriesData} name="Series" />

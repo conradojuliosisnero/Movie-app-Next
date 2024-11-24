@@ -1,24 +1,16 @@
 "use client";
-import "./login.css";
 import { GoogleSvg, EyeSvg, LockSvg, EmailSvg } from "@/assets/svg";
-import { useEffect, useState } from "react";
-import {
-  singInWithEmailAndPassword,
-  registerUserWithEmailAndPassword,
-} from "@/firebase/servicesFirebase";
-import { useRouter } from "next/navigation";
-import { FIREBASE_ERRORS } from "@/firebase/firebaseErrors";
+// import { FIREBASE_ERRORS } from "@/firebase/firebaseErrors";
 import { signInWithGoogle } from "@/firebase/servicesFirebase";
-import { useContext } from "react";
-import AuthContext from "@/context/AuthContext";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { useState } from "react";
+import "./login.css";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [toggle, setToggle] = useState(true);
-
-  const { setIsLoggedIn } = useContext(AuthContext);
 
   // react hook form
   const {
@@ -26,6 +18,8 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const router = useRouter();
 
   const objectEmail = {
     name: "email",
@@ -51,40 +45,68 @@ export default function Login() {
 
   const submitUserInfo = handleSubmit(async (data) => {
     try {
-      const response = await (toggle
-        ? singInWithEmailAndPassword(data.email, data.password)
-        : registerUserWithEmailAndPassword(data.email, data.password));
-
-      if (response) {
-        toast(response, {
-          icon: "🎬",
-        });
+      const URL = toggle ? "/api/auth/login" : "/api/auth/register";
+      const OPTIONS = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(data),
+      };
+      console.log("URL:", URL);
+      console.log("OPTIONS:", OPTIONS);
+      const response = await fetch(
+        URL,
+        OPTIONS
+      );
+      if (response.ok) {
+        const { message } = await response.json();
+        toast.success(message);
+        router.push("/home");
+      } else {
+        const { error } = await response.json();
+        toast.error(error);
       }
     } catch (error) {
-      const errorMessage =
-        FIREBASE_ERRORS[error.code] || FIREBASE_ERRORS["default"];
-      toast.error(errorMessage);
+      toast.error("Error al iniciar sesión");
     }
   });
 
   // Login with Google
   const loginWithGoogle = async () => {
-    toast.loading("Iniciando sesión con Google...");
+    const googleLogin = await signInWithGoogle();
+    const token = await googleLogin.user.getIdToken();
+    const email = await googleLogin.user.email;
+    const name = await googleLogin.user.displayName;
+    const photo = await googleLogin.user.photoURL;
     try {
-      const response = await signInWithGoogle();
-      if (response) {
-        setIsLoggedIn(true);
-        localStorage.setItem("isLoggedIn", "true");
-      } else if (typeof response === "string") {
-        toast.error("Error al iniciar sesión con Google");
-        setIsLoggedIn(false);
+      const OPTIONS = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          email: email,
+          token: token,
+          name: name,
+          photo: photo,
+        }),
+      };
+      const response = await fetch("/api/auth/google", OPTIONS);
+      if (response.ok) {
+        const { message } = await response.json();
+        toast.success(message);
+        router.push("/home");
+      } else {
+        const { error } = await response.json();
+        toast.error(error);
       }
     } catch (error) {
-      const errorMessage =
-        FIREBASE_ERRORS[error.code] || FIREBASE_ERRORS["default"];
-      toast.error(errorMessage);
-    } finally {
-      toast.dismiss();
+      toast.error("Error al iniciar sesión con Google");
     }
   };
 
@@ -147,7 +169,11 @@ export default function Login() {
         {/* SESSION BY GOOGLE  */}
         <p className="p line">O inicia sesión con</p>
         <div className="flex-row">
-          <button type="button" className="btn google" onClick={loginWithGoogle}>
+          <button
+            type="button"
+            className="btn google"
+            onClick={loginWithGoogle}
+          >
             <GoogleSvg />
             Google
           </button>

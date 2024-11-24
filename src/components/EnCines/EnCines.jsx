@@ -8,12 +8,11 @@ import { container, item } from "./animation";
 import Error from "@/components/Error/Error";
 import "./encines.scss";
 
-const MediaCardDynamic = dynamic(() => import("./MediaCard/MediaCard"), {
-  loading: () => <Container />,
-});
+const MediaCardDynamic = dynamic(() => import("./MediaCard/MediaCard"));
 
 export default function Now() {
   const [nowMovies, setNowMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [nextPage, setNext] = useState(() => {
     if (typeof window !== "undefined") {
@@ -25,15 +24,31 @@ export default function Now() {
 
   useEffect(() => {
     const getMovies = async () => {
+      setLoading(true);
+      const OPTIONS = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        include: "credentials",
+      };
       try {
-        const response = await fetch(`/api/movies/now?page=${nextPage}`);
+        const response = await fetch(
+          `/api/movies/now?page=${nextPage}`,
+          OPTIONS
+        );
         const data = await response.json();
         if (response.status !== 200) {
           throw new Error("Error al obtener los datos");
         }
         setNowMovies(data);
+        setLoading(false);
       } catch (error) {
         setError(error);
+        setNowMovies([]);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -51,6 +66,10 @@ export default function Now() {
   const handlerPrevMovie = () => {
     setNext(nextPage - 1);
   };
+
+  if (loading) {
+    return <Container />;
+  }
 
   if (error) {
     return <Error message={"ocurrio un error de parte de nosotros :("} />;

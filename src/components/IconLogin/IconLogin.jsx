@@ -1,18 +1,62 @@
+"use client";
 import Image from "next/image";
-// import icon from "./icon.module.css";
-import { useContext, useState } from "react";
-import AuthContext from "@/context/AuthContext";
-import { logout } from "@/firebase/servicesFirebase";
 import "./avatar.css";
 import userIconSvg from "@/assets/user.svg";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
 export const AvatarMenu = () => {
-  const { userData } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
+  const [userEmail, setUserEmail] = useState(null);
+  const [userImage, setUserImage] = useState(null);
+  const [userName, setUserName] = useState(null);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    // Obtener el email de la cookie
+    const email = Cookies.get("userEmail");
+    const photo = Cookies.get("userPhoto");
+    const userName = Cookies.get("userName");
+    console.log("Email:", email);
+    if (email && photo) {
+      setUserEmail(email);
+      setUserImage(photo);
+      setUserName(null);
+    } else if (email && userName) {
+      setUserEmail(email);
+      setUserName(userName);
+      setUserImage(null);
+    } else {
+      setUserEmail(email);
+    }
+  }, []);
 
   const handleLogout = async () => {
-    await logout();
-    setIsMenuOpen(false);
+    const OPTIONS = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      credentials: "include",
+    };
+    try {
+      const res = await fetch("/api/auth/logout", OPTIONS);
+      if (res.ok) {
+        // Eliminar cookies usando path y domain correctos
+        Cookies.remove("userEmail", { path: "/" });
+        Cookies.remove("firebaseToken", { path: "/" });
+        setUserEmail(null);
+        // Esperar un momento antes de redirigir
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        // Redirigir
+        router.push("/");
+      }
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
   };
 
   function cutname(str) {
@@ -23,10 +67,10 @@ export const AvatarMenu = () => {
   return (
     <div className="avatar-container">
       <button className="avatar-button" onClick={() => setIsOpen(!isOpen)}>
-        {userData?.photoURL ? (
+        {userImage ? (
           <Image
-            src={userData.photoURL ? userData.photoURL : userIconSvg}
-            alt={userData.displayName || "user-icon"}
+            src={userImage ? userImage : userIconSvg}
+            alt={"user-icon"}
             width={100}
             height={100}
             priority={true}
@@ -35,8 +79,7 @@ export const AvatarMenu = () => {
           />
         ) : (
           <div className="avatar-fallback">
-            {userData?.displayName?.charAt(0).toUpperCase() ||
-              userData?.email?.charAt(0).toUpperCase()}
+            {userName?.charAt(0).toUpperCase() || userEmail?.charAt(0).toUpperCase()}
           </div>
         )}
       </button>
@@ -46,7 +89,9 @@ export const AvatarMenu = () => {
           <div className="menu-header">Mi Cuenta</div>
           <div className="menu-item">
             <span className="user-icon">👤</span>
-            <span>{cutname(userData?.displayName || userData?.email)}</span>
+            <span onClick={() => router.push("/profile")}>
+              {cutname(userName || userEmail)}
+            </span>
           </div>
           <button
             className="logout-button"
@@ -63,56 +108,3 @@ export const AvatarMenu = () => {
     </div>
   );
 };
-
-// export default function IconLogin() {
-//   const { userData } = useContext(AuthContext);
-//   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-//   // Función para mostrar la primera letra en mayúscula
-//   const firstLetter = (str) => {
-//     if (!str) return "";
-//     return str.charAt(0).toUpperCase();
-//   };
-
-//   const toggleMenu = () => {
-//     setIsMenuOpen((prev) => !prev);
-//   };
-
-//   const handleLogout = async () => {
-//     await logout();
-//     setIsMenuOpen(false);
-//   };
-
-//   return (
-//     <div className={icon.login}>
-//       <div className={icon.iconContainer} onClick={toggleMenu}>
-//         {userData?.photoURL ? (
-//           <div className={icon.halo}>
-//             <Image
-//               src={userData.photoURL}
-//               alt={userData.displayName || userData.email}
-//               width={100}
-//               height={100}
-//               priority={true}
-//               quality={30}
-//               className={icon.logoName}
-//             />
-//           </div>
-//         ) : (
-//           <div className={icon.halo}>
-//             <p className={icon.logoName}>
-//               {firstLetter(userData?.displayName || userData?.email)}
-//             </p>
-//           </div>
-//         )}
-//       </div>
-//       {isMenuOpen && (
-//         <div className={icon.menu}>
-//           <button className={icon.menuItem} onClick={handleLogout}>
-//             Cerrar sesión
-//           </button>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }

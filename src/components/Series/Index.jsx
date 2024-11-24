@@ -9,15 +9,11 @@ import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { container, item } from "./animation";
 
-const MediaCardDynamic = dynamic(
-  () => import("./MediaCard/MediaCard"),
-  {
-    loading: () => <Container />,
-  }
-);
+const MediaCardDynamic = dynamic(() => import("./MediaCard/MediaCard"));
 
 export default function Series() {
   const [serieData, setSerieData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [nextPageSerie, setNext] = useState(() => {
     if (typeof window !== "undefined") {
@@ -29,13 +25,29 @@ export default function Series() {
 
   useEffect(() => {
     const getSeries = async () => {
+      setLoading(true);
+      const OPTIONS = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        include: "credentials",
+      };
       try {
-        const response = await fetch(`/api/series?page=${nextPageSerie}`);
+        const response = await fetch(
+          `/api/series?page=${nextPageSerie}`,
+          OPTIONS
+        );
         const data = await response.json();
         setSerieData(data);
+        setLoading(false);
       } catch (error) {
         setError(error);
-      } 
+        setSerieData([]);
+      } finally {
+        setLoading(false);
+      }
     };
     getSeries();
   }, [nextPageSerie]);
@@ -51,6 +63,10 @@ export default function Series() {
   const handlerPrevMovie = () => {
     setNext(nextPageSerie - 1);
   };
+
+  if (loading) {
+    return <Container />;
+  }
 
   if (error) {
     return <Error message={"ocurrio un error de parte de nosotros :("} />;

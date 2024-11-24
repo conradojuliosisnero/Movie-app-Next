@@ -2,32 +2,28 @@
 import dynamic from "next/dynamic";
 import styles from "./watch.module.css";
 import Image from "next/image";
-import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 
 const Watch = ({ id }) => {
   const [watch, setWatch] = useState([]);
   const [watchSerie, setWatchSerie] = useState([]);
-  const params = useParams();
 
   useEffect(() => {
     const getWatch = async () => {
-      if (params.id == id) {
-        try {
-          const response = await fetch(`/api/movies/watch?id=${id}`);
-          const data = await response.json();
-          setWatch(data);
-        } catch (error) {
-          console.error(error);
-        }
-      } else {
-        try {
-          const response = await fetch(`/api/series/watch?id=${id}`);
-          const data = await response.json();
-          setWatchSerie(data);
-        } catch (error) {
-          console.error(error);
-        }
+      const OPTIONS = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        include: "credentials",
+      };
+      try {
+        const response = await fetch(`/api/movies/watch?id=${id}`, OPTIONS);
+        const data = await response.json();
+        setWatch(data);
+      } catch (error) {
+        console.error(error);
       }
     };
     getWatch();

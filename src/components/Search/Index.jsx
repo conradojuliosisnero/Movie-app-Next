@@ -19,15 +19,20 @@ const MediaCardDynamic = dynamic(
 
 export default function SearchPage() {
   const [resultSearch, setResultSearch] = useState([]);
-  // const [dataSearch, setDataSearch] = useState([]);
-  // const [genderFiltered, setGenderFiltered] = useState([]);
-  // const [valueGender, setValueGender] = useState("");
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const getTranfingAll = async () => {
+            const OPTIONS = {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+              include: "credentials",
+            };
       try {
-        const response = await fetch(`/api/tranding`);
+        const response = await fetch(`/api/tranding`, OPTIONS);
         if (response.status !== 200) {
           throw new Error("Error al obtener los datos");
         }

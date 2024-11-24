@@ -9,8 +9,16 @@ export function useMovieDetails(id) {
   useEffect(() => {
     const fetchDetails = async () => {
       setLoading(true);
+            const OPTIONS = {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+              include: "credentials",
+            };
       try {
-        const response = await fetch(`/api/movies/details?id=${id}`);
+        const response = await fetch(`/api/movies/details?id=${id}`, OPTIONS);
         if (!response.ok) {
           throw new Error("Error al obtener los detalles");
         }

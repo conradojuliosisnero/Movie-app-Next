@@ -17,8 +17,19 @@ const Recommendation = ({ id }) => {
 
   useEffect(() => {
     const getMovieRecomendation = async () => {
+      const OPTIONS = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        include: "credentials",
+      };
       try {
-        const response = await fetch(`/api/movies/recomendation?id=${id}`);
+        const response = await fetch(
+          `/api/movies/recomendation?id=${id}`,
+          OPTIONS
+        );
         const data = await response.json();
         setResult(data);
       } catch (error) {
@@ -81,6 +92,6 @@ const Recommendation = ({ id }) => {
       </div>
     </div>
   );
-}
+};
 
 export default dynamic(() => Promise.resolve(Recommendation));
