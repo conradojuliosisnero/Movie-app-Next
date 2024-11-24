@@ -16,7 +16,6 @@ export default async function getNowMovies(page) {
       throw new Error("Error al obtener los datos");
     }
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     return error;

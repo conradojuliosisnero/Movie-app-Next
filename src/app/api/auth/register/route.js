@@ -2,7 +2,9 @@ import { NextResponse } from "next/server";
 import { registerUserWithEmailAndPassword } from "@/firebase/servicesFirebase";
 
 export async function POST(req) {
-  const { email, password } = req.json();
+  const { email, password } = await req.json();
+  console.log("Email:", email);
+  console.log("Password:",password);
   try {
     const userCredential = await registerUserWithEmailAndPassword(
       email,
@@ -29,7 +31,7 @@ export async function POST(req) {
     response.cookies.set({
       name: "userEmail",
       value: email,
-      httpOnly: false, // Permitir acceso desde JavaScript
+      httpOnly: false, 
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",

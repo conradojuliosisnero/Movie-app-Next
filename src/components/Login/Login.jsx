@@ -1,6 +1,6 @@
 "use client";
 import { GoogleSvg, EyeSvg, LockSvg, EmailSvg } from "@/assets/svg";
-import { FIREBASE_ERRORS } from "@/firebase/firebaseErrors";
+// import { FIREBASE_ERRORS } from "@/firebase/firebaseErrors";
 import { signInWithGoogle } from "@/firebase/servicesFirebase";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
@@ -45,16 +45,22 @@ export default function Login() {
 
   const submitUserInfo = handleSubmit(async (data) => {
     try {
+      const URL = toggle ? "/api/auth/login" : "/api/auth/register";
       const OPTIONS = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        include: "credentials",
+        credentials: "include",
         body: JSON.stringify(data),
       };
-      const response = await fetch("/api/auth/login", OPTIONS);
+      console.log("URL:", URL);
+      console.log("OPTIONS:", OPTIONS);
+      const response = await fetch(
+        URL,
+        OPTIONS
+      );
       if (response.ok) {
         const { message } = await response.json();
         toast.success(message);
@@ -80,18 +86,24 @@ export default function Login() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json",
+          Accept: "application/json",
         },
         credentials: "include",
-        body: JSON.stringify({ email: email, token: token, name: name, photo: photo }),
-      }
-      const response = await fetch("/api/auth/google", OPTIONS)
+        body: JSON.stringify({
+          email: email,
+          token: token,
+          name: name,
+          photo: photo,
+        }),
+      };
+      const response = await fetch("/api/auth/google", OPTIONS);
       if (response.ok) {
         const { message } = await response.json();
         toast.success(message);
         router.push("/home");
       } else {
         const { error } = await response.json();
+        toast.error(error);
       }
     } catch (error) {
       toast.error("Error al iniciar sesión con Google");

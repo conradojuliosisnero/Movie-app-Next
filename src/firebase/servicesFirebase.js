@@ -42,7 +42,7 @@ export async function registerUserWithEmailAndPassword(email, password) {
       password
     );
     // Enviar correo de verificación
-    await sendEmailVerification(auth.currentUser);
+    // await sendEmailVerification(auth.currentUser);
     return response;
   } catch (error) {
     const errorMessage =

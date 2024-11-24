@@ -34,6 +34,6 @@ export async function POST(req) {
     });
     return response;
   } catch (error) {
-    return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+    return NextResponse.json({ error: "Credenciales Invalidas o Incorrectas" }, { status: 401 });
   }
 }

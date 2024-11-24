@@ -31,9 +31,9 @@ const Home = ()=> {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json",
+          Accept: "application/json",
         },
-        include: "credentials",
+        credentials: "include",
       };
       try {
         const [moviesHome, seriesHome] = await Promise.all([

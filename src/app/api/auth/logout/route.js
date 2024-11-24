@@ -35,9 +35,24 @@ export async function POST(req) {
       maxAge: 0,
     });
 
+    response.cookies.set("userName", "", {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 0,
+    });
+
+    response.cookies.set("userPhoto", "", {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 0,
+    });
 
     return response;
   } catch (error) {
-    return NextResponse.json({ error: "Error during logout" }, { status: 500 });
+    return NextResponse.json({ error: "Error durante el cierre de Sesion" }, { status: 500 });
   }
 }

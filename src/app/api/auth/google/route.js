@@ -9,8 +9,6 @@ export async function POST(req) {
       { status: 200 }
     );
 
-    console.log("RESPOSE:", response);
-
     // Establecer cookie para el token
     response.cookies.set({
       name: "firebaseToken",

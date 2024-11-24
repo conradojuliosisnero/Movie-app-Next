@@ -1,28 +1,43 @@
 "use client";
 import styles from "./profile.module.css";
-import { useContext } from "react";
-// import AuthContext from "@/context/AuthContext";
 import Image from "next/image";
+import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
+import userIconSvg from "@/assets/user.svg";
 
 const PerfilUsuario = () => {
-  const { userData } = useContext(AuthContext);
+  const [userEmail, setUserEmail] = useState(null);
+  const [userImage, setUserImage] = useState(null);
+  const [userName, setUserName] = useState(null);
+
+  console.log("user name", userName);
+
+  useEffect(() => {
+    // Obtener el email de la cookie
+    const email = Cookies.get("userEmail");
+    const photo = Cookies.get("userPhoto");
+    const userName = Cookies.get("userName");
+    setUserEmail(email);
+    setUserImage(photo);
+    setUserName(userName);
+  }, []);
 
   return (
     <div className={styles.card}>
       <header className={styles.header}>
         <div className={styles.avatar}>
           <Image
-            src={userData?.photoURL}
+            src={userImage || userIconSvg}
             alt="Avatar del usuario"
-            quality={30}
+            quality={70}
             width={100}
             height={100}
             priority={true}
           />
         </div>
         <div className={styles.userInfo}>
-          <h2 className={styles.userName}>{userData?.displayName}</h2>
-          <p className={styles.userHandle}>{userData?.email}</p>
+          <h2 className={styles.userName}>{userName ? userName : "N/A"}</h2>
+          <p className={styles.userHandle}>{userEmail}</p>
         </div>
       </header>
       <div className={styles.content}>

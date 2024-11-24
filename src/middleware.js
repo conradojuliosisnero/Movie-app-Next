@@ -1,65 +1,81 @@
 import { NextResponse } from "next/server";
 
+// Rutas públicas que no requieren autenticación
+const publicRoutes = [
+  "/",
+  "/verify-email",
+  "/forgot-password",
+  "/api/auth/login",
+  "/api/auth/google",
+  "/api/auth/logout",
+  "/api/auth/register",
+];
+
 export function middleware(req) {
   const token = req.cookies.get("firebaseToken")?.value;
   const { pathname } = req.nextUrl;
   const isApiRequest = req.headers.get("accept")?.includes("application/json");
 
-  // Permitir solo solicitudes fetch a la API si tiene token
+  // Verificar si es una ruta pública
+  const isPublicRoute = publicRoutes.includes(pathname);
+
+  // Manejar rutas API
   if (pathname.startsWith("/api")) {
-    if (
-      isApiRequest &&
-      (token ||
-        pathname === "/api/auth/login" ||
-        pathname === "/api/auth/logout" || 
-        pathname === "/api/auth/google"
-      )
-    ) {
+    // Permitir rutas API públicas o solicitudes autenticadas
+    if (isPublicRoute || isApiRequest) {
       return NextResponse.next();
     }
-    // Bloquear acceso directo a rutas API
-    return NextResponse.redirect(new URL("/home", req.url));
-  }
-
-  // Si no está autenticado y va a una ruta protegida, redirigir a "/login"
-  if (
-    (!token &&
-      pathname !== "/" &&
-      pathname !== "/api/auth/login" &&
-      pathname !== "/api/auth/logout") ||
-    pathname === "/api/auth/google"
-  ) {
+    // Redirigir a home si no está autenticado
     return NextResponse.redirect(new URL("/", req.url));
   }
 
-  // Si está autenticado y va a alguna de estas rutas, redirigir a /home
-  if (
-    token &&
-    (pathname === "/" ||
-      pathname === "/forgot-password" ||
-      pathname === "/verify-email")
-  ) {
-    return NextResponse.redirect(new URL("/home", req.url));
+  // Manejar rutas de páginas
+  if (!token && !isPublicRoute) {
+    // Usuario no autenticado intentando acceder a ruta protegida
+    return NextResponse.redirect(new URL("/", req.url));
   }
 
+  switch (pathname) {
+    case "/":
+      if (token) {
+        return NextResponse.redirect(new URL("/home", req.url));
+      }
+      break;
+    case "/verify-email":
+      if (token) {
+        return NextResponse.redirect(new URL("/home", req.url));
+      }
+      break;
+    case "/forgot-password":
+      if (token) {
+        return NextResponse.redirect(new URL("/home", req.url));
+      }
+      break;
+    default:
+      break;
+  }
+
+  // Permitir acceso
   return NextResponse.next();
 }
 
+// Configurar las rutas que deben ser manejadas por el middleware
 export const config = {
   matcher: [
     "/",
     "/home",
-    "/login",
+    "/verify-email",
+    "/forgot-password",
     "/api/:path*",
     "/search",
-    "/movie-details",
-    "/serie-details",
+    "/movie-details/:id*",
+    "/serie-details/:id*",
     "/about",
     "/en-cines",
     "/movies",
     "/series",
     "/novedades",
-    "/person",
+    "/person/:id*",
     "/profile",
     "/season/:id*",
   ],

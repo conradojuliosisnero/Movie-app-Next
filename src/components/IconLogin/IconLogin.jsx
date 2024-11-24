@@ -19,6 +19,7 @@ export const AvatarMenu = () => {
     const email = Cookies.get("userEmail");
     const photo = Cookies.get("userPhoto");
     const userName = Cookies.get("userName");
+    console.log("Email:", email);
     if (email && photo) {
       setUserEmail(email);
       setUserImage(photo);
@@ -27,6 +28,8 @@ export const AvatarMenu = () => {
       setUserEmail(email);
       setUserName(userName);
       setUserImage(null);
+    } else {
+      setUserEmail(email);
     }
   }, []);
 
@@ -35,7 +38,7 @@ export const AvatarMenu = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Accept": "application/json",
+        Accept: "application/json",
       },
       credentials: "include",
     };
@@ -47,7 +50,7 @@ export const AvatarMenu = () => {
         Cookies.remove("firebaseToken", { path: "/" });
         setUserEmail(null);
         // Esperar un momento antes de redirigir
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise((resolve) => setTimeout(resolve, 100));
         // Redirigir
         router.push("/");
       }
@@ -66,7 +69,7 @@ export const AvatarMenu = () => {
       <button className="avatar-button" onClick={() => setIsOpen(!isOpen)}>
         {userImage ? (
           <Image
-            src={userImage || userIconSvg}
+            src={userImage ? userImage : userIconSvg}
             alt={"user-icon"}
             width={100}
             height={100}
@@ -76,7 +79,7 @@ export const AvatarMenu = () => {
           />
         ) : (
           <div className="avatar-fallback">
-            {userEmail?.charAt(0).toUpperCase()}
+            {userName?.charAt(0).toUpperCase() || userEmail?.charAt(0).toUpperCase()}
           </div>
         )}
       </button>
@@ -87,7 +90,7 @@ export const AvatarMenu = () => {
           <div className="menu-item">
             <span className="user-icon">👤</span>
             <span onClick={() => router.push("/profile")}>
-              {cutname(userEmail)}
+              {cutname(userName || userEmail)}
             </span>
           </div>
           <button
