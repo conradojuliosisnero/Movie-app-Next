@@ -49,23 +49,6 @@ export default function SearchPage() {
   // redux
   const movieSearchSlice = useSelector((state) => state.searchMovie.search);
 
-  console.log("moviesearchSlice",movieSearchSlice);
-
-  // let result = [];
-  // if (!movieSearchSlice && !valueGender) {
-  //   result = resultSearch;
-  // } else if (!movieSearchSlice && valueGender) {
-  //   result = genderFiltered.results;
-  // } else if (movieSearchSlice && !valueGender) {
-  //   result = movieSearchSlice?.results?.filter((movie) => movie.title.toLowerCase());
-  // } else {
-  //   result = dataSearch.results
-  //     .filter((movie) =>
-  //       movie.title.toLowerCase().includes(search.toLowerCase())
-  //     )
-  //     .filter((movie) => movie.genre_ids.includes(valueGender));
-  // }
-
   let result = [];
 
   if (!movieSearchSlice.length > 0) {
