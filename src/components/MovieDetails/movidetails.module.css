@@ -213,10 +213,12 @@
 .genero{
   padding: 10px 0px;
 }
+
 .genere {
-  padding: 0px 4px;
-  border-radius: 0.3em;
-  color: #727272;
+  padding: 0.4em 0.4em;
+  background-color: #ffffff;
+  border-radius: 10em;
+  color: #000000;
   margin: 10px;
 }
 
