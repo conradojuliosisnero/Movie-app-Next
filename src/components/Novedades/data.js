@@ -55,4 +55,11 @@ export const updates = [
       "Se añadio actualizo la proteccion de rutas, ahora se requiere autenticacion para acceder a las rutas protegidas corrigiendo un error del parpadeo",
     type: "feature",
   },
+  {
+    id: 10,
+    date: "2025-01-21",
+    content:
+      "Seccion de Anime en desarrollo, proximamente se añadira la seccion de anime",
+    type: "coming",
+  }
 ];
