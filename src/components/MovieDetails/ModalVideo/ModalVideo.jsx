@@ -9,6 +9,7 @@ const ModalVideo = ({ id }) => {
   const [result, setResult] = useState({});
   const [loading, setLoading] = useState(true);
   const [popUp, setPopUp] = useState(false);
+  const [popUpMovie, setPopUpMovie] = useState(false);
   const [keyVideoMovie, setKeyVideoMovie] = useState({});
   const [windowWidth, setWindowWidth] = useState(undefined);
 
@@ -68,6 +69,12 @@ const ModalVideo = ({ id }) => {
       <button className={styles.ButtonPopUp} onClick={() => setPopUp(!popUp)}>
         Ver Trailer
       </button>
+      <button
+        className={styles.ButtonPopUp}
+        onClick={() => setPopUpMovie(!popUpMovie)}
+      >
+        Ver Pelicula
+      </button>
       {popUp && (
         <div className={styles.Modal}>
           <div className={styles.ModalVideo}>
@@ -86,6 +93,31 @@ const ModalVideo = ({ id }) => {
             <button
               className={styles.ClosePopUp}
               onClick={() => setPopUp(false)}
+            >
+              volver
+            </button>
+          </div>
+        </div>
+      )}
+
+      {popUpMovie && (
+        <div className={styles.Modal}>
+          <div className={styles.ModalVideo}>
+            <iframe
+              className="modal__responsive"
+              width={windowWidth}
+              height={windowWidth == "350" ? "350" : "500"}
+              src={`https://vidsrc.cc/v2/embed/movie/${id}?autoPlay=false`}
+              title="Movie Player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+            {/* button close  */}
+            <button
+              className={styles.ClosePopUp}
+              onClick={() => setPopUpMovie(false)}
             >
               volver
             </button>
