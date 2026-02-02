@@ -1,6 +1,15 @@
 /** @type {import('next').NextConfig} */
 const path = require("path");
 const nextConfig = {
+  async redirects() { 
+    return [
+      {
+        source: "/",
+        destination: "/home",
+        permanent: true,
+      },
+    ]
+  },
   webpack: (config) => {
     config.resolve.alias["@"] = path.resolve(__dirname, "src");
     return config;
