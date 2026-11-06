@@ -1,0 +1,7 @@
+.main {
+  position: relative;
+  z-index: var(--z-base);
+  max-width: var(--layout-content-max);
+  margin: 0 auto;
+  padding: var(--space-26) var(--space-6) var(--space-20);
+}
