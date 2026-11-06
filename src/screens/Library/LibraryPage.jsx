@@ -54,7 +54,7 @@ export default function LibraryPage() {
   const renderWant = (items) => (
     <div className={s.grid}>
       {items.map((t) => (
-        <PosterCard key={t.id} title={t} size="fluid" action={{ label: copy.library.remove, icon: 'dismiss', onClick: () => act.save(t) }} />
+        <PosterCard key={t.id} title={t} size="fluid" actions={[{ key: 'remove', label: copy.library.remove, icon: 'dismiss', onClick: () => act.save(t) }, { key: 'seen', label: copy.common.seen, icon: 'seen', onClick: () => act.markSeen(t) }]} />
       ))}
     </div>
   );

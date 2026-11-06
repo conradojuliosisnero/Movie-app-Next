@@ -1,6 +1,6 @@
 'use client';
-// Póster con su información encima: título, leyenda y una acción aparecen al pasar el mouse
-// (o al llegar con el teclado). En pantallas táctiles queda solo un botón pequeño en la esquina.
+// Póster con su información encima: título, leyenda y acciones aparecen al pasar el mouse
+// (o al llegar con el teclado). En pantallas táctiles quedan solo botones redondos en la esquina.
 import { useRef } from 'react';
 import Poster from '@/components/ui/Poster/Poster';
 import { gsap, useGSAP, motionOK } from '@/lib/motion';
@@ -12,38 +12,48 @@ import { cx } from '@/utils/cx';
 import s from './PosterCard.module.css';
 
 /**
- * action: { label, icon, active, onClick } | null
+ * actions: [{ key, label, icon, active, onClick }]
  * size: md (filas, ancho fijo) | fluid (cuadrículas)
  */
-export default function PosterCard({ title: t, action = null, size = 'md' }) {
+export default function PosterCard({ title: t, actions = [], size = 'md' }) {
   const ui = useUI();
   const ref = useRef(null);
-  const active = !!action?.active;
-  const wasActive = useRef(active);
+  const activeAction = actions.find((a) => a.active);
+  const activeKey = activeAction?.key ?? null;
+  const wasActive = useRef(activeKey);
 
-  // Al guardar, la marca aparece con un rebote; el botón del hover da un pequeño “latido”.
-  // Solo cuando cambia por una acción, no al cargar la página.
+  // Al guardar o marcar como vista, la marca aparece con un rebote. Solo por una acción, no al cargar.
   useGSAP(() => {
-    const changed = wasActive.current !== active;
-    wasActive.current = active;
-    if (!changed || !active || !motionOK()) return;
+    const changed = wasActive.current !== activeKey;
+    wasActive.current = activeKey;
+    if (!changed || !activeKey || !motionOK()) return;
     gsap.fromTo('[data-badge]', { scale: 0, rotate: -30 }, { scale: 1, rotate: 0, duration: 0.5, ease: 'back.out(3)' });
-    gsap.fromTo('[data-action] svg', { scale: 0.6 }, { scale: 1, duration: 0.45, ease: 'back.out(4)' });
-  }, { dependencies: [active], scope: ref });
+    gsap.fromTo(`[data-action="${activeKey}"] svg`, { scale: 0.6 }, { scale: 1, duration: 0.45, ease: 'back.out(4)' });
+  }, { dependencies: [activeKey], scope: ref });
 
   return (
     <div ref={ref} className={cx(s.card, size === 'fluid' && s.fluid)}>
       <Poster title={t} size={size} onClick={() => ui.openDetail(t)} className={s.poster} />
-      {action?.active && <span className={s.badge} aria-hidden="true" data-badge><Icon name={action.icon} size="xs" /></span>}
+      {activeAction && <span className={s.badge} aria-hidden="true" data-badge><Icon name={activeAction.icon} size="xs" /></span>}
       <div className={s.overlay}>
         <b className={s.name}>{t.title}</b>
         <span className={s.caption}>{titleCaption(t)}</span>
-        {action && <Button size="sm" variant={action.active ? 'primary' : 'media'} icon={action.icon} block className={s.action} data-action onClick={action.onClick}>{action.label}</Button>}
+        {actions.length > 0 && (
+          <div className={s.actions}>
+            {actions.map((a) => (
+              <Button key={a.key} size="sm" variant={a.active ? 'primary' : 'media'} icon={a.icon} block className={s.action} data-action={a.key} onClick={a.onClick}>{a.label}</Button>
+            ))}
+          </div>
+        )}
       </div>
-      {action && (
-        <button type="button" className={cx(s.corner, action.active && s.cornerOn)} aria-label={`${action.label}: ${t.title}`} onClick={action.onClick}>
-          <Icon name={action.icon} size="sm" />
-        </button>
+      {actions.length > 0 && (
+        <div className={s.corner}>
+          {actions.map((a) => (
+            <button key={a.key} type="button" className={cx(s.cornerBtn, a.active && s.cornerOn)} aria-label={`${a.label}: ${t.title}`} onClick={a.onClick}>
+              <Icon name={a.icon} size="sm" />
+            </button>
+          ))}
+        </div>
       )}
     </div>
   );
