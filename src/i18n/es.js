@@ -69,7 +69,7 @@ export const es = {
       contact: 'Escribe un correo válido.',
     },
   },
-  firebase: {
+  authErrors: {
     'auth/invalid-email': 'Ese correo no parece válido.',
     'auth/invalid-action-code': 'El enlace ya se usó o expiró. Pide uno nuevo.',
     'auth/expired-action-code': 'El enlace expiró. Pide uno nuevo.',
@@ -78,8 +78,6 @@ export const es = {
     'auth/popup-blocked': 'El navegador bloqueó la ventana de Google. Permite ventanas emergentes.',
     'auth/too-many-requests': 'Demasiados intentos. Espera un momento.',
     'auth/network-request-failed': 'Sin conexión. Revisa tu internet.',
-    'auth/unauthorized-domain': 'Este dominio no está autorizado en Firebase.',
-    'auth/operation-not-allowed': 'Este método de acceso no está activado en Firebase.',
     default: 'No pudimos iniciar sesión. Inténtalo de nuevo.',
   },
   onboarding: {

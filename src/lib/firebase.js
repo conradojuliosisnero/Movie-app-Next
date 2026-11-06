@@ -19,4 +19,5 @@ const app = getApps().length ? getApp() : initializeApp(config);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-export const authErrorMessage = (error) => copy.firebase[error?.code] ?? copy.firebase.default;
+// Mensajes genéricos: nunca se nombra al proveedor de autenticación ni se muestra el error técnico.
+export const authErrorMessage = (error) => copy.authErrors[error?.code] ?? copy.authErrors.default;

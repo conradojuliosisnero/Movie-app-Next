@@ -70,7 +70,7 @@ export const en = {
       contact: 'Enter a valid email.',
     },
   },
-  firebase: {
+  authErrors: {
     'auth/invalid-email': "That email doesn't look valid.",
     'auth/invalid-action-code': 'The link was already used or expired. Ask for a new one.',
     'auth/expired-action-code': 'The link expired. Ask for a new one.',
@@ -79,8 +79,6 @@ export const en = {
     'auth/popup-blocked': 'The browser blocked the Google window. Allow pop-ups.',
     'auth/too-many-requests': 'Too many attempts. Wait a moment.',
     'auth/network-request-failed': 'No connection. Check your internet.',
-    'auth/unauthorized-domain': 'This domain is not authorized in Firebase.',
-    'auth/operation-not-allowed': 'This sign-in method is not enabled in Firebase.',
     default: "We couldn't sign you in. Try again.",
   },
   onboarding: {
