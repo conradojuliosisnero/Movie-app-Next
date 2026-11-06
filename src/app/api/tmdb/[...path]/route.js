@@ -1,6 +1,10 @@
 // Único punto de contacto con TMDB. El token nunca sale del servidor.
 // Solo deja pasar rutas de lectura conocidas, para no ser un proxy abierto.
+import dns from 'node:dns';
 import { NextResponse } from 'next/server';
+
+// Algunas redes fallan por IPv6 hacia TMDB (timeouts intermitentes): se prefiere IPv4.
+dns.setDefaultResultOrder('ipv4first');
 
 const ALLOWED = [
   /^trending\/(all|movie|tv)\/(day|week)$/,
