@@ -1,6 +1,6 @@
 'use client';
 // Pantalla de Animé: paleta, tipografía y entorno propios (solo en esta pantalla).
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Segmented from '@/components/ui/Segmented/Segmented';
 import BrandIntro from '@/components/ui/BrandIntro/BrandIntro';
 import Button from '@/components/ui/Button/Button';
@@ -29,7 +29,7 @@ function Section({ id, vibe, profile }) {
   return (
     <section className={s.section}>
       <header className={s.sectionHead}>
-        <h2 className={s.sectionTitle}>{text.title}</h2>
+        <h2 className={s.sectionTitle}>{typeof text.title === 'function' ? text.title(new Date().getFullYear()) : text.title}</h2>
         <span className={s.kanaTag} lang="ja">{text.kana}</span>
       </header>
       <Status rail loading={data.loading && !data.items.length} error={!data.items.length && data.error} onRetry={data.retry}>
@@ -55,6 +55,12 @@ export default function AnimePage({ fontClass }) {
   const hero = featured[index % (featured.length || 1)];
   const go = (step) => featured.length && setIndex((i) => (i + step + featured.length) % featured.length);
   useKeyboard({ ArrowLeft: () => go(-1), ArrowRight: () => go(1) }, !!hero && !ui.detail && !ui.player);
+
+  // La barra de desplazamiento de la página toma los colores de Animé mientras estás aquí.
+  useEffect(() => {
+    document.documentElement.dataset.section = 'anime';
+    return () => { delete document.documentElement.dataset.section; };
+  }, []);
 
   // Entorno: el kanji gigante se desplaza más lento que la página (parallax).
   useGSAP(() => {
@@ -86,7 +92,7 @@ export default function AnimePage({ fontClass }) {
             <div className={s.heroBg} data-hero-bg style={{ backgroundImage: `url(${hero.backdrop.replace('/w780/', '/w1280/')})` }} />
             <div className={s.heroShade} />
             <div className={s.heroBody}>
-              <span className={s.eyebrow} data-hero-fade>{copy.anime.eyebrow}</span>
+              <span className={s.eyebrow} data-hero-fade>{copy.anime.eyebrow(new Date().getFullYear())}</span>
               <h1 className={s.heroTitle} aria-label={hero.title}>
                 {hero.title.split(' ').map((word, w) => (
                   <span key={w} className={s.word} aria-hidden="true">
