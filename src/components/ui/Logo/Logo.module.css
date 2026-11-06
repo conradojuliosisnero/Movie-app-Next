@@ -1,0 +1,4 @@
+.logo { background: none; border: 0; padding: 0; white-space: nowrap; font-family: var(--font-display); font-weight: var(--fw-black); letter-spacing: -0.05em; line-height: 1; color: var(--color-fg); }
+.accent { color: var(--color-accent); }
+.md { font-size: var(--fs-2xl); }
+.lg { font-size: var(--fs-3xl); }

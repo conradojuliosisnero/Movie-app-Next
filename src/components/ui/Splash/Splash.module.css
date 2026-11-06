@@ -1,0 +1,2 @@
+.splash { min-height: 100vh; display: flex; align-items: center; justify-content: center; animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .45; } }
