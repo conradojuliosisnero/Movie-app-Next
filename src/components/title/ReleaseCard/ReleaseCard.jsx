@@ -1,19 +1,18 @@
 'use client';
 import Card from '@/components/ui/Card/Card';
 import Poster from '@/components/ui/Poster/Poster';
-import Switch from '@/components/ui/Switch/Switch';
-import { useLibrary } from '@/store/LibraryContext';
-import { useToast } from '@/store/ToastContext';
+import Button from '@/components/ui/Button/Button';
 import { useUI } from '@/store/UIContext';
+import { useTitleActions } from '@/hooks/useTitleActions';
 import { releaseLabel, titleGenres } from '@/utils/format';
+import { STATUS } from '@/config/app.config';
 import { copy } from '@/i18n';
 import s from './ReleaseCard.module.css';
 
 export default function ReleaseCard({ title: t }) {
-  const lib = useLibrary();
   const ui = useUI();
-  const { show } = useToast();
-  const on = !!lib.reminders[t.id];
+  const act = useTitleActions();
+  const saved = act.statusOf(t) === STATUS.WANT;
   return (
     <Card padding={4} radius="xl" className={s.card}>
       <Poster title={t} size="sm" onClick={() => ui.openDetail(t)} />
@@ -22,10 +21,7 @@ export default function ReleaseCard({ title: t }) {
         <b className={s.name}>{t.title}</b>
         <span className="u-muted">{titleGenres(t)}</span>
       </div>
-      <label className={s.remind}>
-        {copy.common.remind}
-        <Switch checked={on} label={copy.common.remind} onChange={() => { lib.toggleReminder(t); show(on ? copy.toasts.remindOff : copy.toasts.remindOn); }} />
-      </label>
+      <Button size="sm" icon="save" active={saved} onClick={() => act.save(t)}>{saved ? copy.common.saved : copy.common.save}</Button>
     </Card>
   );
 }

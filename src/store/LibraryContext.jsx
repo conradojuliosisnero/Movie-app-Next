@@ -21,7 +21,6 @@ export const EMPTY_LIBRARY = {
   ratings: {},
   reviews: {},
   seenAt: {},
-  reminders: {},
   myPlatforms: [],
   settings: { onlyMine: false },
 };
@@ -31,12 +30,14 @@ const toggleIn = (list, value) => (list.includes(value) ? list.filter((x) => x !
 
 function reducer(state, a) {
   switch (a.type) {
-    case 'load':
-      return { ...EMPTY_LIBRARY, ...a.state, settings: { ...EMPTY_LIBRARY.settings, ...a.state?.settings }, dirty: false };
+    case 'load': {
+      const { reminders, ...saved } = a.state ?? {}; // los recordatorios se quitaron: se descartan de listas viejas
+      return { ...EMPTY_LIBRARY, ...saved, settings: { ...EMPTY_LIBRARY.settings, ...saved.settings }, dirty: false };
+    }
     case 'status': {
       const { id } = a.item;
       if (a.status == null) {
-        const keepItem = state.reminders[id] || state.progress[id];
+        const keepItem = state.progress[id];
         return { ...state, dirty: true, statuses: without(state.statuses, id), items: keepItem ? state.items : without(state.items, id) };
       }
       const seenAt = a.status === STATUS.SEEN && !state.seenAt[id] ? { ...state.seenAt, [id]: todayISO() } : state.seenAt;
@@ -51,11 +52,6 @@ function reducer(state, a) {
       return { ...state, dirty: true, ratings: { ...state.ratings, [a.id]: a.value } };
     case 'review':
       return { ...state, dirty: true, reviews: { ...state.reviews, [a.id]: a.value } };
-    case 'reminder': {
-      const { id } = a.item;
-      const on = !state.reminders[id];
-      return { ...state, dirty: true, reminders: on ? { ...state.reminders, [id]: true } : without(state.reminders, id), items: on ? { ...state.items, [id]: compact(a.item) } : state.items };
-    }
     case 'setting':
       return { ...state, dirty: true, settings: { ...state.settings, [a.key]: !state.settings[a.key] } };
     case 'platform':
@@ -129,7 +125,6 @@ export function LibraryProvider({ children }) {
       setProgress: (id, value) => dispatch({ type: 'progress', id, value }),
       setRating: (id, value) => dispatch({ type: 'rating', id, value }),
       setReview: (id, value) => dispatch({ type: 'review', id, value }),
-      toggleReminder: (item) => dispatch({ type: 'reminder', item }),
       toggleSetting: (key) => dispatch({ type: 'setting', key }),
       togglePlatform: (id) => dispatch({ type: 'platform', id }),
     }),
