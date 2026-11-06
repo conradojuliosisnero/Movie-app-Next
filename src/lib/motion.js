@@ -7,10 +7,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Draggable } from 'gsap/Draggable';
 import { InertiaPlugin } from 'gsap/InertiaPlugin';
 import { CustomEase } from 'gsap/CustomEase';
+import { Physics2DPlugin } from 'gsap/Physics2DPlugin';
 import { motion as tokens } from '@/theme/tokens';
 
 if (typeof window !== 'undefined') {
-  gsap.registerPlugin(useGSAP, ScrollTrigger, Draggable, InertiaPlugin, CustomEase);
+  gsap.registerPlugin(useGSAP, ScrollTrigger, Draggable, InertiaPlugin, CustomEase, Physics2DPlugin);
   // cubic-bezier(.2,.8,.2,1) → CustomEase('standard', '.2,.8,.2,1')
   Object.entries(tokens.easing).forEach(([name, value]) => {
     const m = /cubic-bezier\(([^)]+)\)/.exec(value);

@@ -6,6 +6,7 @@ import { useToast } from '@/store/ToastContext';
 import { getTitleDetails, isSeries } from '@/services/catalog';
 import { STATUS } from '@/config/app.config';
 import { copy } from '@/i18n';
+import { celebrate } from '@/lib/confetti';
 
 export function useTitleActions() {
   const lib = useLibrary();
@@ -21,6 +22,7 @@ export function useTitleActions() {
   const setStatus = (t, status) => {
     lib.setStatus(t, status);
     if (status === STATUS.SEEN || status === STATUS.WATCHING) { complete(t); session.touchProfile(t.title); }
+    if (status === STATUS.SEEN) celebrate(); // ¡la viste (o la terminaste)!
   };
 
   const toggle = (t, status, message) => {
@@ -38,6 +40,13 @@ export function useTitleActions() {
     save: (t) => toggle(t, STATUS.WANT, copy.toasts.saved(t.title)),
     markSeen: (t) => toggle(t, STATUS.SEEN, copy.toasts.seen(t.title)),
     dismiss: (t) => toggle(t, STATUS.DISMISSED, copy.toasts.dismissed),
+    /** Series: pasar a “Viendo” sin marcar episodios (queda lista para el T1·E1). */
+    startWatching: (t) => {
+      if (lib.statuses[t.id] === STATUS.WATCHING) { lib.setStatus(t, null); show(copy.toasts.removed); return; }
+      if (!lib.progress[t.id]) lib.setProgress(t.id, { season: t.seasons?.[0]?.n ?? 1, ep: 0 });
+      setStatus(t, STATUS.WATCHING);
+      show(copy.toasts.watching(t.title));
+    },
     /** Marca hasta el episodio n de la temporada; tocar el último marcado lo desmarca. */
     markEpisode: (t, season, n) => {
       if (!t.seasons?.length) return;
