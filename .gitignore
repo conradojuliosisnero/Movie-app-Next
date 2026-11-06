@@ -42,3 +42,6 @@ graphify-out/
 
 # correos de prueba generados por npm run email:test
 .emails/
+
+# prototipo de diseño original (React + Vite), solo referencia local
+new-interface/
