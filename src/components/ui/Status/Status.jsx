@@ -1,11 +1,15 @@
 'use client';
 import EmptyState from '../EmptyState/EmptyState';
 import Button from '../Button/Button';
+import Skeleton from '../Skeleton/Skeleton';
 import { copy } from '@/i18n';
 import s from './Status.module.css';
 
-/** Muestra carga o error de una petición; si todo salió bien, pinta children. */
-export default function Status({ loading, error, onRetry, rail = false, children }) {
+/**
+ * Muestra carga (esqueleto con la forma del contenido) o error de una petición; si todo salió bien, pinta children.
+ * skeleton: rail | hero | cards | detail | person | episodes | chips | lines
+ */
+export default function Status({ loading, error, onRetry, rail = false, skeleton = rail ? 'rail' : 'lines', children }) {
   if (error) {
     return (
       <EmptyState>
@@ -14,10 +18,6 @@ export default function Status({ loading, error, onRetry, rail = false, children
       </EmptyState>
     );
   }
-  if (loading) {
-    return rail
-      ? <div className="u-hscroll" aria-busy="true">{Array.from({ length: 6 }, (_, i) => <div key={i} className={s.ghost} />)}</div>
-      : <div className={s.loading} role="status">{copy.common.loading}</div>;
-  }
+  if (loading) return <Skeleton kind={skeleton} />;
   return children;
 }

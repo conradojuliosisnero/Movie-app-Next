@@ -142,7 +142,7 @@ export default function ProfilePage() {
           ))}
           <div className={s.platforms}>
             <span className={s.settingLabel}>{copy.profile.platforms}</span>
-            <Status loading={platforms.loading} error={platforms.error} onRetry={platforms.retry}>
+            <Status skeleton="chips" loading={platforms.loading} error={platforms.error} onRetry={platforms.retry}>
               <div className={s.chips}>
                 {(platforms.data ?? []).map((p) => <Chip key={p.id} active={lib.myPlatforms.includes(p.id)} onClick={() => lib.togglePlatform(p.id)}>{p.name}</Chip>)}
               </div>

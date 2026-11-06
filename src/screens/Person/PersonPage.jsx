@@ -21,7 +21,7 @@ export default function PersonPage({ id }) {
   const p = person.data;
 
   return (
-    <Status loading={person.loading} error={person.error} onRetry={person.retry}>
+    <Status skeleton="person" loading={person.loading} error={person.error} onRetry={person.retry}>
       {p && (
         <div className={s.page}>
           <Card padding={6} radius="2xl" className={s.hero}>

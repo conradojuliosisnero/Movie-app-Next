@@ -94,7 +94,7 @@ export default function OnboardingPage() {
         <Card className={s.platforms} padding={8} radius="2xl">
           <h1 className={s.title}>{copy.onboarding.platformsTitle}</h1>
           <p className="u-muted">{copy.onboarding.platformsSubtitle}</p>
-          <Status loading={platforms.loading} error={platforms.error} onRetry={platforms.retry}>
+          <Status skeleton="chips" loading={platforms.loading} error={platforms.error} onRetry={platforms.retry}>
             <div className={s.chips}>
               {(platforms.data ?? []).map((p) => <Chip key={p.id} active={lib.myPlatforms.includes(p.id)} onClick={() => lib.togglePlatform(p.id)}>{p.name}</Chip>)}
             </div>

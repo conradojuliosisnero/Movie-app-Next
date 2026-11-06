@@ -86,7 +86,7 @@ export default function AnimePage({ fontClass }) {
         <span className={s.kana} data-kana lang="ja">{copy.anime.kana}</span>
       </div>
 
-      <Status loading={popular.loading && !popular.items.length} error={!popular.items.length && popular.error} onRetry={popular.retry}>
+      <Status skeleton="hero" loading={popular.loading && !popular.items.length} error={!popular.items.length && popular.error} onRetry={popular.retry}>
         {hero && (
           <section ref={heroRef} className={s.hero} aria-roledescription="carrusel" aria-label={copy.anime.featured}>
             <div className={s.heroBg} data-hero-bg style={{ backgroundImage: `url(${hero.backdrop.replace('/w780/', '/w1280/')})` }} />

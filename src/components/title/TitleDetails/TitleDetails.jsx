@@ -9,6 +9,7 @@ import EpisodeGrid from '@/components/ui/EpisodeGrid/EpisodeGrid';
 import Stars from '@/components/ui/Stars/Stars';
 import Avatar from '@/components/ui/Avatar/Avatar';
 import Status from '@/components/ui/Status/Status';
+import Skeleton from '@/components/ui/Skeleton/Skeleton';
 import PosterRail from '@/components/title/PosterRail/PosterRail';
 import { useUI } from '@/store/UIContext';
 import { useLibrary } from '@/store/LibraryContext';
@@ -84,6 +85,7 @@ export default function TitleDetails({ item, proposed = false, variant = 'sheet'
       <div ref={heroRef} className={s.hero} style={{ background: heroBg }}>
         {onBack && <Button variant="media" icon="back" className={s.back} onClick={onBack}>{copy.common.back}</Button>}
         {heroAction && <div className={s.heroAction}>{heroAction}</div>}
+        {!t.title && <Skeleton kind="heroText" />}
         {t.title && (
           <div className={s.heroInfo}>
             {isPage && t.image && <img className={s.heroPoster} src={t.image} alt="" />}
@@ -97,7 +99,7 @@ export default function TitleDetails({ item, proposed = false, variant = 'sheet'
       </div>
 
       <div className={s.body}>
-        <Status loading={details.loading && !t.title} error={details.error && !t.title ? details.error : null} onRetry={details.retry}>
+        <Status skeleton="detail" loading={details.loading && !t.title} error={details.error && !t.title ? details.error : null} onRetry={details.retry}>
           {(proposed || t.reason) && (
             <div className={s.reason}>
               <span className={s.reasonLabel}>{proposed ? copy.detail.proposed : copy.detail.why}</span>

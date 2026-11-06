@@ -29,7 +29,7 @@ export default function SeasonPage({ seriesId, n }) {
   const watched = t ? watchedIn(lib.progress[t.id], n) : 0;
 
   return (
-    <Status loading={series.loading || season.loading} error={series.error || season.error} onRetry={() => { series.retry(); season.retry(); }}>
+    <Status skeleton="episodes" loading={series.loading || season.loading} error={series.error || season.error} onRetry={() => { series.retry(); season.retry(); }}>
       {t && data && (
         <div className={s.page}>
           <PageHeader

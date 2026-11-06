@@ -9,6 +9,7 @@ import Button from '@/components/ui/Button/Button';
 import EmptyState from '@/components/ui/EmptyState/EmptyState';
 import Status from '@/components/ui/Status/Status';
 import ResultCard from '@/components/title/ResultCard/ResultCard';
+import Skeleton from '@/components/ui/Skeleton/Skeleton';
 import { useSession } from '@/store/SessionContext';
 import { usePaged } from '@/hooks/usePaged';
 import { usePlatforms } from '@/hooks/useCatalogData';
@@ -132,12 +133,12 @@ export default function SearchPage() {
       )}
 
       {active && (
-        <Status loading={results.loading && !results.items.length} error={!results.items.length && results.error} onRetry={results.retry}>
+        <Status skeleton="cards" loading={results.loading && !results.items.length} error={!results.items.length && results.error} onRetry={results.retry}>
           {results.items.length ? (
             <>
               <span className="u-muted">{copy.search.results(results.items.length)}{!results.done ? '+' : ''}</span>
               <div className={s.results}>{results.items.map((t) => <ResultCard key={t.id} title={t} />)}</div>
-              {!results.done && <div ref={sentinel} className={s.more} role="status">{copy.common.loading}</div>}
+              {!results.done && <div ref={sentinel} className={s.more}><Skeleton kind="cards" /></div>}
             </>
           ) : (
             <EmptyState>{copy.search.empty}</EmptyState>

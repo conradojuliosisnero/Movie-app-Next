@@ -1,11 +1,1 @@
-.loading { padding: var(--space-8); text-align: center; color: var(--color-fg-faint); }
 .retry { margin-top: var(--space-3); }
-.ghost {
-  flex: none;
-  width: 150px;
-  height: 212px;
-  border-radius: var(--radius-lg);
-  background: var(--color-surface-2);
-  animation: ghost 1.4s ease-in-out infinite;
-}
-@keyframes ghost { 50% { opacity: .5; } }

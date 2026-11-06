@@ -77,11 +77,13 @@ function Player() {
             referrerPolicy="strict-origin-when-cross-origin"
             sandbox={mode === 'full' && FULL_PLAYER.sandbox ? FULL_PLAYER.sandbox : undefined}
           />
+        ) : details.loading ? (
+          <div className={s.shimmer} role="status" aria-label={copy.common.loading} />
         ) : (
           <>
             <div className={s.vignette} />
             <div className={s.center}>
-              <span className={s.official}>{details.loading ? copy.common.loading : copy.player.noTrailer}</span>
+              <span className={s.official}>{copy.player.noTrailer}</span>
               <h2 className={s.title}>{t.title}</h2>
             </div>
           </>
