@@ -5,7 +5,7 @@ import { MOODS } from '@/data/moods';
 import { ANIME_BASE, ANIME_SECTIONS, ANIME_VIBES } from '@/data/anime';
 import { FAQ } from '@/data/faq';
 import { APP, STATUS } from '@/config/app.config';
-import { copy } from '@/i18n';
+import { copy, currentLang } from '@/i18n';
 
 // ---------- Forma de un título ----------
 // { id: 'movie-550' | 'tv-1399', tmdbId, type: 'movie' | 'series', title, year, genres, synopsis,
@@ -69,13 +69,14 @@ async function readableTitles(items) {
 
 const list = (data, kindHint) => readableTitles(parse(data, kindHint));
 
-/** Título y sinopsis en el mejor idioma disponible: español de México › otro español › inglés › original. */
+/** Título y sinopsis en el mejor idioma disponible: idioma activo › inglés › original. */
 function bestTranslation(raw, current) {
   const all = raw.translations?.translations ?? [];
+  const [lang, region] = currentLang().tmdb.split('-');
   const pick = (field) => {
     const order = [
-      all.find((x) => x.iso_639_1 === 'es' && x.iso_3166_1 === 'MX'),
-      ...all.filter((x) => x.iso_639_1 === 'es'),
+      all.find((x) => x.iso_639_1 === lang && x.iso_3166_1 === region),
+      ...all.filter((x) => x.iso_639_1 === lang),
       all.find((x) => x.iso_639_1 === 'en' && x.iso_3166_1 === 'US'),
       ...all.filter((x) => x.iso_639_1 === 'en'),
     ];
@@ -96,7 +97,12 @@ export const compact = (t) => JSON.parse(JSON.stringify({
 
 // ---------- Ficha completa ----------
 // El idioma pesa más que el tipo: un teaser en español gana a un tráiler en inglés.
-const LANG_SCORE = (v) => (v.iso_639_1 === 'es' ? (v.iso_3166_1 === 'MX' ? 300 : 200) : v.iso_639_1 === 'en' ? 100 : 0);
+// Idioma activo primero (en español, el de México); luego inglés.
+const LANG_SCORE = (v) => {
+  const [lang, region] = currentLang().tmdb.split('-');
+  if (v.iso_639_1 === lang) return v.iso_3166_1 === region ? 300 : 200;
+  return v.iso_639_1 === 'en' ? 100 : 0;
+};
 const TYPE_SCORE = { Trailer: 30, Teaser: 20, Clip: 10 };
 
 function pickTrailer(videos) {
@@ -110,7 +116,7 @@ export async function getTitleDetails(id) {
   const { kind, tmdbId } = parseId(id);
   const raw = await tmdb(`${kind}/${tmdbId}`, {
     append_to_response: 'videos,credits,watch/providers,recommendations,translations',
-    include_video_language: 'es,en',
+    include_video_language: `${currentLang().tmdb.slice(0, 2)},en`,
   });
   const t = normalize(raw, kind);
   const videos = raw.videos?.results?.filter((v) => v.site === 'YouTube') ?? [];
@@ -259,41 +265,80 @@ export async function getAnime(sectionId, { vibe = 'all', profile } = {}, page =
 export function parseQuery(query, platforms = []) {
   const s = query.toLowerCase();
   const filters = [];
-  if (/serie/.test(s)) filters.push({ key: 'type', value: 'tv', label: copy.search.filters.series });
-  else if (/pel[ií]cula|peli/.test(s)) filters.push({ key: 'type', value: 'movie', label: copy.search.filters.movies });
-  Object.entries(GENRES).forEach(([id, g]) => { if (g.pattern.test(s)) filters.push({ key: 'genre', value: id, label: g.label }); });
-  if (/cort|r[aá]pid/.test(s)) filters.push({ key: 'short', label: copy.search.filters.short });
+  if (/serie|\bshows?\b/.test(s)) filters.push({ key: 'type', value: 'tv', label: copy.search.filters.series });
+  else if (/pel[ií]cula|peli|movie|film/.test(s)) filters.push({ key: 'type', value: 'movie', label: copy.search.filters.movies });
+  Object.entries(GENRES).forEach(([id, g]) => { if (g.pattern.test(s)) filters.push({ key: 'genre', value: id, label: genreLabel(id) }); });
+  if (/cort|r[aá]pid|short|quick/.test(s)) filters.push({ key: 'short', label: copy.search.filters.short });
   platforms.forEach((p) => { if (s.includes(p.name.toLowerCase())) filters.push({ key: 'platform', value: p.id, label: copy.search.filters.onPlatform(p.name) }); });
   return filters;
 }
 
-export async function searchTitles(query, { removedLabels = [], platforms = [], profile } = {}) {
-  const q = query.trim();
-  if (!q) return { filters: [], results: [] };
-  const filters = parseQuery(q, platforms).filter((f) => !removedLabels.includes(f.label));
+// Rangos de año del filtro de búsqueda. id → { from, to } (años incluidos).
+export function yearRanges(now = new Date().getFullYear()) {
+  return [
+    { id: String(now), from: now, to: now },
+    { id: String(now - 1), from: now - 1, to: now - 1 },
+    { id: '2020s', from: 2020, to: 2029 },
+    { id: '2010s', from: 2010, to: 2019 },
+    { id: '2000s', from: 2000, to: 2009 },
+    { id: '1990s', from: 1990, to: 1999 },
+    { id: 'older', from: 1900, to: 1989 },
+  ];
+}
 
-  let results;
-  if (filters.length) {
-    const type = filters.find((f) => f.key === 'type')?.value;
-    const genres = filters.filter((f) => f.key === 'genre').map((f) => GENRES[f.value]);
-    const short = filters.some((f) => f.key === 'short');
-    const platform = filters.find((f) => f.key === 'platform')?.value;
-    const kinds = (type ? [type] : ['movie', 'tv']).filter((k) => genres.every((g) => g[k]));
-    const lists = await Promise.all(kinds.map((kind) => {
-      const p = baseParams(kind, { profile });
-      if (genres.length) p.with_genres = genres.map((g) => g[kind]).join(',');
-      const lang = genres.find((g) => g.language)?.language;
-      if (lang) p.with_original_language = lang;
-      if (short) p['with_runtime.lte'] = kind === 'tv' ? 30 : 100;
-      if (platform) Object.assign(p, { with_watch_providers: platform, watch_region: APP.region });
-      return discover(kind, p);
-    }));
-    results = lists.length > 1 ? interleave(lists[0], lists[1]) : lists[0] ?? [];
-  } else {
-    results = await list(await tmdb('search/multi', { query: q, include_adult: false }));
-    if (profile?.kids) results = results.filter((t) => t.genres.some((g) => g === 'family' || g === 'animation'));
+const SORTS = {
+  popular: () => ({ sort_by: 'popularity.desc' }),
+  rating: () => ({ sort_by: 'vote_average.desc', 'vote_count.gte': 300 }),
+  recent: (kind) => ({ sort_by: kind === 'tv' ? 'first_air_date.desc' : 'primary_release_date.desc', 'vote_count.gte': 10 }),
+};
+const IN_THEATERS_DAYS = 45;
+
+/**
+ * Búsqueda y exploración. f = { query, type: all|movie|tv, genre, year, inTheaters, short, topRated, sort,
+ * removedLabels, platforms, profile }. El texto se interpreta (“series cortas de comedia” → filtros) y se suma
+ * a los filtros elegidos; si el texto no trae filtros, se busca por título.
+ */
+export async function exploreTitles(f, page = 1) {
+  const q = (f.query ?? '').trim();
+  const parsed = q ? parseQuery(q, f.platforms ?? []).filter((x) => !(f.removedLabels ?? []).includes(x.label)) : [];
+  const type = f.type && f.type !== 'all' ? f.type : parsed.find((x) => x.key === 'type')?.value;
+  const genreIds = [...new Set([f.genre, ...parsed.filter((x) => x.key === 'genre').map((x) => x.value)].filter(Boolean))];
+  const genres = genreIds.map((id) => GENRES[id]);
+  const short = f.short || parsed.some((x) => x.key === 'short');
+  const platform = parsed.find((x) => x.key === 'platform')?.value;
+  const range = yearRanges().find((r) => r.id === f.year);
+  const today = new Date().toISOString().slice(0, 10);
+  const theatersFrom = new Date(Date.now() - IN_THEATERS_DAYS * 864e5).toISOString().slice(0, 10);
+
+  // Solo texto (sin filtros dentro): búsqueda por título y los filtros elegidos se aplican sobre los resultados.
+  if (q && !parsed.length) {
+    const path = type ? `search/${type}` : 'search/multi';
+    let results = await list(await tmdb(path, { query: q, include_adult: false, page }), type);
+    results = results.filter((t) =>
+      (!genres.length || genreIds.every((g) => t.genres.includes(g)))
+      && (!range || (t.year >= range.from && t.year <= range.to))
+      && (!f.inTheaters || (t.type === 'movie' && t.releaseDate >= theatersFrom && t.releaseDate <= today))
+      && (!f.topRated || (t.rating ?? 0) >= 7.5)
+      && (!f.profile?.kids || t.genres.some((g) => g === 'family' || g === 'animation')));
+    return results;
   }
-  return { filters, results };
+
+  const kinds = (f.inTheaters ? ['movie'] : type ? [type] : ['movie', 'tv']).filter((k) => genres.every((g) => g[k]));
+  const lists = await Promise.all(kinds.map((kind) => {
+    const p = { ...baseParams(kind, { profile: f.profile }), ...(SORTS[f.sort] ?? SORTS.popular)(kind), page };
+    if (genres.length) p.with_genres = genres.map((g) => g[kind]).join(',');
+    const lang = genres.find((g) => g.language)?.language;
+    if (lang) p.with_original_language = lang;
+    if (short) p['with_runtime.lte'] = kind === 'tv' ? 30 : 100;
+    if (platform) Object.assign(p, { with_watch_providers: platform, watch_region: APP.region });
+    const dateKey = kind === 'tv' ? 'first_air_date' : 'primary_release_date';
+    if (range) Object.assign(p, { [`${dateKey}.gte`]: `${range.from}-01-01`, [`${dateKey}.lte`]: `${range.to}-12-31` });
+    if (f.sort === 'recent') p[`${dateKey}.lte`] = p[`${dateKey}.lte`] && p[`${dateKey}.lte`] < today ? p[`${dateKey}.lte`] : today;
+    if (f.topRated) Object.assign(p, { 'vote_average.gte': 7.5, 'vote_count.gte': Math.max(300, p['vote_count.gte'] ?? 0) });
+    if (f.inTheaters) Object.assign(p, { 'release_date.gte': theatersFrom, 'release_date.lte': today, with_release_type: '2|3', region: APP.region });
+    return discover(kind, p);
+  }));
+  return lists.length > 1 ? interleave(lists[0], lists[1]) : lists[0] ?? [];
 }
 
 // ---------- Plataformas ----------
@@ -427,5 +472,5 @@ export function answerQuestion(question) {
     const n = f.keywords.filter((k) => s.includes(k)).length;
     if (n > score) { score = n; best = f; }
   });
-  return best ? { q: best.q, a: best.a } : { q: question, a: copy.help.notFound };
+  return best ? copy.faq[best.id] : { q: question, a: copy.help.notFound };
 }
