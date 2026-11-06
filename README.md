@@ -17,10 +17,19 @@ Sitio: [moviesconv2.netlify.app](https://moviesconv2.netlify.app/) · Creado por
 | ![Página del título](docs/screenshots/title-page.jpg) | **Página propia de cada título** (`/titulo/movie-550`), para compartir o verla a pantalla completa. |
 | ![Animé](docs/screenshots/anime.jpg) | **Sección de Animé** con su propia paleta, tipografía (Dela Gothic One), fondo de líneas de velocidad, intro con sonido y filtros por “vibra”. |
 | ![Mi lista](docs/screenshots/my-list.jpg) | **Mi lista.** Viendo, Quiero ver y Vistas, separadas en películas y series, con buscador, calificación y reseña. |
-| ![Buscar](docs/screenshots/search.jpg) | **Búsqueda en lenguaje natural.** “series cortas de comedia” se convierte en filtros que puedes quitar. |
+| ![Buscar](docs/screenshots/search.jpg) | **Búsqueda con filtros:** tipo, género, año o década, en cines, cortas, mejor valoradas y orden. También entiende lenguaje natural: “series cortas de comedia” se convierte en filtros que puedes quitar. Los filtros quedan en la URL. |
 | ![Perfil](docs/screenshots/profile.jpg) | **Tu año en números**, temas de color, letra grande y tus plataformas. |
 
-También: “Sugerirme algo” según tu ánimo, recomendaciones con su motivo, tendencias, cartelera y próximos estrenos de Colombia, páginas de persona y de temporada, y novedades de la app.
+También: **español e inglés** (menú del avatar o Perfil; TMDB responde en ese idioma), confeti al marcar algo como visto o terminar una serie, “Estoy viéndola” para series, “Sugerirme algo” según tu ánimo, recomendaciones con su motivo, tendencias, cartelera y próximos estrenos de Colombia, páginas de persona y de temporada, y novedades de la app.
+
+### Correos
+
+Plantilla de correo para recomendar un título, en versión PeliBox y versión Animé (`src/emails/titleEmail.mjs`).
+`npm run email:test` envía tres correos de prueba (película, serie y animé): sin SMTP usa **Ethereal**, un buzón de prueba que no entrega a nadie y te da un enlace para verlos; con `SMTP_*` y `TEST_EMAIL_TO` en el `.env` los envía de verdad.
+
+| Película (PeliBox) | Animé |
+| --- | --- |
+| ![Correo de película](docs/screenshots/email-movie.jpg) | ![Correo de animé](docs/screenshots/email-anime.jpg) |
 
 ### Movimiento y gestos
 
@@ -40,6 +49,8 @@ npm install
 cp env.example .env   # y llena los valores
 npm run dev           # http://localhost:3000
 npm run build         # producción
+npm run check:i18n    # comprueba que español e inglés tengan las mismas claves
+npm run email:test    # correos de prueba
 ```
 
 ### Variables de entorno
@@ -51,6 +62,7 @@ Ver `env.example`. Nunca subas el archivo `.env` al repositorio (ya está en `.g
 | `BEARER_TOKEN` | Token de lectura de TMDB. Solo lo usa el servidor. |
 | `NEXT_PUBLIC_FIREBASE_*` | Configuración web de Firebase (es pública por diseño). |
 | `NEXT_PUBLIC_FULL_PLAYER_*` | Opcional: fuente de “Ver completa”. |
+| `SMTP_*`, `TEST_EMAIL_TO` | Opcional: envío real de `npm run email:test`. |
 
 ### Configurar Firebase (una sola vez)
 
@@ -76,7 +88,7 @@ docs/screenshots/      imágenes de este README
 ## Reglas del diseño
 
 - **Nada de valores sueltos:** colores, espacios, radios, tamaños y tiempos salen de `theme/tokens` como `var(--...)`.
-- **Textos solo en `i18n/es.js`.** **Íconos solo con `<Icon name="..." />`.**
+- **Textos solo en `i18n/es.js` y `i18n/en.js`** (misma forma; `npm run check:i18n` lo verifica). **Íconos solo con `<Icon name="..." />`.**
 - **TMDB solo desde `services/`.** **Animaciones solo con `lib/motion.js`**, siempre detrás de `motionOK()`.
 - **Funciones a medias van detrás de `APP.features`** (por ejemplo “Ver juntos”, hoy apagada).
 
