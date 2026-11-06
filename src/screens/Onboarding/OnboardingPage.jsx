@@ -22,9 +22,9 @@ import s from './OnboardingPage.module.css';
 
 const DECISION = { right: STATUS.WANT, left: STATUS.DISMISSED, up: STATUS.SEEN };
 const ACTIONS = [
-  { dir: 'left', icon: 'dismiss', label: copy.onboarding.no, variant: 'secondary' },
-  { dir: 'up', icon: 'seen', label: copy.onboarding.seen, variant: 'secondary' },
-  { dir: 'right', icon: 'save', label: copy.onboarding.want, variant: 'primary' },
+  { dir: 'left', icon: 'dismiss', label: () => copy.onboarding.no, variant: 'secondary' },
+  { dir: 'up', icon: 'seen', label: () => copy.onboarding.seen, variant: 'secondary' },
+  { dir: 'right', icon: 'save', label: () => copy.onboarding.want, variant: 'primary' },
 ];
 
 export default function OnboardingPage() {
@@ -83,8 +83,8 @@ export default function OnboardingPage() {
           <div className={s.actions}>
             {ACTIONS.map((a) => (
               <div key={a.dir} className={s.action}>
-                <Button variant={a.variant} size="xl" icon={a.icon} aria-label={a.label} onClick={() => decide(a.dir)} />
-                <span className={s.actionLabel}>{a.label}</span>
+                <Button variant={a.variant} size="xl" icon={a.icon} aria-label={a.label()} onClick={() => decide(a.dir)} />
+                <span className={s.actionLabel}>{a.label()}</span>
               </div>
             ))}
           </div>

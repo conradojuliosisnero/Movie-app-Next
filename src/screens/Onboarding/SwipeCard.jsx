@@ -10,7 +10,7 @@ import { copy } from '@/i18n';
 import { cx } from '@/utils/cx';
 import s from './SwipeCard.module.css';
 
-const STAMP = { right: copy.onboarding.stamp.want, left: copy.onboarding.stamp.no, up: copy.onboarding.stamp.seen };
+const STAMP = { right: 'want', left: 'no', up: 'seen' };
 const FLING_VELOCITY = 900; // px/s: un gesto rápido decide aunque no pase el umbral
 
 /** Hacia dónde apunta un desplazamiento (o null si es muy corto). */
@@ -84,7 +84,7 @@ export default function SwipeCard({ title: t, exit, onDecide }) {
         <span className={s.meta}>{titleMeta(t)}</span>
         <p className={s.synopsis}>{t.synopsis}</p>
       </div>
-      <div ref={stampRef} className={cx('u-media-glass', s.stamp)} style={{ opacity: 0 }}>{dir ? STAMP[dir] : ''}</div>
+      <div ref={stampRef} className={cx('u-media-glass', s.stamp)} style={{ opacity: 0 }}>{dir ? copy.onboarding.stamp[STAMP[dir]] : ''}</div>
     </div>
   );
 }

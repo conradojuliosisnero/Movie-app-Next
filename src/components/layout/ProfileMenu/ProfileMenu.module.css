@@ -35,3 +35,7 @@
 .dot { width: 1.5rem; height: 1.5rem; padding: 0; border-radius: 50%; border: 1px solid var(--color-glass-border); }
 .dotOn { border: 2px solid var(--color-fg); }
 .hr { border: 0; height: 1px; background: var(--color-line); margin: 0 var(--space-2) var(--space-2); }
+
+.langs { display: flex; gap: var(--space-1); }
+.lang { min-width: 2.25rem; height: 1.75rem; padding: 0 var(--space-2); border-radius: var(--radius-pill); border: 1px solid var(--color-line); background: transparent; font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: var(--fw-semibold); }
+.langOn { background: var(--color-fg); color: var(--color-bg); border-color: transparent; }

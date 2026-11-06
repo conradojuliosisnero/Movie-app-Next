@@ -9,13 +9,12 @@ import Button from '@/components/ui/Button/Button';
 import Icon from '@/components/ui/Icon/Icon';
 import { useToast } from '@/store/ToastContext';
 import { answerQuestion, visibleFaq } from '@/services/catalog';
-import { FAQ, HELP_TOPICS } from '@/data/faq';
+import { HELP_TOPICS } from '@/data/faq';
 import { ROUTES } from '@/config/app.config';
 import { copy } from '@/i18n';
 import { cx } from '@/utils/cx';
 import s from './HelpPage.module.css';
 
-const FAQ_BY_ID = Object.fromEntries(FAQ.map((f) => [f.id, f]));
 
 export default function HelpPage() {
   const { show } = useToast();
@@ -31,8 +30,7 @@ export default function HelpPage() {
 
       <div className={s.chips}>
         {HELP_TOPICS.map((t) => {
-          const f = FAQ_BY_ID[t.faqId];
-          return <Chip key={t.id} onClick={() => setAnswer({ q: f.q, a: f.a })}>{copy.help.topics[t.id]}</Chip>;
+          return <Chip key={t.id} onClick={() => setAnswer(copy.faq[t.faqId])}>{copy.help.topics[t.id]}</Chip>;
         })}
       </div>
 
@@ -56,10 +54,10 @@ export default function HelpPage() {
           return (
             <div key={f.id} className={s.faqItem}>
               <button type="button" aria-expanded={isOpen} className={s.faqQ} onClick={() => setOpen(isOpen ? null : f.id)}>
-                {f.q}
+                {copy.faq[f.id].q}
                 <Icon name={isOpen ? 'collapse' : 'expand'} size="md" className={s.faqIcon} />
               </button>
-              {isOpen && <p className={s.faqA}>{f.a}</p>}
+              {isOpen && <p className={s.faqA}>{copy.faq[f.id].a}</p>}
             </div>
           );
         })}

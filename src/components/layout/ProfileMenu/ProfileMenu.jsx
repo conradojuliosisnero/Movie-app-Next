@@ -7,6 +7,7 @@ import { useUI } from '@/store/UIContext';
 import { useSession } from '@/store/SessionContext';
 import { useToast } from '@/store/ToastContext';
 import { useTheme } from '@/theme/ThemeProvider';
+import { useLanguage } from '@/i18n/LanguageProvider';
 import { ROUTES } from '@/config/app.config';
 import { copy } from '@/i18n';
 import { cx } from '@/utils/cx';
@@ -18,6 +19,7 @@ export default function ProfileMenu() {
   const session = useSession();
   const { show } = useToast();
   const { themes, themeId, setTheme } = useTheme();
+  const { lang, languages, setLang } = useLanguage();
   const router = useRouter();
   const p = session.profile;
 
@@ -51,6 +53,16 @@ export default function ProfileMenu() {
               style={{ background: `linear-gradient(135deg, ${t.bg} 50%, ${t.accent} 50%)` }}
               onClick={() => { setTheme(t.id); show(copy.toasts.theme(t.label)); }}
             />
+          ))}
+        </div>
+      </div>
+      <div className={s.row}>
+        <span>{copy.menu.language}</span>
+        <div className={s.langs}>
+          {languages.map((l) => (
+            <button key={l.code} type="button" aria-pressed={l.code === lang} className={cx(s.lang, l.code === lang && s.langOn)} onClick={() => setLang(l.code)}>
+              {l.code.toUpperCase()}
+            </button>
           ))}
         </div>
       </div>

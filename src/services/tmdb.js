@@ -1,10 +1,12 @@
 // Cliente de TMDB para el navegador. Pasa por /api/tmdb (el token se queda en el servidor)
 // y guarda en memoria las respuestas para no repetir la misma petición en la sesión.
+import { currentLang } from '@/i18n';
+
 const cache = new Map();
 const MAX_ENTRIES = 300;
 
 export async function tmdb(path, params = {}) {
-  const query = new URLSearchParams();
+  const query = new URLSearchParams({ language: currentLang().tmdb });
   Object.entries(params).forEach(([k, v]) => { if (v !== undefined && v !== null && v !== '') query.set(k, String(v)); });
   const url = `/api/tmdb/${path}${query.size ? `?${query}` : ''}`;
 

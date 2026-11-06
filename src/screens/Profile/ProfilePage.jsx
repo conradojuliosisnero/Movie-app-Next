@@ -14,6 +14,8 @@ import { useSession } from '@/store/SessionContext';
 import { useToast } from '@/store/ToastContext';
 import { useUI } from '@/store/UIContext';
 import { useTheme } from '@/theme/ThemeProvider';
+import { useLanguage } from '@/i18n/LanguageProvider';
+import Segmented from '@/components/ui/Segmented/Segmented';
 import { usePlatforms } from '@/hooks/useCatalogData';
 import { computeStats } from '@/services/catalog';
 import { genreLabel } from '@/data/genres';
@@ -29,6 +31,7 @@ export default function ProfilePage() {
   const lib = useLibrary();
   const session = useSession();
   const theme = useTheme();
+  const language = useLanguage();
   const ui = useUI();
   const platforms = usePlatforms();
   const { show } = useToast();
@@ -124,6 +127,10 @@ export default function ProfilePage() {
         </Card>
 
         <Card padding={6} radius="xl" className={s.flat}>
+          <div className={s.setting}>
+            <span className={s.settingLabel}>{copy.profile.language}</span>
+            <Segmented label={copy.profile.language} value={language.lang} onChange={language.setLang} options={language.languages.map((l) => ({ value: l.code, label: l.label }))} />
+          </div>
           {settings.map((x) => (
             <div key={x.key} className={s.setting}>
               <div className={s.settingText}>
