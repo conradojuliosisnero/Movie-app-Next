@@ -113,6 +113,7 @@ export default function TitleDetails({ item, proposed = false, variant = 'sheet'
               {isSeries && next ? `${copy.common.watchFull} · ${copy.player.episode(next.season, next.ep)}` : copy.common.watchFull}
             </Button>
             <Button size="lg" icon="save" active={status === STATUS.WANT} onClick={() => act.save(t)}>{copy.detail.saveToList}</Button>
+            {isSeries && <Button size="lg" icon="play" active={status === STATUS.WATCHING} onClick={() => act.startWatching(t)}>{copy.detail.watching}</Button>}
             <Button size="lg" icon="seen" active={status === STATUS.SEEN} onClick={() => act.markSeen(t)}>{copy.common.seen}</Button>
             <Button size="lg" variant="ghost" active={status === STATUS.DISMISSED} onClick={() => act.dismiss(t)}>{copy.common.dismiss}</Button>
             <Button size="lg" variant="ghost" icon="share" aria-label={copy.common.share} onClick={() => share(t, show)} />
