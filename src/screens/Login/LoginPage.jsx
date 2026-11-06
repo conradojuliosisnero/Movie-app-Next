@@ -5,6 +5,7 @@ import Card from '@/components/ui/Card/Card';
 import Button from '@/components/ui/Button/Button';
 import Poster from '@/components/ui/Poster/Poster';
 import Logo from '@/components/ui/Logo/Logo';
+import InstallPrompt from '@/components/ui/InstallPrompt/InstallPrompt';
 import { useSession } from '@/store/SessionContext';
 import { useToast } from '@/store/ToastContext';
 import { useAsync } from '@/hooks/useAsync';
@@ -85,6 +86,7 @@ export default function LoginPage() {
 
   return (
     <div className={s.page}>
+      <InstallPrompt placement="top" />
       {/* Muro de pósters en movimiento: columnas que suben y bajan a distinta velocidad. */}
       <div className={s.wall} aria-hidden="true">
         <div className={s.columns}>

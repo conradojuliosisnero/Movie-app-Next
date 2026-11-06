@@ -306,6 +306,15 @@ export const es = {
     sync: { q: '¿Mi lista se guarda?', a: 'Sí. Con tu cuenta, tu lista se guarda en la nube y la ves igual en el celular y en el computador. En modo explorar solo se guarda en este navegador.' },
     party: { q: '¿Cómo veo con amigos?', a: 'En cualquier tráiler toca “Ver juntos” e invita a tu gente.' },
   },
+  install: {
+    title: 'Instala',
+    body: 'Ábrela como app desde tu pantalla de inicio: a pantalla completa y más rápida.',
+    cta: 'Instalar',
+    later: 'Ahora no',
+    gotIt: 'Entendido',
+    iosBefore: 'Toca Compartir',
+    iosAfter: 'y luego “Agregar a inicio”.',
+  },
   notFound: {
     title: 'Esta página no existe',
     body: 'Puede que el enlace esté mal escrito o que la página ya no exista.',

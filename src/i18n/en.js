@@ -307,6 +307,15 @@ export const en = {
     sync: { q: 'Is my list saved?', a: 'Yes. With an account, your list is saved in the cloud and looks the same on your phone and computer. In explore mode it’s only saved in this browser.' },
     party: { q: 'How do I watch with friends?', a: 'On any trailer tap “Watch together” and invite your people.' },
   },
+  install: {
+    title: 'Install',
+    body: 'Open it as an app from your home screen: full screen and faster.',
+    cta: 'Install',
+    later: 'Not now',
+    gotIt: 'Got it',
+    iosBefore: 'Tap Share',
+    iosAfter: 'then “Add to Home Screen”.',
+  },
   notFound: {
     title: 'This page does not exist',
     body: 'The link may be mistyped or the page may no longer exist.',

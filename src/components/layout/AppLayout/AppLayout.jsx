@@ -6,6 +6,7 @@ import NavBar from '../NavBar/NavBar';
 import Ambient from '../Ambient/Ambient';
 import TitleDetailSheet from '@/components/title/TitleDetailSheet/TitleDetailSheet';
 import TrailerPlayer from '@/components/player/TrailerPlayer/TrailerPlayer';
+import InstallPrompt from '@/components/ui/InstallPrompt/InstallPrompt';
 import { useUI } from '@/store/UIContext';
 import s from './AppLayout.module.css';
 
@@ -42,6 +43,7 @@ export default function AppLayout({ children }) {
       <main ref={mainRef} className={s.main}>{children}</main>
       <TitleDetailSheet />
       <TrailerPlayer />
+      <InstallPrompt />
     </>
   );
 }
