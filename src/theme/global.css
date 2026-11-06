@@ -53,8 +53,17 @@ p { margin: 0; text-wrap: pretty; }
 .u-display { font-family: var(--font-display); font-weight: var(--fw-bold); letter-spacing: var(--ls-tighter); line-height: var(--lh-tight); }
 .u-muted { color: var(--color-fg-muted); }
 .u-sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.u-hscroll { display: flex; gap: var(--space-4); overflow-x: auto; padding: var(--space-1) var(--space-1) var(--space-3); scrollbar-width: none; }
-.u-hscroll::-webkit-scrollbar { display: none; }
+.u-hscroll { display: flex; gap: var(--space-4); overflow-x: auto; padding: var(--space-1) var(--space-1) var(--space-3); scrollbar-color: transparent transparent; }
+.u-hscroll:hover { scrollbar-color: color-mix(in oklab, var(--color-accent) 70%, transparent) transparent; }
+
+/* ---------- Barras de desplazamiento con el acento del tema (o de la sección, ej. Animé) ---------- */
+html { scrollbar-color: color-mix(in oklab, var(--color-accent) 75%, var(--color-bg)) var(--color-bg); }
+* { scrollbar-width: thin; scrollbar-color: color-mix(in oklab, var(--color-accent) 60%, transparent) transparent; }
+html[data-section='anime'] { scrollbar-color: oklch(0.68 0.25 350) #0a0716; }
+/* Safari (no soporta scrollbar-color): mismo estilo con los pseudo-elementos. */
+::-webkit-scrollbar { width: 10px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { border: 2px solid transparent; border-radius: 999px; background: linear-gradient(180deg, var(--color-accent), color-mix(in oklab, var(--color-accent) 50%, var(--color-bg))) padding-box; }
 
 @keyframes pb-sheet-in { from { opacity: 0; transform: translateX(40px) scale(.97); } to { opacity: 1; transform: none; } }
 @keyframes pb-pop { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: none; } }
