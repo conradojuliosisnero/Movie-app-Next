@@ -18,7 +18,10 @@ export function useIndicator(container, indicator, activeSelector, key) {
     const move = (animate) => {
       const el = box.querySelector(activeSelector);
       if (!el) { gsap.to(pill, { autoAlpha: 0, duration: DUR.fast }); return; }
-      const to = { x: el.offsetLeft, y: el.offsetTop, width: el.offsetWidth, height: el.offsetHeight, autoAlpha: 1 };
+      // Posición relativa al contenedor (sirve aunque el elemento activo esté anidado).
+      const r = el.getBoundingClientRect();
+      const c = box.getBoundingClientRect();
+      const to = { x: r.left - c.left + box.scrollLeft - box.clientLeft, y: r.top - c.top + box.scrollTop - box.clientTop, width: r.width, height: r.height, autoAlpha: 1 };
       if (!animate || !placed.current || !motionOK()) gsap.set(pill, to);
       else gsap.to(pill, { ...to, duration: DUR.slow, ease: 'spring', overwrite: true });
       placed.current = true;

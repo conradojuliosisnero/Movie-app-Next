@@ -26,3 +26,9 @@
 .clickable { cursor: pointer; }
 .dot { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--color-accent); box-shadow: 0 0 12px var(--color-accent); }
 .live { background: var(--color-success); box-shadow: 0 0 12px var(--color-success); }
+
+/* Celular: el aviso sale por encima de las pestañas. */
+@media (max-width: 760px) {
+  .island { bottom: calc(5.5rem + env(safe-area-inset-bottom)); max-width: calc(100vw - var(--space-6)); }
+  .open { max-width: calc(100vw - var(--space-6)); white-space: normal; height: auto; min-height: 3.125rem; padding-block: var(--space-2); }
+}

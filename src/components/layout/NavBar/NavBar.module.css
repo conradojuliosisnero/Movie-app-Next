@@ -38,8 +38,41 @@
 /* Píldora del enlace activo: la desliza GSAP (hooks/useIndicator). */
 .pill { position: absolute; top: 0; left: 0; border-radius: var(--radius-pill); background: var(--color-surface-2); box-shadow: inset 0 0 0 1px var(--color-line); opacity: 0; pointer-events: none; }
 
-/* En pantallas angostas solo íconos (breakpoint md de tokens/sizes.js) */
-@media (max-width: 960px) {
-  .label { display: none; }
-  .active .label { display: inline; }
+/* Pestañas de abajo: solo en celular. */
+.tabs { display: none; }
+
+@media (max-width: 760px) {
+  .wrap { top: calc(var(--space-2) + env(safe-area-inset-top)); }
+  .bar { height: 54px; padding: 0 var(--space-1) 0 var(--space-4); justify-content: space-between; }
+  .nav { display: none; }
+  .tabs {
+    position: fixed;
+    z-index: var(--z-nav);
+    left: var(--space-3);
+    right: var(--space-3);
+    bottom: calc(var(--space-3) + env(safe-area-inset-bottom));
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    height: 64px;
+    padding: 0 var(--space-1);
+    border-radius: var(--radius-xl);
+  }
+  .tab {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    color: var(--color-fg-muted);
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: var(--fw-semibold);
+    transition: color var(--dur-fast);
+  }
+  .tabIcon { width: 52px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-pill); }
+  .tabOn { color: var(--color-fg); }
+  .tab:active .tabIcon { transform: scale(.92); }
+  /* Píldora detrás del ícono activo (la desliza GSAP). */
+  .tabPill { position: absolute; top: 0; left: 0; border-radius: var(--radius-pill); background: color-mix(in oklab, var(--color-accent) 28%, transparent); opacity: 0; pointer-events: none; }
 }

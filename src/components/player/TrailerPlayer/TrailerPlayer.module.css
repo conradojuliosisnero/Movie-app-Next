@@ -36,3 +36,19 @@
   .overlay { grid-template-columns: 1fr; grid-template-rows: auto 1fr auto auto; }
   .spacer { display: none; }
 }
+.shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 20%, rgba(255,255,255,.08) 50%, transparent 80%) 0 0 / 200% 100% no-repeat, rgba(255,255,255,.04);
+  animation: player-shimmer 1.4s ease-in-out infinite;
+}
+@keyframes player-shimmer { from { background-position: 150% 0, 0 0; } to { background-position: -50% 0, 0 0; } }
+
+/* Celular: reproductor a pantalla completa, con las safe areas. */
+@media (max-width: 760px) {
+  .overlay { padding: calc(var(--space-3) + env(safe-area-inset-top)) var(--space-3) calc(var(--space-3) + env(safe-area-inset-bottom)); gap: var(--space-2); }
+  .stage { border-radius: var(--radius-md); }
+  .controls { flex-wrap: nowrap; overflow-x: auto; border-radius: var(--radius-lg); }
+  .controls > * { flex: none; }
+  .headingTitle { font-size: var(--fs-lg); }
+}

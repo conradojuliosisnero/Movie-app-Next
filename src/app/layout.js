@@ -13,9 +13,14 @@ const mono = JetBrains_Mono({ subsets: ['latin'], weight: ['500'], variable: '--
 export const metadata = {
   title: { default: `${APP.name} · ${copy.app.tagline}`, template: `%s · ${APP.name}` },
   description: copy.app.description,
+  applicationName: APP.name,
+  // Instalable: al agregarla a la pantalla de inicio abre como app, sin barra del navegador.
+  appleWebApp: { capable: true, title: APP.name, statusBarStyle: 'black-translucent' },
+  formatDetection: { telephone: false },
 };
 
-export const viewport = { themeColor: '#0b0c10' };
+// viewport-fit=cover: la app usa toda la pantalla (notch incluido) y respeta las safe areas por CSS.
+export const viewport = { themeColor: '#0b0c10', width: 'device-width', initialScale: 1, viewportFit: 'cover' };
 
 // Variables del tema por defecto, pintadas desde el servidor para que no haya parpadeo.
 const rootVars = `:root{${Object.entries(buildCssVars(APP.defaultTheme)).map(([k, v]) => `${k}:${v}`).join(';')}}`;

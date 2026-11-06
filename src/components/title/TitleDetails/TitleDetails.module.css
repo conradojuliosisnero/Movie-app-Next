@@ -59,3 +59,10 @@
   .page .columns { grid-template-columns: 1fr; }
   .heroPoster { width: 110px; }
 }
+
+@media (max-width: 760px) {
+  .hero { min-height: 17rem; padding: var(--space-5); }
+  .title { font-size: var(--fs-3xl); }
+  .body { padding: var(--space-5) var(--space-4); }
+  .actions > * { flex: 1 1 auto; }
+}

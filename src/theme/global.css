@@ -71,3 +71,20 @@ html[data-section='anime'] { scrollbar-color: oklch(0.68 0.25 350) #0a0716; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
 }
+
+/* ---------- Sensación de app en pantallas táctiles ---------- */
+html { -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; }
+body { overscroll-behavior-y: none; }
+button, a, [role='tab'], [role='switch'] { touch-action: manipulation; }
+@media (hover: none) {
+  /* Campos de 16px o más: iOS no hace zoom al tocarlos. */
+  input, select, textarea { font-size: max(16px, 1em) !important; }
+  /* Las filas encajan póster por póster al deslizar. */
+  .u-hscroll { scroll-snap-type: x proximity; scroll-padding-inline: var(--space-1); }
+  .u-hscroll > * { scroll-snap-align: start; }
+  /* Respuesta inmediata al toque (no hay hover). */
+  button:active, a:active { transform: scale(.97); }
+}
+@media (max-width: 760px) {
+  h1 { font-size: clamp(2rem, 9vw, 2.75rem); }
+}
