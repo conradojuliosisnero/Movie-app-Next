@@ -39,3 +39,6 @@ next-env.d.ts
 
 # grafo de graphify (salida generada)
 graphify-out/
+
+# correos de prueba generados por npm run email:test
+.emails/

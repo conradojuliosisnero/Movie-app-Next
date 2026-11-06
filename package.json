@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "check:i18n": "node scripts/check-i18n.mjs",
+    "email:test": "node scripts/send-test-email.mjs"
   },
   "dependencies": {
     "@blobatar/react": "^2.7.0",
@@ -17,5 +19,8 @@
     "next": "16.4.5",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "nodemailer": "^7.0.13"
   }
 }
