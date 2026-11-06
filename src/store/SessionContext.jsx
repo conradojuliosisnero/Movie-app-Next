@@ -10,6 +10,7 @@ import { doc, onSnapshot, setDoc } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
 import { storage } from '@/services/storage';
 import { APP } from '@/config/app.config';
+import { resetIntros } from '@/components/ui/BrandIntro/BrandIntro';
 
 const SessionContext = createContext(null);
 
@@ -93,9 +94,11 @@ export function SessionProvider({ children }) {
       completeEmailLink: async (email, href) => {
         await signInWithEmailLink(auth, email, href);
         storage.remove(EMAIL_KEY);
+        resetIntros();
       },
-      signInWithGoogle: () => signInWithPopup(auth, new GoogleAuthProvider()),
+      signInWithGoogle: async () => { await signInWithPopup(auth, new GoogleAuthProvider()); resetIntros(); },
       explore: () => {
+        resetIntros();
         storage.set('guest', true);
         storage.set('profile:invitado', GUEST_ACCOUNT.profiles[0].id);
         setGuest(true);
@@ -118,6 +121,7 @@ export function SessionProvider({ children }) {
         saveAccount({ profiles: profiles.map((p) => (p.id === profileId ? { ...p, last: title } : p)) });
       },
       logout: async () => {
+        resetIntros();
         storage.remove('guest');
         if (accountKey) storage.remove(`profile:${accountKey}`);
         setGuest(false);

@@ -13,6 +13,11 @@ import s from './BrandIntro.module.css';
 const STRIPES = 9;
 const seenKey = (variant) => `${APP.storageKey}:intro:${variant}`;
 
+/** Las intros salen una vez por inicio de sesión: al entrar o salir se vuelven a habilitar. */
+export function resetIntros() {
+  try { ['brand', 'anime'].forEach((v) => sessionStorage.removeItem(seenKey(v))); } catch { /* modo privado */ }
+}
+
 function alreadySeen(variant) {
   try { return sessionStorage.getItem(seenKey(variant)) === '1'; } catch { return false; }
 }
