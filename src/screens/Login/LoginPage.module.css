@@ -1,16 +1,45 @@
-.page { min-height: 100vh; display: flex; flex-wrap: wrap-reverse; align-items: center; justify-content: center; gap: var(--space-12); padding: var(--space-10) var(--space-6); }
-.mosaicWrap { position: relative; width: min(28rem, 100%); height: 32rem; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-.mosaic { display: grid; grid-template-columns: repeat(3, 150px); gap: var(--space-4); transform: rotate(-8deg); pointer-events: none; }
-.fade { position: absolute; inset: 0; background: radial-gradient(closest-side, transparent 50%, var(--color-bg)); }
-.card { width: min(26.25rem, 100%); display: flex; flex-direction: column; gap: var(--space-5); }
+.page {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(24rem, 1fr);
+  align-items: center;
+  overflow: hidden;
+}
+
+/* ---------- Muro de pósters en movimiento ---------- */
+.wall { position: relative; height: 100dvh; overflow: hidden; }
+.columns {
+  position: absolute;
+  inset: -20% -10%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-4);
+  transform: rotate(-9deg) scale(1.05);
+}
+.column { display: flex; flex-direction: column; gap: var(--space-4); animation: wall-up var(--speed) linear infinite; will-change: transform; }
+.column[data-dir='down'] { animation-name: wall-down; }
+@keyframes wall-up { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+@keyframes wall-down { from { transform: translateY(-50%); } to { transform: translateY(0); } }
+.fade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 55%, var(--color-bg) 98%),
+    linear-gradient(180deg, var(--color-bg) 0%, transparent 18%, transparent 82%, var(--color-bg) 100%);
+}
+
+/* ---------- Tarjeta ---------- */
+.card { position: relative; z-index: 1; width: min(26.25rem, calc(100% - var(--space-12))); margin: var(--space-10) auto; display: flex; flex-direction: column; gap: var(--space-5); }
 .top { display: flex; align-items: center; justify-content: space-between; }
 .title { font-size: var(--fs-4xl); font-weight: var(--fw-bold); letter-spacing: var(--ls-tighter); line-height: 1; }
 .form { display: flex; flex-direction: column; gap: var(--space-3); }
 .label { font-size: var(--fs-md); color: var(--color-fg-muted); }
 .label b { color: var(--color-fg); }
-.input { height: var(--control-lg); border-radius: var(--radius-md); padding: 0 var(--space-4); font-size: var(--fs-lg); background: var(--color-surface-2); border: 1px solid var(--color-line); outline: none; }
+/* 16px+ evita que iOS haga zoom al tocar el campo. */
+.input { height: var(--control-lg); border-radius: var(--radius-md); padding: 0 var(--space-4); font-size: max(16px, var(--fs-lg)); background: var(--color-surface-2); border: 1px solid var(--color-line); outline: none; }
 .input:focus { border-color: var(--color-accent); }
-.code { height: 4rem; text-align: center; font-family: var(--font-mono); font-size: var(--fs-3xl); letter-spacing: .6em; }
 .error { font-size: var(--fs-sm); color: var(--color-accent); }
 .hint { font-size: var(--fs-sm); color: var(--color-fg-faint); }
 .social { display: flex; gap: var(--space-3); }
@@ -19,3 +48,23 @@
 .dots { display: flex; gap: 6px; }
 .dot { width: 7px; height: 7px; border-radius: 4px; background: var(--color-glass-border); transition: width var(--dur-base), background var(--dur-base); }
 .dotOn { width: 22px; background: var(--color-accent); }
+
+/* ---------- Celular: el muro queda de fondo, tenue, y la tarjeta encima ---------- */
+@media (max-width: 960px) {
+  .page { grid-template-columns: 1fr; align-items: end; }
+  .wall { position: absolute; inset: 0; height: auto; opacity: .38; filter: saturate(.8); }
+  .columns { grid-template-columns: repeat(3, 1fr); inset: -20% -25%; gap: var(--space-3); }
+  .column:nth-child(n + 4) { display: none; }
+  .fade { background: linear-gradient(180deg, color-mix(in oklab, var(--color-bg) 30%, transparent) 0%, var(--color-bg) 78%); }
+  .card {
+    width: auto;
+    margin: 0 var(--space-3) calc(var(--space-3) + env(safe-area-inset-bottom));
+    background: var(--color-glass);
+    backdrop-filter: blur(var(--blur-glass)) saturate(var(--glass-saturate));
+  }
+  .title { font-size: var(--fs-3xl); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .column { animation: none !important; }
+}

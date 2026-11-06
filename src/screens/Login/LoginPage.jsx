@@ -16,6 +16,15 @@ import { cx } from '@/utils/cx';
 import s from './LoginPage.module.css';
 
 const STEPS = 2;
+const COLUMN_COUNT = 5;
+const COLUMN_SPEEDS = [46, 58, 40, 64, 52]; // segundos por vuelta: lento y sin sincronizar
+
+/** Reparte los pósters en columnas (con repetición si hay pocos). */
+function columns(titles) {
+  const withImage = titles.filter((t) => t.image);
+  if (!withImage.length) return [];
+  return Array.from({ length: COLUMN_COUNT }, (_, c) => Array.from({ length: 6 }, (_, r) => withImage[(c * 4 + r * 3) % withImage.length]));
+}
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function LoginPage() {
@@ -76,9 +85,15 @@ export default function LoginPage() {
 
   return (
     <div className={s.page}>
-      <div className={s.mosaicWrap} aria-hidden="true">
-        <div className={s.mosaic}>
-          {(mosaic.data ?? []).slice(0, 9).map((t) => <Poster key={t.id} title={t} size="md" />)}
+      {/* Muro de pósters en movimiento: columnas que suben y bajan a distinta velocidad. */}
+      <div className={s.wall} aria-hidden="true">
+        <div className={s.columns}>
+          {columns(mosaic.data ?? []).map((col, i) => (
+            <div key={i} className={s.column} style={{ '--speed': `${COLUMN_SPEEDS[i]}s` }} data-dir={i % 2 ? 'down' : 'up'}>
+              {/* La columna va dos veces seguidas para que el bucle no tenga corte. */}
+              {[...col, ...col].map((t, j) => <Poster key={`${t.id}-${j}`} title={t} size="fluid" />)}
+            </div>
+          ))}
         </div>
         <div className={s.fade} />
       </div>
