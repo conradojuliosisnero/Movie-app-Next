@@ -1,46 +1,39 @@
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { Toaster } from "react-hot-toast";
-import ReduxProvider from "@/layouts/ReduxProvider";
+import { Bricolage_Grotesque, Instrument_Sans, JetBrains_Mono } from 'next/font/google';
+import Providers from './providers';
+import { buildCssVars } from '@/theme/cssVars';
+import { APP } from '@/config/app.config';
+import { copy } from '@/i18n';
+import 'blobatar/motion.css';
+import '@/theme/global.css';
+
+const display = Bricolage_Grotesque({ subsets: ['latin'], weight: ['500', '700', '800'], variable: '--nf-display', display: 'swap' });
+const body = Instrument_Sans({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--nf-body', display: 'swap' });
+const mono = JetBrains_Mono({ subsets: ['latin'], weight: ['500'], variable: '--nf-mono', display: 'swap' });
 
 export const metadata = {
-  title: "MoviesCon 2.0 | The ultimate movie app",
-  description: "site for viewing details of movies and series",
+  title: { default: `${APP.name} · ${copy.app.tagline}`, template: `%s · ${APP.name}` },
+  description: copy.app.description,
+  applicationName: APP.name,
+  // Instalable: al agregarla a la pantalla de inicio abre como app, sin barra del navegador.
+  appleWebApp: { capable: true, title: APP.name, statusBarStyle: 'black-translucent' },
+  formatDetection: { telephone: false },
 };
 
-const inter = Inter({ subsets: ["latin"] });
+// viewport-fit=cover: la app usa toda la pantalla (notch incluido) y respeta las safe areas por CSS.
+export const viewport = { themeColor: '#0b0c10', width: 'device-width', initialScale: 1, viewportFit: 'cover' };
+
+// Variables del tema por defecto, pintadas desde el servidor para que no haya parpadeo.
+const rootVars = `:root{${Object.entries(buildCssVars(APP.defaultTheme)).map(([k, v]) => `${k}:${v}`).join(';')}}`;
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es">
-        <body className={inter.className}>
-          <Toaster
-            position="top-center"
-            reverseOrder={false}
-            gutter={8}
-            containerClassName=""
-            containerStyle={{}}
-            toastOptions={{
-              // Define default options
-              className: "",
-              duration: 5000,
-              style: {
-                background: "#363636",
-                color: "#fff",
-              },
-
-              // Default options for specific types
-              success: {
-                duration: 3000,
-                theme: {
-                  primary: "green",
-                  secondary: "black",
-                },
-              },
-            }}
-          />
-          <ReduxProvider>{children}</ReduxProvider>
-        </body>
+    <html lang="es" className={`${display.variable} ${body.variable} ${mono.variable}`} data-theme={APP.defaultTheme}>
+      <head>
+        <style dangerouslySetInnerHTML={{ __html: rootVars }} />
+      </head>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

@@ -1,0 +1,39 @@
+// Registro central de íconos: los componentes piden íconos por NOMBRE SEMÁNTICO.
+// Para cambiar la librería o un ícono, solo se edita este archivo.
+import {
+  Heart, Check, X, Search, Play, Pause, RotateCcw, ArrowLeft, ArrowRight, ExternalLink,
+  Users, Sparkles, Bell, ChevronRight, Plus, Minus, Send, CircleHelp, House, Bookmark, User, Star,
+  Share2, Clapperboard, Megaphone, LogIn, Swords,
+} from 'lucide-react';
+
+export const ICONS = {
+  save: Heart,
+  seen: Check,
+  dismiss: X,
+  close: X,
+  search: Search,
+  play: Play,
+  pause: Pause,
+  replay: RotateCcw,
+  back: ArrowLeft,
+  forward: ArrowRight,
+  external: ExternalLink,
+  party: Users,
+  suggest: Sparkles,
+  notify: Bell,
+  chevron: ChevronRight,
+  add: Plus,
+  expand: Plus,
+  collapse: Minus,
+  send: Send,
+  help: CircleHelp,
+  home: House,
+  library: Bookmark,
+  profile: User,
+  star: Star,
+  share: Share2,
+  full: Clapperboard,
+  news: Megaphone,
+  login: LogIn,
+  anime: Swords,
+};

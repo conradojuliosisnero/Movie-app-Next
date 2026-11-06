@@ -1,23 +1,17 @@
-"use client"
-import notFound from "../../public/not-found-error.svg";
-import Image from "next/image";
-import styles from "./page.module.css";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+import Link from 'next/link';
+import Logo from '@/components/ui/Logo/Logo';
+import { copy } from '@/i18n';
+import { ROUTES } from '@/config/app.config';
 
-export default function Notfound() {
-  const router = useRouter();
+export const metadata = { title: copy.notFound.title };
 
-  const goHome = () => {
-    router.push("/home");
-  };
-
+export default function NotFound() {
   return (
-    <div className={styles.page_404}>
-      <Image src={notFound} alt="not-found" width={350} height={350} />
-      <Link href="/home" onClick={goHome} className={styles.buttonHome}>
-        Volver al Home
-      </Link>
-    </div>
+    <main style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-4)', padding: 'var(--space-6)', textAlign: 'center' }}>
+      <Logo size="lg" />
+      <h1 style={{ fontSize: 'var(--fs-4xl)' }}>{copy.notFound.title}</h1>
+      <p className="u-muted">{copy.notFound.body}</p>
+      <Link href={ROUTES.home}>{copy.notFound.home} ›</Link>
+    </main>
   );
 }

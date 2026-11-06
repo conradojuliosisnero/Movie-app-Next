@@ -1,0 +1,42 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  flex: none;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-weight: var(--fw-semibold);
+  line-height: 1;
+  transition: background var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast), transform var(--dur-fast) var(--ease-spring);
+}
+.btn:active { transform: scale(.96); }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+
+.sm { height: var(--control-sm); padding: 0 var(--space-3); font-size: var(--fs-sm); }
+.md { height: var(--control-md); padding: 0 var(--space-4); font-size: var(--fs-sm); }
+.lg { height: var(--control-lg); padding: 0 var(--space-5); font-size: var(--fs-md); }
+.xl { height: var(--control-xl); padding: 0 var(--space-8); font-size: var(--fs-lg); font-family: var(--font-display); font-weight: var(--fw-bold); }
+.iconOnly { padding: 0; aspect-ratio: 1; }
+.block { width: 100%; }
+
+.primary { background: var(--color-accent); color: var(--color-accent-fg); box-shadow: var(--shadow-accent); }
+.secondary { background: var(--color-surface-2); border-color: var(--color-line); color: var(--color-fg); }
+.secondary.active { background: var(--color-accent); border-color: transparent; color: var(--color-accent-fg); }
+.inverse { background: var(--color-fg); color: var(--color-bg); }
+.ghost { background: transparent; color: var(--color-fg-muted); }
+.ghost:hover { color: var(--color-fg); }
+.link { background: none; border: 0; height: auto; padding: 0; color: var(--color-accent); }
+.outline { background: transparent; border: 1px dashed var(--color-glass-border); color: var(--color-fg); }
+.media {
+  background: var(--color-media-glass);
+  border-color: var(--color-media-glass-border);
+  color: var(--color-on-media);
+  backdrop-filter: blur(14px);
+}
+.media.active { background: var(--color-accent); border-color: transparent; color: var(--color-accent-fg); }
+.ghost.active { color: var(--color-accent); }
+.link.active { text-decoration: underline; }
+.anchor { text-decoration: none; }
+.anchor:hover { opacity: 1; }

@@ -1,9 +1,0 @@
-.carruselContainer {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  overflow-x: hidden;
-  z-index: -1;
-  transform: translate(0, -50%);
-}

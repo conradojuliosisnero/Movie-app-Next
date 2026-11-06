@@ -1,0 +1,5 @@
+.stars { display: flex; gap: var(--space-1); }
+.star { background: none; border: 0; padding: 0; line-height: 1; color: var(--color-glass-border); transition: color var(--dur-fast); }
+.on { color: var(--color-accent); }
+.md .star { font-size: var(--fs-2xl); }
+.lg .star { font-size: var(--fs-3xl); }

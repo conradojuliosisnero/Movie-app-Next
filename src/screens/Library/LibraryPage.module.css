@@ -1,0 +1,20 @@
+.page { display: flex; flex-direction: column; gap: var(--space-6); }
+.stack { display: flex; flex-direction: column; gap: var(--space-4); }
+.watchCard { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-5); box-shadow: none; }
+.watchInfo { flex: 1 1 18rem; min-width: 0; display: flex; flex-direction: column; gap: var(--space-3); }
+.watchHead { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-3); font-size: var(--fs-sm); }
+.name { font-size: var(--fs-xl); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: var(--space-4); }
+.diary { display: flex; flex-direction: column; box-shadow: none; }
+.diaryRow { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4); padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--color-line); }
+.diaryRow:last-child { border-bottom: 0; }
+.date { width: 2.875rem; display: flex; flex-direction: column; align-items: center; }
+.day { font-family: var(--font-display); font-size: 1.625rem; font-weight: var(--fw-bold); line-height: 1; }
+.month { font-family: var(--font-mono); font-size: 10px; color: var(--color-fg-muted); }
+.diaryInfo { flex: 1 1 10rem; min-width: 0; display: flex; flex-direction: column; gap: var(--space-1); font-size: var(--fs-sm); }
+.diaryInfo b { font-size: var(--fs-lg); }
+.review { flex: 1 1 14rem; height: var(--control-md); border-radius: var(--radius-pill); padding: 0 var(--space-4); background: var(--color-surface-2); border: 1px solid var(--color-line); outline: none; font-size: var(--fs-sm); font-style: italic; }
+.toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+.search { flex: 1 1 18rem; min-width: 0; }
+.group { display: flex; flex-direction: column; gap: var(--space-4); }
+.group + .group { margin-top: var(--space-4); }

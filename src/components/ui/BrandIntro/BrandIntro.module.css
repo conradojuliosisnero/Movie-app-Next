@@ -1,0 +1,84 @@
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--color-bg);
+  cursor: pointer;
+}
+.letter { display: inline-block; }
+.accent { color: var(--color-accent); }
+
+/* ---------- Marca (tipo Netflix) ---------- */
+.logo {
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: clamp(3.5rem, 12vw, 9rem);
+  letter-spacing: var(--ls-tighter);
+  color: var(--color-fg);
+  will-change: transform;
+}
+.glow {
+  position: absolute;
+  width: 60vmin;
+  height: 60vmin;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in oklab, var(--color-accent) 55%, transparent) 0%, transparent 65%);
+  filter: blur(30px);
+}
+.stripes { position: absolute; inset: 0; display: flex; justify-content: center; gap: 1.2vw; pointer-events: none; }
+.stripe {
+  width: 2.2vw;
+  height: 100%;
+  transform-origin: center;
+  background: linear-gradient(180deg, transparent, color-mix(in oklab, var(--color-accent) calc(40% + var(--i) * 6%), white) 50%, transparent);
+  opacity: 0;
+}
+
+/* ---------- Animé ---------- */
+.anime { background: #0a0716; --color-accent: oklch(0.68 0.25 350); }
+.lines {
+  position: absolute;
+  inset: -50%;
+  background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(255,255,255,.08) 0deg 1.4deg, transparent 1.4deg 6deg);
+  mask-image: radial-gradient(circle, transparent 12%, #000 55%);
+}
+.animeLogo { position: relative; display: grid; place-items: center; }
+.half {
+  grid-area: 1 / 1;
+  font-family: var(--nf-anime), var(--font-display), sans-serif;
+  font-size: clamp(3.5rem, 13vw, 10rem);
+  line-height: 1;
+  color: #f3eeff;
+}
+/* El logo está dibujado dos veces y cada copia muestra una mitad: así el corte lo separa. */
+.top { clip-path: polygon(0 0, 100% 0, 100% 38%, 0 62%); }
+.bottom { clip-path: polygon(0 62%, 100% 38%, 100% 100%, 0 100%); }
+.slash {
+  position: absolute;
+  left: -15%;
+  right: -15%;
+  top: 50%;
+  height: 4px;
+  transform: rotate(-9deg) scaleX(0);
+  transform-origin: left center;
+  background: #fff;
+  box-shadow: 0 0 18px 4px oklch(0.86 0.13 210);
+}
+.stamp {
+  position: absolute;
+  right: -1.2em;
+  bottom: -0.9em;
+  padding: 0.1em 0.35em;
+  background: var(--color-accent);
+  color: #fff;
+  font-family: var(--nf-anime), sans-serif;
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  transform: skewX(-10deg) rotate(-6deg);
+  box-shadow: 6px 6px 0 #000;
+}
+.flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }

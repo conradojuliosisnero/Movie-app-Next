@@ -1,0 +1,12 @@
+.main {
+  position: relative;
+  z-index: var(--z-base);
+  max-width: var(--layout-content-max);
+  margin: 0 auto;
+  padding: var(--space-26) var(--space-6) var(--space-20);
+}
+
+/* Celular: cabecera compacta arriba y pestañas abajo (más el notch y la barra de gestos). */
+@media (max-width: 760px) {
+  .main { padding: calc(5.25rem + env(safe-area-inset-top)) var(--space-4) calc(7rem + env(safe-area-inset-bottom)); }
+}

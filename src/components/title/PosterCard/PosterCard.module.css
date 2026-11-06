@@ -1,0 +1,74 @@
+.card { position: relative; flex: none; width: 150px; border-radius: var(--radius-lg); }
+.fluid { width: 100%; }
+.poster { width: 100% !important; }
+
+/* Capa de información: oculta hasta hover o foco. pointer-events: none deja que el clic llegue al póster. */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,.55) 55%, rgba(0,0,0,.92) 100%);
+  color: var(--color-on-media);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity var(--dur-base) var(--ease-standard), transform var(--dur-base) var(--ease-standard);
+  pointer-events: none;
+}
+.card:hover .overlay, .card:focus-within .overlay { opacity: 1; transform: none; }
+.card:hover .poster { transform: translateY(-3px); }
+.card:hover .overlay { transform: translateY(-3px); }
+
+.name {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.caption { font-size: var(--fs-xs); opacity: .8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.actions { display: flex; flex-direction: column; gap: var(--space-1); margin-top: var(--space-2); }
+.action { pointer-events: auto; }
+
+/* Marca discreta cuando ya está guardada (visible sin hover). */
+.badge {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-accent-fg);
+  box-shadow: var(--shadow-sm);
+  transition: opacity var(--dur-fast);
+}
+.card:hover .badge, .card:focus-within .badge { opacity: 0; }
+
+/* Táctil: sin hover, solo los botones redondos de la esquina. */
+.corner { display: none; }
+@media (hover: none) {
+  .overlay, .badge { display: none; }
+  .corner { position: absolute; top: var(--space-2); right: var(--space-2); display: flex; flex-direction: column; gap: var(--space-1); }
+  .cornerBtn {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--color-media-glass-border);
+    background: var(--color-media-scrim);
+    color: var(--color-on-media);
+  }
+  .cornerOn { background: var(--color-accent); color: var(--color-accent-fg); border-color: transparent; }
+}

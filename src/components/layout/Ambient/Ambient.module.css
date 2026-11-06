@@ -1,0 +1,15 @@
+.blob {
+  position: fixed;
+  width: 60vw;
+  height: 60vw;
+  border-radius: 50%;
+  opacity: var(--ambient-opacity);
+  filter: blur(120px);
+  pointer-events: none;
+  transition: background 1.2s;
+  z-index: 0;
+  will-change: transform;
+}
+.a { left: -18vw; top: -22vw; }
+.b { right: -20vw; bottom: -26vw; }
+.c { left: 30vw; top: 35vh; width: 40vw; height: 40vw; opacity: calc(var(--ambient-opacity) * .7); }

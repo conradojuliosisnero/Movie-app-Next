@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0c10">
+<title>Sin conexión · PeliBox</title>
+<!-- Página autónoma (sin JavaScript ni archivos externos): el service worker la muestra cuando no hay internet. -->
+<style>
+  html, body { margin: 0; height: 100%; background: #0b0c10; color: #f4f0ea; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+  main { min-height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 24px; text-align: center; box-sizing: border-box; }
+  .logo { font-size: 40px; font-weight: 800; letter-spacing: -0.04em; }
+  .logo span { color: #f0805a; }
+  .dot { width: 72px; height: 72px; border-radius: 50%; background: radial-gradient(circle, rgba(240,128,90,.35), transparent 70%); display: grid; place-items: center; }
+  .dot svg { width: 34px; height: 34px; stroke: #f0805a; }
+  h1 { margin: 0; font-size: 28px; letter-spacing: -0.02em; }
+  p { margin: 0; max-width: 24rem; color: rgba(244,240,234,.64); line-height: 1.45; }
+  button { margin-top: 8px; height: 48px; padding: 0 28px; border: 0; border-radius: 999px; background: #f0805a; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+</style>
+</head>
+<body>
+<main>
+  <div class="logo">Peli<span>Box</span></div>
+  <div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M2 8.8a15 15 0 0 1 20 0"/><path d="M5 12.86a10 10 0 0 1 14 0"/><path d="M8.5 16.43a5 5 0 0 1 7 0"/><path d="M12 20h.01"/><path d="M3 3l18 18"/></svg></div>
+  <h1>Sin conexión</h1>
+  <p>No pudimos conectarnos. Revisa tu internet y vuelve a intentarlo.<br><span lang="en">You're offline. Check your connection and try again.</span></p>
+  <button onclick="location.reload()">Reintentar</button>
+</main>
+</body>
+</html>
