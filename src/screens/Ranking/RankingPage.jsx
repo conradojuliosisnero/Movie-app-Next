@@ -1,7 +1,7 @@
 'use client';
 // Ranking: tu racha (tira de película), tus puntos (boleto con tu puesto), cofres del día,
 // top 50 (solo nombre de perfil y avatar) y el tarifario de puntos.
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { gsap, useGSAP, DUR, motionOK } from '@/lib/motion';
 import Avatar from '@/components/ui/Avatar/Avatar';
@@ -10,6 +10,9 @@ import Status from '@/components/ui/Status/Status';
 import EmptyState from '@/components/ui/EmptyState/EmptyState';
 import { StreakCard } from '@/components/ui/Streak/Streak';
 import Chests from '@/components/ui/Chests/Chests';
+import { ItemArt } from '@/screens/Store/ItemArt';
+import { shortName } from '@/screens/Store/cosmetics';
+import { storage } from '@/services/storage';
 import { useAsync } from '@/hooks/useAsync';
 import { useLibrary } from '@/store/LibraryContext';
 import { useSession } from '@/store/SessionContext';
@@ -40,6 +43,14 @@ export default function RankingPage() {
   const myPos = players.findIndex((p) => p.id === mine) + 1;
   const today = todayPoints(lib);
   const pct = Math.min(100, Math.round((today / DAILY_CAP) * 100));
+  // Efecto “Palomitas que saltan”: si subiste de puesto desde la última vez que viste el ranking.
+  const [climbed, setClimbed] = useState(false);
+  useEffect(() => {
+    if (!myPos) return;
+    const prev = storage.get('rankPos', 0);
+    if (prev && myPos < prev) setClimbed(true);
+    storage.set('rankPos', myPos);
+  }, [myPos]);
 
   // Entrada: las tarjetas suben en cascada; el número del puesto cae como un sello.
   useGSAP(() => {
@@ -73,6 +84,7 @@ export default function RankingPage() {
             <span className={s.label}>{copy.ranking.yourPoints}</span>
             <div className={s.points}>{fmt(lib.score)} <span>pts</span></div>
             {note && <p className={s.note}>{note}</p>}
+            <Button size="sm" iconRight="forward" onClick={() => router.push(ROUTES.store)}>{copy.ranking.toStore}</Button>
             {session.isGuest && <Button size="sm" variant="primary" onClick={async () => { await session.logout(); router.replace(ROUTES.login); }}>{copy.menu.createAccount}</Button>}
             <div className={s.progress}>
               <div className={s.progressRow}>
@@ -97,14 +109,30 @@ export default function RankingPage() {
           <Status loading={top.loading} error={top.error} onRetry={top.retry} skeleton="cards">
             {players.length ? (
               <ol ref={listRef} className={s.board}>
-                {players.map((p, i) => (
-                  <li key={p.id} data-row className={cx(s.row, p.id === mine && s.me)}>
-                    <span className={s.rank} style={{ color: MEDALS[i] }}>{pad(i + 1)}</span>
-                    <Avatar seed={p.avatar || p.id} size="md" />
-                    <span className={s.name}>{p.name}{p.id === mine && <em className={s.you}>{copy.ranking.you}</em>}</span>
-                    <b className={s.rowPts}>{fmt(p.score)}</b>
-                  </li>
-                ))}
+                {players.map((p, i) => {
+                  const look = p.look ?? {};
+                  const isMe = p.id === mine;
+                  return (
+                    <li key={p.id} data-row className={cx(s.row, isMe && s.me, look.background && s.hasBg)}>
+                      {/* Fondo equipado detrás de la fila. */}
+                      {look.background && <span className={s.rowBg} aria-hidden="true"><ItemArt itemId={look.background} /></span>}
+                      <span className={s.rank} style={{ color: MEDALS[i] }}>{pad(i + 1)}</span>
+                      <Avatar seed={p.avatar || p.id} frame={look.frame} size="md" />
+                      <span className={s.who}>
+                        {/* Efecto “Créditos finales”: el nombre sube como créditos en el top 3. */}
+                        <span className={cx(s.name, look.effect === 'creditos' && i < 3 && s.credits)}>
+                          {p.name}{isMe && <em className={s.you}>{copy.ranking.you}</em>}
+                          {(look.badges ?? []).map((b) => <span key={b} className={s.badge} title={shortName(b)}><ItemArt itemId={b} /></span>)}
+                        </span>
+                        {look.title && <span className={s.titleTag}>{shortName(look.title)}</span>}
+                      </span>
+                      <b className={s.rowPts}>{fmt(p.score)}</b>
+                      {isMe && climbed && look.effect === 'saltan' && (
+                        <span className={s.popcorn} aria-hidden="true">{Array.from({ length: 7 }, (_, k) => <i key={k} style={{ '--k': k }}>🍿</i>)}</span>
+                      )}
+                    </li>
+                  );
+                })}
               </ol>
             ) : <EmptyState>{copy.ranking.empty}</EmptyState>}
           </Status>

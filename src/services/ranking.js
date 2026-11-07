@@ -44,9 +44,9 @@ export function visitToday(activity = {}) {
   };
 }
 
-const todayKey = () => isoDay(new Date());
+export const todayKey = () => isoDay(new Date());
 /** Semana = fecha de su lunes. */
-const weekKey = () => { const d = new Date(); return isoDay(new Date(d.getFullYear(), d.getMonth(), d.getDate() - ((d.getDay() + 6) % 7))); };
+export const weekKey = () => { const d = new Date(); return isoDay(new Date(d.getFullYear(), d.getMonth(), d.getDate() - ((d.getDay() + 6) % 7))); };
 
 export const rollChest = (kind) => { const [a, b] = CHESTS[kind]; return a + Math.floor(Math.random() * (b - a + 1)); };
 export const chestsOpenedToday = (c = {}) => (c.day === todayKey() ? c.opened ?? 0 : 0);
@@ -107,8 +107,8 @@ export function scoreOf(lib) {
 
 export const entryId = (uid, profileId) => `${uid}_${profileId}`;
 
-export const publishScore = (id, { name, avatar, score }) =>
-  setDoc(doc(db, 'leaderboard', id), { name: String(name).slice(0, 40), avatar: String(avatar).slice(0, 80), score, updatedAt: serverTimestamp() });
+export const publishScore = (id, { name, avatar, score, look }) =>
+  setDoc(doc(db, 'leaderboard', id), { name: String(name).slice(0, 40), avatar: String(avatar).slice(0, 80), score, look, updatedAt: serverTimestamp() });
 
 export const removeScore = (id) => deleteDoc(doc(db, 'leaderboard', id));
 

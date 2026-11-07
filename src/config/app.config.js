@@ -46,6 +46,7 @@ export const ROUTES = {
   help: '/ayuda',
   news: '/novedades',
   ranking: '/ranking',
+  store: '/tienda',
   title: (id) => `/titulo/${id}`,
   person: (id) => `/persona/${id}`,
   season: (seriesId, n) => `/serie/${seriesId}/temporada/${n}`,
@@ -57,7 +58,7 @@ export const ROUTES = {
 //   película → {base}/embed/movie/{tmdbId}                       ej. /embed/movie/550
 //   episodio → {base}/embed/tv/{tmdbId}/{temporada}/{episodio}   ej. /embed/tv/1399/1/1
 // Mientras esté vacío se usa el reproductor de antes (vidsrc.cc).
-export const STREAMING_EMBED_BASE = '';
+export const STREAMING_EMBED_BASE = "https://hnembed.cc/embed/movie/";
 
 // Fuente de “Ver completa”. Orden: variable de entorno (Netlify/.env) › tu servicio de arriba › vidsrc.cc.
 // {id}, {season} y {episode} se reemplazan solos.
@@ -71,7 +72,7 @@ const SERIES_URL = process.env.NEXT_PUBLIC_FULL_PLAYER_SERIES
   || (EMBED ? `${EMBED}/embed/tv/{id}/{season}/{episode}` : 'https://vidsrc.cc/v2/embed/tv/{id}/{season}/{episode}?autoPlay=false');
 
 export const FULL_PLAYER = {
-  sandbox: process.env.NEXT_PUBLIC_FULL_PLAYER_SANDBOX === 'off' ? null : 'allow-scripts allow-same-origin allow-presentation',
+  // sandbox: process.env.NEXT_PUBLIC_FULL_PLAYER_SANDBOX === 'off' ? null : 'allow-scripts allow-same-origin allow-presentation',
   movie: (id) => fill(MOVIE_URL, { id }),
   series: (id, season, episode) => fill(SERIES_URL, { id, season, episode }),
 };

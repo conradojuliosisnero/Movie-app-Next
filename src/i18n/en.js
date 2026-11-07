@@ -33,6 +33,7 @@ export const en = {
     anime: 'Anime',
     library: 'My list',
     ranking: 'Ranking',
+    store: 'Store',
     profile: 'Profile',
     help: 'Help',
     menu: 'Switch profile and theme',
@@ -342,6 +343,7 @@ export const en = {
     title: 'Ranking',
     you: 'You',
     todayLabel: 'Today',
+    toStore: 'Redeem in the store',
     position: 'Rank',
     of: (n) => `of ${n}`,
     rules: {
@@ -418,6 +420,17 @@ export const en = {
     personFallbackTitle: 'Person',
     personMeta: (n) => `${n}: biography, movies and series`,
     personFallback: (n) => `Movies and series of ${n}.`,
+  },
+  collection: {
+    title: 'My collection',
+    empty: 'You have no collectibles yet. Redeem them with your points in the store.',
+    toStore: 'Go to the store',
+    equip: 'Equip',
+    unequip: 'Remove',
+    equipped: 'EQUIPPED',
+    maxBadges: (n) => `Max ${n}`,
+    onWall: 'Hanging in your collection',
+    soon: 'Soon: for comments',
   },
   chests: {
     openHint: 'Open them to earn points.',

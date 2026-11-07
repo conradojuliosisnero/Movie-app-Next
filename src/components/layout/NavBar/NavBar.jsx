@@ -12,6 +12,8 @@ import { NAV_ITEMS } from '@/router/navigation';
 import { ROUTES } from '@/config/app.config';
 import { useSession } from '@/store/SessionContext';
 import { useUI } from '@/store/UIContext';
+import { useLibrary } from '@/store/LibraryContext';
+import { lookOf } from '@/screens/Store/cosmetics';
 import { copy } from '@/i18n';
 import { cx } from '@/utils/cx';
 import s from './NavBar.module.css';
@@ -22,6 +24,7 @@ export default function NavBar() {
   const router = useRouter();
   const pathname = usePathname();
   const { profile } = useSession();
+  const lib = useLibrary();
   const ui = useUI();
   const ref = useRef(null);
   const navRef = useRef(null);
@@ -54,8 +57,12 @@ export default function NavBar() {
               </Link>
             ))}
           </nav>
+          {/* Celular: la tienda va al lado de la racha (en escritorio está en el menú). */}
+          <Link href={ROUTES.store} className={cx(s.storeBtn, pathname.startsWith(ROUTES.store) && s.storeOn)} aria-label={copy.nav.store}>
+            <Icon name="store" size="md" />
+          </Link>
           <StreakBadge className={s.streak} onClick={() => router.push(ROUTES.ranking)} />
-          <Avatar seed={avatarSeed(profile)} size="lg" label={copy.nav.menu} onClick={() => ui.setMenuOpen(!ui.menuOpen)} />
+          <Avatar seed={avatarSeed(profile)} frame={lookOf(lib.store).frame} size="lg" label={copy.nav.menu} onClick={() => ui.setMenuOpen(!ui.menuOpen)} />
         </div>
         <ProfileMenu />
       </div>

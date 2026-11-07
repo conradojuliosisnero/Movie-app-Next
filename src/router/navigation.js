@@ -9,4 +9,6 @@ export const NAV_ITEMS = [
   { key: 'anime', to: ROUTES.anime, icon: 'anime' },
   // En celular no va en las pestañas: se entra tocando la racha de la cabecera.
   { key: 'ranking', to: ROUTES.ranking, icon: 'ranking', desktopOnly: true },
+  // En celular se entra desde el ranking (botón del boleto de puntos).
+  { key: 'store', to: ROUTES.store, icon: 'store', desktopOnly: true },
 ];

@@ -5,6 +5,7 @@ import {
   Users, Sparkles, Bell, ChevronRight, Plus, Minus, Send, CircleHelp, House, Bookmark, User, Star,
   Share2, Clapperboard, Megaphone, LogIn, Swords, SlidersHorizontal,
   Trophy,
+  Store,
 } from 'lucide-react';
 
 export const ICONS = {
@@ -22,6 +23,7 @@ export const ICONS = {
   party: Users,
   suggest: Sparkles,
   ranking: Trophy,
+  store: Store,
   notify: Bell,
   chevron: ChevronRight,
   add: Plus,

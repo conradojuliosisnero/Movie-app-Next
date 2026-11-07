@@ -59,7 +59,7 @@
 }
 .me { border-color: var(--color-accent); background: color-mix(in oklab, var(--color-accent) 12%, var(--color-surface)); }
 .rank { font-family: var(--font-display); font-size: 1.375rem; font-weight: var(--fw-black); text-align: center; color: var(--color-fg-faint); font-variant-numeric: tabular-nums; }
-.name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: var(--fw-bold); }
+.name { display: flex; align-items: center; gap: 6px; min-width: 0; overflow: hidden; white-space: nowrap; font-weight: var(--fw-bold); }
 .you { margin-left: 6px; font-style: normal; font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--color-accent); }
 .rowPts { font-weight: var(--fw-black); font-variant-numeric: tabular-nums; }
 
@@ -92,3 +92,21 @@
   .chests { padding: 16px; }
   .receipt { transform: none; }
 }
+
+/* Coleccionables equipados en la tabla. */
+.row { position: relative; isolation: isolate; overflow: hidden; }
+.rowBg { position: absolute; inset: 0; z-index: -2; opacity: .45; }
+.hasBg::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, var(--color-surface) 15%, color-mix(in oklab, var(--color-surface) 55%, transparent)); }
+.who { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.titleTag { font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; color: #f5c04a; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.badge { flex: none; width: 22px; height: 22px; border-radius: 6px; overflow: hidden; box-shadow: 0 0 0 1px var(--color-line); }
+.credits { animation: credits 1.4s cubic-bezier(.2, .7, .2, 1) .4s both; }
+@keyframes credits { from { transform: translateY(140%); opacity: 0; } 60% { opacity: 1; } }
+.popcorn { position: absolute; right: 70px; top: 50%; pointer-events: none; }
+.popcorn i { position: absolute; font-style: normal; font-size: 18px; animation: pop 1.1s cubic-bezier(.2, .8, .3, 1) calc(var(--k) * 60ms) both; }
+@keyframes pop {
+  from { transform: translate(0, 0) scale(.3); opacity: 0; }
+  30% { opacity: 1; }
+  to { transform: translate(calc((var(--k) - 3) * 22px), -46px) rotate(calc((var(--k) - 3) * 25deg)) scale(1); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .credits, .popcorn i { animation: none; } }

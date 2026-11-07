@@ -32,6 +32,7 @@ export const es = {
     anime: 'Animé',
     library: 'Mi lista',
     ranking: 'Ranking',
+    store: 'Tienda',
     profile: 'Perfil',
     help: 'Ayuda',
     menu: 'Cambiar perfil y tema',
@@ -341,6 +342,7 @@ export const es = {
     title: 'Ranking',
     you: 'Tú',
     todayLabel: 'Hoy',
+    toStore: 'Canjear en la tienda',
     position: 'Puesto',
     of: (n) => `de ${n}`,
     rules: {
@@ -417,6 +419,17 @@ export const es = {
     personFallbackTitle: 'Persona',
     personMeta: (n) => `${n}: biografía, películas y series`,
     personFallback: (n) => `Películas y series de ${n}.`,
+  },
+  collection: {
+    title: 'Mi colección',
+    empty: 'Aún no tienes coleccionables. Canjéalos con tus puntos en la tienda.',
+    toStore: 'Ir a la tienda',
+    equip: 'Equipar',
+    unequip: 'Quitar',
+    equipped: 'EQUIPADO',
+    maxBadges: (n) => `Máx. ${n}`,
+    onWall: 'Colgado en tu colección',
+    soon: 'Pronto: para los comentarios',
   },
   chests: {
     openHint: 'Ábrelos para ganar puntos.',

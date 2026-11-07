@@ -1,0 +1,39 @@
+.empty { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-3); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr)); gap: var(--space-3); }
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 8px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-2);
+  transition: border-color var(--dur-base), transform var(--dur-base) var(--ease-spring);
+}
+/* Equipado: borde de acento y un pequeño salto. */
+.on { border-color: var(--color-accent); animation: equip .45s var(--ease-spring); }
+@keyframes equip { 40% { transform: scale(1.05); } }
+.art { position: relative; width: 100%; aspect-ratio: 4 / 3; border-radius: var(--radius-md); overflow: hidden; margin-bottom: 4px; }
+.poster { aspect-ratio: 3 / 4; } /* los pósters se cuelgan en vertical */
+.rarity { position: absolute; top: 6px; left: 6px; padding: 2px 6px; border-radius: 4px; font: var(--fw-semibold) 9px var(--font-mono); letter-spacing: .1em; color: #141414; }
+.stamp {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  padding: 1px 5px;
+  border: 1.5px solid #f5c04a;
+  border-radius: 4px;
+  background: var(--color-surface);
+  color: #f5c04a;
+  font-size: 9px;
+  font-weight: var(--fw-black);
+  letter-spacing: .06em;
+  transform: rotate(-6deg);
+  animation: stamp .4s var(--ease-spring) both;
+}
+@keyframes stamp { from { transform: rotate(-6deg) scale(2.2); opacity: 0; } }
+.name { font-size: var(--fs-sm); line-height: 1.2; }
+.kind { font-size: 11px; color: var(--color-fg-muted); }
+.note { font-size: 11px; color: var(--color-fg-faint); }
+@media (prefers-reduced-motion: reduce) { .on, .stamp { animation: none; } }
