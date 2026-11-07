@@ -16,7 +16,10 @@ const SessionContext = createContext(null);
 
 const GUEST_ACCOUNT = { onboarded: true, profiles: [{ id: 'invitado', name: 'Invitado', kids: false, hues: [35, 300] }] };
 const EMAIL_KEY = 'emailForSignIn';
-const AUTH_TIMEOUT_MS = 4000;
+const AUTH_TIMEOUT_MS = 4000; // nunca entró en este navegador: no lo hacemos esperar
+// Ya entró antes: Firebase está recuperando la sesión (en celular o la app instalada puede tardar).
+// Si a los 4 s lo dábamos por “sin sesión”, la app lo sacaba al login aunque siguiera con sesión.
+const AUTH_TIMEOUT_KNOWN_MS = 15000;
 const randomHues = () => { const h = Math.floor(Math.random() * 360); return [h, (h + 40) % 360]; };
 const newId = () => Math.random().toString(36).slice(2, 10);
 
@@ -32,7 +35,8 @@ export function SessionProvider({ children }) {
   useEffect(() => {
     // Si Firebase tarda en arrancar (a veces se traba abriendo su base local del navegador),
     // no dejamos la app esperando: se sigue como “sin sesión” y, si luego responde, se actualiza.
-    const fallback = setTimeout(() => setUser((u) => (u === undefined ? null : u)), AUTH_TIMEOUT_MS);
+    const known = !!storage.get('session', false) && !storage.get('guest', false);
+    const fallback = setTimeout(() => setUser((u) => (u === undefined ? null : u)), known ? AUTH_TIMEOUT_KNOWN_MS : AUTH_TIMEOUT_MS);
     const unsubscribe = onAuthStateChanged(auth, (u) => {
       clearTimeout(fallback);
       setUser(u);

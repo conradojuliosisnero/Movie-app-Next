@@ -38,10 +38,17 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
 
-  // Si ya hay sesión, a la app.
+  // Si ya hay sesión, a la app: a la pantalla de donde venía (?next=) o al inicio.
+  // Solo rutas internas (“/algo”), nunca otra página web.
+  const goBack = () => {
+    const next = new URLSearchParams(window.location.search).get('next');
+    const safe = next && /^\/(?![/\\])/.test(next);
+    router.replace(safe ? next : ROUTES.home);
+  };
   useEffect(() => {
-    if (!session.loading && session.isAuthenticated) router.replace(ROUTES.home);
-  }, [session.loading, session.isAuthenticated, router]);
+    if (!session.loading && session.isAuthenticated) goBack();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session.loading, session.isAuthenticated]);
 
   // ¿Llegó desde el enlace del correo?
   useEffect(() => {
@@ -81,7 +88,7 @@ export default function LoginPage() {
     show(copy.toasts.welcome(APP.name));
   });
 
-  const explore = () => { session.explore(); show(copy.toasts.explore); router.replace(ROUTES.home); };
+  const explore = () => { session.explore(); show(copy.toasts.explore); goBack(); };
   const dotStep = step === 1 ? 1 : 2;
 
   return (
