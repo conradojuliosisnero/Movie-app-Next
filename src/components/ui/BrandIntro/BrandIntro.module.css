@@ -1,5 +1,7 @@
 .intro {
   position: fixed;
+  /* Viñeta: el centro un poco más claro, como una sala que se oscurece. */
+  background-image: radial-gradient(circle at 50% 50%, color-mix(in oklab, var(--color-surface) 70%, transparent) 0%, transparent 60%);
   inset: 0;
   z-index: 200;
   display: flex;
@@ -15,6 +17,8 @@
 /* ---------- Marca (tipo Netflix) ---------- */
 .logo {
   position: relative;
+  overflow: hidden;
+  padding: 0 0.12em;
   font-family: var(--font-display);
   font-weight: var(--fw-black);
   font-size: clamp(3.5rem, 12vw, 9rem);
@@ -82,3 +86,15 @@
   box-shadow: 6px 6px 0 #000;
 }
 .flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+
+/* Brillo que recorre el logo con el segundo golpe. */
+.shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 35%, rgba(255,255,255,.55) 50%, transparent 65%);
+  mix-blend-mode: overlay;
+  opacity: 0;
+  pointer-events: none;
+}
+.stripe:nth-child(3n) { background: linear-gradient(180deg, transparent, color-mix(in oklab, var(--color-accent) 40%, #ffd23f) 50%, transparent); }
+.stripe:nth-child(4n) { background: linear-gradient(180deg, transparent, color-mix(in oklab, var(--color-accent) 50%, #b388ff) 50%, transparent); }
