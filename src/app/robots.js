@@ -6,7 +6,7 @@ export default function robots() {
     rules: [{
       userAgent: '*',
       allow: '/',
-      disallow: ['/api/', '/buscar', '/mi-lista', '/perfil', '/perfiles', '/bienvenida', '/novedades', '/ayuda', '/anime', '/ranking', '/serie/'],
+      disallow: ['/api/', '/buscar', '/mi-lista', '/perfil', '/perfiles', '/bienvenida', '/novedades', '/ayuda', '/anime', '/ranking', '/tienda', '/serie/'],
     }],
     sitemap: `${SITE_URL}/sitemap.xml`,
     host: SITE_URL,

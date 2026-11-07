@@ -33,6 +33,7 @@ export const en = {
     anime: 'Anime',
     library: 'My list',
     ranking: 'Ranking',
+    store: 'Store',
     profile: 'Profile',
     help: 'Help',
     menu: 'Switch profile and theme',
@@ -342,6 +343,7 @@ export const en = {
     title: 'Ranking',
     you: 'You',
     todayLabel: 'Today',
+    toStore: 'Redeem in the store',
     position: 'Rank',
     of: (n) => `of ${n}`,
     rules: {

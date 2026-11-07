@@ -44,9 +44,9 @@ export function visitToday(activity = {}) {
   };
 }
 
-const todayKey = () => isoDay(new Date());
+export const todayKey = () => isoDay(new Date());
 /** Semana = fecha de su lunes. */
-const weekKey = () => { const d = new Date(); return isoDay(new Date(d.getFullYear(), d.getMonth(), d.getDate() - ((d.getDay() + 6) % 7))); };
+export const weekKey = () => { const d = new Date(); return isoDay(new Date(d.getFullYear(), d.getMonth(), d.getDate() - ((d.getDay() + 6) % 7))); };
 
 export const rollChest = (kind) => { const [a, b] = CHESTS[kind]; return a + Math.floor(Math.random() * (b - a + 1)); };
 export const chestsOpenedToday = (c = {}) => (c.day === todayKey() ? c.opened ?? 0 : 0);

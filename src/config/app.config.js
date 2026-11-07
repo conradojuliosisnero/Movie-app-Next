@@ -46,6 +46,7 @@ export const ROUTES = {
   help: '/ayuda',
   news: '/novedades',
   ranking: '/ranking',
+  store: '/tienda',
   title: (id) => `/titulo/${id}`,
   person: (id) => `/persona/${id}`,
   season: (seriesId, n) => `/serie/${seriesId}/temporada/${n}`,

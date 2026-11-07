@@ -27,5 +27,39 @@ service cloud.firestore {
         // Una sola escritura no puede subir más de 2000 puntos (frena trampas obvias).
         && (resource == null || request.resource.data.score <= resource.data.score + 2000);
     }
+
+    // Tienda: stock compartido. Solo se descuenta de a 1, y solo junto con la compra de quien canjea
+    // (en la misma transacción). Nadie lo crea ni lo repone desde el app.
+    match /storeStock/{item} {
+      allow read: if true;
+      allow update: if request.auth != null
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['left'])
+        && resource.data.left > 0
+        && request.resource.data.left == resource.data.left - 1
+        && !exists(/databases/$(database)/documents/storePurchases/$(request.auth.uid + '_' + item))
+        && existsAfter(/databases/$(database)/documents/storePurchases/$(request.auth.uid + '_' + item));
+    }
+
+    // Compras: una por persona y artículo ({uid}_{artículo}); no se editan ni se borran.
+    match /storePurchases/{id} {
+      allow read: if request.auth != null && id.matches(request.auth.uid + '_.+');
+      allow create: if request.auth != null
+        && id == request.auth.uid + '_' + request.resource.data.item
+        && request.resource.data.keys().hasOnly(['item', 'price', 'profile', 'at'])
+        && request.resource.data.price is int && request.resource.data.price > 0
+        && request.resource.data.at == request.time
+        // el stock baja en la misma transacción
+        && getAfter(/databases/$(database)/documents/storeStock/$(request.resource.data.item)).data.left
+           == get(/databases/$(database)/documents/storeStock/$(request.resource.data.item)).data.left - 1;
+    }
+
+    // Sorteo del Boleto Dorado: un boleto por persona por semana; cualquiera ve cuántos hay.
+    match /storeRaffle/{week}/entries/{uid} {
+      allow read: if true;
+      allow create: if request.auth != null && uid == request.auth.uid
+        && request.resource.data.keys().hasOnly(['name', 'at'])
+        && request.resource.data.name is string && request.resource.data.name.size() <= 40
+        && request.resource.data.at == request.time;
+    }
   }
 }

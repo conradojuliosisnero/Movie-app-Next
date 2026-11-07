@@ -32,6 +32,7 @@ export const es = {
     anime: 'Animé',
     library: 'Mi lista',
     ranking: 'Ranking',
+    store: 'Tienda',
     profile: 'Perfil',
     help: 'Ayuda',
     menu: 'Cambiar perfil y tema',
@@ -341,6 +342,7 @@ export const es = {
     title: 'Ranking',
     you: 'Tú',
     todayLabel: 'Hoy',
+    toStore: 'Canjear en la tienda',
     position: 'Puesto',
     of: (n) => `de ${n}`,
     rules: {

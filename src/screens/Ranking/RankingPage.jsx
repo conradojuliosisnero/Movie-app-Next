@@ -73,6 +73,7 @@ export default function RankingPage() {
             <span className={s.label}>{copy.ranking.yourPoints}</span>
             <div className={s.points}>{fmt(lib.score)} <span>pts</span></div>
             {note && <p className={s.note}>{note}</p>}
+            <Button size="sm" iconRight="forward" onClick={() => router.push(ROUTES.store)}>{copy.ranking.toStore}</Button>
             {session.isGuest && <Button size="sm" variant="primary" onClick={async () => { await session.logout(); router.replace(ROUTES.login); }}>{copy.menu.createAccount}</Button>}
             <div className={s.progress}>
               <div className={s.progressRow}>

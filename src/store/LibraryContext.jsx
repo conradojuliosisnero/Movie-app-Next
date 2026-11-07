@@ -8,7 +8,7 @@ import { useSession } from './SessionContext';
 import { useToast } from './ToastContext';
 import { storage } from '@/services/storage';
 import { compact, setAdultContent } from '@/services/catalog';
-import { POINTS, credit, entryId, legacyScore, openChest, publishScore, removeScore, rollWeek, scoreOf, visitToday } from '@/services/ranking';
+import { POINTS, credit, entryId, legacyScore, openChest, publishScore, removeScore, rollWeek, scoreOf, visitToday, weekKey } from '@/services/ranking';
 import { avatarSeed } from '@/components/ui/Avatar/Avatar';
 import { emitPoints } from '@/lib/pointsFx';
 import { APP, STATUS } from '@/config/app.config';
@@ -28,6 +28,7 @@ export const EMPTY_LIBRARY = {
   activity: {}, // { days, streak, best, weeks, last }: visitas diarias para la racha y los puntos
   watched: {}, // { [id | id:temporada:episodio]: fecha } lo que se vio completo en el reproductor
   chests: {}, // cofres: { day, opened, week, rare } (ver services/ranking)
+  store: { owned: {}, spent: 0, raffleWeek: null }, // tienda: { owned: { id: { at, price, season } }, spent, raffleWeek }
   ledger: {}, // puntos por día { 'YYYY-MM-DD': n, legacy: n } con tope diario (ver services/ranking)
   earned: {}, // { 'want:movie-550': fecha } puntos ya ganados: cada título suma una sola vez por acción (anti trampas)
   settings: { onlyMine: false, adult: false, ranking: true },
@@ -62,6 +63,17 @@ function reducer(state, a) {
       if (!opened) return state;
       const c = credit(state.ledger, opened.won);
       return { ...state, dirty: true, chests: opened.chests, ledger: c.ledger, capped: c.capped ? (state.capped ?? 0) + 1 : state.capped };
+    }
+    // Tienda: el canje ya quedó en Firestore (stock y compra); aquí se anota en el perfil y se descuenta del saldo.
+    case 'buy': {
+      const st = { ...EMPTY_LIBRARY.store, ...state.store };
+      if (st.owned[a.id]) return state;
+      const at = todayISO();
+      return { ...state, dirty: true, store: { ...st, owned: { ...st.owned, [a.id]: { at, price: a.price, season: at.slice(0, 7) } }, spent: st.spent + a.price } };
+    }
+    case 'raffle': {
+      const st = { ...EMPTY_LIBRARY.store, ...state.store };
+      return { ...state, dirty: true, store: { ...st, raffleWeek: weekKey(), spent: st.spent + a.cost } };
     }
     case 'watched':
       if (state.watched[a.key]) return state;
@@ -220,6 +232,8 @@ export function LibraryProvider({ children }) {
       markWatched: (key) => dispatch({ type: 'watched', key }),
       /** Abre un cofre ('daily' | 'rare') con los puntos que salieron en la ruleta. */
       openChest: (kind, points) => dispatch({ type: 'chest', kind, points }),
+      buyItem: (id, price) => dispatch({ type: 'buy', id, price }),
+      joinedRaffle: (cost) => dispatch({ type: 'raffle', cost }),
       score,
     }),
     [state, key, loadedKey, score]
