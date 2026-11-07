@@ -1,76 +1,90 @@
-.wrap { display: flex; flex-direction: column; gap: var(--space-4); }
-.head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-2); }
-.title { font-size: var(--fs-xl); font-weight: var(--fw-bold); }
-.row { display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center; }
-.rareHint { text-align: center; color: #c9a5ff; font-weight: var(--fw-semibold); }
+.wrap { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4) var(--space-6); }
+.head { flex: 1 1 14rem; display: flex; flex-direction: column; gap: 4px; }
+.title { font-size: var(--fs-lg); font-weight: var(--fw-black); }
+.sub { font-size: var(--fs-sm); color: var(--color-fg-muted); }
+.rareHint { font-size: var(--fs-sm); color: #c9a5ff; font-weight: var(--fw-semibold); }
+.row { display: flex; flex-wrap: wrap; gap: 10px; }
 
-.chest {
+/* Boleto: muescas a los lados (máscara) y cofre + número + estado. */
+.ticket {
   position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 4px;
-  flex: 1 1 0;
-  min-width: 5.25rem;
-  max-width: 7.5rem;
-  padding: var(--space-3) var(--space-2) var(--space-2);
+  gap: 10px;
+  width: 156px;
+  height: 62px;
+  padding: 0 14px;
   border: 1px solid var(--color-line);
-  border-radius: var(--radius-lg);
-  background: var(--color-surface-2);
-  color: var(--color-fg);
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--color-accent) 5%, var(--color-surface-2));
+  color: inherit;
+  font: inherit;
+  text-align: left;
   cursor: pointer;
   isolation: isolate;
-  transition: transform var(--dur-base) var(--ease-spring), border-color var(--dur-base);
+  --cut: radial-gradient(circle 7px at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat,
+         radial-gradient(circle 7px at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
+  -webkit-mask: var(--cut);
+  mask: var(--cut);
+  transition: border-color var(--dur-base), transform var(--dur-base) var(--ease-spring);
 }
-.chest:hover:not(:disabled) { transform: translateY(-3px); border-color: var(--color-accent); }
-.chest:disabled { cursor: default; }
-.rare { border-color: #b388ff; background: radial-gradient(circle at 50% 30%, rgba(179, 136, 255, .28), var(--color-surface-2) 70%); }
+.ticket:hover:not(:disabled) { border-color: var(--color-accent); transform: translateY(-2px); }
+.ticket:disabled { cursor: default; }
+.rare { border-color: #b388ff; background: radial-gradient(circle at 25% 50%, rgba(179, 136, 255, .3), var(--color-surface-2) 75%); }
 
-.box { display: block; width: min(4.5rem, 100%); aspect-ratio: 64 / 60; }
-.art { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .35)); }
+.box { position: relative; flex: none; width: 40px; height: 38px; }
+.art { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 3px 5px rgba(0, 0, 0, .35)); }
+.info { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; min-width: 0; }
+.no { font-family: var(--font-mono); font-size: 10px; letter-spacing: .04em; color: var(--color-fg-faint); text-transform: uppercase; }
+.open { font-size: var(--fs-sm); font-weight: var(--fw-black); color: var(--color-accent); }
+.num:empty { display: none; }
+.num {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-black);
+  line-height: 1;
+  color: #f5c04a;
+  font-variant-numeric: tabular-nums;
+}
+.stamp {
+  padding: 1px 5px;
+  border: 1.5px solid #f5c04a;
+  border-radius: 4px;
+  color: #f5c04a;
+  font-size: 10px;
+  font-weight: var(--fw-black);
+  letter-spacing: .06em;
+  transform: rotate(-6deg);
+  animation: stamp-in .4s var(--ease-spring) both;
+}
+@keyframes stamp-in { from { transform: rotate(-6deg) scale(2.2); opacity: 0; } }
 
-/* Cerrado: flota despacio (cada cofre a su ritmo) para invitar a tocarlo. */
+/* Cerrado: el cofre flota despacio; el especial además brilla. */
 .idle .box { animation: chest-bob 2.6s ease-in-out infinite; }
 .idle:nth-child(2) .box { animation-delay: -.9s; }
 .idle:nth-child(3) .box { animation-delay: -1.7s; }
 .rare.idle { animation: rare-glow 1.8s ease-in-out infinite; }
-@keyframes chest-bob { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-5px) rotate(-2deg); } }
-@keyframes rare-glow { 0%, 100% { box-shadow: 0 0 0 rgba(179, 136, 255, 0); } 50% { box-shadow: 0 0 22px rgba(179, 136, 255, .55); } }
+@keyframes chest-bob { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-3px) rotate(-2deg); } }
+@keyframes rare-glow { 0%, 100% { box-shadow: inset 0 0 0 rgba(179, 136, 255, 0); } 50% { box-shadow: inset 0 0 18px rgba(179, 136, 255, .55); } }
 
-/* Abierto: apagado. */
-.done .art { filter: saturate(.35) brightness(.8); }
+/* Canjeado (o tope del día lleno): el cofre se apaga. */
+.done .art { filter: saturate(.35) brightness(.75); }
 
 .glow {
   position: absolute;
-  left: 50%;
-  top: 38%;
+  left: 34px;
+  top: 50%;
   z-index: -1;
-  width: 5rem;
-  height: 5rem;
-  margin: -2.5rem 0 0 -2.5rem;
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
   border-radius: 50%;
   background: radial-gradient(closest-side, rgba(255, 210, 63, .85), rgba(255, 122, 26, .35), transparent);
   opacity: 0;
   pointer-events: none;
 }
 .rare .glow { background: radial-gradient(closest-side, rgba(255, 226, 122, .9), rgba(179, 136, 255, .45), transparent); }
-.num {
-  position: absolute;
-  top: 18%;
-  left: 0;
-  right: 0;
-  min-height: 1.4em;
-  font-family: var(--font-display);
-  font-size: var(--fs-2xl);
-  font-weight: var(--fw-black);
-  color: #ffd23f;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, .6);
-  font-variant-numeric: tabular-nums;
-  pointer-events: none;
-}
-.done .num { position: static; font-size: var(--fs-lg); }
-.caption { font-size: var(--fs-sm); color: var(--color-fg-muted); font-weight: var(--fw-semibold); }
 
 @media (prefers-reduced-motion: reduce) {
-  .idle .box, .rare.idle { animation: none; }
+  .idle .box, .rare.idle, .stamp { animation: none; }
 }

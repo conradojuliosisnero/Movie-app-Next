@@ -1,10 +1,9 @@
 'use client';
-// Ranking: top 50 por puntaje (solo nombre de perfil y avatar), tu racha y cómo ganar puntos.
+// Ranking: tu racha (tira de película), tus puntos (boleto con tu puesto), cofres del día,
+// top 50 (solo nombre de perfil y avatar) y el tarifario de puntos.
 import { useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { gsap, useGSAP, DUR, motionOK } from '@/lib/motion';
-import PageHeader from '@/components/ui/PageHeader/PageHeader';
-import Card from '@/components/ui/Card/Card';
 import Avatar from '@/components/ui/Avatar/Avatar';
 import Button from '@/components/ui/Button/Button';
 import Status from '@/components/ui/Status/Status';
@@ -20,28 +19,38 @@ import { copy } from '@/i18n';
 import { cx } from '@/utils/cx';
 import s from './RankingPage.module.css';
 
-const HOW = [
+const RULES = [
   ['day', POINTS.day], ['week', POINTS.week], ['watched', POINTS.watched],
   ['want', POINTS[STATUS.WANT]], ['seen', POINTS[STATUS.SEEN]], ['dismissed', POINTS[STATUS.DISMISSED]],
   ['chest', CHESTS.daily.join('–')], ['rare', CHESTS.rare.join('–')],
 ];
+const MEDALS = ['#f5c04a', '#cfd3da', '#d29a6a'];
 const fmt = (n) => n.toLocaleString('es-CO');
+const pad = (n) => String(n).padStart(2, '0');
 
 export default function RankingPage() {
   const session = useSession();
   const lib = useLibrary();
   const router = useRouter();
   const top = useAsync(topPlayers, 'ranking');
+  const rootRef = useRef(null);
   const listRef = useRef(null);
   const mine = session.user && session.profile ? entryId(session.user.uid, session.profile.id) : null;
   const players = top.data ?? [];
   const myPos = players.findIndex((p) => p.id === mine) + 1;
+  const today = todayPoints(lib);
+  const pct = Math.min(100, Math.round((today / DAILY_CAP) * 100));
 
-  // Las filas entran en cascada.
+  // Entrada: las tarjetas suben en cascada; el número del puesto cae como un sello.
   useGSAP(() => {
-    if (!players.length || !motionOK()) return;
-    gsap.from('[data-row]', { y: 18, autoAlpha: 0, duration: DUR.slow, ease: 'standard', stagger: 0.03, clearProps: 'all' });
-  }, { dependencies: [players.length], scope: listRef });
+    if (!motionOK()) return;
+    gsap.from('[data-block]', { y: 22, autoAlpha: 0, duration: DUR.slow, ease: 'standard', stagger: 0.07, clearProps: 'transform,opacity,visibility' });
+  }, { scope: rootRef });
+  useGSAP(() => {
+    if (!motionOK()) return;
+    if (players.length) gsap.from('[data-row]', { x: -16, autoAlpha: 0, duration: DUR.slow, ease: 'standard', stagger: 0.03, clearProps: 'all' });
+    if (myPos) gsap.from('[data-pos]', { scale: 2.2, rotate: -12, autoAlpha: 0, duration: 0.6, ease: 'back.out(2.5)', delay: 0.3 });
+  }, { dependencies: [players.length, myPos], scope: rootRef });
 
   let note = null;
   if (session.isGuest) note = copy.ranking.guest;
@@ -49,53 +58,76 @@ export default function RankingPage() {
   else if (top.data && !myPos) note = copy.ranking.outOfTop;
 
   return (
-    <div className={s.page}>
-      <PageHeader eyebrow={copy.ranking.eyebrow(TOP)} title={copy.ranking.title} />
+    <div ref={rootRef} className={s.page}>
+      <header className={s.header} data-block>
+        <span className={s.label}>{copy.ranking.eyebrow(TOP)}</span>
+        <h1 className={s.h1}>{copy.ranking.title}</h1>
+      </header>
 
-      <div className={s.top}>
-        <Card padding={6} radius="xl" className={s.flat}><StreakCard /></Card>
-        <Card padding={6} radius="xl" className={s.flat}>
-          <span className="u-eyebrow">{copy.ranking.yourPoints}</span>
-          <div className={s.score}><b>{fmt(lib.score)}</b> pts{myPos > 0 && <span className={s.pos}>#{myPos}</span>}</div>
-          {/* Tope diario: barra de lo ganado hoy. */}
-          <div className={s.today}>
-            <span className={s.todayLabel}>{copy.ranking.today(todayPoints(lib), DAILY_CAP)}</span>
-            <span className={s.todayTrack}><span className={s.todayFill} style={{ width: `${Math.min(100, (todayPoints(lib) / DAILY_CAP) * 100)}%` }} /></span>
+      <section className={s.top}>
+        <div className={cx(s.card, s.streak)} data-block><StreakCard /></div>
+
+        {/* Boleto: tus puntos y lo de hoy; en el talón, tu puesto. */}
+        <div className={cx(s.card, s.ticket)} data-block>
+          <div className={s.ticketMain}>
+            <span className={s.label}>{copy.ranking.yourPoints}</span>
+            <div className={s.points}>{fmt(lib.score)} <span>pts</span></div>
+            {note && <p className={s.note}>{note}</p>}
+            {session.isGuest && <Button size="sm" variant="primary" onClick={async () => { await session.logout(); router.replace(ROUTES.login); }}>{copy.menu.createAccount}</Button>}
+            <div className={s.progress}>
+              <div className={s.progressRow}>
+                <span>{copy.ranking.todayLabel} <b>{today}</b> / {DAILY_CAP}</span>
+                <span>{pct}%</span>
+              </div>
+              <div className={s.bar}><div style={{ width: `${pct}%` }} /></div>
+            </div>
           </div>
-          {note && <p className="u-muted">{note}</p>}
-          {session.isGuest && <Button variant="primary" onClick={async () => { await session.logout(); router.replace(ROUTES.login); }}>{copy.menu.createAccount}</Button>}
-        </Card>
-      </div>
+          <div className={s.stub}>
+            <span className={s.label}>{copy.ranking.position}</span>
+            <span className={s.pos} data-pos>{myPos ? pad(myPos) : '—'}</span>
+            <span className={s.of}>{copy.ranking.of(pad(players.length))}</span>
+          </div>
+        </div>
+      </section>
 
-      <Card padding={6} radius="xl" className={s.flat}><Chests /></Card>
+      <div className={cx(s.card, s.chests)} data-block><Chests /></div>
 
-      <div className={s.cols}>
-        <section className={s.board} aria-label={copy.ranking.title}>
+      <section className={s.bottom}>
+        <div aria-label={copy.ranking.title} data-block>
           <Status loading={top.loading} error={top.error} onRetry={top.retry} skeleton="cards">
             {players.length ? (
-              <ol ref={listRef} className={s.list}>
+              <ol ref={listRef} className={s.board}>
                 {players.map((p, i) => (
-                  <li key={p.id} data-row className={cx(s.row, i < 3 && s[`medal${i + 1}`], p.id === mine && s.me)}>
-                    <span className={s.rank}>{i + 1}</span>
+                  <li key={p.id} data-row className={cx(s.row, p.id === mine && s.me)}>
+                    <span className={s.rank} style={{ color: MEDALS[i] }}>{pad(i + 1)}</span>
                     <Avatar seed={p.avatar || p.id} size="md" />
                     <span className={s.name}>{p.name}{p.id === mine && <em className={s.you}>{copy.ranking.you}</em>}</span>
-                    <b className={s.points}>{fmt(p.score)}</b>
+                    <b className={s.rowPts}>{fmt(p.score)}</b>
                   </li>
                 ))}
               </ol>
             ) : <EmptyState>{copy.ranking.empty}</EmptyState>}
           </Status>
-        </section>
+        </div>
 
-        <Card as="aside" padding={6} radius="xl" className={s.flat}>
-          <h2 className={s.h2}>{copy.ranking.howTitle}</h2>
-          <ul className={s.how}>
-            {HOW.map(([k, n]) => <li key={k}><span>{copy.ranking.how[k]}</span><b>+{n}</b></li>)}
-          </ul>
-          <p className={cx('u-muted', s.small)}>{copy.ranking.capNote(DAILY_CAP)}</p>
-          <p className={cx('u-muted', s.small)}>{copy.ranking.watchedNote}</p>
-        </Card>
-      </div>
+        {/* Tarifario: recibo de papel con los puntos por acción. */}
+        <aside className={s.receipt} data-block>
+          <div className={s.receiptHead}>
+            <div className={s.receiptTitle}>{copy.ranking.receipt.title}</div>
+            <div className={s.receiptSub}>{copy.ranking.receipt.sub}</div>
+          </div>
+          <hr />
+          {RULES.map(([k, n]) => (
+            <div key={k} className={s.line}>
+              <span>{copy.ranking.rules[k]}</span>
+              <span className={s.dots} />
+              <b>+{n}</b>
+            </div>
+          ))}
+          <hr />
+          <p className={s.receiptNote}>{copy.ranking.receipt.note(DAILY_CAP)}</p>
+        </aside>
+      </section>
     </div>
   );
 }
