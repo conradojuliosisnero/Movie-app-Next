@@ -154,7 +154,9 @@ export function LibraryProvider({ children }) {
   }, [state, loadedKey, key, isGuest, ref, show]);
 
   // +18 solo si el perfil lo activó (nunca en perfiles infantiles).
-  useEffect(() => { setAdultContent(state.settings.adult && !profile?.kids); }, [state.settings.adult, profile?.kids]);
+  // Se aplica aquí, en el render y no en un efecto: los efectos de las pantallas (que piden a TMDB)
+  // corren antes que los de este proveedor, y la primera búsqueda salía sin el +18.
+  setAdultContent(!!state.settings.adult && !profile?.kids);
 
   // Tope diario: aviso cuando algo ya no sumó porque se llegó a 500 hoy.
   useEffect(() => {
