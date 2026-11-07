@@ -18,7 +18,7 @@ import { useToast } from '@/store/ToastContext';
 import { useLibraryLists } from '@/hooks/useLibraryLists';
 import { useAsync } from '@/hooks/useAsync';
 import { usePaged } from '@/hooks/usePaged';
-import { getForYou, getNowPlaying, getTrending, getUpcoming, pickSuggestion } from '@/services/catalog';
+import { getForYou, getGenreRail, getNowPlaying, getTrending, getUpcoming, pickSuggestion } from '@/services/catalog';
 import { MOODS } from '@/data/moods';
 import { todayLabel } from '@/utils/format';
 import { APP, ROUTES, STATUS } from '@/config/app.config';
@@ -40,6 +40,8 @@ export default function HomePage() {
   const forYou = usePaged((page) => getForYou({ profile, lib }, page), ctxKey);
   const trending = usePaged((page) => getTrending({ profile }, page), `trending|${profile.kids}`);
   const nowPlaying = usePaged(getNowPlaying, profile.kids ? null : 'now');
+  const actionAdventure = usePaged((page) => getGenreRail('actionAdventure', { profile }, page), `action|${profile.kids}`);
+  const scifi = usePaged((page) => getGenreRail('scifi', { profile }, page), `scifi|${profile.kids}`);
   const upcoming = useAsync(getUpcoming, profile.kids ? null : 'upcoming');
 
   // Lo que ya decidiste desaparece de las sugerencias al instante.
@@ -106,6 +108,15 @@ export default function HomePage() {
           <PosterRail titles={trending.items.filter((t) => !hide(t))} withSave {...more(trending)} />
         </Status>
       </section>
+
+      {[['actionAdventure', actionAdventure], ['scifi', scifi]].map(([id, rail]) => (
+        <section key={id} className={s.section}>
+          <SectionHeader title={copy.home.genreRails[id]} />
+          <Status rail loading={rail.loading && !rail.items.length} error={!rail.items.length && rail.error} onRetry={rail.retry}>
+            <PosterRail titles={rail.items.filter((t) => !hide(t))} withSave {...more(rail)} />
+          </Status>
+        </section>
+      ))}
 
       {!profile.kids && (
         <section className={s.section}>

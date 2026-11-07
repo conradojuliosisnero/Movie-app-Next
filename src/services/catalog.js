@@ -169,6 +169,20 @@ export async function getTrending(ctx, page = 1) {
   return list(await tmdb('trending/all/week', { page }));
 }
 
+// Filas del inicio por género (“|” = cualquiera). En series, TMDB junta acción y aventura en 10759.
+const HOME_GENRES = {
+  actionAdventure: { movie: '28|12', tv: '10759' },
+  scifi: { movie: '878', tv: '10765' },
+};
+
+/** Fila de un género para el inicio: películas y series mezcladas, populares y bien votadas. */
+export async function getGenreRail(id, ctx, page = 1) {
+  const g = HOME_GENRES[id];
+  const params = (kind) => ({ ...baseParams(kind, ctx), with_genres: ctx?.profile?.kids ? `${kidsParams(kind).with_genres},${g[kind]}` : g[kind], 'vote_count.gte': 200, page });
+  const [movies, series] = await Promise.all([discover('movie', params('movie')), discover('tv', params('tv'))]);
+  return interleave(movies, series);
+}
+
 export async function getNowPlaying(page = 1) {
   return list(await tmdb('movie/now_playing', { region: APP.region, page }), 'movie');
 }
