@@ -10,10 +10,11 @@ import Button from '@/components/ui/Button/Button';
 import Status from '@/components/ui/Status/Status';
 import EmptyState from '@/components/ui/EmptyState/EmptyState';
 import { StreakCard } from '@/components/ui/Streak/Streak';
+import Chests from '@/components/ui/Chests/Chests';
 import { useAsync } from '@/hooks/useAsync';
 import { useLibrary } from '@/store/LibraryContext';
 import { useSession } from '@/store/SessionContext';
-import { POINTS, TOP, entryId, topPlayers } from '@/services/ranking';
+import { CHESTS, DAILY_CAP, POINTS, TOP, entryId, todayPoints, topPlayers } from '@/services/ranking';
 import { ROUTES, STATUS } from '@/config/app.config';
 import { copy } from '@/i18n';
 import { cx } from '@/utils/cx';
@@ -22,6 +23,7 @@ import s from './RankingPage.module.css';
 const HOW = [
   ['day', POINTS.day], ['week', POINTS.week], ['watched', POINTS.watched],
   ['want', POINTS[STATUS.WANT]], ['seen', POINTS[STATUS.SEEN]], ['dismissed', POINTS[STATUS.DISMISSED]],
+  ['chest', CHESTS.daily.join('–')], ['rare', CHESTS.rare.join('–')],
 ];
 const fmt = (n) => n.toLocaleString('es-CO');
 
@@ -55,10 +57,17 @@ export default function RankingPage() {
         <Card padding={6} radius="xl" className={s.flat}>
           <span className="u-eyebrow">{copy.ranking.yourPoints}</span>
           <div className={s.score}><b>{fmt(lib.score)}</b> pts{myPos > 0 && <span className={s.pos}>#{myPos}</span>}</div>
+          {/* Tope diario: barra de lo ganado hoy. */}
+          <div className={s.today}>
+            <span className={s.todayLabel}>{copy.ranking.today(todayPoints(lib), DAILY_CAP)}</span>
+            <span className={s.todayTrack}><span className={s.todayFill} style={{ width: `${Math.min(100, (todayPoints(lib) / DAILY_CAP) * 100)}%` }} /></span>
+          </div>
           {note && <p className="u-muted">{note}</p>}
           {session.isGuest && <Button variant="primary" onClick={async () => { await session.logout(); router.replace(ROUTES.login); }}>{copy.menu.createAccount}</Button>}
         </Card>
       </div>
+
+      <Card padding={6} radius="xl" className={s.flat}><Chests /></Card>
 
       <div className={s.cols}>
         <section className={s.board} aria-label={copy.ranking.title}>
@@ -83,6 +92,7 @@ export default function RankingPage() {
           <ul className={s.how}>
             {HOW.map(([k, n]) => <li key={k}><span>{copy.ranking.how[k]}</span><b>+{n}</b></li>)}
           </ul>
+          <p className={cx('u-muted', s.small)}>{copy.ranking.capNote(DAILY_CAP)}</p>
           <p className={cx('u-muted', s.small)}>{copy.ranking.watchedNote}</p>
         </Card>
       </div>

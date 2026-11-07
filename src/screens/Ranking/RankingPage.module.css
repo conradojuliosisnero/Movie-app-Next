@@ -37,3 +37,9 @@
 @media (max-width: 900px) {
   .cols { grid-template-columns: 1fr; }
 }
+
+/* Lo ganado hoy hacia el tope diario. */
+.today { display: flex; flex-direction: column; gap: 6px; }
+.todayLabel { font-size: var(--fs-sm); color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+.todayTrack { height: 8px; border-radius: 999px; background: var(--color-surface-2); overflow: hidden; }
+.todayFill { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #ffd23f, #ff7a1a, #ff2d6f); transition: width .6s var(--ease-spring); }
