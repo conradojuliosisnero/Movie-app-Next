@@ -11,7 +11,11 @@ import ToastIsland from '@/components/ui/ToastIsland/ToastIsland';
 // El service worker solo se registra en producción (en desarrollo cachearía código viejo).
 function useServiceWorker() {
   useEffect(() => {
-    if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
+    if (!('serviceWorker' in navigator)) return;
+    if (process.env.NODE_ENV === 'production') { navigator.serviceWorker.register('/sw.js').catch(() => {}); return; }
+    // En desarrollo se quita el que haya quedado de una prueba con `npm start` en el mismo puerto:
+    // su caché de /_next/static servía archivos viejos (p. ej. textos sin claves nuevas).
+    navigator.serviceWorker.getRegistrations().then((regs) => regs.forEach((r) => r.unregister())).catch(() => {});
   }, []);
 }
 
