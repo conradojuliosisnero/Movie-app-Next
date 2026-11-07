@@ -1,5 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Nadie puede meter PeliBox dentro de un iframe en otro sitio (evita clickjacking:
+  // que te hagan tocar botones de PeliBox escondidos bajo otra página).
+  // frame-ancestors es la forma moderna; X-Frame-Options cubre navegadores viejos.
+  // No afecta los iframes que PeliBox abre adentro (YouTube, reproductor).
+  async headers() {
+    return [{
+      source: '/:path*',
+      headers: [
+        { key: 'Content-Security-Policy', value: "frame-ancestors 'none'" },
+        { key: 'X-Frame-Options', value: 'DENY' },
+      ],
+    }];
+  },
+
   // Las URLs de la app anterior siguen funcionando: llevan a su equivalente en PeliBox.
   async redirects() {
     return [
