@@ -51,7 +51,7 @@ export default function AnimePage({ fontClass }) {
   const heroRef = useRef(null);
 
   const popular = usePaged((page) => getAnime('popular', { profile }, page), `hero|${profile.kids}`);
-  const featured = popular.items.filter((t) => t.backdrop).slice(0, FEATURED);
+  const featured = popular.items.filter((t) => t.backdrop && !t.adult).slice(0, FEATURED);
   const hero = featured[index % (featured.length || 1)];
   const go = (step) => featured.length && setIndex((i) => (i + step + featured.length) % featured.length);
   useKeyboard({ ArrowLeft: () => go(-1), ArrowRight: () => go(1) }, !!hero && !ui.detail && !ui.player);
@@ -72,7 +72,7 @@ export default function AnimePage({ fontClass }) {
   useGSAP(() => {
     if (!hero || !motionOK()) return;
     const tl = gsap.timeline();
-    tl.from('[data-hero-bg]', { scale: 1.12, autoAlpha: 0, duration: DUR.slow * 2, ease: 'standard' })
+    tl.from('[data-hero-bg]', { scale: 1.12, duration: DUR.slow * 2, ease: 'standard' })
       .from('[data-char]', { yPercent: 110, rotate: 8, duration: DUR.slow, ease: 'spring', stagger: 0.018 }, '<0.1')
       .from('[data-hero-fade]', { y: 16, autoAlpha: 0, duration: DUR.slow, ease: 'standard', stagger: 0.06 }, '<0.15');
   }, { dependencies: [hero?.id], scope: heroRef, revertOnUpdate: true });
@@ -89,7 +89,8 @@ export default function AnimePage({ fontClass }) {
       <Status skeleton="hero" loading={popular.loading && !popular.items.length} error={!popular.items.length && popular.error} onRetry={popular.retry}>
         {hero && (
           <section ref={heroRef} className={s.hero} aria-roledescription="carrusel" aria-label={copy.anime.featured}>
-            <div className={s.heroBg} data-hero-bg style={{ backgroundImage: `url(${hero.backdrop.replace('/w780/', '/w1280/')})` }} />
+            {/* Imagen real (no fondo CSS) para que el navegador la pida antes; w780 en celular, w1280 en pantallas grandes. */}
+            <img className={s.heroBg} data-hero-bg src={hero.backdrop} srcSet={`${hero.backdrop} 780w, ${hero.backdrop.replace('/w780/', '/w1280/')} 1280w`} sizes="100vw" alt="" fetchPriority="high" decoding="async" />
             <div className={s.heroShade} />
             <div className={s.heroBody}>
               <span className={s.eyebrow} data-hero-fade>{copy.anime.eyebrow(new Date().getFullYear())}</span>
@@ -110,7 +111,7 @@ export default function AnimePage({ fontClass }) {
             </div>
             <div className={s.thumbs} role="tablist" aria-label={copy.anime.featured}>
               {featured.map((t, i) => (
-                <button key={t.id} type="button" role="tab" aria-selected={t.id === hero.id} aria-label={t.title} className={cx(s.thumb, t.id === hero.id && s.thumbOn)} style={{ backgroundImage: `url(${t.backdrop})` }} onClick={() => setIndex(i)}>
+                <button key={t.id} type="button" role="tab" aria-selected={t.id === hero.id} aria-label={`${String(i + 1).padStart(2, '0')} ${t.title}`} className={cx(s.thumb, t.id === hero.id && s.thumbOn)} style={{ backgroundImage: `url(${t.backdrop})` }} onClick={() => setIndex(i)}>
                   <span className={s.thumbNum}>{String(i + 1).padStart(2, '0')}</span>
                 </button>
               ))}

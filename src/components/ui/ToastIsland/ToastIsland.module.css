@@ -29,6 +29,6 @@
 
 /* Celular: el aviso sale por encima de las pestañas. */
 @media (max-width: 760px) {
-  .island { bottom: calc(5.5rem + env(safe-area-inset-bottom)); max-width: calc(100vw - var(--space-6)); }
+  .island { bottom: calc(var(--tabs-space) + var(--space-3)); max-width: calc(100vw - var(--space-6)); }
   .open { max-width: calc(100vw - var(--space-6)); white-space: normal; height: auto; min-height: 3.125rem; padding-block: var(--space-2); }
 }

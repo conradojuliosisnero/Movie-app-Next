@@ -9,6 +9,7 @@ import Chip from '@/components/ui/Chip/Chip';
 import Poster from '@/components/ui/Poster/Poster';
 import Avatar, { avatarSeed } from '@/components/ui/Avatar/Avatar';
 import Status from '@/components/ui/Status/Status';
+import Sheet from '@/components/ui/Sheet/Sheet';
 import { useLibrary } from '@/store/LibraryContext';
 import { useSession } from '@/store/SessionContext';
 import { useToast } from '@/store/ToastContext';
@@ -39,6 +40,7 @@ export default function ProfilePage() {
   const stats = useMemo(() => computeStats(lib), [lib]);
   const max = stats.topGenres[0]?.[1] || 1;
   const [avatarPage, setAvatarPage] = useState(0);
+  const [askAdult, setAskAdult] = useState(false);
   const hoursRef = useRef(null);
   useGSAP(() => {
     if (!motionOK() || !stats.hours) return;
@@ -53,7 +55,10 @@ export default function ProfilePage() {
   const settings = [
     { key: 'bigText', checked: theme.bigText, toggle: () => theme.setBigText(!theme.bigText) },
     { key: 'onlyMine', checked: lib.settings.onlyMine, toggle: () => lib.toggleSetting('onlyMine') },
-  ];
+    // Para prender +18 hay que confirmar la edad; para apagarlo no.
+    !session.profile.kids && { key: 'adult', checked: !!lib.settings.adult, toggle: () => (lib.settings.adult ? lib.toggleSetting('adult') : setAskAdult(true)) },
+    !session.isGuest && { key: 'ranking', checked: lib.settings.ranking !== false, toggle: () => lib.toggleSetting('ranking') },
+  ].filter(Boolean);
 
   const shareYear = async () => {
     const text = copy.profile.shareText(stats.hours, stats.titles, APP.name);
@@ -149,6 +154,22 @@ export default function ProfilePage() {
             </Status>
           </div>
         </Card>
+
+        {askAdult && (
+          <Sheet size="sm" label={copy.profile.adultConfirm.title} onClose={() => setAskAdult(false)}>
+            {({ close }) => (
+              <div className={s.confirm}>
+                <span className={s.adultBadge} aria-hidden="true">+18</span>
+                <h3 className={s.h3}>{copy.profile.adultConfirm.title}</h3>
+                <p className="u-muted">{copy.profile.adultConfirm.body}</p>
+                <div className={s.chips}>
+                  <Button variant="primary" onClick={() => { lib.toggleSetting('adult'); close(); }}>{copy.profile.adultConfirm.yes}</Button>
+                  <Button variant="ghost" onClick={close}>{copy.profile.adultConfirm.no}</Button>
+                </div>
+              </div>
+            )}
+          </Sheet>
+        )}
 
         <div className={s.chips}>
           {!session.isGuest && <Button onClick={() => { session.clearProfile(); router.push(ROUTES.profiles); }}>{copy.profile.switchProfile}</Button>}

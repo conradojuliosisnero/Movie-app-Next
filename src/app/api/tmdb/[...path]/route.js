@@ -1,10 +1,7 @@
 // Único punto de contacto con TMDB. El token nunca sale del servidor.
 // Solo deja pasar rutas de lectura conocidas, para no ser un proxy abierto.
-import dns from 'node:dns';
 import { NextResponse } from 'next/server';
-
-// Algunas redes fallan por IPv6 hacia TMDB (timeouts intermitentes): se prefiere IPv4.
-dns.setDefaultResultOrder('ipv4first');
+import { tmdbFetch } from '@/services/tmdbServer';
 
 const ALLOWED = [
   /^trending\/(all|movie|tv)\/(day|week)$/,
@@ -22,7 +19,6 @@ const ALLOWED = [
 
 const LIST_TTL = 60 * 60; // 1 h: listas y búsquedas
 const DETAIL_TTL = 60 * 60 * 24; // 24 h: fichas, personas, géneros, plataformas
-const TIMEOUT_MS = 8000;
 
 export async function GET(request, { params }) {
   const path = (await params).path.join('/');
@@ -36,16 +32,11 @@ export async function GET(request, { params }) {
 
   const ttl = /^(search|discover|trending|movie\/(popular|now_playing|upcoming|top_rated))/.test(path) ? LIST_TTL : DETAIL_TTL;
 
-  const call = () => fetch(`https://api.themoviedb.org/3/${path}?${query}`, {
-    headers: { accept: 'application/json', Authorization: `Bearer ${process.env.BEARER_TOKEN}` },
-    next: { revalidate: ttl },
-    signal: AbortSignal.timeout(TIMEOUT_MS),
-  });
 
   // Si la red falla (no hay respuesta de TMDB), se intenta una vez más antes de rendirse.
   let res;
   try {
-    res = await call().catch(call);
+    res = await tmdbFetch(path, query, ttl);
   } catch (error) {
     console.error(`TMDB sin conexión (${path}):`, error.cause?.code ?? error.name);
     return NextResponse.json({ error: 'No pudimos conectar con TMDB. Inténtalo de nuevo.' }, { status: 502 });

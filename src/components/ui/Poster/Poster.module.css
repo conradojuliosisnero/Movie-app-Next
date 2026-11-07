@@ -18,3 +18,23 @@
 .lg { font-size: var(--fs-4xl); font-weight: var(--fw-black); }
 .img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .poster > :not(.img) { position: relative; }
+
+/* +18: velo borroso encima del póster (como una película protectora) con la etiqueta. */
+.poster > .adult {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(8, 8, 12, .5);
+  backdrop-filter: blur(18px) saturate(.4);
+}
+.adultTag {
+  padding: 2px 10px;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: var(--fs-lg);
+  letter-spacing: .02em;
+}

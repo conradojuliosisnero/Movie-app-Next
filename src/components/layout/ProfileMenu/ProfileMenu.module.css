@@ -1,6 +1,6 @@
 .menu {
   position: absolute;
-  top: calc(var(--layout-nav-height) + var(--space-3));
+  top: calc(var(--header-h) + var(--space-3));
   right: 0;
   width: 18.75rem;
   padding: var(--space-3);

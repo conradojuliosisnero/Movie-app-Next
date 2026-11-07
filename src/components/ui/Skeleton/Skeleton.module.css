@@ -1,15 +1,23 @@
 .wrap { width: 100%; }
 
-/* Hueso base con brillo que barre de izquierda a derecha. */
+/* Hueso base. El brillo es una capa aparte que se desliza con transform: lo mueve la GPU,
+   sin repintar en cada fotograma (con background-position el celular se saturaba). */
 .bone {
+  position: relative;
+  overflow: hidden;
   display: block;
   border-radius: var(--radius-sm);
-  background:
-    linear-gradient(100deg, transparent 20%, color-mix(in oklab, var(--color-fg) 9%, transparent) 50%, transparent 80%) 0 0 / 200% 100% no-repeat,
-    var(--color-surface-2);
+  background-color: var(--color-surface-2);
+}
+.bone::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 20%, color-mix(in oklab, var(--color-fg) 9%, transparent) 50%, transparent 80%);
+  transform: translateX(-100%);
   animation: shimmer 1.4s ease-in-out infinite;
 }
-@keyframes shimmer { from { background-position: 150% 0, 0 0; } to { background-position: -50% 0, 0 0; } }
+@keyframes shimmer { to { transform: translateX(100%); } }
 
 .lines { display: flex; flex-direction: column; gap: var(--space-2); width: 100%; }
 .line { height: 0.8rem; border-radius: 999px; }

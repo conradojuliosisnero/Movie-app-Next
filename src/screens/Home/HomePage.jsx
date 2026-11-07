@@ -14,11 +14,10 @@ import ReleaseCard from '@/components/title/ReleaseCard/ReleaseCard';
 import { useSession } from '@/store/SessionContext';
 import { useLibrary } from '@/store/LibraryContext';
 import { useUI } from '@/store/UIContext';
-import { useToast } from '@/store/ToastContext';
 import { useLibraryLists } from '@/hooks/useLibraryLists';
 import { useAsync } from '@/hooks/useAsync';
 import { usePaged } from '@/hooks/usePaged';
-import { getForYou, getNowPlaying, getTrending, getUpcoming, pickSuggestion } from '@/services/catalog';
+import { getForYou, getGenreRail, getNowPlaying, getTrending, getUpcoming, pickSuggestion } from '@/services/catalog';
 import { MOODS } from '@/data/moods';
 import { todayLabel } from '@/utils/format';
 import { APP, ROUTES, STATUS } from '@/config/app.config';
@@ -29,17 +28,17 @@ export default function HomePage() {
   const { profile } = useSession();
   const lib = useLibrary();
   const ui = useUI();
-  const { show } = useToast();
   const lists = useLibraryLists();
   const router = useRouter();
   const [mood, setMood] = useState(null);
-  const [suggesting, setSuggesting] = useState(false);
 
   const ctxKey = `${profile.id}|${lib.settings.onlyMine}|${lib.myPlatforms.join()}`;
   // Filas que siguen cargando al llegar al final (deslizando o arrastrando).
   const forYou = usePaged((page) => getForYou({ profile, lib }, page), ctxKey);
   const trending = usePaged((page) => getTrending({ profile }, page), `trending|${profile.kids}`);
   const nowPlaying = usePaged(getNowPlaying, profile.kids ? null : 'now');
+  const actionAdventure = usePaged((page) => getGenreRail('actionAdventure', { profile }, page), `action|${profile.kids}`);
+  const scifi = usePaged((page) => getGenreRail('scifi', { profile }, page), `scifi|${profile.kids}`);
   const upcoming = useAsync(getUpcoming, profile.kids ? null : 'upcoming');
 
   // Lo que ya decidiste desaparece de las sugerencias al instante.
@@ -47,18 +46,9 @@ export default function HomePage() {
   const forYouList = forYou.items.filter((t) => !hide(t));
   const more = (p) => ({ onLoadMore: p.loadMore, hasMore: !p.done, loadingMore: p.loading });
 
-  const suggest = async () => {
-    setSuggesting(true);
-    try {
-      const t = await pickSuggestion({ moodId: mood, excludeId: ui.detail?.item.id, profile, lib });
-      if (t) ui.openDetail(t, { proposed: true });
-      else show(copy.toasts.allSeen);
-    } catch {
-      show(copy.common.error);
-    } finally {
-      setSuggesting(false);
-    }
-  };
+  // El panel se abre al instante con esqueleto y se llena cuando llega la sugerencia.
+  const suggesting = !!ui.detail?.loading;
+  const suggest = () => ui.suggest(() => pickSuggestion({ moodId: mood, excludeId: ui.detail?.item?.id, profile, lib }));
 
   return (
     <div className={s.page}>
@@ -83,7 +73,7 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-        <Button variant="primary" size="xl" icon="suggest" disabled={suggesting} onClick={suggest}>{suggesting ? copy.home.suggesting : copy.home.suggestCta}</Button>
+        <Button variant="primary" size="xl" icon="suggest" className={s.suggestBtn} aria-busy={suggesting} disabled={suggesting} onClick={suggest}>{suggesting ? copy.home.suggesting : copy.home.suggestCta}</Button>
       </Card>
 
       <section className={s.section}>
@@ -106,6 +96,15 @@ export default function HomePage() {
           <PosterRail titles={trending.items.filter((t) => !hide(t))} withSave {...more(trending)} />
         </Status>
       </section>
+
+      {[['actionAdventure', actionAdventure], ['scifi', scifi]].map(([id, rail]) => (
+        <section key={id} className={s.section}>
+          <SectionHeader title={copy.home.genreRails[id]} />
+          <Status rail loading={rail.loading && !rail.items.length} error={!rail.items.length && rail.error} onRetry={rail.retry}>
+            <PosterRail titles={rail.items.filter((t) => !hide(t))} withSave {...more(rail)} />
+          </Status>
+        </section>
+      ))}
 
       {!profile.kids && (
         <section className={s.section}>

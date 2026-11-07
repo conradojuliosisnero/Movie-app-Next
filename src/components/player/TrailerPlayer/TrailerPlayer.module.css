@@ -36,13 +36,16 @@
   .overlay { grid-template-columns: 1fr; grid-template-rows: auto 1fr auto auto; }
   .spacer { display: none; }
 }
-.shimmer {
+.shimmer { position: absolute; inset: 0; overflow: hidden; background: rgba(255,255,255,.04); }
+.shimmer::after {
+  content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(100deg, transparent 20%, rgba(255,255,255,.08) 50%, transparent 80%) 0 0 / 200% 100% no-repeat, rgba(255,255,255,.04);
+  background: linear-gradient(100deg, transparent 20%, rgba(255,255,255,.08) 50%, transparent 80%);
+  transform: translateX(-100%);
   animation: player-shimmer 1.4s ease-in-out infinite;
 }
-@keyframes player-shimmer { from { background-position: 150% 0, 0 0; } to { background-position: -50% 0, 0 0; } }
+@keyframes player-shimmer { to { transform: translateX(100%); } }
 
 /* Celular: reproductor a pantalla completa, con las safe areas. */
 @media (max-width: 760px) {

@@ -27,6 +27,49 @@ function envelope(ac, at, peak, attack, decay) {
   return g;
 }
 
+/** Sonido de la marca (intro de perfiles): “ta-dum” — dos golpes graves y un brillo que se abre. */
+export async function playBrandSting({ at = 0.55, volume = 0.45 } = {}) {
+  const ac = audio();
+  if (!ac) return false;
+  try { if (ac.state === 'suspended') await ac.resume(); } catch { return false; }
+  if (ac.state !== 'running') return false;
+
+  const master = ac.createGain();
+  master.gain.value = volume;
+  master.connect(ac.destination);
+  const t0 = ac.currentTime + at;
+
+  // Golpe grave con caída de tono (cuerpo) + un poco de ruido filtrado (ataque).
+  const hit = (when, from, to, length, gain) => {
+    const osc = ac.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(from, when);
+    osc.frequency.exponentialRampToValueAtTime(to, when + length);
+    osc.connect(envelope(ac, when, gain, 0.008, length)).connect(master);
+    osc.start(when);
+    osc.stop(when + length + 0.1);
+    const click = noise(ac, 0.08);
+    const low = ac.createBiquadFilter();
+    low.type = 'lowpass';
+    low.frequency.value = 900;
+    click.connect(low).connect(envelope(ac, when, gain * 0.35, 0.003, 0.07)).connect(master);
+    click.start(when);
+  };
+  hit(t0, 95, 48, 0.45, 0.9);          // ta-
+  hit(t0 + 0.34, 120, 42, 1.1, 1.0);   // -dum (más largo)
+
+  // Brillo: acorde suave que se abre con el segundo golpe.
+  [261.6, 392, 523.3].forEach((f, i) => {
+    const osc = ac.createOscillator();
+    osc.type = 'triangle';
+    osc.frequency.value = f;
+    osc.connect(envelope(ac, t0 + 0.34, 0.07 / (i + 1), 0.25, 1.6)).connect(master);
+    osc.start(t0 + 0.34);
+    osc.stop(t0 + 2.3);
+  });
+  return true;
+}
+
 /** Efecto de animé: barrido de aire → “shing” de katana → golpe grave. offset: segundos hasta el corte. */
 export async function playAnimeSting({ offset = 0.45, volume = 0.35 } = {}) {
   const ac = audio();

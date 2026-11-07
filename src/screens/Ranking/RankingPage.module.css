@@ -1,0 +1,39 @@
+.page { display: flex; flex-direction: column; gap: var(--space-6); }
+.flat { box-shadow: none; display: flex; flex-direction: column; gap: var(--space-3); }
+.top { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: var(--space-4); }
+.score { display: flex; align-items: baseline; gap: var(--space-2); font-size: var(--fs-lg); }
+.score b { font-family: var(--font-display); font-size: var(--fs-4xl); font-weight: var(--fw-black); line-height: 1; font-variant-numeric: tabular-nums; }
+.pos { margin-left: auto; padding: 2px 10px; border-radius: 999px; background: var(--color-accent); color: var(--color-accent-fg); font-weight: var(--fw-bold); }
+
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) 20rem; gap: var(--space-6); align-items: start; }
+.list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.row {
+  display: grid;
+  grid-template-columns: 2.25rem auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+.rank { font-family: var(--font-display); font-weight: var(--fw-black); font-size: var(--fs-lg); text-align: center; color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+.name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: var(--fw-semibold); }
+.you { margin-left: var(--space-2); font-style: normal; font-size: var(--fs-sm); color: var(--color-accent); }
+.points { font-family: var(--font-display); font-variant-numeric: tabular-nums; }
+.me { border-color: var(--color-accent); background: color-mix(in oklab, var(--color-accent) 12%, var(--color-surface)); }
+/* Podio: oro, plata y bronce. */
+.medal1 .rank, .medal2 .rank, .medal3 .rank { color: #1b1209; border-radius: 999px; height: 2.25rem; display: grid; place-items: center; }
+.medal1 .rank { background: linear-gradient(135deg, #ffe27a, #e7a92b); }
+.medal2 .rank { background: linear-gradient(135deg, #f1f3f6, #a9b0bb); }
+.medal3 .rank { background: linear-gradient(135deg, #f3c39a, #b8743f); }
+
+.h2 { font-size: var(--fs-xl); font-weight: var(--fw-bold); }
+.how { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.how li { display: flex; justify-content: space-between; gap: var(--space-3); }
+.how b { color: var(--color-accent); font-variant-numeric: tabular-nums; }
+.small { font-size: var(--fs-sm); }
+
+@media (max-width: 900px) {
+  .cols { grid-template-columns: 1fr; }
+}

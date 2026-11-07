@@ -27,6 +27,7 @@ export function UIProvider({ children }) {
   const [party, setParty] = useState({ active: false, messages: [] });
   const [menuOpen, setMenuOpen] = useState(false);
   const lastPlayer = useRef(null);
+  const pickRun = useRef(0); // si cierras el panel antes de que llegue la sugerencia, se descarta
 
   const startParty = useCallback(() => {
     setParty((p) => ({ active: true, messages: p.messages.length ? p.messages : PARTY_SEED }));
@@ -46,7 +47,20 @@ export function UIProvider({ children }) {
         setDetail({ item, proposed: !!opts.proposed });
         setUrlTitle(item.id);
       },
-      closeDetail: () => { setDetail(null); setUrlTitle(null); },
+      closeDetail: () => { pickRun.current += 1; setDetail(null); setUrlTitle(null); },
+      /** Abre el panel enseguida con esqueleto y lo llena cuando llega la sugerencia. */
+      suggest: async (pick) => {
+        const run = ++pickRun.current;
+        setMenuOpen(false);
+        setDetail({ item: null, proposed: true, loading: true });
+        let t = null;
+        let failed = false;
+        try { t = await pick(); } catch { failed = true; }
+        if (run !== pickRun.current) return;
+        if (t) { setDetail({ item: t, proposed: true }); setUrlTitle(t.id); return; }
+        setDetail(null);
+        show(failed ? copy.common.error : copy.toasts.allSeen);
+      },
       openPlayer: (item, opts = {}) => {
         const next = { item, mode: opts.mode ?? 'trailer', season: opts.season, ep: opts.ep };
         lastPlayer.current = next;

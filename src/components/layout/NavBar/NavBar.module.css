@@ -1,6 +1,6 @@
 .wrap {
   position: fixed;
-  top: var(--space-3);
+  top: var(--header-gap);
   left: 0;
   right: 0;
   margin: 0 auto;
@@ -8,7 +8,7 @@
   z-index: var(--z-nav);
 }
 .bar {
-  height: var(--layout-nav-height);
+  height: var(--header-h);
   border-radius: var(--radius-pill);
   display: flex;
   align-items: center;
@@ -42,18 +42,18 @@
 .tabs { display: none; }
 
 @media (max-width: 760px) {
-  .wrap { top: calc(var(--space-2) + env(safe-area-inset-top)); }
-  .bar { height: 54px; padding: 0 var(--space-1) 0 var(--space-4); justify-content: space-between; }
+  .wrap { top: calc(var(--header-gap) + env(safe-area-inset-top)); }
+  .bar { height: var(--header-h); padding: 0 var(--space-1) 0 var(--space-4); justify-content: space-between; }
   .nav { display: none; }
   .tabs {
     position: fixed;
     z-index: var(--z-nav);
     left: var(--space-3);
     right: var(--space-3);
-    bottom: calc(var(--space-3) + env(safe-area-inset-bottom));
+    bottom: calc(var(--tabs-gap) + env(safe-area-inset-bottom));
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    height: 64px;
+    height: var(--tabs-h);
     padding: 0 var(--space-1);
     border-radius: var(--radius-xl);
   }
@@ -70,9 +70,23 @@
     font-weight: var(--fw-semibold);
     transition: color var(--dur-fast);
   }
-  .tabIcon { width: 52px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-pill); }
+  .tabIcon { width: 52px; height: clamp(26px, 3.6dvh, 30px); display: flex; align-items: center; justify-content: center; border-radius: var(--radius-pill); }
   .tabOn { color: var(--color-fg); }
   .tab:active .tabIcon { transform: scale(.92); }
   /* Píldora detrás del ícono activo (la desliza GSAP). */
   .tabPill { position: absolute; top: 0; left: 0; border-radius: var(--radius-pill); background: color-mix(in oklab, var(--color-accent) 28%, transparent); opacity: 0; pointer-events: none; }
 }
+
+/* Pantallas bajas (celular horizontal, teléfonos pequeños): pestañas solo con íconos. */
+@media (max-width: 760px) and (max-height: 600px) {
+  .tabLabel { display: none; }
+}
+/* Escritorio o tableta con poca altura: la isla de arriba también se encoge. */
+@media (min-width: 761px) and (max-height: 600px) {
+  .link { height: calc(var(--header-h) - 18px); }
+}
+/* El avatar escala con la barra (en pantallas bajas no sobresale). */
+.bar > :last-child { width: min(46px, calc(var(--header-h) - 8px)) !important; height: min(46px, calc(var(--header-h) - 8px)) !important; }
+
+/* Racha junto al avatar. */
+.streak { margin-left: auto; margin-right: var(--space-2); }

@@ -1,33 +1,17 @@
-.scrim { position: fixed; inset: 0; z-index: var(--z-overlay); background: var(--color-scrim); }
-.sheet {
-  position: fixed;
-  z-index: var(--z-sheet);
-  top: var(--space-3);
-  right: var(--space-3);
-  bottom: var(--space-3);
-  width: min(var(--layout-sheet-width), calc(100% - var(--space-6)));
-  overflow: auto;
-  border-radius: var(--radius-2xl);
-  background: var(--color-surface);
-  border: 1px solid var(--color-line);
-  box-shadow: var(--shadow-sheet);
+/* Mientras llega la sugerencia: la forma de la ficha en esqueleto. */
+.loading { display: flex; flex-direction: column; }
+.hero {
+  min-height: 15rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  background: linear-gradient(160deg, var(--color-surface-2), var(--color-surface));
+  touch-action: none;
 }
-/* Asa para arrastrar: la cabecera se puede deslizar hacia la derecha para cerrar. */
-.sheet > div > div:first-child { cursor: grab; touch-action: pan-y; }
-.sheet > div > div:first-child:active { cursor: grabbing; }
-.grip { position: absolute; z-index: 2; top: 12rem; left: var(--space-2); width: 4px; height: 44px; border-radius: 2px; background: var(--color-media-glass-border); }
-
-/* Celular: hoja desde abajo, con asa arriba al centro. */
-@media (max-width: 760px) {
-  .sheet {
-    top: auto;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: calc(100dvh - 2.75rem - env(safe-area-inset-top));
-    border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-  .grip { top: var(--space-2); left: 50%; width: 44px; height: 5px; margin-left: -22px; background: rgba(255,255,255,.55); }
-}
+.finding { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--color-accent); font-weight: var(--fw-semibold); }
+.finding svg { animation: finding-spin 1.1s linear infinite; }
+@keyframes finding-spin { to { transform: rotate(360deg); } }
+.body { display: flex; flex-direction: column; gap: var(--space-6); padding: var(--space-6); }
+@media (prefers-reduced-motion: reduce) { .finding svg { animation: none; } }

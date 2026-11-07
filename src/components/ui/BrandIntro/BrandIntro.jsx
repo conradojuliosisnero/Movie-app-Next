@@ -5,12 +5,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { gsap, useGSAP, motionOK } from '@/lib/motion';
-import { playAnimeSting } from '@/lib/sfx';
+import { playAnimeSting, playBrandSting } from '@/lib/sfx';
 import { APP } from '@/config/app.config';
 import { cx } from '@/utils/cx';
 import s from './BrandIntro.module.css';
 
-const STRIPES = 9;
+const STRIPES = 13;
 const seenKey = (variant) => `${APP.storageKey}:intro:${variant}`;
 
 /** Las intros salen una vez por inicio de sesión: al entrar o salir se vuelven a habilitar. */
@@ -51,14 +51,22 @@ export default function BrandIntro({ variant = 'brand', fontClass }) {
         .to('[data-half]', { x: 0, y: 0, duration: 0.4, ease: 'spring' }, 1.4)
         .to(ref.current, { autoAlpha: 0, scale: 1.08, duration: 0.45, ease: 'power2.in' }, 2.15);
     } else {
-      t.from('[data-letter]', { yPercent: 60, autoAlpha: 0, filter: 'blur(12px)', duration: 0.55, ease: 'power3.out', stagger: 0.06 })
-        .fromTo('[data-glow]', { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.5, ease: 'power2.out' }, 0.35)
-        .to('[data-logo]', { scale: 1.06, duration: 0.6, ease: 'sine.inOut' }, 0.6)
-        // “Entrar” al logo: crece rápido mientras las franjas de luz cruzan la pantalla.
-        .to('[data-logo]', { scale: 9, autoAlpha: 0, duration: 0.7, ease: 'power3.in' }, 1.25)
-        .fromTo('[data-stripe]', { scaleY: 0, autoAlpha: 0 }, { scaleY: 1, autoAlpha: 1, duration: 0.35, ease: 'power2.out', stagger: { each: 0.03, from: 'center' } }, 1.3)
-        .to('[data-stripes]', { scaleX: 6, duration: 0.6, ease: 'power3.in' }, 1.55)
-        .to(ref.current, { autoAlpha: 0, duration: 0.4, ease: 'power1.in' }, 1.95);
+      playBrandSting({ at: 0.55 });
+      // 1. Enfoque de cámara: letras desenfocadas y separadas que se juntan desde el centro.
+      t.fromTo('[data-letter]',
+        { autoAlpha: 0, scale: 1.35, filter: 'blur(18px)', x: (i, el, all) => (i - (all.length - 1) / 2) * 26 },
+        { autoAlpha: 1, scale: 1, filter: 'blur(0px)', x: 0, duration: 0.9, ease: 'expo.out', stagger: { each: 0.045, from: 'center' } })
+        .fromTo('[data-glow]', { autoAlpha: 0, scale: 0.5 }, { autoAlpha: 1, scale: 1, duration: 0.8, ease: 'power2.out' }, 0.25)
+        // 2. Golpe del “ta-dum”: un pulso del logo y un brillo que lo recorre.
+        .to('[data-logo]', { scale: 1.04, duration: 0.12, ease: 'power2.out', yoyo: true, repeat: 1 }, 0.55)
+        .to('[data-logo]', { scale: 1.08, duration: 0.14, ease: 'power2.out' }, 0.89)
+        .fromTo('[data-shine]', { xPercent: -120, autoAlpha: 1 }, { xPercent: 120, duration: 0.7, ease: 'power2.inOut' }, 0.9)
+        .to('[data-glow]', { scale: 1.35, autoAlpha: 0.9, duration: 0.6, ease: 'power2.out' }, 0.89)
+        // 3. Salida: el logo te “absorbe” mientras franjas de luz se abren desde el centro.
+        .to('[data-logo]', { scale: 14, autoAlpha: 0, filter: 'blur(6px)', duration: 0.75, ease: 'power4.in' }, 1.55)
+        .fromTo('[data-stripe]', { scaleY: 0, autoAlpha: 0 }, { scaleY: 1, autoAlpha: 1, duration: 0.4, ease: 'power3.out', stagger: { each: 0.025, from: 'center' } }, 1.6)
+        .to('[data-stripes]', { scaleX: 8, autoAlpha: 0, duration: 0.7, ease: 'power3.in' }, 1.9)
+        .to(ref.current, { autoAlpha: 0, duration: 0.4, ease: 'power1.in' }, 2.3);
     }
   }, { dependencies: [show], scope: ref });
 
@@ -96,6 +104,7 @@ export default function BrandIntro({ variant = 'brand', fontClass }) {
           <div data-glow className={s.glow} />
           <div data-logo className={s.logo}>
             {letters(a, s.letter)}<span className={s.accent}>{letters(b, s.letter)}</span>
+            <span data-shine className={s.shine} aria-hidden="true" />
           </div>
           <div data-stripes className={s.stripes}>
             {Array.from({ length: STRIPES }, (_, i) => <span key={i} data-stripe className={s.stripe} style={{ '--i': i }} />)}

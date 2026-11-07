@@ -7,4 +7,6 @@ export const NAV_ITEMS = [
   { key: 'search', to: ROUTES.search, icon: 'search' },
   { key: 'library', to: ROUTES.library, icon: 'library' },
   { key: 'anime', to: ROUTES.anime, icon: 'anime' },
+  // En celular no va en las pestañas: se entra tocando la racha de la cabecera.
+  { key: 'ranking', to: ROUTES.ranking, icon: 'ranking', desktopOnly: true },
 ];
