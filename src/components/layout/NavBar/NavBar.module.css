@@ -90,3 +90,11 @@
 
 /* Racha junto al avatar. */
 .streak { margin-left: auto; margin-right: var(--space-2); }
+
+/* Celular: avatar, racha y logo crecen con la cabecera. */
+@media (max-width: 760px) {
+  .bar { padding: 0 6px 0 var(--space-5); }
+  .bar > :last-child { width: min(54px, calc(var(--header-h) - 12px)) !important; height: min(54px, calc(var(--header-h) - 12px)) !important; }
+  .streak { height: min(42px, calc(var(--header-h) - 18px)); font-size: var(--fs-lg); }
+  .bar > :first-child { font-size: min(var(--fs-3xl), calc(var(--header-h) * .46)); }
+}
