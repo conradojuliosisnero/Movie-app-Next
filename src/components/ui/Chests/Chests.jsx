@@ -34,20 +34,20 @@ export default function Chests() {
     <div ref={rootRef} className={s.wrap}>
       <div className={s.head}>
         <h2 className={s.title}>{copy.chests.title}</h2>
-        <span className="u-muted">{full ? copy.chests.capFull : copy.chests.left(left, CHESTS.perDay)}</span>
+        <span className={s.sub}>{full ? copy.chests.capFull : left ? copy.chests.openHint : copy.chests.allOpen(CHESTS.perDay)}</span>
+        {rare && !rareOpened && <span className={s.rareHint}>{copy.chests.rareHint}</span>}
       </div>
       <div className={s.row}>
         {rare && <ChestButton kind="rare" locked={full && !rareOpened} remaining={remaining} onOpen={(n) => { setRareOpened(true); lib.openChest('rare', n); }} />}
         {Array.from({ length: CHESTS.perDay }, (_, i) => (
-          <ChestButton key={i} kind="daily" opened={i < openedToday} locked={full} remaining={remaining} onOpen={(n) => lib.openChest('daily', n)} />
+          <ChestButton key={i} n={i + 1} kind="daily" opened={i < openedToday} locked={full} remaining={remaining} onOpen={(n) => lib.openChest('daily', n)} />
         ))}
       </div>
-      {rare && !rareOpened && <p className={s.rareHint}>{copy.chests.rareHint}</p>}
     </div>
   );
 }
 
-function ChestButton({ kind, opened = false, locked = false, remaining, onOpen }) {
+function ChestButton({ kind, n, opened = false, locked = false, remaining, onOpen }) {
   const ref = useRef(null);
   const [state, setState] = useState(opened ? 'opened' : 'closed'); // closed | opening | won | opened
   const [won, setWon] = useState(null);
@@ -78,9 +78,9 @@ function ChestButton({ kind, opened = false, locked = false, remaining, onOpen }
       .to('[data-box]', { rotation: 0, scale: 1.08, duration: 0.12 })
       // 2) La tapa salta y sale el destello.
       .add(() => playChestOpen({ rare: isRare }))
-      .to('[data-lid]', { y: -14, rotation: -28, svgOrigin: '8 24', duration: 0.35, ease: 'back.out(3)' })
+      .to('[data-lid]', { y: -10, rotation: -28, svgOrigin: '8 24', duration: 0.35, ease: 'back.out(3)' })
       .fromTo('[data-glow]', { scale: 0.2, autoAlpha: 0 }, { scale: 1.6, autoAlpha: 1, duration: 0.4, ease: 'power2.out' }, '<')
-      .fromTo(num, { y: 20, autoAlpha: 0, scale: 0.6 }, { y: -6, autoAlpha: 1, scale: 1, duration: 0.25 }, '<0.1')
+      .fromTo(num, { y: 12, autoAlpha: 0, scale: 0.6 }, { y: 0, autoAlpha: 1, scale: 1, duration: 0.25 }, '<0.1')
       // 3) Ruleta: los números pasan rápido y van frenando hasta el premio.
       .to(reel, {
         v: STEPS,
@@ -101,12 +101,14 @@ function ChestButton({ kind, opened = false, locked = false, remaining, onOpen }
   });
 
   const label = state === 'closed' ? (isRare ? copy.chests.openRare : copy.chests.open) : copy.chests.opened;
+  const redeemed = state === 'opened' || state === 'won';
+  // Boleto: cofre a la izquierda; a la derecha el número (Nº 001) y “Abrir” → ruleta → sello “CANJEADO”.
   return (
     <button
       ref={ref}
       type="button"
       data-chest
-      className={cx(s.chest, isRare && s.rare, state === 'closed' && !locked && s.idle, (state === 'opened' || state === 'won' || (locked && state === 'closed')) && s.done)}
+      className={cx(s.ticket, isRare && s.rare, state === 'closed' && !locked && s.idle, (redeemed || (locked && state === 'closed')) && s.done)}
       onClick={open}
       disabled={state !== 'closed' || locked}
       aria-label={label}
@@ -115,8 +117,12 @@ function ChestButton({ kind, opened = false, locked = false, remaining, onOpen }
       <span data-box className={s.box}>
         <ChestArt rare={isRare} open={state === 'opened'} />
       </span>
-      <span data-num className={s.num} aria-live="polite">{state === 'won' ? `+${won}` : state === 'opened' ? '✓' : ''}</span>
-      <span className={s.caption}>{isRare ? copy.chests.rare : state === 'closed' ? (locked ? copy.chests.tomorrow : copy.chests.tap) : label}</span>
+      <span className={s.info}>
+        <span className={s.no}>{isRare ? copy.chests.rare : `Nº ${String(n).padStart(3, '0')}`}</span>
+        {state === 'closed' && <span className={s.open}>{locked ? copy.chests.tomorrow : copy.chests.tapOpen}</span>}
+        <span data-num className={s.num} aria-live="polite">{state === 'won' ? `+${won}` : ''}</span>
+        {redeemed && <span className={s.stamp}>{copy.chests.redeemed}</span>}
+      </span>
     </button>
   );
 }

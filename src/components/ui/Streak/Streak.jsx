@@ -39,22 +39,32 @@ export function StreakBadge({ onClick, className }) {
   );
 }
 
-/** Tarjeta grande: llama, días seguidos y los 7 puntos de la semana hacia el bono. */
+/** Tarjeta grande: tira de película con un cuadro por día (L–D); se llenan los días de la racha hacia el bono. */
 export function StreakCard() {
   const lib = useLibrary();
   const days = currentStreak(lib.activity);
   const inWeek = days === 0 ? 0 : days % 7 || 7;
   const left = 7 - inWeek;
+  const holes = Array.from({ length: 14 }, (_, i) => <span key={i} />);
   return (
     <div className={cx(s.card, lib.visited && s.pop)}>
-      <Flame lit={days > 0} className={s.big} />
-      <div className={s.cardText}>
-        <span className={s.days}><b>{days}</b> {copy.ranking.streak.label(days)}</span>
-        <div className={s.week} aria-label={copy.ranking.streak.toWeek(left)}>
-          {Array.from({ length: 7 }, (_, i) => <span key={i} className={cx(s.dot, i < inWeek && s.dotOn)} style={{ '--i': i }} />)}
+      <div className={s.head}>
+        <div className={s.count2}>
+          <Flame lit={days > 0} className={s.big} />
+          <b>{days}</b> <span>{copy.ranking.streak.label(days)}</span>
         </div>
-        <span className="u-muted">{left === 0 ? copy.ranking.streak.weekDone : copy.ranking.streak.toWeek(left)} · {copy.ranking.streak.best(lib.activity.best ?? 0)}</span>
+        <span className={s.best}>{copy.ranking.streak.best(lib.activity.best ?? 0)}</span>
       </div>
+      <div className={s.film} aria-label={left === 0 ? copy.ranking.streak.weekDone : copy.ranking.streak.frames(left)}>
+        <div className={s.holes}>{holes}</div>
+        <div className={s.frames}>
+          {copy.ranking.streak.days.map((d, i) => (
+            <span key={i} className={cx(s.frame, i < inWeek && s.frameOn)} style={{ '--i': i }}>{d}</span>
+          ))}
+        </div>
+        <div className={s.holes}>{holes}</div>
+      </div>
+      <span className={s.hint}>{left === 0 ? copy.ranking.streak.weekDone : copy.ranking.streak.frames(left)}</span>
     </div>
   );
 }

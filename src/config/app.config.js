@@ -51,13 +51,24 @@ export const ROUTES = {
   season: (seriesId, n) => `/serie/${seriesId}/temporada/${n}`,
 };
 
-// Fuente de “Ver completa” (se conserva de la versión anterior).
-// Se configura en el .env sin tocar código; {id}, {season} y {episode} se reemplazan.
+// ▶▶ TU SERVICIO DE STREAMING (embed) ◀◀
+// Pon aquí la dirección base de tu servicio, sin “/” al final. Ejemplo: 'https://mi-servicio.com'
+// Tu servicio debe responder (con el ID de TMDB):
+//   película → {base}/embed/movie/{tmdbId}                       ej. /embed/movie/550
+//   episodio → {base}/embed/tv/{tmdbId}/{temporada}/{episodio}   ej. /embed/tv/1399/1/1
+// Mientras esté vacío se usa el reproductor de antes (vidsrc.cc).
+export const STREAMING_EMBED_BASE = '';
+
+// Fuente de “Ver completa”. Orden: variable de entorno (Netlify/.env) › tu servicio de arriba › vidsrc.cc.
+// {id}, {season} y {episode} se reemplazan solos.
 // sandbox impide que el sitio externo abra ventanas emergentes o te saque de PeliBox.
 // Si el reproductor muestra un error de “sandbox”, pon NEXT_PUBLIC_FULL_PLAYER_SANDBOX=off.
 const fill = (template, values) => template.replace(/\{(\w+)\}/g, (_, k) => values[k] ?? '');
-const MOVIE_URL = process.env.NEXT_PUBLIC_FULL_PLAYER_MOVIE || 'https://vidsrc.cc/v2/embed/movie/{id}?autoPlay=false';
-const SERIES_URL = process.env.NEXT_PUBLIC_FULL_PLAYER_SERIES || 'https://vidsrc.cc/v2/embed/tv/{id}/{season}/{episode}?autoPlay=false';
+const EMBED = STREAMING_EMBED_BASE.replace(/\/+$/, '');
+const MOVIE_URL = process.env.NEXT_PUBLIC_FULL_PLAYER_MOVIE
+  || (EMBED ? `${EMBED}/embed/movie/{id}` : 'https://vidsrc.cc/v2/embed/movie/{id}?autoPlay=false');
+const SERIES_URL = process.env.NEXT_PUBLIC_FULL_PLAYER_SERIES
+  || (EMBED ? `${EMBED}/embed/tv/{id}/{season}/{episode}` : 'https://vidsrc.cc/v2/embed/tv/{id}/{season}/{episode}?autoPlay=false');
 
 export const FULL_PLAYER = {
   sandbox: process.env.NEXT_PUBLIC_FULL_PLAYER_SANDBOX === 'off' ? null : 'allow-scripts allow-same-origin allow-presentation',
