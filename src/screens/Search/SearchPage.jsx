@@ -75,9 +75,10 @@ export default function SearchPage() {
   const anyFilter = filters.type !== 'all' || filters.genre || filters.year || filters.sort !== 'popular' || TOGGLES.some((k) => filters[k]);
   const active = !!query.trim() || anyFilter;
   const parsed = useMemo(() => (query.trim() ? parseQuery(query, platforms.data ?? []).filter((f) => !removed.includes(f.label)) : []), [query, platforms.data, removed]);
+  // Antes de `key`: la clave usa el ajuste +18 de la lista (si va después, revienta al buscar).
+  const lib = useLibrary();
   const key = active ? JSON.stringify({ query, removed, filters, kids: profile.kids, adult: !!lib.settings.adult, p: platforms.data?.length ?? 0 }) : null;
   const results = usePaged((page) => exploreTitles({ ...filters, query, removedLabels: removed, platforms: platforms.data ?? [], profile }, page), key);
-  const lib = useLibrary();
   const act = useTitleActions();
   const forYou = usePaged((page) => getForYou({ profile, lib }, page), active ? null : `search-foryou|${profile.id}`);
   const forYouEnd = useRef(null);
