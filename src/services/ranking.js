@@ -48,6 +48,8 @@ export function currentStreak(activity = {}) {
 export function scoreOf(lib) {
   const a = lib.activity ?? {};
   let score = (a.days ?? 0) * POINTS.day + (a.weeks ?? 0) * POINTS.week + Object.keys(lib.watched ?? {}).length * POINTS.watched;
+  // Ajuste manual del administrador (se pone a mano en la base: users/{uid}/profiles/{perfil}.bonus).
+  score += Math.max(0, Math.trunc(Number(lib.bonus) || 0));
   // Cada título suma una vez por acción (registro con fecha en `earned`): quitarlo y volverlo a poner no suma de nuevo.
   for (const key of Object.keys(lib.earned ?? {})) score += POINTS[key.split(':')[0]] ?? 0;
   return score;
