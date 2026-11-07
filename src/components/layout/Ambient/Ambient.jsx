@@ -22,17 +22,17 @@ export default function Ambient({ hues }) {
   const [a, b] = hues ?? focus?.hues ?? profile?.hues ?? [35, 300];
 
   useGSAP(() => {
-    if (!motionOK()) return;
+    if (!motionOK() || document.documentElement.dataset.section === 'anime') return;
     gsap.utils.toArray('[data-blob]').forEach((el, i) => {
       gsap.to(el, { ...DRIFT[i], ease: 'sine.inOut', repeat: -1, yoyo: true, delay: -i * 7 });
     });
   }, { scope: ref });
 
   return (
-    <div ref={ref} aria-hidden="true">
-      <div data-blob className={`${s.blob} ${s.a}`} style={{ background: 'var(--color-accent)' }} />
-      <div data-blob className={`${s.blob} ${s.b}`} style={{ background: `oklch(0.6 0.17 ${b})` }} />
-      <div data-blob className={`${s.blob} ${s.c}`} style={{ background: `oklch(0.6 0.17 ${a})` }} />
+    <div ref={ref} className={s.root} aria-hidden="true">
+      <div data-blob className={`${s.blob} ${s.a}`} style={{ '--blob': 'var(--color-accent)' }} />
+      <div data-blob className={`${s.blob} ${s.b}`} style={{ '--blob': `oklch(0.6 0.17 ${b})` }} />
+      <div data-blob className={`${s.blob} ${s.c}`} style={{ '--blob': `oklch(0.6 0.17 ${a})` }} />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 'use client';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import PosterCard from '@/components/title/PosterCard/PosterCard';
 import Poster from '@/components/ui/Poster/Poster';
 import { useUI } from '@/store/UIContext';
@@ -13,17 +13,25 @@ import s from './PosterRail.module.css';
  * Fila horizontal de pósters. La información, “Guardar” y “Ya la vi” aparecen al pasar el mouse; con mouse se puede arrastrar.
  * Con onLoadMore, al llegar al final (deslizando o arrastrando) se cargan más títulos.
  */
+const CHUNK = 12;
+
 export default function PosterRail({ titles, withSave = false, size = 'md', onLoadMore, hasMore = false, loadingMore = false }) {
   const ui = useUI();
   const act = useTitleActions();
   const ref = useRef(null);
   const sentinel = useRef(null);
-  useRailMotion(ref, titles.length);
-  useEndReached(ref, sentinel, onLoadMore, !!onLoadMore && hasMore && !loadingMore);
+  // Se pintan de a CHUNK pósters (menos trabajo al cargar la página); al deslizar se muestran más
+  // y, cuando ya se ven todos los que llegaron, se piden los siguientes.
+  const [shown, setShown] = useState(CHUNK);
+  const visible = titles.slice(0, shown);
+  const moreHere = shown < titles.length;
+  const reachEnd = () => (moreHere ? setShown((n) => n + CHUNK) : onLoadMore?.());
+  useRailMotion(ref, visible.length);
+  useEndReached(ref, sentinel, reachEnd, moreHere || (!!onLoadMore && hasMore && !loadingMore));
 
   return (
     <div ref={ref} className="u-hscroll">
-      {titles.map((t) => {
+      {visible.map((t) => {
         if (size === 'sm') return <Poster key={t.id} title={t} size="sm" onClick={() => ui.openDetail(t)} />;
         const status = act.statusOf(t);
         const actions = withSave ? [
@@ -32,7 +40,7 @@ export default function PosterRail({ titles, withSave = false, size = 'md', onLo
         ] : [];
         return <PosterCard key={t.id} title={t} actions={actions} />;
       })}
-      {onLoadMore && hasMore && (
+      {(moreHere || (onLoadMore && hasMore)) && (
         <div ref={sentinel} data-sentinel className={s.more} aria-label={copy.common.loading} role="status">
           <span className={s.spinner} />
         </div>
