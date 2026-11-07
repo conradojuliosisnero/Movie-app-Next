@@ -103,3 +103,6 @@ button, a, [role='tab'], [role='switch'] { touch-action: manipulation; }
     --tabs-space: calc(var(--tabs-h) + var(--tabs-gap) + env(safe-area-inset-bottom));
   }
 }
+
+/* Ya entró antes en este navegador: la versión pública no se pinta mientras carga la sesión. */
+html[data-session] [data-public] { visibility: hidden; }

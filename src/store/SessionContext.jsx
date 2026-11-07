@@ -55,6 +55,12 @@ export function SessionProvider({ children }) {
     });
   }, [user, guest]);
 
+  // Pista para la próxima carga: “ya entró en este navegador” (ver Gate y el script del layout).
+  useEffect(() => {
+    if (user || guest) storage.set('session', true);
+    else if (user === null) storage.remove('session');
+  }, [user, guest]);
+
   const accountKey = user?.uid ?? (guest ? 'invitado' : null);
   useEffect(() => { setProfileId(accountKey ? storage.get(`profile:${accountKey}`, null) : null); }, [accountKey]);
 
