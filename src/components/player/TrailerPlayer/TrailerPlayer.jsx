@@ -1,11 +1,14 @@
 'use client';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Button from '@/components/ui/Button/Button';
 import { gsap, useGSAP, DUR, motionOK } from '@/lib/motion';
 import WatchParty from '../WatchParty/WatchParty';
 import { useUI } from '@/store/UIContext';
 import { useSession } from '@/store/SessionContext';
 import { useTitleActions } from '@/hooks/useTitleActions';
+import { useLibrary } from '@/store/LibraryContext';
+import { useToast } from '@/store/ToastContext';
+import { DEFAULT_MINUTES, POINTS, WATCH_SHARE } from '@/services/ranking';
 import { useTitleDetails } from '@/hooks/useCatalogData';
 import { useKeyboard } from '@/hooks/useKeyboard';
 import { posterBackground } from '@/utils/poster';
@@ -51,6 +54,29 @@ function Player() {
   if (mode === 'full') src = isSeries ? FULL_PLAYER.series(t.tmdbId, season, ep) : FULL_PLAYER.movie(t.tmdbId);
   else if (t.trailerKey) src = `https://www.youtube-nocookie.com/embed/${t.trailerKey}?autoplay=1&rel=0&modestbranding=1`;
 
+  // Puntos por verla completa: el reproductor tiene que haber cargado y seguir abierto y a la vista
+  // la mitad de la duración (si el servicio no carga, no cuenta).
+  const lib = useLibrary();
+  const { show } = useToast();
+  const [frameReady, setFrameReady] = useState(false);
+  useEffect(() => setFrameReady(false), [src]);
+  const watchKey = mode === 'full' && frameReady ? (isSeries ? `${t.id}:${season}:${ep}` : t.id) : null;
+  const minutes = (isSeries ? t.episodeMinutes || DEFAULT_MINUTES.episode : t.minutes || DEFAULT_MINUTES.movie) * WATCH_SHARE;
+  useEffect(() => {
+    if (!watchKey || lib.watched[watchKey]) return undefined;
+    let seconds = 0;
+    const id = setInterval(() => {
+      if (document.visibilityState !== 'visible') return;
+      seconds += 1;
+      if (seconds < minutes * 60) return;
+      clearInterval(id);
+      lib.markWatched(watchKey);
+      show(copy.ranking.watchedToast(POINTS.watched));
+    }, 1000);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watchKey]);
+
   const badge = ui.party.active
     ? copy.player.roomBadge(profile?.name ?? '')
     : [typeLabel, t.year, mode === 'full' && isSeries && copy.player.episode(season, ep)].filter(Boolean).join(' · ');
@@ -76,6 +102,7 @@ function Player() {
             allowFullScreen
             referrerPolicy="strict-origin-when-cross-origin"
             sandbox={mode === 'full' && FULL_PLAYER.sandbox ? FULL_PLAYER.sandbox : undefined}
+            onLoad={() => setFrameReady(true)}
           />
         ) : details.loading ? (
           <div className={s.shimmer} role="status" aria-label={copy.common.loading} />

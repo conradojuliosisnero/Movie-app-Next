@@ -87,3 +87,6 @@
 }
 /* El avatar escala con la barra (en pantallas bajas no sobresale). */
 .bar > :last-child { width: min(46px, calc(var(--header-h) - 8px)) !important; height: min(46px, calc(var(--header-h) - 8px)) !important; }
+
+/* Racha junto al avatar. */
+.streak { margin-left: auto; margin-right: var(--space-2); }

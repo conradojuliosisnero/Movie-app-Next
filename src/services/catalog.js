@@ -12,6 +12,10 @@ import { copy, currentLang } from '@/i18n';
 //   image, backdrop, hues, rating, releaseDate, minutes?, seasons?: [{ n, episodes, name }],
 //   episodes?, episodeMinutes?, reason? }
 
+// Contenido +18 (marca `adult` de TMDB): solo se pide y se muestra si el perfil lo activó.
+let adultOK = false;
+export const setAdultContent = (on) => { adultOK = !!on; };
+
 export const isSeries = (t) => t?.type === 'series';
 export const tmdbKind = (t) => (isSeries(t) ? 'tv' : 'movie');
 export const parseId = (id) => {
@@ -46,10 +50,11 @@ export function normalize(raw, kindHint) {
     seasons: seasons?.length ? seasons : undefined,
     episodes: seasons?.length ? seasons.reduce((n, s) => n + s.episodes, 0) : undefined,
     episodeMinutes: raw.episode_run_time?.[0] || raw.last_episode_to_air?.runtime || undefined,
+    adult: raw.adult || undefined,
   };
 }
 
-const parse = (data, kindHint) => (data?.results ?? []).map((r) => normalize(r, kindHint)).filter((t) => t && t.title && (t.image || t.backdrop));
+const parse = (data, kindHint) => (data?.results ?? []).map((r) => normalize(r, kindHint)).filter((t) => t && t.title && (t.image || t.backdrop) && (adultOK || !t.adult));
 
 // Cuando un título no tiene traducción al español, TMDB devuelve el original (japonés, coreano…).
 // Esos pocos se piden en inglés; la respuesta queda en caché del servidor 24 h.
@@ -92,7 +97,7 @@ function bestTranslation(raw, current) {
 export const compact = (t) => JSON.parse(JSON.stringify({
   id: t.id, tmdbId: t.tmdbId, type: t.type, title: t.title, year: t.year, releaseDate: t.releaseDate, genres: t.genres,
   image: t.image, backdrop: t.backdrop, hues: t.hues, rating: t.rating, minutes: t.minutes, seasons: t.seasons,
-  episodes: t.episodes, episodeMinutes: t.episodeMinutes,
+  episodes: t.episodes, episodeMinutes: t.episodeMinutes, adult: t.adult,
 }));
 
 // ---------- Ficha completa ----------
@@ -147,7 +152,7 @@ const kidsParams = (kind) => ({ with_genres: kind === 'tv' ? '10751|10762' : '10
 
 /** Filtros comunes: perfil infantil y “solo mis plataformas”. */
 function baseParams(kind, { profile, settings, myPlatforms } = {}) {
-  const p = { include_adult: false, sort_by: 'popularity.desc', 'vote_count.gte': 20 };
+  const p = { include_adult: adultOK, sort_by: 'popularity.desc', 'vote_count.gte': 20 };
   if (profile?.kids) Object.assign(p, kidsParams(kind));
   if (settings?.onlyMine && myPlatforms?.length) Object.assign(p, { with_watch_providers: myPlatforms.join('|'), watch_region: APP.region });
   return p;
@@ -271,7 +276,7 @@ export async function getAnime(sectionId, { vibe = 'all', profile } = {}, page =
   const extra = ANIME_VIBES.find((v) => v.id === vibe)?.[section.kind];
   const kids = profile?.kids ? (section.kind === 'tv' ? 10762 : 10751) : null;
   const genres = [16, extra, kids].filter(Boolean).join(','); // coma = debe tener todos
-  return discover(section.kind, { ...ANIME_BASE, ...section.params(), with_genres: genres, page });
+  return discover(section.kind, { ...ANIME_BASE, include_adult: adultOK, ...section.params(), with_genres: genres, page });
 }
 
 // ---------- Búsqueda ----------
@@ -327,7 +332,7 @@ export async function exploreTitles(f, page = 1) {
   // Solo texto (sin filtros dentro): búsqueda por título y los filtros elegidos se aplican sobre los resultados.
   if (q && !parsed.length) {
     const path = type ? `search/${type}` : 'search/multi';
-    let results = await list(await tmdb(path, { query: q, include_adult: false, page }), type);
+    let results = await list(await tmdb(path, { query: q, include_adult: adultOK, page }), type);
     results = results.filter((t) =>
       (!genres.length || genreIds.every((g) => t.genres.includes(g)))
       && (!range || (t.year >= range.from && t.year <= range.to))

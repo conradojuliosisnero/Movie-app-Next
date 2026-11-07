@@ -23,6 +23,10 @@ export const APP = {
   },
 };
 
+// Dirección pública del sitio (enlaces canónicos, sitemap, vista previa al compartir).
+// En Netlify sale sola de URL; para otro dominio pon NEXT_PUBLIC_SITE_URL.
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || process.env.URL || 'http://localhost:3000').replace(/\/$/, '');
+
 export const STATUS = {
   WANT: 'want',
   SEEN: 'seen',
@@ -41,6 +45,7 @@ export const ROUTES = {
   profile: '/perfil',
   help: '/ayuda',
   news: '/novedades',
+  ranking: '/ranking',
   title: (id) => `/titulo/${id}`,
   person: (id) => `/persona/${id}`,
   season: (seriesId, n) => `/serie/${seriesId}/temporada/${n}`,

@@ -11,5 +11,21 @@ service cloud.firestore {
         allow read, write: if request.auth != null && request.auth.uid == uid;
       }
     }
+
+    // Ranking público: cualquiera lo lee (solo nombre de perfil, avatar y puntos).
+    // Cada quien escribe solo sus perfiles ({uid}_{perfil}), con campos y valores acotados.
+    match /leaderboard/{entry} {
+      allow read: if true;
+      allow delete: if request.auth != null && entry.matches(request.auth.uid + '_[A-Za-z0-9]+');
+      allow create, update: if request.auth != null
+        && entry.matches(request.auth.uid + '_[A-Za-z0-9]+')
+        && request.resource.data.keys().hasOnly(['name', 'avatar', 'score', 'updatedAt'])
+        && request.resource.data.name is string && request.resource.data.name.size() <= 40
+        && request.resource.data.avatar is string && request.resource.data.avatar.size() <= 80
+        && request.resource.data.score is int && request.resource.data.score >= 0 && request.resource.data.score <= 10000000
+        && request.resource.data.updatedAt == request.time
+        // Una sola escritura no puede subir más de 2000 puntos (frena trampas obvias).
+        && (resource == null || request.resource.data.score <= resource.data.score + 2000);
+    }
   }
 }

@@ -46,3 +46,16 @@
 .avatarOption:hover { transform: scale(1.08); }
 .avatarOn { border-color: var(--color-accent); }
 .moreAvatars { margin-top: var(--space-4); }
+
+/* Confirmación de +18. */
+.confirm { display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-8) var(--space-6) var(--space-6); }
+.adultBadge {
+  align-self: flex-start;
+  padding: 4px 14px;
+  border: 3px solid var(--color-accent);
+  border-radius: 999px;
+  color: var(--color-accent);
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: var(--fs-2xl);
+}

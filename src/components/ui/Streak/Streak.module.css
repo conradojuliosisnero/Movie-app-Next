@@ -1,0 +1,50 @@
+.flame { width: 1.35em; height: 1.35em; flex: none; overflow: visible; }
+/* Titila suave, como una llama de verdad (solo transform: barato). */
+.lit { transform-origin: 50% 90%; animation: flicker 2.4s ease-in-out infinite; filter: drop-shadow(0 0 6px rgba(255, 110, 40, .55)); }
+.core { transform-origin: 50% 90%; animation: core 1.2s ease-in-out infinite alternate; }
+@keyframes flicker {
+  0%, 100% { transform: scale(1) rotate(0); }
+  25% { transform: scale(1.04, .97) rotate(-2deg); }
+  50% { transform: scale(.97, 1.05) rotate(1.5deg); }
+  75% { transform: scale(1.03, .98) rotate(-1deg); }
+}
+@keyframes core { from { transform: scale(.85); } to { transform: scale(1.08, 1.12); } }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 36px;
+  padding: 0 12px 0 8px;
+  border: 1px solid var(--color-glass-border);
+  border-radius: 999px;
+  background: var(--color-surface-2);
+  color: var(--color-fg);
+  font-size: var(--fs-md);
+  cursor: pointer;
+  transition: transform var(--dur-base) var(--ease-spring);
+}
+.badge:hover { transform: scale(1.06); }
+.count { font-family: var(--font-display); font-weight: var(--fw-black); font-variant-numeric: tabular-nums; }
+
+/* Racha que subió hoy: salto de la llama. */
+.pop .flame { animation: pop .9s var(--ease-spring) both, flicker 2.4s ease-in-out .9s infinite; }
+@keyframes pop {
+  0% { transform: scale(.3) rotate(-20deg); }
+  55% { transform: scale(1.45) rotate(8deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+.card { display: flex; align-items: center; gap: var(--space-5); }
+.big { width: 4.5rem; height: 4.5rem; }
+.cardText { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
+.days { font-size: var(--fs-lg); }
+.days b { font-family: var(--font-display); font-size: var(--fs-4xl); font-weight: var(--fw-black); line-height: 1; margin-right: 4px; }
+.week { display: flex; gap: 6px; }
+.dot { width: 22px; height: 8px; border-radius: 999px; background: var(--color-surface-2); }
+.dotOn { background: linear-gradient(90deg, #ff2d6f, #ff7a1a); animation: fill .5s var(--ease-spring) calc(var(--i) * 70ms) both; }
+@keyframes fill { from { transform: scaleX(0); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .lit, .core, .pop .flame, .dotOn { animation: none; }
+}

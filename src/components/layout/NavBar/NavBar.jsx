@@ -7,6 +7,7 @@ import Logo from '@/components/ui/Logo/Logo';
 import Icon from '@/components/ui/Icon/Icon';
 import Avatar, { avatarSeed } from '@/components/ui/Avatar/Avatar';
 import ProfileMenu from '../ProfileMenu/ProfileMenu';
+import { StreakBadge } from '@/components/ui/Streak/Streak';
 import { NAV_ITEMS } from '@/router/navigation';
 import { ROUTES } from '@/config/app.config';
 import { useSession } from '@/store/SessionContext';
@@ -53,6 +54,7 @@ export default function NavBar() {
               </Link>
             ))}
           </nav>
+          <StreakBadge className={s.streak} onClick={() => router.push(ROUTES.ranking)} />
           <Avatar seed={avatarSeed(profile)} size="lg" label={copy.nav.menu} onClick={() => ui.setMenuOpen(!ui.menuOpen)} />
         </div>
         <ProfileMenu />
@@ -61,7 +63,7 @@ export default function NavBar() {
       {/* Celular: pestañas abajo. */}
       <nav ref={tabsRef} className={`u-glass ${s.tabs}`} aria-label="Principal">
         <span ref={tabPillRef} className={s.tabPill} aria-hidden="true" />
-        {NAV_ITEMS.map((item) => (
+        {NAV_ITEMS.filter((item) => !item.desktopOnly).map((item) => (
           <Link key={item.key} href={item.to} aria-current={isActive(item) ? 'page' : undefined} className={cx(s.tab, isActive(item) && s.tabOn)}>
             <span className={s.tabIcon} data-icon><Icon name={item.icon} size="md" /></span>
             <span className={s.tabLabel}>{copy.nav[item.key]}</span>

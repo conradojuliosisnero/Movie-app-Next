@@ -4,6 +4,7 @@ import {
   Heart, Check, X, Search, Play, Pause, RotateCcw, ArrowLeft, ArrowRight, ExternalLink,
   Users, Sparkles, Bell, ChevronRight, Plus, Minus, Send, CircleHelp, House, Bookmark, User, Star,
   Share2, Clapperboard, Megaphone, LogIn, Swords, SlidersHorizontal,
+  Trophy,
 } from 'lucide-react';
 
 export const ICONS = {
@@ -20,6 +21,7 @@ export const ICONS = {
   external: ExternalLink,
   party: Users,
   suggest: Sparkles,
+  ranking: Trophy,
   notify: Bell,
   chevron: ChevronRight,
   add: Plus,

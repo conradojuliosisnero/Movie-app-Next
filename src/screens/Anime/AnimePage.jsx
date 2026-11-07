@@ -51,7 +51,7 @@ export default function AnimePage({ fontClass }) {
   const heroRef = useRef(null);
 
   const popular = usePaged((page) => getAnime('popular', { profile }, page), `hero|${profile.kids}`);
-  const featured = popular.items.filter((t) => t.backdrop).slice(0, FEATURED);
+  const featured = popular.items.filter((t) => t.backdrop && !t.adult).slice(0, FEATURED);
   const hero = featured[index % (featured.length || 1)];
   const go = (step) => featured.length && setIndex((i) => (i + step + featured.length) % featured.length);
   useKeyboard({ ArrowLeft: () => go(-1), ArrowRight: () => go(1) }, !!hero && !ui.detail && !ui.player);

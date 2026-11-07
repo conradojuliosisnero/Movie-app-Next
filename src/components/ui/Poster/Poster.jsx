@@ -22,6 +22,8 @@ export default function Poster({ title, size = 'md', showTitle = false, onClick,
     <Tag type={onClick ? 'button' : undefined} className={cx(s.poster, className)} style={style} onClick={onClick} aria-label={title.title}>
       {title.image && <img className={s.img} src={title.image} alt="" loading="lazy" decoding="async" />}
       {showTitle && !title.image && <span className={cx(s.title, s[size])}>{title.title}</span>}
+      {/* +18: un velo borroso tapa el póster con la etiqueta. */}
+      {title.adult && <span className={s.adult}><span className={s.adultTag}>+18</span></span>}
       {children}
     </Tag>
   );

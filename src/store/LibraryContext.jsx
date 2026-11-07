@@ -7,7 +7,9 @@ import { db } from '@/lib/firebase';
 import { useSession } from './SessionContext';
 import { useToast } from './ToastContext';
 import { storage } from '@/services/storage';
-import { compact } from '@/services/catalog';
+import { compact, setAdultContent } from '@/services/catalog';
+import { POINTS, entryId, publishScore, removeScore, scoreOf, visitToday } from '@/services/ranking';
+import { avatarSeed } from '@/components/ui/Avatar/Avatar';
 import { APP, STATUS } from '@/config/app.config';
 import { todayISO } from '@/utils/format';
 import { copy } from '@/i18n';
@@ -22,7 +24,10 @@ export const EMPTY_LIBRARY = {
   reviews: {},
   seenAt: {},
   myPlatforms: [],
-  settings: { onlyMine: false },
+  activity: {}, // { days, streak, best, weeks, last }: visitas diarias para la racha y los puntos
+  watched: {}, // { [id | id:temporada:episodio]: fecha } lo que se vio completo en el reproductor
+  earned: {}, // { 'want:movie-550': fecha } puntos ya ganados: cada título suma una sola vez por acción (anti trampas)
+  settings: { onlyMine: false, adult: false, ranking: true },
 };
 
 const without = (obj, key) => { const { [key]: _, ...rest } = obj; return rest; };
@@ -32,8 +37,16 @@ function reducer(state, a) {
   switch (a.type) {
     case 'load': {
       const { reminders, ...saved } = a.state ?? {}; // los recordatorios se quitaron: se descartan de listas viejas
-      return { ...EMPTY_LIBRARY, ...saved, settings: { ...EMPTY_LIBRARY.settings, ...saved.settings }, dirty: false };
+      const next = { ...EMPTY_LIBRARY, ...saved, settings: { ...EMPTY_LIBRARY.settings, ...saved.settings }, dirty: false, visited: null };
+      // Listas de antes del ranking: lo que ya estaba guardado o visto cuenta como ganado.
+      if (!saved.earned) next.earned = Object.fromEntries(Object.entries(next.statuses).filter(([, st]) => POINTS[st]).map(([id, st]) => [`${st}:${id}`, next.seenAt[id] ?? todayISO()]));
+      // Primera vez del día: suma la visita (si la lista no cargó, no se toca para no pisar lo guardado).
+      const activity = a.failed ? null : visitToday(next.activity);
+      return activity ? { ...next, activity, dirty: true, visited: activity } : next;
     }
+    case 'watched':
+      if (state.watched[a.key]) return state;
+      return { ...state, dirty: true, watched: { ...state.watched, [a.key]: todayISO() } };
     case 'status': {
       const { id } = a.item;
       if (a.status == null) {
@@ -41,7 +54,10 @@ function reducer(state, a) {
         return { ...state, dirty: true, statuses: without(state.statuses, id), items: keepItem ? state.items : without(state.items, id) };
       }
       const seenAt = a.status === STATUS.SEEN && !state.seenAt[id] ? { ...state.seenAt, [id]: todayISO() } : state.seenAt;
-      return { ...state, dirty: true, statuses: { ...state.statuses, [id]: a.status }, items: { ...state.items, [id]: { ...state.items[id], ...compact(a.item) } }, seenAt };
+      // Se anota el día en que ganó los puntos: quitar y volver a poner no vuelve a sumar.
+      const earnKey = `${a.status}:${id}`;
+      const earned = POINTS[a.status] && !state.earned[earnKey] ? { ...state.earned, [earnKey]: todayISO() } : state.earned;
+      return { ...state, dirty: true, statuses: { ...state.statuses, [id]: a.status }, items: { ...state.items, [id]: { ...state.items[id], ...compact(a.item) } }, seenAt, earned };
     }
     case 'item':
       if (!state.items[a.item.id]) return state;
@@ -85,7 +101,7 @@ export function LibraryProvider({ children }) {
         const data = isGuest ? storage.get('library', {}) : (await getDoc(ref)).data() ?? {};
         if (!cancelled) { dispatch({ type: 'load', state: data }); setLoadedKey(key); }
       } catch {
-        if (!cancelled) { dispatch({ type: 'load', state: {} }); setLoadedKey(key); show(copy.toasts.saveError); }
+        if (!cancelled) { dispatch({ type: 'load', state: {}, failed: true }); setLoadedKey(key); show(copy.toasts.saveError); }
       }
     };
     load();
@@ -100,7 +116,7 @@ export function LibraryProvider({ children }) {
 
   useEffect(() => {
     if (!state.dirty || loadedKey !== key) return;
-    const { dirty, ...data } = state;
+    const { dirty, visited, ...data } = state;
     pending.current = () => {
       if (isGuest) storage.set('library', data);
       else if (ref) setDoc(ref, data).catch(() => show(copy.toasts.saveError));
@@ -108,6 +124,30 @@ export function LibraryProvider({ children }) {
     clearTimeout(timer.current);
     timer.current = setTimeout(flush, APP.saveDebounceMs);
   }, [state, loadedKey, key, isGuest, ref, show]);
+
+  // +18 solo si el perfil lo activó (nunca en perfiles infantiles).
+  useEffect(() => { setAdultContent(state.settings.adult && !profile?.kids); }, [state.settings.adult, profile?.kids]);
+
+  // Racha: aviso la primera vez del día.
+  useEffect(() => {
+    if (state.visited) show(copy.ranking.dayToast(state.visited.streak, POINTS.day + (state.visited.streak % 7 === 0 ? POINTS.week : 0)));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.visited]);
+
+  // Ranking: con cuenta, el puntaje (y nombre y avatar del perfil) se publica en el top; si lo apagas, se borra.
+  const score = scoreOf(state);
+  const ranked = state.settings.ranking !== false;
+  const avatar = avatarSeed(profile);
+  useEffect(() => {
+    if (isGuest || !key || loadedKey !== key) return undefined;
+    const [uid, profileId] = key.split('/');
+    const id = entryId(uid, profileId);
+    const t = setTimeout(() => {
+      (ranked ? publishScore(id, { name: profile?.name ?? '', avatar, score }) : removeScore(id)).catch(() => {});
+    }, 1500);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [score, ranked, profile?.name, avatar, isGuest, key, loadedKey]);
 
   // Si cambias de perfil o cierras la pestaña antes de que pase la espera, se guarda igual.
   useEffect(() => flush, [key]);
@@ -127,8 +167,11 @@ export function LibraryProvider({ children }) {
       setReview: (id, value) => dispatch({ type: 'review', id, value }),
       toggleSetting: (key) => dispatch({ type: 'setting', key }),
       togglePlatform: (id) => dispatch({ type: 'platform', id }),
+      /** Película o episodio visto completo (suma puntos una sola vez). */
+      markWatched: (key) => dispatch({ type: 'watched', key }),
+      score,
     }),
-    [state, key, loadedKey]
+    [state, key, loadedKey, score]
   );
 
   return <LibraryContext.Provider value={value}>{children}</LibraryContext.Provider>;
