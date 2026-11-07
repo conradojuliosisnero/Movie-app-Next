@@ -1,0 +1,17 @@
+/* Mientras llega la sugerencia: la forma de la ficha en esqueleto. */
+.loading { display: flex; flex-direction: column; }
+.hero {
+  min-height: 15rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  background: linear-gradient(160deg, var(--color-surface-2), var(--color-surface));
+  touch-action: none;
+}
+.finding { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--color-accent); font-weight: var(--fw-semibold); }
+.finding svg { animation: finding-spin 1.1s linear infinite; }
+@keyframes finding-spin { to { transform: rotate(360deg); } }
+.body { display: flex; flex-direction: column; gap: var(--space-6); padding: var(--space-6); }
+@media (prefers-reduced-motion: reduce) { .finding svg { animation: none; } }

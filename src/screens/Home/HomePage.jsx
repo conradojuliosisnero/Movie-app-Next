@@ -14,7 +14,6 @@ import ReleaseCard from '@/components/title/ReleaseCard/ReleaseCard';
 import { useSession } from '@/store/SessionContext';
 import { useLibrary } from '@/store/LibraryContext';
 import { useUI } from '@/store/UIContext';
-import { useToast } from '@/store/ToastContext';
 import { useLibraryLists } from '@/hooks/useLibraryLists';
 import { useAsync } from '@/hooks/useAsync';
 import { usePaged } from '@/hooks/usePaged';
@@ -29,11 +28,9 @@ export default function HomePage() {
   const { profile } = useSession();
   const lib = useLibrary();
   const ui = useUI();
-  const { show } = useToast();
   const lists = useLibraryLists();
   const router = useRouter();
   const [mood, setMood] = useState(null);
-  const [suggesting, setSuggesting] = useState(false);
 
   const ctxKey = `${profile.id}|${lib.settings.onlyMine}|${lib.myPlatforms.join()}`;
   // Filas que siguen cargando al llegar al final (deslizando o arrastrando).
@@ -49,18 +46,9 @@ export default function HomePage() {
   const forYouList = forYou.items.filter((t) => !hide(t));
   const more = (p) => ({ onLoadMore: p.loadMore, hasMore: !p.done, loadingMore: p.loading });
 
-  const suggest = async () => {
-    setSuggesting(true);
-    try {
-      const t = await pickSuggestion({ moodId: mood, excludeId: ui.detail?.item.id, profile, lib });
-      if (t) ui.openDetail(t, { proposed: true });
-      else show(copy.toasts.allSeen);
-    } catch {
-      show(copy.common.error);
-    } finally {
-      setSuggesting(false);
-    }
-  };
+  // El panel se abre al instante con esqueleto y se llena cuando llega la sugerencia.
+  const suggesting = !!ui.detail?.loading;
+  const suggest = () => ui.suggest(() => pickSuggestion({ moodId: mood, excludeId: ui.detail?.item?.id, profile, lib }));
 
   return (
     <div className={s.page}>
@@ -85,7 +73,7 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-        <Button variant="primary" size="xl" icon="suggest" disabled={suggesting} onClick={suggest}>{suggesting ? copy.home.suggesting : copy.home.suggestCta}</Button>
+        <Button variant="primary" size="xl" icon="suggest" className={s.suggestBtn} aria-busy={suggesting} disabled={suggesting} onClick={suggest}>{suggesting ? copy.home.suggesting : copy.home.suggestCta}</Button>
       </Card>
 
       <section className={s.section}>

@@ -15,3 +15,27 @@
   .chips > * { flex: none; }
   .suggest > button { width: 100%; }
 }
+
+/* “Sugerirme algo”: un brillo cruza el botón cada pocos segundos y la chispa titila; al buscar, gira. */
+.suggestBtn { position: relative; overflow: hidden; isolation: isolate; }
+.suggestBtn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, .5) 50%, transparent 65%);
+  transform: translateX(-120%);
+  animation: suggest-shine 3.6s ease-in-out infinite;
+  pointer-events: none;
+}
+.suggestBtn svg { animation: suggest-twinkle 3.6s ease-in-out infinite; }
+.suggestBtn:hover svg { animation: suggest-spin .9s var(--ease-spring); }
+.suggestBtn[aria-busy='true'] svg { animation: suggest-spin .8s linear infinite; }
+@keyframes suggest-shine { 0%, 55% { transform: translateX(-120%); } 85%, 100% { transform: translateX(120%); } }
+@keyframes suggest-twinkle {
+  0%, 70%, 100% { transform: scale(1) rotate(0); }
+  78% { transform: scale(1.35) rotate(-14deg); }
+  86% { transform: scale(.9) rotate(10deg); }
+}
+@keyframes suggest-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .suggestBtn::after, .suggestBtn svg { animation: none; } }

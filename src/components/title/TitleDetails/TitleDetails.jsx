@@ -47,7 +47,6 @@ export default function TitleDetails({ item, proposed = false, variant = 'sheet'
   const details = useTitleDetails(item.id);
   const t = details.data ? { ...details.data, reason: item.reason } : item;
   const [season, setSeason] = useState(null);
-  const [suggesting, setSuggesting] = useState(false);
   // Similares: la página 1 llega con la ficha; al deslizar hasta el final se piden más.
   const similar = usePaged((page) => (page === 1 ? Promise.resolve(details.data?.recommendations ?? []) : getRecommendations(item.id, page)), details.data ? item.id : null);
 
@@ -67,17 +66,11 @@ export default function TitleDetails({ item, proposed = false, variant = 'sheet'
   const next = isSeries && t.seasons ? nextEpisode(t, progress) ?? { season: t.seasons[0].n, ep: 1 } : null;
   const isPage = variant === 'page';
 
-  const another = async () => {
-    setSuggesting(true);
-    try {
-      const n = await pickSuggestion({ excludeId: t.id, profile, lib });
-      if (n) ui.openDetail(n, { proposed: true });
-      else show(copy.toasts.allSeen);
-    } catch { show(copy.common.error); } finally { setSuggesting(false); }
-  };
+  const another = () => ui.suggest(() => pickSuggestion({ excludeId: t.id, profile, lib }));
 
   const fallback = posterBackground(t.hues ?? [220, 260]);
-  const backdrop = isPage ? t.backdrop?.replace('/w780/', '/original/') : t.backdrop;
+  // +18: sin imagen de fondo ni póster grande, solo el degradado y la etiqueta.
+  const backdrop = t.adult ? null : isPage ? t.backdrop?.replace('/w780/', '/original/') : t.backdrop;
   const heroBg = backdrop ? `url(${backdrop}) center / cover, ${fallback}` : fallback;
 
   return (
@@ -88,9 +81,9 @@ export default function TitleDetails({ item, proposed = false, variant = 'sheet'
         {!t.title && <Skeleton kind="heroText" />}
         {t.title && (
           <div className={s.heroInfo}>
-            {isPage && t.image && <img className={s.heroPoster} src={t.image} alt="" />}
+            {isPage && t.image && !t.adult && <img className={s.heroPoster} src={t.image} alt="" />}
             <div className={s.heroText}>
-              <span className={s.eyebrow}>{typeLabel}{t.genres?.length ? ` · ${titleGenres(t).toUpperCase()}` : ''}</span>
+              <span className={s.eyebrow}>{t.adult ? '+18 · ' : ''}{typeLabel}{t.genres?.length ? ` · ${titleGenres(t).toUpperCase()}` : ''}</span>
               <h1 className={s.title}>{t.title}</h1>
               <span className={s.meta}>{titleMeta(t)}{t.rating ? ` · ${copy.detail.rating(t.rating)}` : ''}</span>
             </div>
@@ -121,7 +114,7 @@ export default function TitleDetails({ item, proposed = false, variant = 'sheet'
             <Button size="lg" variant="ghost" icon="share" aria-label={copy.common.share} onClick={() => share(t, show)} />
           </div>
 
-          {proposed && <Button variant="outline" icon="replay" className={s.another} disabled={suggesting} onClick={another}>{suggesting ? copy.home.suggesting : copy.detail.another}</Button>}
+          {proposed && <Button variant="outline" icon="replay" className={s.another} onClick={another}>{copy.detail.another}</Button>}
 
           <div className={s.columns}>
             {details.data && (
