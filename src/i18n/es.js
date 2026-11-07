@@ -141,6 +141,7 @@ export const es = {
     forYouHint: 'Toca un título para ver el tráiler, la sinopsis y dónde verlo.',
     trending: 'Tendencias de la semana',
     nowPlaying: 'En cines',
+    genreRails: { actionAdventure: 'Acción y aventura', scifi: 'Ciencia ficción' },
     saved: 'Guardadas para después',
     seeAll: (n) => `Ver todas (${n})`,
     upcoming: 'Próximos estrenos',
@@ -164,6 +165,7 @@ export const es = {
   },
   search: {
     title: 'Buscar',
+    submit: 'Buscar',
     placeholder: 'Título, género o algo como “comedia corta”',
     applied: 'Filtros aplicados:',
     removeFilter: 'Quitar filtro',
@@ -171,6 +173,11 @@ export const es = {
     suggestions: ['Comedia', 'Terror', 'Drama', 'Romance', 'Animé', 'Documental', 'Familiar', 'Series cortas', 'Películas de acción'],
     results: (n) => `${n} ${n === 1 ? 'resultado' : 'resultados'}`,
     ui: {
+      open: 'Filtros',
+      title: 'Filtros',
+      more: 'Más',
+      done: 'Listo',
+      show: (n, more) => `Ver ${n}${more ? '+' : ''} resultados`,
       type: 'Tipo',
       types: { all: 'Todo', movie: 'Películas', tv: 'Series' },
       genre: 'Género',

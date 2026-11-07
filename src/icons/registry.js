@@ -3,7 +3,7 @@
 import {
   Heart, Check, X, Search, Play, Pause, RotateCcw, ArrowLeft, ArrowRight, ExternalLink,
   Users, Sparkles, Bell, ChevronRight, Plus, Minus, Send, CircleHelp, House, Bookmark, User, Star,
-  Share2, Clapperboard, Megaphone, LogIn, Swords,
+  Share2, Clapperboard, Megaphone, LogIn, Swords, SlidersHorizontal,
 } from 'lucide-react';
 
 export const ICONS = {
@@ -36,4 +36,5 @@ export const ICONS = {
   news: Megaphone,
   login: LogIn,
   anime: Swords,
+  filters: SlidersHorizontal,
 };

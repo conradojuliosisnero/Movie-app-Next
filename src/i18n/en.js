@@ -142,6 +142,7 @@ export const en = {
     forYouHint: 'Tap a title to see the trailer, the synopsis and where to watch it.',
     trending: 'Trending this week',
     nowPlaying: 'In theaters',
+    genreRails: { actionAdventure: 'Action & adventure', scifi: 'Sci-fi' },
     saved: 'Saved for later',
     seeAll: (n) => `See all (${n})`,
     upcoming: 'Coming soon',
@@ -165,6 +166,7 @@ export const en = {
   },
   search: {
     title: 'Search',
+    submit: 'Search',
     placeholder: 'Title, genre or something like “short comedy”',
     applied: 'Applied filters:',
     removeFilter: 'Remove filter',
@@ -172,6 +174,11 @@ export const en = {
     suggestions: ['Comedy', 'Horror', 'Drama', 'Romance', 'Anime', 'Documentary', 'Family', 'Short series', 'Action movies'],
     results: (n) => `${n} ${n === 1 ? 'result' : 'results'}`,
     ui: {
+      open: 'Filters',
+      title: 'Filters',
+      more: 'More',
+      done: 'Done',
+      show: (n, more) => `Show ${n}${more ? '+' : ''} results`,
       type: 'Type',
       types: { all: 'All', movie: 'Movies', tv: 'Series' },
       genre: 'Genre',
