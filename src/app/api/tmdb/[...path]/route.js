@@ -19,6 +19,7 @@ const ALLOWED = [
 
 const LIST_TTL = 60 * 60; // 1 h: listas y búsquedas
 const DETAIL_TTL = 60 * 60 * 24; // 24 h: fichas, personas, géneros, plataformas
+const BROWSER_TTL = 60 * 10; // el navegador guarda cada respuesta hasta 10 min
 
 export async function GET(request, { params }) {
   const path = (await params).path.join('/');
@@ -46,7 +47,16 @@ export async function GET(request, { params }) {
   if (!res.ok) {
     return NextResponse.json({ error: body.status_message || 'Error de TMDB' }, { status: res.status });
   }
+  // Ojo con la CDN: Netlify arma la llave de caché sin los parámetros (?query=, ?page=, ?with_genres=…),
+  // así que guardaba UNA respuesta por ruta y la devolvía a todas (buscar “batman” mostraba “matrix”,
+  // Animé mostraba series populares). Por eso la CDN no guarda nada aquí:
+  // - en el servidor ya hay caché por URL completa (fetch con revalidate, ver tmdbFetch);
+  // - el navegador guarda cada URL completa unos minutos.
   return NextResponse.json(body, {
-    headers: { 'Cache-Control': `public, s-maxage=${ttl}, stale-while-revalidate=${ttl}` },
+    headers: {
+      'Cache-Control': `public, max-age=${Math.min(ttl, BROWSER_TTL)}`,
+      'CDN-Cache-Control': 'no-store',
+      'Netlify-CDN-Cache-Control': 'no-store',
+    },
   });
 }
