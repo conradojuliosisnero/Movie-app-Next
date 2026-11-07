@@ -7,6 +7,7 @@ import Ambient from '../Ambient/Ambient';
 import TitleDetailSheet from '@/components/title/TitleDetailSheet/TitleDetailSheet';
 import TrailerPlayer from '@/components/player/TrailerPlayer/TrailerPlayer';
 import InstallPrompt from '@/components/ui/InstallPrompt/InstallPrompt';
+import PointsFx from '@/components/ui/PointsFx/PointsFx';
 import { useUI } from '@/store/UIContext';
 import s from './AppLayout.module.css';
 
@@ -44,6 +45,7 @@ export default function AppLayout({ children }) {
       <TitleDetailSheet />
       <TrailerPlayer />
       <InstallPrompt />
+      <PointsFx />
     </>
   );
 }

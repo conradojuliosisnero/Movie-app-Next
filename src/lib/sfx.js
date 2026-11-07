@@ -121,3 +121,20 @@ export async function playAnimeSting({ offset = 0.45, volume = 0.35 } = {}) {
   kick.stop(hit + 0.6);
   return true;
 }
+
+/** Puntos ganados: dos notas cortas que suben (tipo moneda). */
+export async function playPoints({ volume = 0.18 } = {}) {
+  const ac = audio();
+  if (!ac) return;
+  try { if (ac.state === 'suspended') await ac.resume(); } catch { return; }
+  if (ac.state !== 'running') return;
+  const t0 = ac.currentTime + 0.01;
+  [[988, 0], [1319, 0.08]].forEach(([freq, delay]) => {
+    const osc = ac.createOscillator();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(freq, t0 + delay);
+    osc.connect(envelope(ac, t0 + delay, volume, 0.005, 0.22)).connect(ac.destination);
+    osc.start(t0 + delay);
+    osc.stop(t0 + delay + 0.3);
+  });
+}

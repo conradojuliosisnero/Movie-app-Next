@@ -1,0 +1,28 @@
+.burst { position: fixed; z-index: 1000; width: 0; height: 0; pointer-events: none; }
+.chip {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ffd23f, #ff7a1a 55%, #ff2d6f);
+  color: #1b1209;
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-black);
+  white-space: nowrap;
+  box-shadow: 0 6px 24px rgba(255, 110, 40, .45);
+  font-variant-numeric: tabular-nums;
+}
+.chip small { font-size: .6em; font-weight: var(--fw-bold); }
+.spark {
+  position: absolute;
+  left: -4px;
+  top: -4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffd23f;
+  box-shadow: 0 0 8px #ff7a1a;
+}
+.spark:nth-child(even) { background: #ff2d6f; }

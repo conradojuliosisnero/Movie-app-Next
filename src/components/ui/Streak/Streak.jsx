@@ -30,7 +30,7 @@ export function StreakBadge({ onClick, className }) {
   const lib = useLibrary();
   const days = currentStreak(lib.activity);
   return (
-    <button type="button" className={cx(s.badge, lib.visited && s.pop, className)} onClick={onClick} aria-label={copy.ranking.streak.badge(days)}>
+    <button type="button" data-streak className={cx(s.badge, lib.visited && s.pop, className)} onClick={onClick} aria-label={copy.ranking.streak.badge(days)}>
       <Flame lit={days > 0} />
       <b className={s.count}>{days}</b>
     </button>

@@ -10,6 +10,7 @@ import { storage } from '@/services/storage';
 import { compact, setAdultContent } from '@/services/catalog';
 import { POINTS, entryId, publishScore, removeScore, scoreOf, visitToday } from '@/services/ranking';
 import { avatarSeed } from '@/components/ui/Avatar/Avatar';
+import { emitPoints } from '@/lib/pointsFx';
 import { APP, STATUS } from '@/config/app.config';
 import { todayISO } from '@/utils/format';
 import { copy } from '@/i18n';
@@ -138,6 +139,19 @@ export function LibraryProvider({ children }) {
   const score = scoreOf(state);
   const ranked = state.settings.ranking !== false;
   const avatar = avatarSeed(profile);
+
+  // Animación “+N pts” cuando el puntaje sube. Al cargar la lista no; la visita del día sí se celebra.
+  const lastScore = useRef(null);
+  useEffect(() => {
+    if (!key || loadedKey !== key) return undefined;
+    const prev = lastScore.current;
+    lastScore.current = { key, score };
+    if (prev?.key === key) { emitPoints(score - prev.score); return undefined; }
+    if (!state.visited) return undefined;
+    const t = setTimeout(() => emitPoints(POINTS.day + (state.visited.streak % 7 === 0 ? POINTS.week : 0)), 1200);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [score, key, loadedKey]);
   useEffect(() => {
     if (isGuest || !key || loadedKey !== key) return undefined;
     const [uid, profileId] = key.split('/');
