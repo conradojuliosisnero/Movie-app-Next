@@ -45,14 +45,13 @@ export default function StorePage() {
   const store = { owned: {}, spent: 0, raffleWeek: null, ...lib.store };
   const mine = Object.values(store.owned);
   const ownedCount = mine.filter((o) => o.season === season).length;
-  const claims = mine.filter((o) => o.at >= week).length;
   const mult = multiplier(ownedCount);
   const balance = Math.max(0, lib.score - store.spent);
   const left = { ...stock.data, ...local.stock };
   const joined = store.raffleWeek === week;
   const guest = session.isGuest || !session.user;
 
-  const ctx = { owned: store.owned, stock: left, claims, balance, mult, weeklyLimit: DEFAULTS.weeklyLimit, guest };
+  const ctx = { owned: store.owned, stock: left, balance, mult, guest };
   const items = CATALOG.filter((it) => filter === 'Todos' || it.kind === filter);
   const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
   const nextMonday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7 - ((now.getDay() + 6) % 7));
@@ -101,7 +100,7 @@ export default function StorePage() {
           <p className="tn-sm tn-soft">Stock limitado, uno por persona y precios anclados a lo que gana un usuario promedio. Nadie puede llevarse todo.</p>
           {guest && <p className="tn-sm tn-accent">En modo explorar puedes mirar; para canjear necesitas tu cuenta.</p>}
         </div>
-        <BalanceTicket balance={balance} claims={claims} weeklyLimit={DEFAULTS.weeklyLimit} />
+        <BalanceTicket balance={balance} pieces={ownedCount} />
       </header>
 
       <section className="tn-hero" data-block>
@@ -129,7 +128,7 @@ export default function StorePage() {
           ))}
         </div>
         </Status>
-        <HouseRules weeklyLimit={DEFAULTS.weeklyLimit} incrementPct={DEFAULTS.incrementPct} />
+        <HouseRules incrementPct={DEFAULTS.incrementPct} />
       </section>
 
       <ClaimModal
@@ -139,8 +138,6 @@ export default function StorePage() {
         mult={mult}
         ownedCount={ownedCount}
         incrementPct={DEFAULTS.incrementPct}
-        claims={claims}
-        weeklyLimit={DEFAULTS.weeklyLimit}
         onCancel={() => setPending(null)}
         onConfirm={(it) => { setPending(null); claim(it); }}
       />

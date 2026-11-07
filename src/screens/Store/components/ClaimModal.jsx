@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { fmt, formatMult, multiplier, priceFor } from "../economy";
 
-export function ClaimModal({ item, left, balance, mult, ownedCount, incrementPct, claims, weeklyLimit, onCancel, onConfirm }) {
+export function ClaimModal({ item, left, balance, mult, ownedCount, incrementPct, onCancel, onConfirm }) {
   useEffect(() => {
     const onKey = (e) => e.key === "Escape" && onCancel();
     window.addEventListener("keydown", onKey);
@@ -25,7 +25,6 @@ export function ClaimModal({ item, left, balance, mult, ownedCount, incrementPct
         <div className="tn-receipt__line tn-modal__total"><b>TOTAL</b><b>{fmt(price)} pts</b></div>
         <hr />
         <div className="tn-receipt__line tn-modal__meta"><span>Saldo después</span><span>{fmt(balance - price)} pts</span></div>
-        <div className="tn-receipt__line tn-modal__meta"><span>Canjes esta semana</span><span>{claims + 1} / {weeklyLimit}</span></div>
         <div className="tn-receipt__line tn-modal__meta"><span>Tu próximo multiplicador</span><span>{formatMult(multiplier(ownedCount + 1, incrementPct))}</span></div>
         <div className="tn-modal__actions">
           <button className="tn-modal__cancel" onClick={onCancel}>Cancelar</button>

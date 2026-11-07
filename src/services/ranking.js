@@ -107,8 +107,8 @@ export function scoreOf(lib) {
 
 export const entryId = (uid, profileId) => `${uid}_${profileId}`;
 
-export const publishScore = (id, { name, avatar, score }) =>
-  setDoc(doc(db, 'leaderboard', id), { name: String(name).slice(0, 40), avatar: String(avatar).slice(0, 80), score, updatedAt: serverTimestamp() });
+export const publishScore = (id, { name, avatar, score, look }) =>
+  setDoc(doc(db, 'leaderboard', id), { name: String(name).slice(0, 40), avatar: String(avatar).slice(0, 80), score, look, updatedAt: serverTimestamp() });
 
 export const removeScore = (id) => deleteDoc(doc(db, 'leaderboard', id));
 

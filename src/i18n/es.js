@@ -420,6 +420,17 @@ export const es = {
     personMeta: (n) => `${n}: biografía, películas y series`,
     personFallback: (n) => `Películas y series de ${n}.`,
   },
+  collection: {
+    title: 'Mi colección',
+    empty: 'Aún no tienes coleccionables. Canjéalos con tus puntos en la tienda.',
+    toStore: 'Ir a la tienda',
+    equip: 'Equipar',
+    unequip: 'Quitar',
+    equipped: 'EQUIPADO',
+    maxBadges: (n) => `Máx. ${n}`,
+    onWall: 'Colgado en tu colección',
+    soon: 'Pronto: para los comentarios',
+  },
   chests: {
     openHint: 'Ábrelos para ganar puntos.',
     allOpen: (n) => `Canjeaste los ${n}. Vuelve mañana.`,

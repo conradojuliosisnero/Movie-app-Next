@@ -1,8 +1,8 @@
-export function HouseRules({ weeklyLimit, incrementPct, weekMedian = "1.400" }) {
+export function HouseRules({ incrementPct, weekMedian = "1.400" }) {
   const rules = [
     "Stock limitado. Cuando se acaba, no vuelve.",
     "Uno por persona por artículo.",
-    `Máximo ${weeklyLimit} canjes por semana.`,
+    "Canjeas todo lo que te alcance con tus puntos.",
     `Tu precio sube +${incrementPct}% por cada pieza que ya tengas.`,
     "Lo legendario se sortea: mismo boleto, misma probabilidad.",
     "Canjear gasta saldo, pero tu puesto en el ranking no baja.",

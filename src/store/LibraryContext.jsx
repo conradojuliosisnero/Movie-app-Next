@@ -11,6 +11,7 @@ import { compact, setAdultContent } from '@/services/catalog';
 import { POINTS, credit, entryId, legacyScore, openChest, publishScore, removeScore, rollWeek, scoreOf, visitToday, weekKey } from '@/services/ranking';
 import { avatarSeed } from '@/components/ui/Avatar/Avatar';
 import { emitPoints } from '@/lib/pointsFx';
+import { lookOf, toggleEquip } from '@/screens/Store/cosmetics';
 import { APP, STATUS } from '@/config/app.config';
 import { todayISO } from '@/utils/format';
 import { copy } from '@/i18n';
@@ -28,7 +29,7 @@ export const EMPTY_LIBRARY = {
   activity: {}, // { days, streak, best, weeks, last }: visitas diarias para la racha y los puntos
   watched: {}, // { [id | id:temporada:episodio]: fecha } lo que se vio completo en el reproductor
   chests: {}, // cofres: { day, opened, week, rare } (ver services/ranking)
-  store: { owned: {}, spent: 0, raffleWeek: null }, // tienda: { owned: { id: { at, price, season } }, spent, raffleWeek }
+  store: { owned: {}, spent: 0, raffleWeek: null, equipped: {} }, // tienda: { owned: { id: { at, price, season } }, spent, raffleWeek, equipped }
   ledger: {}, // puntos por día { 'YYYY-MM-DD': n, legacy: n } con tope diario (ver services/ranking)
   earned: {}, // { 'want:movie-550': fecha } puntos ya ganados: cada título suma una sola vez por acción (anti trampas)
   settings: { onlyMine: false, adult: false, ranking: true },
@@ -74,6 +75,11 @@ function reducer(state, a) {
     case 'raffle': {
       const st = { ...EMPTY_LIBRARY.store, ...state.store };
       return { ...state, dirty: true, store: { ...st, raffleWeek: weekKey(), spent: st.spent + a.cost } };
+    }
+    case 'equip': {
+      const st = { ...EMPTY_LIBRARY.store, ...state.store };
+      if (!st.owned[a.id]) return state; // solo lo que se tiene
+      return { ...state, dirty: true, store: { ...st, equipped: toggleEquip(st.equipped, a.id) } };
     }
     case 'watched':
       if (state.watched[a.key]) return state;
@@ -186,6 +192,9 @@ export function LibraryProvider({ children }) {
   const score = scoreOf(state);
   const ranked = state.settings.ranking !== false;
   const avatar = avatarSeed(profile);
+  // Lo equipado viaja al ranking para que los demás lo vean (las reglas comprueban que lo hayas canjeado).
+  const look = lookOf(state.store);
+  const lookKey = JSON.stringify(look);
 
   // Animación “+N pts” cuando el puntaje sube. Al cargar la lista no; la visita del día sí se celebra.
   const lastScore = useRef(null);
@@ -204,11 +213,11 @@ export function LibraryProvider({ children }) {
     const [uid, profileId] = key.split('/');
     const id = entryId(uid, profileId);
     const t = setTimeout(() => {
-      (ranked ? publishScore(id, { name: profile?.name ?? '', avatar, score }) : removeScore(id)).catch(() => {});
+      (ranked ? publishScore(id, { name: profile?.name ?? '', avatar, score, look }) : removeScore(id)).catch(() => {});
     }, 1500);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [score, ranked, profile?.name, avatar, isGuest, key, loadedKey]);
+  }, [score, ranked, profile?.name, avatar, lookKey, isGuest, key, loadedKey]);
 
   // Si cambias de perfil o cierras la pestaña antes de que pase la espera, se guarda igual.
   useEffect(() => flush, [key]);
@@ -234,6 +243,8 @@ export function LibraryProvider({ children }) {
       openChest: (kind, points) => dispatch({ type: 'chest', kind, points }),
       buyItem: (id, price) => dispatch({ type: 'buy', id, price }),
       joinedRaffle: (cost) => dispatch({ type: 'raffle', cost }),
+      /** Equipa o quita un coleccionable (marco, título, fondo, efecto o insignia). */
+      equip: (id) => dispatch({ type: 'equip', id }),
       score,
     }),
     [state, key, loadedKey, score]

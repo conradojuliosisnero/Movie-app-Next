@@ -59,3 +59,8 @@
   font-weight: var(--fw-black);
   font-size: var(--fs-2xl);
 }
+
+/* Fondo equipado detrás de la tarjeta del avatar. */
+.withBg { position: relative; overflow: hidden; isolation: isolate; }
+.cardBg { position: absolute; inset: 0; z-index: -2; opacity: .5; }
+.withBg::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, color-mix(in oklab, var(--color-surface) 35%, transparent), var(--color-surface) 70%); }

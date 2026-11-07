@@ -1,6 +1,6 @@
 import { fmt } from "../economy";
 
-export function BalanceTicket({ balance, claims, weeklyLimit }) {
+export function BalanceTicket({ balance, pieces }) {
   return (
     <div className="tn-card tn-balance">
       <div className="tn-balance__main">
@@ -9,9 +9,9 @@ export function BalanceTicket({ balance, claims, weeklyLimit }) {
         <div className="tn-xs tn-dim">Canjear no baja tu puesto en el ranking</div>
       </div>
       <div className="tn-balance__stub">
-        <span className="tn-label">CANJES</span>
-        <span className="tn-balance__claims">{claims}/{weeklyLimit}</span>
-        <span className="tn-mono tn-xs tn-dim">esta semana</span>
+        <span className="tn-label">PIEZAS</span>
+        <span className="tn-balance__claims">{pieces}</span>
+        <span className="tn-mono tn-xs tn-dim">esta temporada</span>
       </div>
     </div>
   );

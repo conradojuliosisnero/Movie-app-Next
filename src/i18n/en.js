@@ -421,6 +421,17 @@ export const en = {
     personMeta: (n) => `${n}: biography, movies and series`,
     personFallback: (n) => `Movies and series of ${n}.`,
   },
+  collection: {
+    title: 'My collection',
+    empty: 'You have no collectibles yet. Redeem them with your points in the store.',
+    toStore: 'Go to the store',
+    equip: 'Equip',
+    unequip: 'Remove',
+    equipped: 'EQUIPPED',
+    maxBadges: (n) => `Max ${n}`,
+    onWall: 'Hanging in your collection',
+    soon: 'Soon: for comments',
+  },
   chests: {
     openHint: 'Open them to earn points.',
     allOpen: (n) => `You redeemed all ${n}. Come back tomorrow.`,

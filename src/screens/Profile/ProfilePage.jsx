@@ -10,6 +10,9 @@ import Poster from '@/components/ui/Poster/Poster';
 import Avatar, { avatarSeed } from '@/components/ui/Avatar/Avatar';
 import Status from '@/components/ui/Status/Status';
 import Sheet from '@/components/ui/Sheet/Sheet';
+import Collection from '@/screens/Store/Collection';
+import { ItemArt } from '@/screens/Store/ItemArt';
+import { lookOf } from '@/screens/Store/cosmetics';
 import { useLibrary } from '@/store/LibraryContext';
 import { useSession } from '@/store/SessionContext';
 import { useToast } from '@/store/ToastContext';
@@ -48,6 +51,7 @@ export default function ProfilePage() {
     gsap.to(counter, { v: stats.hours, duration: 1.4, ease: 'power3.out', onUpdate: () => { if (hoursRef.current) hoursRef.current.textContent = Math.round(counter.v); } });
   }, { dependencies: [stats.hours] });
   const current = avatarSeed(session.profile);
+  const look = lookOf(lib.store);
   // Opciones de avatar: semillas distintas a partir del perfil; “Otras opciones” pasa a la siguiente tanda.
   const options = Array.from({ length: AVATAR_OPTIONS }, (_, i) => `${session.profile.id}-${avatarPage}-${i}`);
   const chooseAvatar = (seed) => { session.updateProfile(session.profile.id, { avatar: seed }); show(copy.toasts.avatar); };
@@ -100,9 +104,11 @@ export default function ProfilePage() {
       </Card>
 
       <div className={s.side}>
-        <Card padding={6} radius="xl" className={s.flat}>
+        <Card padding={6} radius="xl" className={cx(s.flat, look.background && s.withBg)}>
+          {/* Fondo equipado de la tienda detrás de la tarjeta. */}
+          {look.background && <span className={s.cardBg} aria-hidden="true"><ItemArt itemId={look.background} /></span>}
           <div className={s.avatarHead}>
-            <Avatar seed={current} size="xl" animate="always" />
+            <Avatar seed={current} frame={look.frame} size="xl" animate="always" />
             <div className={s.settingText}>
               <h3 className={s.h3}>{copy.profile.avatar}</h3>
               <span className="u-muted">{copy.profile.avatarSub}</span>
@@ -116,6 +122,11 @@ export default function ProfilePage() {
             ))}
           </div>
           <Button size="sm" icon="replay" className={s.moreAvatars} onClick={() => setAvatarPage((n) => n + 1)}>{copy.profile.moreAvatars}</Button>
+        </Card>
+
+        <Card padding={6} radius="xl" className={s.flat}>
+          <h3 className={s.h3}>{copy.collection.title}</h3>
+          <Collection />
         </Card>
 
         <Card padding={6} radius="xl" className={s.flat}>

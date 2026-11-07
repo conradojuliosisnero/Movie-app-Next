@@ -14,12 +14,27 @@ service cloud.firestore {
 
     // Ranking público: cualquiera lo lee (solo nombre de perfil, avatar y puntos).
     // Cada quien escribe solo sus perfiles ({uid}_{perfil}), con campos y valores acotados.
+    // Lo equipado (marco, título, fondo, efecto, hasta 3 insignias) tiene que estar canjeado por la cuenta.
+    function owns(id) {
+      return id == null || exists(/databases/$(database)/documents/storePurchases/$(request.auth.uid + '_' + id));
+    }
+    function validLook(l) {
+      return l.keys().hasOnly(['frame', 'title', 'background', 'effect', 'badges'])
+        && owns(l.get('frame', null)) && owns(l.get('title', null))
+        && owns(l.get('background', null)) && owns(l.get('effect', null))
+        && l.get('badges', []) is list && l.get('badges', []).size() <= 3
+        && (l.get('badges', []).size() < 1 || owns(l.badges[0]))
+        && (l.get('badges', []).size() < 2 || owns(l.badges[1]))
+        && (l.get('badges', []).size() < 3 || owns(l.badges[2]));
+    }
+
     match /leaderboard/{entry} {
       allow read: if true;
       allow delete: if request.auth != null && entry.matches(request.auth.uid + '_[A-Za-z0-9]+');
       allow create, update: if request.auth != null
         && entry.matches(request.auth.uid + '_[A-Za-z0-9]+')
-        && request.resource.data.keys().hasOnly(['name', 'avatar', 'score', 'updatedAt'])
+        && request.resource.data.keys().hasOnly(['name', 'avatar', 'score', 'updatedAt', 'look'])
+        && (!('look' in request.resource.data) || validLook(request.resource.data.look))
         && request.resource.data.name is string && request.resource.data.name.size() <= 40
         && request.resource.data.avatar is string && request.resource.data.avatar.size() <= 80
         && request.resource.data.score is int && request.resource.data.score >= 0 && request.resource.data.score <= 10000000

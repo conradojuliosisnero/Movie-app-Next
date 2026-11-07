@@ -12,3 +12,15 @@
 }
 .blob { background: var(--color-surface-2); }
 .blob > img, .blob > svg { display: block; width: 100%; height: 100%; }
+
+/* Marcos de la tienda: con sombras y contornos (no cambian el tamaño ni se recortan). */
+.f_butaca { border-color: #ffb3a0; box-shadow: 0 0 0 3px #c0262d, 0 3px 0 3px #7a1015, 0 6px 14px rgba(192, 38, 45, .45); }
+.f_neon { border-color: #fff; animation: f-neon 2.4s ease-in-out infinite; }
+@keyframes f-neon {
+  0%, 100% { box-shadow: 0 0 0 2px #ff3df2, 0 0 10px 2px rgba(255, 61, 242, .8), 0 0 22px rgba(61, 242, 255, .55); }
+  50% { box-shadow: 0 0 0 2px #3df2ff, 0 0 14px 3px rgba(61, 242, 255, .85), 0 0 26px rgba(255, 61, 242, .6); }
+}
+.f_rebobinar { outline: 3px dashed #f5c04a; outline-offset: 2px; transition: outline-offset .3s; }
+.f_rebobinar:hover { animation: f-rewind .6s linear infinite; }
+@keyframes f-rewind { 50% { outline-offset: 5px; outline-color: #ff7a1a; } }
+@media (prefers-reduced-motion: reduce) { .f_neon, .f_rebobinar:hover { animation: none; } }
