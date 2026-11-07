@@ -8,7 +8,7 @@ import { useSession } from './SessionContext';
 import { useToast } from './ToastContext';
 import { storage } from '@/services/storage';
 import { compact, setAdultContent } from '@/services/catalog';
-import { POINTS, entryId, publishScore, removeScore, scoreOf, visitToday } from '@/services/ranking';
+import { POINTS, credit, entryId, legacyScore, openChest, publishScore, removeScore, rollWeek, scoreOf, visitToday } from '@/services/ranking';
 import { avatarSeed } from '@/components/ui/Avatar/Avatar';
 import { emitPoints } from '@/lib/pointsFx';
 import { APP, STATUS } from '@/config/app.config';
@@ -27,6 +27,8 @@ export const EMPTY_LIBRARY = {
   myPlatforms: [],
   activity: {}, // { days, streak, best, weeks, last }: visitas diarias para la racha y los puntos
   watched: {}, // { [id | id:temporada:episodio]: fecha } lo que se vio completo en el reproductor
+  chests: {}, // cofres: { day, opened, week, rare } (ver services/ranking)
+  ledger: {}, // puntos por día { 'YYYY-MM-DD': n, legacy: n } con tope diario (ver services/ranking)
   earned: {}, // { 'want:movie-550': fecha } puntos ya ganados: cada título suma una sola vez por acción (anti trampas)
   settings: { onlyMine: false, adult: false, ranking: true },
 };
@@ -41,13 +43,32 @@ function reducer(state, a) {
       const next = { ...EMPTY_LIBRARY, ...saved, settings: { ...EMPTY_LIBRARY.settings, ...saved.settings }, dirty: false, visited: null };
       // Listas de antes del ranking: lo que ya estaba guardado o visto cuenta como ganado.
       if (!saved.earned) next.earned = Object.fromEntries(Object.entries(next.statuses).filter(([, st]) => POINTS[st]).map(([id, st]) => [`${st}:${id}`, next.seenAt[id] ?? todayISO()]));
+      // Lista de antes del tope diario: lo ya ganado queda como saldo inicial.
+      if (!saved.ledger) next.ledger = { legacy: legacyScore(next) };
       // Primera vez del día: suma la visita (si la lista no cargó, no se toca para no pisar lo guardado).
-      const activity = a.failed ? null : visitToday(next.activity);
-      return activity ? { ...next, activity, dirty: true, visited: activity } : next;
+      if (a.failed) return next;
+      const activity = visitToday(next.activity);
+      const chests = rollWeek(next.chests); // primera vez de la semana: ¿aparece el cofre especial?
+      const visit = activity && credit(next.ledger, POINTS.day + (activity.streak % 7 === 0 ? POINTS.week : 0));
+      return {
+        ...next,
+        ...(activity && { activity, visited: activity, ledger: visit.ledger }),
+        ...(chests && { chests }),
+        dirty: !!(activity || chests || !saved.ledger),
+      };
+    }
+    case 'chest': {
+      const opened = openChest(state.chests, a.kind, a.points);
+      if (!opened) return state;
+      const c = credit(state.ledger, opened.won);
+      return { ...state, dirty: true, chests: opened.chests, ledger: c.ledger, capped: c.capped ? (state.capped ?? 0) + 1 : state.capped };
     }
     case 'watched':
       if (state.watched[a.key]) return state;
-      return { ...state, dirty: true, watched: { ...state.watched, [a.key]: todayISO() } };
+      {
+        const c = credit(state.ledger, POINTS.watched);
+        return { ...state, dirty: true, watched: { ...state.watched, [a.key]: todayISO() }, ledger: c.ledger, capped: c.capped ? (state.capped ?? 0) + 1 : state.capped };
+      }
     case 'status': {
       const { id } = a.item;
       if (a.status == null) {
@@ -57,8 +78,14 @@ function reducer(state, a) {
       const seenAt = a.status === STATUS.SEEN && !state.seenAt[id] ? { ...state.seenAt, [id]: todayISO() } : state.seenAt;
       // Se anota el día en que ganó los puntos: quitar y volver a poner no vuelve a sumar.
       const earnKey = `${a.status}:${id}`;
-      const earned = POINTS[a.status] && !state.earned[earnKey] ? { ...state.earned, [earnKey]: todayISO() } : state.earned;
-      return { ...state, dirty: true, statuses: { ...state.statuses, [id]: a.status }, items: { ...state.items, [id]: { ...state.items[id], ...compact(a.item) } }, seenAt, earned };
+      const isNew = POINTS[a.status] && !state.earned[earnKey];
+      const earned = isNew ? { ...state.earned, [earnKey]: todayISO() } : state.earned;
+      // Los puntos se anotan en el registro del día (con el tope diario).
+      const c = isNew ? credit(state.ledger, POINTS[a.status]) : { ledger: state.ledger, capped: false };
+      return {
+        ...state, dirty: true, statuses: { ...state.statuses, [id]: a.status }, items: { ...state.items, [id]: { ...state.items[id], ...compact(a.item) } },
+        seenAt, earned, ledger: c.ledger, capped: c.capped ? (state.capped ?? 0) + 1 : state.capped,
+      };
     }
     case 'item':
       if (!state.items[a.item.id]) return state;
@@ -117,7 +144,7 @@ export function LibraryProvider({ children }) {
 
   useEffect(() => {
     if (!state.dirty || loadedKey !== key) return;
-    const { dirty, visited, ...data } = state;
+    const { dirty, visited, capped, ...data } = state;
     pending.current = () => {
       if (isGuest) storage.set('library', data);
       else if (ref) setDoc(ref, data).catch(() => show(copy.toasts.saveError));
@@ -128,6 +155,12 @@ export function LibraryProvider({ children }) {
 
   // +18 solo si el perfil lo activó (nunca en perfiles infantiles).
   useEffect(() => { setAdultContent(state.settings.adult && !profile?.kids); }, [state.settings.adult, profile?.kids]);
+
+  // Tope diario: aviso cuando algo ya no sumó porque se llegó a 500 hoy.
+  useEffect(() => {
+    if (state.capped) show(copy.ranking.capReached);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.capped]);
 
   // Racha: aviso la primera vez del día.
   useEffect(() => {
@@ -183,6 +216,8 @@ export function LibraryProvider({ children }) {
       togglePlatform: (id) => dispatch({ type: 'platform', id }),
       /** Película o episodio visto completo (suma puntos una sola vez). */
       markWatched: (key) => dispatch({ type: 'watched', key }),
+      /** Abre un cofre ('daily' | 'rare') con los puntos que salieron en la ruleta. */
+      openChest: (kind, points) => dispatch({ type: 'chest', kind, points }),
       score,
     }),
     [state, key, loadedKey, score]

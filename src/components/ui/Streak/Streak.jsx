@@ -3,7 +3,7 @@
 // Apagada (gris) si la racha se perdió. Cuando sube hoy, la llama da un salto.
 import { useId } from 'react';
 import { useLibrary } from '@/store/LibraryContext';
-import { currentStreak } from '@/services/ranking';
+import { DAILY_CAP, chestsLeft, currentStreak, rareReady, todayPoints } from '@/services/ranking';
 import { copy } from '@/i18n';
 import { cx } from '@/utils/cx';
 import s from './Streak.module.css';
@@ -33,6 +33,8 @@ export function StreakBadge({ onClick, className }) {
     <button type="button" data-streak className={cx(s.badge, lib.visited && s.pop, className)} onClick={onClick} aria-label={copy.ranking.streak.badge(days)}>
       <Flame lit={days > 0} />
       <b className={s.count}>{days}</b>
+      {/* Cofres sin abrir hoy (y todavía sin llegar al tope diario). */}
+      {(chestsLeft(lib.chests) > 0 || rareReady(lib.chests)) && todayPoints(lib) < DAILY_CAP && <span className={s.chestDot} aria-hidden="true" />}
     </button>
   );
 }

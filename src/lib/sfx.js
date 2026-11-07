@@ -138,3 +138,40 @@ export async function playPoints({ volume = 0.18 } = {}) {
     osc.stop(t0 + delay + 0.3);
   });
 }
+
+/** Tic corto de la ruleta de los cofres (cada número que pasa). */
+export function playTick({ volume = 0.07, pitch = 1 } = {}) {
+  const ac = audio();
+  if (!ac || ac.state !== 'running') { ac?.resume?.().catch(() => {}); return; }
+  const t = ac.currentTime + 0.005;
+  const osc = ac.createOscillator();
+  osc.type = 'square';
+  osc.frequency.setValueAtTime(1800 * pitch, t);
+  osc.connect(envelope(ac, t, volume, 0.002, 0.03)).connect(ac.destination);
+  osc.start(t);
+  osc.stop(t + 0.06);
+}
+
+/** Cofre que se abre: golpe suave y un brillo que sube. */
+export async function playChestOpen({ rare = false, volume = 0.22 } = {}) {
+  const ac = audio();
+  if (!ac) return;
+  try { if (ac.state === 'suspended') await ac.resume(); } catch { return; }
+  if (ac.state !== 'running') return;
+  const t0 = ac.currentTime + 0.01;
+  const thud = ac.createOscillator();
+  thud.type = 'sine';
+  thud.frequency.setValueAtTime(140, t0);
+  thud.frequency.exponentialRampToValueAtTime(60, t0 + 0.18);
+  thud.connect(envelope(ac, t0, volume, 0.005, 0.2)).connect(ac.destination);
+  thud.start(t0);
+  thud.stop(t0 + 0.3);
+  (rare ? [659, 880, 1109, 1319, 1760] : [784, 1047, 1319]).forEach((f, i) => {
+    const o = ac.createOscillator();
+    o.type = 'triangle';
+    o.frequency.setValueAtTime(f, t0 + 0.08 + i * 0.06);
+    o.connect(envelope(ac, t0 + 0.08 + i * 0.06, volume * 0.6, 0.005, 0.35)).connect(ac.destination);
+    o.start(t0 + 0.08 + i * 0.06);
+    o.stop(t0 + 0.5 + i * 0.06);
+  });
+}
